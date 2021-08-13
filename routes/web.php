@@ -8,6 +8,7 @@ use App\Http\Controllers\DashboardController;
 |--------------------------------------------------------------------------
 */
 
+// Dashboard
 Route::get('/', [DashboardController::class, 'index']);
 
 Route::group(['prefix' => 'tables'], function(){
