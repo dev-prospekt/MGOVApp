@@ -16,29 +16,28 @@
             <div class="auth-form-wrapper px-4 py-5">
               <a href="#" class="noble-ui-logo logo-light d-block mb-2">Noble<span>UI</span></a>
               <h5 class="text-muted font-weight-normal mb-4">Welcome back! Log in to your account.</h5>
-              <form class="forms-sample">
+
+              @if ($message = Session::get('danger'))
+              <div class="alert alert-danger alert-block">
+                  <button type="button" class="close" data-dismiss="alert">×</button>    
+                  <strong>{{ $message }}</strong>
+              </div>
+              @endif
+
+              <form class="forms-sample" method="POST" action="login">
+                @csrf
                 <div class="form-group">
                   <label for="exampleInputEmail1">Email address</label>
-                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                  <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Email">
                 </div>
                 <div class="form-group">
                   <label for="exampleInputPassword1">Password</label>
-                  <input type="password" class="form-control" id="exampleInputPassword1" autocomplete="current-password" placeholder="Password">
+                  <input type="password" class="form-control" id="exampleInputPassword1" name="password" autocomplete="current-password" placeholder="Password">
                 </div>
-                <div class="form-check form-check-flat form-check-primary">
-                  <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input">
-                    Remember me
-                  </label>
-                </div>
+
                 <div class="mt-3">
-                  <a href="{{ url('/') }}" class="btn btn-primary mr-2 mb-2 mb-md-0">Login</a>
-                  <button type="button" class="btn btn-outline-primary btn-icon-text mb-2 mb-md-0">
-                    <i class="btn-icon-prepend" data-feather="twitter"></i>
-                    Login with twitter
-                  </button>
+                  <button type="submit" class="btn btn-primary mr-2 mb-2 mb-md-0">Login</button>
                 </div>
-                <a href="{{ url('/auth/register') }}" class="d-block mt-3 text-muted">Not a user? Sign up</a>
               </form>
             </div>
           </div>

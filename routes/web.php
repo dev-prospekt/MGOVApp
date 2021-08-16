@@ -1,40 +1,20 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [DashboardController::class, 'index']);
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
 
-Route::group(['prefix' => 'tables'], function(){
-    Route::get('basic-tables', function () { return view('pages.tables.basic-tables'); });
-    Route::get('data-table', function () { return view('pages.tables.data-table'); });
+Auth::routes();
+
+Route::group(['middleware' => ['auth']], function() { 
+    Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/test', function(){ return view('sample'); });
+
+    Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 });
-
-Route::group(['prefix' => 'general'], function(){
-    Route::get('profile', function () { return view('pages.general.profile'); });
-});
-
-Route::group(['prefix' => 'auth'], function(){
-    Route::get('login', function () { return view('pages.auth.login'); });
-    Route::get('register', function () { return view('pages.auth.register'); });
-});
-
-Route::group(['prefix' => 'error'], function(){
-    Route::get('404', function () { return view('pages.error.404'); });
-    Route::get('500', function () { return view('pages.error.500'); });
-});
-
-Route::get('/clear-cache', function() {
-    Artisan::call('cache:clear');
-    return "Cache is cleared";
-});
-
-// 404 for undefined routes
-Route::any('/{page?}',function(){
-    return View::make('pages.error.404');
-})->where('page','.*');
