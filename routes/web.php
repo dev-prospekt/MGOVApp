@@ -10,11 +10,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 
+
 Auth::routes();
 
-Route::group(['middleware' => ['auth']], function() { 
+Route::group(['middleware' => ['auth']], function () {
     Route::get('/', [DashboardController::class, 'index']);
-    Route::get('/test', function(){ return view('sample'); });
+    Route::get('/test', function () {
+        return view('sample');
+    });
 
-    Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
+    Route::resource('animal_units', AnimalUnitController::class);
 });

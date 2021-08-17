@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Database\Seeders\AnimalCodesSeeder;
+use Database\Seeders\PermissionsDemoSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -13,6 +15,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(PermissionsDemoSeeder::class);
+        $this->call(AnimalCodesSeeder::class);
 
         // DB::table('users')->insert([
         //     'name' => 'Pero',
