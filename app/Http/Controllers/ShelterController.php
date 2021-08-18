@@ -15,9 +15,8 @@ class ShelterController extends Controller
      */
     public function index()
     {
-        $shelter = Shelter::find(1);
-
-        dd($shelter->animalData);
+        $shelters = Shelter::all();
+        return view('shelter.index', compact('shelters'));
     }
 
     /**
@@ -27,7 +26,7 @@ class ShelterController extends Controller
      */
     public function create()
     {
-        //
+        return view('shelter.create');
     }
 
     /**
@@ -49,7 +48,7 @@ class ShelterController extends Controller
      */
     public function show(Shelter $shelter)
     {
-        //
+        return view('shelter.show')->with('shelter', $shelter);
     }
 
     /**

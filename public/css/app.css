@@ -25016,4 +25016,8 @@ div.tagsinput span.tag {
   float: right;
 }
 
+a.btn.btn-icon svg, .fc a.btn-icon.fc-button svg, .wizard > .actions a.btn-icon svg {
+  margin-top: 7px;
+}
+
 /*# sourceMappingURL=app.css.map*/
