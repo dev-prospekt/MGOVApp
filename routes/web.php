@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\ShelterController;
 
 Auth::routes();
 
@@ -21,3 +21,5 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('animal_units', AnimalUnitController::class);
 });
+
+Route::get('/shelter', [ShelterController::class, 'index']);

@@ -10,10 +10,11 @@ class AnimalUnit extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'name', 'latin-name'];
+    protected $guarded = ['id'];
 
-    public function animalCode()
+
+    public function shelter()
     {
-        return $this->hasOne(AnimalCode::class);
+        return $this->belongsTo(Shelter::class);
     }
 }

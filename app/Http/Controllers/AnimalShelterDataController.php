@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AnimalUnit;
-use App\Models\Shelter;
+use App\Models\AnimalShelterData;
 use Illuminate\Http\Request;
 
-class ShelterController extends Controller
+class AnimalShelterDataController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,9 +14,7 @@ class ShelterController extends Controller
      */
     public function index()
     {
-        $shelter = Shelter::find(1);
-
-        dd($shelter->animalData);
+        //
     }
 
     /**
@@ -44,10 +41,10 @@ class ShelterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Shelter  $shelter
+     * @param  \App\Models\AnimalShelterData  $animalShelterData
      * @return \Illuminate\Http\Response
      */
-    public function show(Shelter $shelter)
+    public function show(AnimalShelterData $animalShelterData)
     {
         //
     }
@@ -55,10 +52,10 @@ class ShelterController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Shelter  $shelter
+     * @param  \App\Models\AnimalShelterData  $animalShelterData
      * @return \Illuminate\Http\Response
      */
-    public function edit(Shelter $shelter)
+    public function edit(AnimalShelterData $animalShelterData)
     {
         //
     }
@@ -67,10 +64,10 @@ class ShelterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Shelter  $shelter
+     * @param  \App\Models\AnimalShelterData  $animalShelterData
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Shelter $shelter)
+    public function update(Request $request, AnimalShelterData $animalShelterData)
     {
         //
     }
@@ -78,10 +75,10 @@ class ShelterController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Shelter  $shelter
+     * @param  \App\Models\AnimalShelterData  $animalShelterData
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Shelter $shelter)
+    public function destroy(AnimalShelterData $animalShelterData)
     {
         //
     }

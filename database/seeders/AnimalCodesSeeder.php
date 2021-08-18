@@ -24,6 +24,7 @@ class AnimalCodesSeeder extends Seeder
             ['name' => 'CR'],
             ['name' => 'EN'],
             ['name' => 'VU'],
+            ['name' => 'DD'],
         ];
         foreach ($codes as $code) {
             AnimalCode::create($code);
