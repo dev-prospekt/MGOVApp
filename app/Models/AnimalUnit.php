@@ -17,4 +17,9 @@ class AnimalUnit extends Model
     {
         return $this->belongsTo(Shelter::class);
     }
+
+    public function animalShelterData()
+    {
+        return $this->hasMany(AnimalShelterData::class);
+    }
 }

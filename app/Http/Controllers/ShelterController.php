@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AnimalShelterData;
 use App\Models\AnimalUnit;
 use App\Models\Shelter;
 use Illuminate\Http\Request;
@@ -46,9 +47,14 @@ class ShelterController extends Controller
      * @param  \App\Models\Shelter  $shelter
      * @return \Illuminate\Http\Response
      */
-    public function show(Shelter $shelter)
+    public function show($id)
     {
-        return view('shelter.show')->with('shelter', $shelter);
+        $shelter = Shelter::with(['animalData', 'animalUnits', 'users'])->where('id', $id)->get();
+        $animalUnit = AnimalUnit::with('animalShelterData')->where('shelter_id', $id)->get();
+        $animalShelterData = AnimalShelterData::with('animalUnit')->where('shelter_id', $id)->get();
+
+
+        return view('shelter.show', compact('shelter', 'animalUnit'));
     }
 
     /**

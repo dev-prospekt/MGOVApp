@@ -25,4 +25,9 @@ class Shelter extends Model
     {
         return $this->hasMany(AnimalUnit::class);
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
 }

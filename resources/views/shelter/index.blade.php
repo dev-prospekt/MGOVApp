@@ -36,7 +36,7 @@
                   <td>{{ $shelter->address }}</td>
                   <td>{{ $shelter->oib }}</td>
                   <td>{{ auth()->user()->email }}</td>
-                  <td><a href="{{ route('shelter.show', $shelter) }}" class="btn btn-primary btn-icon-text">
+                  <td><a href="{{ route('shelters.show', $shelter->id) }}" class="btn btn-primary btn-icon-text">
                     <i class="btn-icon-prepend" data-feather="check-square"></i>Informacije</a></td>
                   <td><a class="btn btn-primary btn-icon" href="#" role="button"><i data-feather="check-square"></i></a>
                     <a class="btn btn-danger btn-icon" href="#" role="button">  <i data-feather="box"></i></a></td>

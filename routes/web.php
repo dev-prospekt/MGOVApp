@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
@@ -21,5 +22,6 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     Route::resource('animal_units', AnimalUnitController::class);
-    Route::resource('shelter', ShelterController::class);
+    Route::resource('shelters', ShelterController::class);
+    Route::resource('animal_shelter_data', AnimalShelterDataController::class);
 });
