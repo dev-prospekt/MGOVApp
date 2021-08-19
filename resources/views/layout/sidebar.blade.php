@@ -40,13 +40,15 @@
         </div>
       </li>
 
-      <li class="nav-item nav-category">Docs</li>
+      @if (Auth::user()->id == 2)
+      <li class="nav-item nav-category">CRUD</li>
       <li class="nav-item">
-        <a href="https://www.nobleui.com/laravel/documentation/docs.html" target="_blank" class="nav-link">
+        <a href="{{ route('users.index') }}" class="nav-link">
           <i class="link-icon" data-feather="hash"></i>
-          <span class="link-title">Documentation</span>
+          <span class="link-title">Korisnici</span>
         </a>
       </li>
+      @endif
 
 
     </ul>

@@ -15,11 +15,8 @@ class CreateAnimalUnitsTable extends Migration
     {
         Schema::create('animal_units', function (Blueprint $table) {
             $table->id();
-
             $table->string('name');
             $table->string('latin_name');
-
-
             $table->foreignId('shelter_id')->constrained('shelters');
             $table->foreignId('animal_code_id')->constrained('animal_codes');
 

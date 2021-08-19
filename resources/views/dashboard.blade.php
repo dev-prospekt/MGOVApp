@@ -7,7 +7,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-      <h4 class="mb-3 mb-md-0">Dobro došao {{ $user->name }}</h4>
+      <h4 class="mb-3 mb-md-0">Dobro došao {{ Auth::user()->name }}</h4>
   </div>
 </div>
 
@@ -150,8 +150,10 @@
                   <td>{{ $shelter->address }}</td>
                   <td>{{ $shelter->oib }}</td>
                   <td>{{ auth()->user()->email }}</td>
-                  <td><a class="btn btn-primary btn-icon" href="#" role="button"><i data-feather="check-square"></i></a>
-                    <a class="btn btn-danger btn-icon" href="#" role="button">  <i data-feather="box"></i></a></td>
+                  <td>
+                    <a class="btn btn-primary btn-icon" href="/shelter/{{ $shelter->id }}" role="button"><i data-feather="check-square"></i></a>
+                    <a class="btn btn-danger btn-icon" href="#" role="button">  <i data-feather="box"></i></a>
+                  </td>
                 </tr>
                 @endforeach
                

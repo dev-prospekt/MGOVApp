@@ -18,7 +18,6 @@ class ShelterSeeder extends Seeder
             'name' => 'Aquarium Pula d.o.o.',
             'address' => 'Verudela bb, HR-52100 Pula',
             'oib' => '00972615522',
-            'user_id' => 2,
             'animal_unit_id' => 1
         ]);
 
@@ -26,7 +25,6 @@ class ShelterSeeder extends Seeder
             'name' => 'AWAP – Udruga za zaštitu divljih životinja',
             'address' => 'Verudela bb, HR-52100 Pula',
             'oib' => '234235',
-            'user_id' => 2,
             'animal_unit_id' => 2
         ]);
     }

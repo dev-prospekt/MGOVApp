@@ -14,22 +14,19 @@ class AnimalUnitsSeeder extends Seeder
      */
     public function run()
     {
-        $animals = [
-            '0' => [
-                'name' => 'ris',
-                'latin-name' => 'Lynx lynx',
-                'animal_code_id' => 7
+        AnimalUnit::create([
+            'name' => 'ris',
+            'latin_name' => 'Lynx lynx',
+            'animal_code_id' => 7,
+            'shelter_id' => 1
+        ]);
 
-            ],
-            '1' => [
-                'name' => 'vidra',
-                'latin-name' => 'Lutra lutra',
-                'animal_code_id' => 10
-            ]
-        ];
 
-        foreach ($animals as $key => $value) {
-            AnimalUnit::create($value);
-        }
+        AnimalUnit::create([
+            'name' => 'vidra',
+            'latin_name' => 'Lutra lutra',
+            'animal_code_id' => 10,
+            'shelter_id' => 1
+        ]);
     }
 }

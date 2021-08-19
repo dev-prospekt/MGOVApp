@@ -40,13 +40,17 @@ class PermissionsDemoSeeder extends Seeder
         // create demo users
         $user = User::factory()->create([
             'name' => 'Shelter User',
+            'name_lastname' => 'Pero Shelteruser',
             'email' => 'shelter@test.com',
+            'shelter_id' => 2
         ]);
         $user->assignRole($role1);
 
         $user = User::factory()->create([
             'name' => 'Admin User',
+            'name_lastname' => 'Pero Adminuser',
             'email' => 'admin@test.com',
+            'shelter_id' => 1
         ]);
         $user->assignRole($role2);
     }

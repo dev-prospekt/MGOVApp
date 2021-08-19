@@ -66,16 +66,47 @@
                   <td>{{ $animal->id }}</td>
                   <td>{{ $animal->name }}</td>
                   <td>{{ $animal->latin_name }}</td>
-                  <td> <td><a href="{{ route('shelter.show', $shelter) }}" class="btn btn-primary btn-icon-text">
-                    <i class="btn-icon-prepend" data-feather="check-square"></i>Informacije</a></td></td>
-
+                  <td> 
+                    <td>
+                      <a href="{{ route('shelter.show', $shelter) }}" class="btn btn-primary btn-icon-text">
+                      <i class="btn-icon-prepend" data-feather="check-square"></i>Informacije
+                      </a>
+                    </td>
+                  </td>
                 </tr>
-                   
-                 
-                @endforeach     
-              
-                 
-                  
+                @endforeach
+              </tbody>
+            </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-6 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h6 class="card-title">{{ $shelter->name }}</h6>
+        <p class="card-description">Korisnici oporavilišta</p>
+        <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Ime i prezime</th>
+                  <th>Korisničko ime</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+              <tbody>   
+                @foreach ($shelter->users as $user)
+
+                <tr>
+                  <td>{{ $user->id }}</td>
+                  <td>{{ $user->name_lastname }}</td>
+                  <td>{{ $user->name }}</td>
+                  <td>{{ $user->email }}</td>
+                </tr>
+                @endforeach
               </tbody>
             </table>
         </div>

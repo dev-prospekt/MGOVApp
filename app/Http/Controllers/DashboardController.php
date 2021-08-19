@@ -10,11 +10,14 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
-        $shelters = Shelter::all();
+        if(Auth::user()->id != 2){
+            $shelters = Shelter::where('user_id', '=', Auth::user()->id)->get();
+        }
+        else {
+            $shelters = Shelter::all();
+        }
 
         return view('dashboard', [
-            'user' => $user,
             'shelters' => $shelters
         ]);
     }

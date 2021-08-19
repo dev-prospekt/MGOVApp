@@ -18,6 +18,7 @@ class CreateSheltersTable extends Migration
             $table->string('name');
             $table->string('address');
             $table->integer('oib');
+            $table->foreignId('animal_unit_id');
             $table->timestamps();
         });
     }
