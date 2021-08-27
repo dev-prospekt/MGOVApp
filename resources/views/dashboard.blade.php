@@ -7,7 +7,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-      <h4 class="mb-3 mb-md-0">Dobro došao {{ $user->name }}</h4>
+      <h4 class="mb-3 mb-md-0">Dobro došao {{ auth()->user()->name }}</h4>
   </div>
 </div>
 
@@ -124,255 +124,78 @@
 </div> <!-- row -->
 
 <div class="row">
-  <div class="col-lg-7 col-xl-8 grid-margin stretch-card">
+  <div class="col-lg-12 col-xl-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
         <h6 class="card-title">Oporavilišta za divlje životinje</h6>
         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
-        <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>NAZIV OPORAVILIŠTA</th>
-                  <th>ADRESA OPORAVILIŠTA</th>
-                  <th>OIB</th>
-                  <th>ADMINISTRATOR</th>
-                  <th>AKCIJA</th>
-                </tr>
-              </thead>
-              <tbody>
 
-                @foreach ($shelters as $shelter)
-                <tr>
-                  <th>{{ $shelter->id }}</th>
-                  <td>{{ $shelter->name  }}</td>
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>NAZIV OPORAVILIŠTA</th>
+                <th>ADRESA OPORAVILIŠTA</th>
+                <th>EMAIL</th>
+                <th>TELEFON</th>
+                <th>ADMINISTRATOR</th>
+                <th>Ovlašteno</th>
+                <th>AKCIJA</th>
+              </tr>
+            </thead>
+            <tbody>
+             @foreach ($shelters as $shelter)
+                @foreach ($shelter->users as $user)
+                <tr><td>{{ $shelter->id }}</td>
+                  <td>{{ $shelter->name }}</td>                 
                   <td>{{ $shelter->address }}</td>
-                  <td>{{ $shelter->oib }}</td>
-                  <td>{{ auth()->user()->email }}</td>
-                  <td><a class="btn btn-primary btn-icon" href="#" role="button"><i data-feather="check-square"></i></a>
-                    <a class="btn btn-danger btn-icon" href="#" role="button">  <i data-feather="box"></i></a></td>
+                  <td>{{ $shelter->email }}</td>
+                  <td>{{ $shelter->telephone }}</td>
+                  <td>{{ $user->name }}</td>
+                  <td>@foreach ($shelter->shelterTypes as $type)
+                    <button type="button" class="btn btn-{{ $type->id == 1 ? 'warning' : 'danger' }}" data-toggle="tooltip" data-placement="top" title="{{ $type->name }}">
+                      {{ $type->code }}
+                    </button>
+                  @endforeach</td>
+                  <td><a href="{{ route('shelter_units.show', [$shelter->id]) }}" class="btn btn-info" href="#" role="button">Pregled</a>
+                    <a class="btn btn-warning" href="#" role="button">Uredi</a></td>
                 </tr>
-                @endforeach
-               
-              </tbody>
-            </table>
-        </div>
+                @endforeach           
+             @endforeach
+        
+          </table>
+      </div>
       </div>
     </div>
   </div>
-  <div class="col-lg-5 col-xl-4 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-baseline mb-2">
-          <h6 class="card-title mb-0">Cloud storage</h6>
-          <div class="dropdown mb-2">
-            <button class="btn p-0" type="button" id="dropdownMenuButton5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton5">
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="eye" class="icon-sm mr-2"></i> <span class="">View</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="edit-2" class="icon-sm mr-2"></i> <span class="">Edit</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="trash" class="icon-sm mr-2"></i> <span class="">Delete</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="printer" class="icon-sm mr-2"></i> <span class="">Print</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="download" class="icon-sm mr-2"></i> <span class="">Download</span></a>
-            </div>
-          </div>
-        </div>
-        <div id="progressbar1" class="mx-auto"></div>
-        <div class="row mt-4 mb-3">
-          <div class="col-6 d-flex justify-content-end">
-            <div>
-              <label class="d-flex align-items-center justify-content-end tx-10 text-uppercase font-weight-medium">Total storage <span class="p-1 ml-1 rounded-circle bg-primary-muted"></span></label>
-              <h5 class="font-weight-bold mb-0 text-right">8TB</h5>
-            </div>
-          </div>
-          <div class="col-6">
-            <div>
-              <label class="d-flex align-items-center tx-10 text-uppercase font-weight-medium"><span class="p-1 mr-1 rounded-circle bg-primary"></span> Used storage</label>
-              <h5 class="font-weight-bold mb-0">6TB</h5>
-            </div>
-          </div>
-        </div>
-        <button class="btn btn-primary btn-block">Upgrade storage</button>
-      </div>
-    </div>
-  </div>
+
 </div> <!-- row -->
 
 <div class="row">
-  <div class="col-lg-5 col-xl-4 grid-margin grid-margin-xl-0 stretch-card">
+
+  <div class="col-lg-12 col-xl-12 stretch-card">
     <div class="card">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-baseline mb-2">
-          <h6 class="card-title mb-0">Inbox</h6>
-          <div class="dropdown mb-2">
-            <button class="btn p-0" type="button" id="dropdownMenuButton6" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton6">
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="eye" class="icon-sm mr-2"></i> <span class="">View</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="edit-2" class="icon-sm mr-2"></i> <span class="">Edit</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="trash" class="icon-sm mr-2"></i> <span class="">Delete</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="printer" class="icon-sm mr-2"></i> <span class="">Print</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="download" class="icon-sm mr-2"></i> <span class="">Download</span></a>
-            </div>
-          </div>
-        </div>
-        <div class="d-flex flex-column">
-          <a href="#" class="d-flex align-items-center border-bottom pb-3">
-            <div class="mr-3">
-              <img src="{{ url('https://via.placeholder.com/35x35') }}" class="rounded-circle wd-35" alt="user">
-            </div>
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="text-body mb-2">Leonardo Payne</h6>
-                <p class="text-muted tx-12">12.30 PM</p>
-              </div>
-              <p class="text-muted tx-13">Hey! there I'm available...</p>
-            </div>
-          </a>
-          <a href="#" class="d-flex align-items-center border-bottom py-3">
-            <div class="mr-3">
-              <img src="{{ url('https://via.placeholder.com/35x35') }}" class="rounded-circle wd-35" alt="user">
-            </div>
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="text-body mb-2">Carl Henson</h6>
-                <p class="text-muted tx-12">02.14 AM</p>
-              </div>
-              <p class="text-muted tx-13">I've finished it! See you so..</p>
-            </div>
-          </a>
-          <a href="#" class="d-flex align-items-center border-bottom py-3">
-            <div class="mr-3">
-              <img src="{{ url('https://via.placeholder.com/35x35') }}" class="rounded-circle wd-35" alt="user">
-            </div>
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="text-body mb-2">Jensen Combs</h6>
-                <p class="text-muted tx-12">08.22 PM</p>
-              </div>
-              <p class="text-muted tx-13">This template is awesome!</p>
-            </div>
-          </a>
-          <a href="#" class="d-flex align-items-center border-bottom py-3">
-            <div class="mr-3">
-              <img src="{{ url('https://via.placeholder.com/35x35') }}" class="rounded-circle wd-35" alt="user">
-            </div>
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="text-body mb-2">Amiah Burton</h6>
-                <p class="text-muted tx-12">05.49 AM</p>
-              </div>
-              <p class="text-muted tx-13">Nice to meet you</p>
-            </div>
-          </a>
-          <a href="#" class="d-flex align-items-center border-bottom py-3">
-            <div class="mr-3">
-              <img src="{{ url('https://via.placeholder.com/35x35') }}" class="rounded-circle wd-35" alt="user">
-            </div>
-            <div class="w-100">
-              <div class="d-flex justify-content-between">
-                <h6 class="text-body mb-2">Yaretzi Mayo</h6>
-                <p class="text-muted tx-12">01.19 AM</p>
-              </div>
-              <p class="text-muted tx-13">Hey! there I'm available...</p>
-            </div>
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-lg-7 col-xl-8 stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <div class="d-flex justify-content-between align-items-baseline mb-2">
-          <h6 class="card-title mb-0">Projects</h6>
-          <div class="dropdown mb-2">
-            <button class="btn p-0" type="button" id="dropdownMenuButton7" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="eye" class="icon-sm mr-2"></i> <span class="">View</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="edit-2" class="icon-sm mr-2"></i> <span class="">Edit</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="trash" class="icon-sm mr-2"></i> <span class="">Delete</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="printer" class="icon-sm mr-2"></i> <span class="">Print</span></a>
-              <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="download" class="icon-sm mr-2"></i> <span class="">Download</span></a>
-            </div>
-          </div>
+          <h6 class="card-title mb-0">Životinjske vrste</h6>
+          <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
         </div>
         <div class="table-responsive">
           <table class="table table-hover mb-0">
             <thead>
               <tr>
                 <th class="pt-0">#</th>
-                <th class="pt-0">Project Name</th>
-                <th class="pt-0">Start Date</th>
-                <th class="pt-0">Due Date</th>
+                <th class="pt-0">Naziv</th>
+                <th class="pt-0">Latinski naziv</th>
+                <th>Oporavilište</th>
                 <th class="pt-0">Status</th>
-                <th class="pt-0">Assign</th>
+               
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>NobleUI jQuery</td>
-                <td>01/01/2021</td>
-                <td>26/04/2021</td>
-                <td><span class="badge badge-danger">Released</span></td>
-                <td>Leonardo Payne</td>
-              </tr>
-              <tr>
-                <td>2</td>
-                <td>NobleUI Angular</td>
-                <td>01/01/2021</td>
-                <td>26/04/2021</td>
-                <td><span class="badge badge-success">Review</span></td>
-                <td>Carl Henson</td>
-              </tr>
-              <tr>
-                <td>3</td>
-                <td>NobleUI ReactJs</td>
-                <td>01/05/2021</td>
-                <td>10/09/2021</td>
-                <td><span class="badge badge-info-muted">Pending</span></td>
-                <td>Jensen Combs</td>
-              </tr>
-              <tr>
-                <td>4</td>
-                <td>NobleUI VueJs</td>
-                <td>01/01/2021</td>
-                <td>31/11/2021</td>
-                <td><span class="badge badge-warning">Work in Progress</span>
-                </td>
-                <td>Amiah Burton</td>
-              </tr>
-              <tr>
-                <td>5</td>
-                <td>NobleUI Laravel</td>
-                <td>01/01/2021</td>
-                <td>31/12/2021</td>
-                <td><span class="badge badge-danger-muted text-white">Coming soon</span></td>
-                <td>Yaretzi Mayo</td>
-              </tr>
-              <tr>
-                <td>6</td>
-                <td>NobleUI NodeJs</td>
-                <td>01/01/2021</td>
-                <td>31/12/2021</td>
-                <td><span class="badge badge-primary">Coming soon</span></td>
-                <td>Carl Henson</td>
-              </tr>
-              <tr>
-                <td class="border-bottom">3</td>
-                <td class="border-bottom">NobleUI EmberJs</td>
-                <td class="border-bottom">01/05/2021</td>
-                <td class="border-bottom">10/11/2021</td>
-                <td class="border-bottom"><span class="badge badge-info-muted">Pending</span></td>
-                <td class="border-bottom">Jensen Combs</td>
-              </tr>
-            </tbody>
+
+    
           </table>
         </div>
       </div> 

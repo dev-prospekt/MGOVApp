@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Animal;
 
-use App\Models\AnimalShelterData;
-use App\Models\AnimalUnit;
-use App\Models\Shelter;
+use App\Models\Animal\AnimalSystemCategory;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ShelterController extends Controller
+
+class AnimalSystemCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,8 +16,7 @@ class ShelterController extends Controller
      */
     public function index()
     {
-        $shelters = Shelter::all();
-        return view('shelter.index', compact('shelters'));
+        //
     }
 
     /**
@@ -27,7 +26,7 @@ class ShelterController extends Controller
      */
     public function create()
     {
-        return view('shelter.create');
+        //
     }
 
     /**
@@ -44,26 +43,21 @@ class ShelterController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Shelter  $shelter
+     * @param  \App\Models\AnimalSystemCategory  $animalSystemCategory
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(AnimalSystemCategory $animalSystemCategory)
     {
-        $shelter = Shelter::with(['animalData', 'animalUnits', 'users'])->where('id', $id)->get();
-        $animalUnit = AnimalUnit::with('animalShelterData')->where('shelter_id', $id)->get();
-        $animalShelterData = AnimalShelterData::with('animalUnit')->where('shelter_id', $id)->get();
-
-
-        return view('shelter.show', compact('shelter', 'animalUnit'));
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Shelter  $shelter
+     * @param  \App\Models\AnimalSystemCategory  $animalSystemCategory
      * @return \Illuminate\Http\Response
      */
-    public function edit(Shelter $shelter)
+    public function edit(AnimalSystemCategory $animalSystemCategory)
     {
         //
     }
@@ -72,10 +66,10 @@ class ShelterController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Shelter  $shelter
+     * @param  \App\Models\AnimalSystemCategory  $animalSystemCategory
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Shelter $shelter)
+    public function update(Request $request, AnimalSystemCategory $animalSystemCategory)
     {
         //
     }
@@ -83,10 +77,10 @@ class ShelterController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Shelter  $shelter
+     * @param  \App\Models\AnimalSystemCategory  $animalSystemCategory
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Shelter $shelter)
+    public function destroy(AnimalSystemCategory $animalSystemCategory)
     {
         //
     }

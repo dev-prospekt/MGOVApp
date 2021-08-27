@@ -1,11 +1,13 @@
 <?php
 
-use App\Models\AnimalShelterData;
+use Database\Seeders\AnimalCategorySeeder;
+use Database\Seeders\AnimalItemSeeder;
+use Database\Seeders\AnimalSystemCategorySeeder;
 use Illuminate\Database\Seeder;
-use Database\Seeders\AnimalCodesSeeder;
-use Database\Seeders\AnimalUnitsSeeder;
+
 use Database\Seeders\PermissionsDemoSeeder;
-use Database\Seeders\ShelterSeeder;
+use Database\Seeders\ShelterTypeSeeder;
+use Database\Seeders\ShelterUnitSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,18 +18,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(ShelterSeeder::class);
+
         $this->call(PermissionsDemoSeeder::class);
-
-        $this->call(AnimalCodesSeeder::class);
-        $this->call(AnimalUnitsSeeder::class);
-        $this->call(AnimalShelterData::class);
-
-
-        // DB::table('users')->insert([
-        //     'name' => 'Pero',
-        //     'email' => 'pero@gmail.com',
-        //     'password' => Hash::make('Pero123'),
-        // ]);
+        $this->call(ShelterUnitSeeder::class);
+        $this->call(ShelterTypeSeeder::class);
+        $this->call(AnimalSystemCategorySeeder::class);
+        $this->call(AnimalCategorySeeder::class);
+        $this->call(AnimalItemSeeder::class);
     }
 }

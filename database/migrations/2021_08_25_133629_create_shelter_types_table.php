@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSheltersTable extends Migration
+class CreateShelterTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateSheltersTable extends Migration
      */
     public function up()
     {
-        Schema::create('shelters', function (Blueprint $table) {
+        Schema::create('shelter_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('address');
-            $table->integer('oib');
-
-
+            $table->string('code');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateSheltersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shelters');
+        Schema::dropIfExists('shelter_types');
     }
 }

@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Shelter;
+use App\Models\Animal\AnimalSystemCategory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ShelterFactory extends Factory
+class AnimalSystemCategoryFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Shelter::class;
+    protected $model = AnimalSystemCategory::class;
 
     /**
      * Define the model's default state.

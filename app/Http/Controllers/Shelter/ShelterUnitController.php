@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Shelter;
 
-use App\Models\AnimalShelterData;
-use App\Models\AnimalUnit;
+use App\Models\User;
+
 use Illuminate\Http\Request;
+use App\Models\Animal\AnimalItem;
+use App\Models\Shelter\ShelterUnit;
+use App\Http\Controllers\Controller;
+use App\Models\Animal\AnimalSystemCategory;
 
-class AnimalShelterDataController extends Controller
+class ShelterUnitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -42,23 +46,27 @@ class AnimalShelterDataController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\AnimalShelterData  $animalShelterData
+     * @param  \App\Models\ShelterUnit  $shelterUnit
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $animalUnit = AnimalUnit::with('animalShelterData')->where('id', $id)->get();
+        $shelterUnit = ShelterUnit::with('shelterTypes', 'users', 'animalItems')->findOrFail($id);
+        $animalCat = AnimalSystemCategory::with('animalCategories')->findOrFail($id);
 
-        return view('animal.animal-shelter-data', compact('animalUnit'));
+        return view('shelter.shelter_unit.show', [
+            'shelterUnit' => $shelterUnit,
+            'animalCat' => $animalCat
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\AnimalShelterData  $animalShelterData
+     * @param  \App\Models\ShelterUnit  $shelterUnit
      * @return \Illuminate\Http\Response
      */
-    public function edit(AnimalShelterData $animalShelterData)
+    public function edit(ShelterUnit $shelterUnit)
     {
         //
     }
@@ -67,10 +75,10 @@ class AnimalShelterDataController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\AnimalShelterData  $animalShelterData
+     * @param  \App\Models\ShelterUnit  $shelterUnit
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AnimalShelterData $animalShelterData)
+    public function update(Request $request, ShelterUnit $shelterUnit)
     {
         //
     }
@@ -78,10 +86,10 @@ class AnimalShelterDataController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AnimalShelterData  $animalShelterData
+     * @param  \App\Models\ShelterUnit  $shelterUnit
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AnimalShelterData $animalShelterData)
+    public function destroy(ShelterUnit $shelterUnit)
     {
         //
     }

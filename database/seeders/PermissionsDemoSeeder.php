@@ -38,25 +38,27 @@ class PermissionsDemoSeeder extends Seeder
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 
         // create demo users
-        $user = User::factory()->create([
+        $user1 = User::factory()->create([
             'name' => 'Shelter User',
             'email' => 'shelter@test.com',
-            'shelter_id' => 1
-        ]);
-        $user->assignRole($role1);
+            'shelter_unit_id' => 2
 
-        $user = User::factory()->create([
-            'name' => 'DRUGI Shelter User',
-            'email' => 'shelterdrugi@test.com',
-            'shelter_id' => 1
         ]);
-        $user->assignRole($role1);
+        $user1->assignRole($role1);
 
-        $user = User::factory()->create([
+        $user2 = User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@test.com',
-            'shelter_id' => 2
+            'shelter_unit_id' => 1
+
         ]);
-        $user->assignRole($role2);
+        $user2->assignRole($role2);
+
+        $user3 = User::factory()->create([
+            'name' => 'ShelterUser2',
+            'email' => 'shelter2@test.com',
+            'shelter_unit_id' => 3
+        ]);
+        $user2->assignRole($role2);
     }
 }

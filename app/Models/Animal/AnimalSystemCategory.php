@@ -1,0 +1,32 @@
+<?php
+
+namespace App\Models\Animal;
+
+use App\Models\Shelter\ShelterUnit;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class AnimalSystemCategory extends Model
+{
+    use HasFactory;
+
+    public function shelterUnit()
+    {
+        return $this->belongsTo(ShelterUnit::class);
+    }
+
+    public function animalCategories()
+    {
+        return $this->hasMany(AnimalCategory::class);
+    }
+
+    public function animalItems()
+    {
+        return $this->hasManyThrough(
+            AnimalItem::class,
+            AnimalCategory::class,
+            'animal_system_category_id',
+            'animal_category_id'
+        );
+    }
+}

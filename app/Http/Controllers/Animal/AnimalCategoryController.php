@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Animal;
 
-use App\Models\AnimalUnit;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-
-class AnimalUnitController extends Controller
+class AnimalCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,7 @@ class AnimalUnitController extends Controller
      */
     public function index()
     {
-        return view('animal.animal-unit');
+        //
     }
 
     /**
@@ -46,7 +44,7 @@ class AnimalUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(AnimalUnit $animalUnit)
+    public function show($id)
     {
         //
     }
@@ -57,7 +55,7 @@ class AnimalUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(AnimalUnit $animalUnit)
+    public function edit($id)
     {
         //
     }
@@ -69,7 +67,7 @@ class AnimalUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, AnimalUnit $animalUnit)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -80,7 +78,7 @@ class AnimalUnitController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AnimalUnit $animalUnit)
+    public function destroy($id)
     {
         //
     }
