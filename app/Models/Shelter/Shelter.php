@@ -3,11 +3,11 @@
 namespace App\Models\Shelter;
 
 use App\Models\User;
-use App\Models\Animal\AnimalItem;
+use App\Models\Animal\Animal;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class ShelterUnit extends Model
+class Shelter extends Model
 {
     use HasFactory;
 
@@ -20,11 +20,11 @@ class ShelterUnit extends Model
 
     public function users()
     {
-        return $this->hasMany(\App\Models\User::class)->with('roles');
+        return $this->hasMany(User::class)->with('roles');
     }
 
-    public function animalItems()
+    public function animals()
     {
-        return $this->belongsToMany(AnimalItem::class);
+        return $this->hasMany(Animal::class);
     }
 }

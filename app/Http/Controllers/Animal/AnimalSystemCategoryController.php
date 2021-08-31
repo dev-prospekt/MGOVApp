@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Animal;
 
-use App\Models\Animal\AnimalSystemCategory;
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Shelter\Shelter;
+use App\Http\Controllers\Controller;
+use App\Models\Animal\AnimalSystemCategory;
 
 
 class AnimalSystemCategoryController extends Controller
@@ -26,7 +27,11 @@ class AnimalSystemCategoryController extends Controller
      */
     public function create()
     {
-        //
+        $shelter = Shelter::all();
+
+        return view('animal.animal_system_category.create', [
+            'shelter' => $shelter,
+        ]);
     }
 
     /**
@@ -37,7 +42,11 @@ class AnimalSystemCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $animalSystemCategory = new AnimalSystemCategory;
+        $animalSystemCategory->name = $request->name;
+        $animalSystemCategory->shelter_unit_id = $request->shelter_unit_id;
+        $animalSystemCategory->save();
+
     }
 
     /**

@@ -41,7 +41,7 @@ class PermissionsDemoSeeder extends Seeder
         $user1 = User::factory()->create([
             'name' => 'Shelter User',
             'email' => 'shelter@test.com',
-            'shelter_unit_id' => 2
+            'shelter_id' => 2
 
         ]);
         $user1->assignRole($role1);
@@ -49,7 +49,7 @@ class PermissionsDemoSeeder extends Seeder
         $user2 = User::factory()->create([
             'name' => 'Admin User',
             'email' => 'admin@test.com',
-            'shelter_unit_id' => 1
+            'shelter_id' => 1
 
         ]);
         $user2->assignRole($role2);
@@ -57,7 +57,7 @@ class PermissionsDemoSeeder extends Seeder
         $user3 = User::factory()->create([
             'name' => 'ShelterUser2',
             'email' => 'shelter2@test.com',
-            'shelter_unit_id' => 3
+            'shelter_id' => 3
         ]);
         $user2->assignRole($role2);
     }

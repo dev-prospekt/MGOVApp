@@ -1,10 +1,9 @@
-
 @extends('layout.master')
 
 @section('content')
 <nav class="page-breadcrumb">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">{{ $shelterUnit->name ?? '' }}</a></li>
+    <li class="breadcrumb-item"><a href="#">{{ $shelter->name ?? '' }}</a></li>
     <li class="breadcrumb-item active" aria-current="page">Aktivno</li>
   </ol>
 </nav>
@@ -13,7 +12,7 @@
     <div class="col-md-8 grid-margin">
       <div class="card">
         <div class="card-body">
-          <h6 class="card-title">{{ $shelterUnit->name ?? '' }}</h6>
+          <h6 class="card-title">{{ $shelter->name ?? '' }}</h6>
           <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
           <div class="table-responsive">
             <table class="table">
@@ -30,13 +29,13 @@
               </thead>
               <tbody>                
                 <tr>
-                  <td>{{ $shelterUnit->id ?? '' }}</td>
-                  <td>{{ $shelterUnit->name ?? '' }}</td>                 
-                  <td>{{ $shelterUnit->address ?? ''  }}</td>
-                  <td>{{ $shelterUnit->oib ?? ''  }}</td>
-                  <td>{{ $shelterUnit->email ?? ''  }}</td>
-                <td>{{ $shelterUnit->users()->first()->name ?? ''  }}</td>        
-                  <td>@foreach ($shelterUnit->shelterTypes as $type)
+                  <td>{{ $shelter->id ?? '' }}</td>
+                  <td>{{ $shelter->name ?? '' }}</td>                 
+                  <td>{{ $shelter->address ?? ''  }}</td>
+                  <td>{{ $shelter->oib ?? ''  }}</td>
+                  <td>{{ $shelter->email ?? ''  }}</td>
+                <td>{{ $shelter->users()->first()->name ?? ''  }}</td>        
+                  <td>@foreach ($shelter->shelterTypes as $type)
                     <button type="button" class="btn btn-{{ $type->id == 1 ? 'warning' : 'danger' }}" data-toggle="tooltip" data-placement="left" title="{{ $type->name }}">
                       {{ $type->code }}
                     </button>
@@ -48,30 +47,50 @@
       </div>
       <div class="card mt-4">
         <div class="card-body">
-          <h6 class="card-title">Popis životinja u oporavilištu</h6>
-          <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
+          
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <h6 class="card-title">Popis životinja u oporavilištu</h6>
+              <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
+            </div>
+            <div>
+              <a href="javascript:void(0)" class="btn btn-primary">Dodaj</a>
+            </div>
+          </div>
+
+
           <div class="table-responsive">
             <table class="table">
               <thead>          
                 <tr>
                   <th>#</th>
+                  <th>Ukupno</th>
+                  <th>Šifra</th>
                   <th>Naziv jedinke</th>
                   <th>Latinski naziv</th>
                   <th>Grupa</th>
+                  <th>Code</th>
                 </tr>
               </thead>
               <tbody>      
                
-                @foreach ($shelterUnit->animalItems as $animal)
-                 
+                @foreach ($shelter->animals as $animal)
                   <tr>
                     <td>{{ $loop->iteration }}</td>
+                    <td>{{ $animal->quantity }}</td>
+                    <td>{{ $animal->sku }}</td>
                     <td>{{ $animal->name }}</td>
                     <td>{{ $animal->latin_name }}</td>            
-                    <td>{{ $animalCat->first()->name }}</td>            
-                    <td></td>            
+                    <td>{{ $animal->animalCategory()->first()->name }}</td>
+                    <td>
+                      @foreach ($animal->animalCodes as $code)
+                        <p class="badge badge-warning">{{ $code->name }}</p>
+                      @endforeach
+                    </td>
+                    <td>
+                    <a href="{{ route("animal.show", $animal) }}" class="btn btn-info">Info</a>
+                    </td>            
                  </tr>    
-                       
                 @endforeach                     
             </table>
         </div>
@@ -92,19 +111,19 @@
               
                   <div class="mt-3">
                     <label class="tx-11 font-weight-bold mb-0 text-uppercase">Telefon: </label>
-                    <p class="text-muted">{{ $shelterUnit->telephone ?? '' }}</p>
+                    <p class="text-muted">{{ $shelter->telephone ?? '' }}</p>
                   </div>
                   <div class="mt-3">
                     <label class="tx-11 font-weight-bold mb-0 text-uppercase">Fax:</label>
-                    <p class="text-muted">{{ $shelterUnit->fax ?? '' }}</p>
+                    <p class="text-muted">{{ $shelter->fax ?? '' }}</p>
                   </div>
                   <div class="mt-3">
                     <label class="tx-11 font-weight-bold mb-0 text-uppercase">Mobitel:</label>
-                    <p class="text-muted">{{ $shelterUnit->mobile ?? '' }}</p>
+                    <p class="text-muted">{{ $shelter->mobile ?? '' }}</p>
                   </div>
                   <div class="mt-3">
                     <label class="tx-11 font-weight-bold mb-0 text-uppercase">Web stranica:</label>
-                    <p class="text-muted">{{ $shelterUnit->web_address ?? '' }}</p>
+                    <p class="text-muted">{{ $shelter->web_address ?? '' }}</p>
                   </div>
               </div> 
 
@@ -112,16 +131,16 @@
 
                 <div class="mt-3">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Banka: </label>
-                  <p class="text-muted">{{ $shelterUnit->bank_name ?? '' }}</p>
+                  <p class="text-muted">{{ $shelter->bank_name ?? '' }}</p>
                 </div>
                 <div class="mt-3">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">IBAN</label>
-                  <p class="text-muted">{{ $shelterUnit->iban ?? '' }}</p>         
+                  <p class="text-muted">{{ $shelter->iban ?? '' }}</p>         
                 </div> 
                 <div class="mt-3">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">OVLAŠTENJE: </label>
                   <p class="text-muted">
-                    @foreach ($shelterUnit->shelterTypes as $type)
+                    @foreach ($shelter->shelterTypes as $type)
                     {{ $type->name ?? '' }}
                     @endforeach
                   </p>
@@ -130,23 +149,25 @@
           </div>
       </div>
     </div>     
-      <div class="card rounded mt-4">
-        <div class="card-body">
-          <h6 class="card-title">Korisnici Oporavilišta</h6>        
-          @foreach ($shelterUnit->users as $user)   
-            <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-              <div class="d-flex align-items-center hover-pointer">
-                <img class="img-xs rounded-circle" src="{{ url('https://via.placeholder.com/37x37') }}" alt="">													
-                <div class="ml-2">
-                  <p>{{ $user->name }} | {{ $user->email ?? ''}}</p> 
-                  <p class="tx-11 text-muted">{{ $user->roles()->first()->name ?? ''}}</p>
-                </div>
+    
+    <div class="card rounded mt-4">
+      <div class="card-body">
+        <h6 class="card-title">Korisnici Oporavilišta</h6>        
+        @foreach ($shelter->users as $user)   
+          <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
+            <div class="d-flex align-items-center hover-pointer">
+              <img class="img-xs rounded-circle" src="{{ url('https://via.placeholder.com/37x37') }}" alt="">													
+              <div class="ml-2">
+                <p>{{ $user->name }} | {{ $user->email ?? ''}}</p> 
+                <p class="tx-11 text-muted">{{ $user->roles()->first()->name ?? ''}}</p>
               </div>
-              <button class="btn btn-icon"><i data-feather="user-plus" data-toggle="tooltip" title="Connect"></i></button>
             </div>
-          @endforeach              
-        </div>
+            <button class="btn btn-icon"><i data-feather="user-plus" data-toggle="tooltip" title="Connect"></i></button>
+          </div>
+        @endforeach              
       </div>
+    </div>
+    
   </div> 
 </div>
 @endsection

@@ -125,51 +125,64 @@
 
 <div class="row">
   <div class="col-lg-12 col-xl-12 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <h6 class="card-title">Oporavilišta za divlje životinje</h6>
-        <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
+      <div class="card">
+          <div class="card-body">
+              
+              <div class="d-flex align-items-center justify-content-between">
+                  <div>
+                      <h6 class="card-title">Oporavilišta za divlje životinje</h6>
+                      <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
+                  </div>
+                  <div>
+                      <a href="{{ route("shelter.create") }}" class="btn btn-primary">Dodaj</a>
+                  </div>
+              </div>
 
-        <div class="table-responsive">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>NAZIV OPORAVILIŠTA</th>
-                <th>ADRESA OPORAVILIŠTA</th>
-                <th>EMAIL</th>
-                <th>TELEFON</th>
-                <th>ADMINISTRATOR</th>
-                <th>Ovlašteno</th>
-                <th>AKCIJA</th>
-              </tr>
-            </thead>
-            <tbody>
-             @foreach ($shelters as $shelter)
-                @foreach ($shelter->users as $user)
-                <tr><td>{{ $shelter->id }}</td>
-                  <td>{{ $shelter->name }}</td>                 
-                  <td>{{ $shelter->address }}</td>
-                  <td>{{ $shelter->email }}</td>
-                  <td>{{ $shelter->telephone }}</td>
-                  <td>{{ $user->name }}</td>
-                  <td>@foreach ($shelter->shelterTypes as $type)
-                    <button type="button" class="btn btn-{{ $type->id == 1 ? 'warning' : 'danger' }}" data-toggle="tooltip" data-placement="top" title="{{ $type->name }}">
-                      {{ $type->code }}
-                    </button>
-                  @endforeach</td>
-                  <td><a href="{{ route('shelter_units.show', [$shelter->id]) }}" class="btn btn-info" href="#" role="button">Pregled</a>
-                    <a class="btn btn-warning" href="#" role="button">Uredi</a></td>
-                </tr>
-                @endforeach           
-             @endforeach
-        
-          </table>
+              @if($msg = Session::get('msg'))
+              <div class="alert alert-success"> {{ $msg }}</div>
+              @endif
+
+              <div class="table-responsive">
+              <table class="table">
+                  <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>NAZIV OPORAVILIŠTA</th>
+                      <th>ADRESA OPORAVILIŠTA</th>
+                      <th>EMAIL</th>
+                      <th>TELEFON</th>
+                      <th>ADMINISTRATOR</th>
+                      <th>Ovlašteno</th>
+                      <th>AKCIJA</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  @foreach ($shelters as $shelter)
+                      <tr>
+                          <td>{{ $shelter->id }}</td>
+                          <td>{{ $shelter->name }}</td>                 
+                          <td>{{ $shelter->address }}</td>
+                          <td>{{ $shelter->email }}</td>
+                          <td>{{ $shelter->telephone }}</td>
+                          <td>{{ $shelter->users->first()->name ?? '' }}</td>
+                          <td>
+                              @foreach ($shelter->shelterTypes as $type)
+                                  <button type="button" class="btn btn-{{ $type->id == 1 ? 'warning' : 'danger' }}" data-toggle="tooltip" data-placement="top" title="{{ $type->name }}">
+                                      {{ $type->code }}
+                                  </button>
+                              @endforeach
+                          </td>
+                          <td>
+                              <a href="{{ route('shelter.show', [$shelter->id]) }}" class="btn btn-info" href="#" role="button">Pregled</a>
+                              <a class="btn btn-warning" href="{{ route("shelter.edit", $shelter) }}" role="button">Uredi</a>
+                          </td>
+                      </tr>        
+                  @endforeach
+              </table>
+              </div>
+          </div>
       </div>
-      </div>
-    </div>
   </div>
-
 </div> <!-- row -->
 
 <div class="row">

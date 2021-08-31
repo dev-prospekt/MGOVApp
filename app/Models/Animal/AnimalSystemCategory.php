@@ -20,10 +20,10 @@ class AnimalSystemCategory extends Model
         return $this->hasMany(AnimalCategory::class);
     }
 
-    public function animalItems()
+    public function animals()
     {
         return $this->hasManyThrough(
-            AnimalItem::class,
+            Animal::class,
             AnimalCategory::class,
             'animal_system_category_id',
             'animal_category_id'

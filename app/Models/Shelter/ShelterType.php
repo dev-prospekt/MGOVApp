@@ -11,8 +11,8 @@ class ShelterType extends Model
 
     protected $guarded = [];
 
-    public function shelterUnits()
+    public function shelters()
     {
-        return $this->belongsToMany(ShelterUnit::class);
+        return $this->belongsToMany(Shelter::class);
     }
 }

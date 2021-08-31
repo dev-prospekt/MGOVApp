@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShelterUnitsTable extends Migration
+class CreateSheltersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateShelterUnitsTable extends Migration
      */
     public function up()
     {
-        Schema::create('shelter_units', function (Blueprint $table) {
+        Schema::create('shelters', function (Blueprint $table) {
             $table->id();
 
             $table->string('name');
@@ -41,6 +41,6 @@ class CreateShelterUnitsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shelter_units');
+        Schema::dropIfExists('shelters');
     }
 }

@@ -9,13 +9,13 @@ class AnimalCategory extends Model
 {
     use HasFactory;
 
-    public function animalSystemCategory()
+    public function animalSystemCategories()
     {
         return $this->belongsTo(AnimalSystemCategory::class);
     }
 
-    public function animalItems()
+    public function animals()
     {
-        return $this->hasMany(AnimalItem::class);
+        return $this->hasMany(Animal::class);
     }
 }

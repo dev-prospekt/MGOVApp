@@ -23,13 +23,17 @@
 
       <li class="nav-item nav-category">CRUD</li>
       <li class="nav-item {{ active_class(['/shelters*']) }}">
-        <a href="{{ url('/shelters') }}" class="nav-link">
+        <a href="{{ route("shelter.index") }}" class="nav-link">
           <i class="link-icon" data-feather="box"></i>
           <span class="link-title">Oporavilišta</span>
         </a>
       </li>
-      
-
+      <li class="nav-item {{ active_class(['/user*']) }}">
+        <a href="{{ route("user.index") }}" class="nav-link">
+          <i class="link-icon" data-feather="user"></i>
+          <span class="link-title">Korisnici</span>
+        </a>
+      </li>
 
       <li class="nav-item nav-category">Docs</li>
       <li class="nav-item">

@@ -6,17 +6,17 @@ use App\Models\User;
 
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
-use App\Models\Shelter\ShelterUnit;
+use App\Models\Shelter\Shelter;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ShelterUnitFactory extends Factory
+class ShelterFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = ShelterUnit::class;
+    protected $model = Shelter::class;
 
     /**
      * Define the model's default state.

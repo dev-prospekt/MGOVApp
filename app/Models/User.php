@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Shelter\ShelterUnit;
+use App\Models\Shelter\Shelter;
 use Spatie\Permission\Traits\HasRoles;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -42,6 +42,6 @@ class User extends Authenticatable
 
     public function shelter()
     {
-        return $this->belongsTo(\App\Models\ShelterUnit::class);
+        return $this->belongsTo(Shelter::class);
     }
 }

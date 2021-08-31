@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnimalItemsTable extends Migration
+class CreateAttributeValuesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateAnimalItemsTable extends Migration
      */
     public function up()
     {
-        Schema::create('animal_items', function (Blueprint $table) {
+        Schema::create('attribute_values', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('animal_category_id');
-
-            $table->string('name');
-            $table->string('latin_name');
+            $table->integer("price_basic_care");
+            $table->string("price_extended_care");
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateAnimalItemsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('animal_items');
+        Schema::dropIfExists('attribute_values');
     }
 }

@@ -1,13 +1,14 @@
 <?php
 
-use Database\Seeders\AnimalCategorySeeder;
-use Database\Seeders\AnimalItemSeeder;
-use Database\Seeders\AnimalSystemCategorySeeder;
 use Illuminate\Database\Seeder;
-
-use Database\Seeders\PermissionsDemoSeeder;
+use Database\Seeders\AnimalSeeder;
 use Database\Seeders\ShelterTypeSeeder;
-use Database\Seeders\ShelterUnitSeeder;
+use Database\Seeders\ShelterSeeder;
+
+use Database\Seeders\AnimalCategorySeeder;
+use Database\Seeders\AnimalCodeSeeder;
+use Database\Seeders\PermissionsDemoSeeder;
+use Database\Seeders\AnimalSystemCategorySeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,10 +21,11 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call(PermissionsDemoSeeder::class);
-        $this->call(ShelterUnitSeeder::class);
+        $this->call(ShelterSeeder::class);
         $this->call(ShelterTypeSeeder::class);
         $this->call(AnimalSystemCategorySeeder::class);
         $this->call(AnimalCategorySeeder::class);
-        $this->call(AnimalItemSeeder::class);
+        $this->call(AnimalSeeder::class);
+        $this->call(AnimalCodeSeeder::class);
     }
 }

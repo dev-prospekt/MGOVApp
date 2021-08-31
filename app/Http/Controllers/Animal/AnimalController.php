@@ -1,16 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Shelter;
-
-use App\Models\User;
+namespace App\Http\Controllers\Animal;
 
 use Illuminate\Http\Request;
-use App\Models\Animal\AnimalItem;
-use App\Models\Shelter\ShelterUnit;
+use App\Models\Animal\Animal;
 use App\Http\Controllers\Controller;
-use App\Models\Animal\AnimalSystemCategory;
 
-class ShelterUnitController extends Controller
+class AnimalController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -46,27 +42,25 @@ class ShelterUnitController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\ShelterUnit  $shelterUnit
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $shelterUnit = ShelterUnit::with('shelterTypes', 'users', 'animalItems')->findOrFail($id);
-        $animalCat = AnimalSystemCategory::with('animalCategories')->findOrFail($id);
+        $animal = Animal::with('animalCodes', 'animalCategory', 'shelter', 'animalAttributes')->findOrFail($id);
 
-        return view('shelter.shelter_unit.show', [
-            'shelterUnit' => $shelterUnit,
-            'animalCat' => $animalCat
+        return view('animal.animal.show', [
+            'animal' => $animal,
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\ShelterUnit  $shelterUnit
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(ShelterUnit $shelterUnit)
+    public function edit($id)
     {
         //
     }
@@ -75,10 +69,10 @@ class ShelterUnitController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\ShelterUnit  $shelterUnit
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, ShelterUnit $shelterUnit)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -86,10 +80,10 @@ class ShelterUnitController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\ShelterUnit  $shelterUnit
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ShelterUnit $shelterUnit)
+    public function destroy($id)
     {
         //
     }

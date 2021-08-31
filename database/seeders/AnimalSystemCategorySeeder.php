@@ -15,22 +15,18 @@ class AnimalSystemCategorySeeder extends Seeder
     public function run()
     {
         AnimalSystemCategory::create([
-            'shelter_unit_id' => 1,
             'name' => 'sisavci'
         ]);
 
         AnimalSystemCategory::create([
-            'shelter_unit_id' => 1,
             'name' => 'ptice'
         ]);
 
         AnimalSystemCategory::create([
-            'shelter_unit_id' => 1,
             'name' => 'gmazovi'
         ]);
 
         AnimalSystemCategory::create([
-            'shelter_unit_id' => 1,
             'name' => 'vodozemci'
         ]);
     }
