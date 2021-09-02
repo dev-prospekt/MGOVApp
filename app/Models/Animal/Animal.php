@@ -3,6 +3,7 @@
 namespace App\Models\Animal;
 
 use App\Models\Shelter\Shelter;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,11 +16,6 @@ class Animal extends Model
         return $this->belongsTo(AnimalCategory::class);
     }
 
-    public function shelter()
-    {
-        return $this->belongsTo(Shelter::class);
-    }
-
     public function animalAttributes()
     {
         return $this->hasMany(AnimalAttribute::class);
@@ -28,5 +24,15 @@ class Animal extends Model
     public function animalCodes()
     {
         return $this->belongsToMany(AnimalCode::class);
+    }
+
+    public function animalItems()
+    {
+        return $this->hasMany(AnimalItem::class);
+    }
+
+    public function shelters()
+    {
+        return $this->belongsToMany(Shelter::class);
     }
 }

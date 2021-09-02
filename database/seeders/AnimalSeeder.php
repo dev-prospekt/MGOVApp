@@ -17,25 +17,29 @@ class AnimalSeeder extends Seeder
         $animal1 = Animal::create([
             'animal_category_id' => 1,
             'name' => 'vuk',
-            'latin_name' => 'Canis lupus'
+            'latin_name' => 'Canis lupus',
         ]);
 
         $animal1->animalCodes()->attach([1, 2, 3]);
+        $animal1->shelters()->attach([
+            1 => ['quantity' => 1],
+            2 => ['quantity' => 1],
+        ]);
 
 
         $animal2 =  Animal::create([
             'animal_category_id' => 2,
             'name' => 'divlja mačka',
-            'latin_name' => 'Felis silvestris'
+            'latin_name' => 'Felis silvestris',
         ]);
-
+        
         $animal2->animalCodes()->attach([1, 2, 3]);
 
 
         $animal3 = Animal::create([
             'animal_category_id' => 2,
             'name' => 'ris',
-            'latin_name' => 'Lynx lynx'
+            'latin_name' => 'Lynx lynx',
         ]);
 
         $animal3->animalCodes()->attach([1, 2, 3]);
@@ -43,7 +47,7 @@ class AnimalSeeder extends Seeder
         $animal4 = Animal::create([
             'animal_category_id' => 3,
             'name' => 'vidra',
-            'latin_name' => 'Lutra lutra'
+            'latin_name' => 'Lutra lutra',
         ]);
 
         $animal4->animalCodes()->attach([1, 2, 3]);
@@ -51,7 +55,7 @@ class AnimalSeeder extends Seeder
         $animal5 = Animal::create([
             'animal_category_id' => 3,
             'name' => 'europska vidrica',
-            'latin_name' => 'Mustela lutreola'
+            'latin_name' => 'Mustela lutreola',
         ]);
 
         $animal5->animalCodes()->attach([1, 2, 3]);
@@ -59,7 +63,7 @@ class AnimalSeeder extends Seeder
         $animal6 = Animal::create([
             'animal_category_id' => 4,
             'name' => 'sredozemna medvjedica',
-            'latin_name' => 'Monachus monachus'
+            'latin_name' => 'Monachus monachus',
         ]);
 
         $animal6->animalCodes()->attach([1, 2, 3]);
@@ -67,7 +71,7 @@ class AnimalSeeder extends Seeder
         $animal7 = Animal::create([
             'animal_category_id' => 5,
             'name' => 'smeđi medvjed',
-            'latin_name' => 'Ursus arctos'
+            'latin_name' => 'Ursus arctos',
         ]);
 
         $animal7->animalCodes()->attach([1, 2, 3]);
@@ -75,7 +79,7 @@ class AnimalSeeder extends Seeder
         $animal8 = Animal::create([
             'animal_category_id' => 6,
             'name' => 'veliki sjeverni kit',
-            'latin_name' => 'Balaenoptera physalus '
+            'latin_name' => 'Balaenoptera physalus ',
         ]);
 
         $animal8->animalCodes()->attach([1, 2, 3]);
@@ -83,7 +87,7 @@ class AnimalSeeder extends Seeder
         $animal9 = Animal::create([
             'animal_category_id' => 7,
             'name' => 'balkanska divokoza',
-            'latin_name' => 'Rupicapra rupicapra balcanica'
+            'latin_name' => 'Rupicapra rupicapra balcanica',
         ]);
 
         $animal9->animalCodes()->attach([1, 2, 3]);
@@ -91,7 +95,7 @@ class AnimalSeeder extends Seeder
         $animal10 = Animal::create([
             'animal_category_id' => 8,
             'name' => 'obični dupin',
-            'latin_name' => 'Delphinus delphis Linnaeus'
+            'latin_name' => 'Delphinus delphis Linnaeus',
         ]);
 
         $animal10->animalCodes()->attach([1, 2, 3]);
@@ -99,7 +103,7 @@ class AnimalSeeder extends Seeder
         $animal11 = Animal::create([
             'animal_category_id' => 8,
             'name' => 'bjelogrli dupin',
-            'latin_name' => 'Grampus griseus'
+            'latin_name' => 'Grampus griseus',
         ]);
 
         $animal11->animalCodes()->attach([1, 2, 3]);
@@ -107,7 +111,7 @@ class AnimalSeeder extends Seeder
         $animal12 = Animal::create([
             'animal_category_id' => 8,
             'name' => 'glavati dupin',
-            'latin_name' => 'Grampus griseus'
+            'latin_name' => 'Grampus griseus',
         ]);
 
         $animal12->animalCodes()->attach([1, 2, 3]);

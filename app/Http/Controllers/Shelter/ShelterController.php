@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
+use App\Models\Animal\AnimalItem;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalCategory;
 use App\Models\Animal\AnimalSystemCategory;
@@ -71,11 +72,9 @@ class ShelterController extends Controller
     public function show($id)
     {
         $shelter = Shelter::with('shelterTypes', 'users', 'animals')->findOrFail($id);
-        $animalSysCat = AnimalSystemCategory::with('animalCategories')->findOrFail($id);
 
         return view('shelter.shelter.show', [
             'shelter' => $shelter,
-            'animalSysCat' => $animalSysCat,
         ]);
     }
 
@@ -99,7 +98,7 @@ class ShelterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $shelter = Shelter::find($id);
+        $shelter = Shelter::findOrFail($id);
         $shelter->name = $request->name;
         $shelter->email = $request->email;
         $shelter->address = $request->address;
@@ -124,9 +123,23 @@ class ShelterController extends Controller
      */
     public function destroy($id)
     {
-        $shelter = Shelter::find($id);
+        $shelter = Shelter::findOrFail($id);
         $shelter->delete();
 
         return redirect()->route('shelter.index')->with('msg', 'Oporavilište je uspješno uklonjeno');
+    }
+
+    public function animalItems($shelterId, $animalId)
+    {
+        $animalItem = Shelter::findOrFail($shelterId)
+                        ->animalItems()->where('animal_id', $animalId)
+                        ->with('animal')
+                        ->get();
+
+        //dd($animalItem);
+
+        return view('animal.animal.show', [
+            'animal' => $animalItem,
+        ]);
     }
 }

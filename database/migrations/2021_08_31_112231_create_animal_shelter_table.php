@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnimalAnimalCodesTable extends Migration
+class CreateAnimalShelterTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateAnimalAnimalCodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('animal_animal_code', function (Blueprint $table) {
+        Schema::create('animal_shelter', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('animal_code_id');
-            $table->foreignId('animal_id');
+            $table->foreignId('animal_id')->constrained('animals');
+            $table->foreignId('shelter_id')->constrained('shelters');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateAnimalAnimalCodesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('animal_animal_code');
+        Schema::dropIfExists('animal_item_shelter');
     }
 }

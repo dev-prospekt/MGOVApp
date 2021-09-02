@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Animal;
 
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
-use App\Models\Animal\AnimalItem;
+use App\Models\Animal\AnimalData;
 use App\Http\Controllers\Controller;
 
-class AnimalController extends Controller
+class AnimalItemController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,11 +26,7 @@ class AnimalController extends Controller
      */
     public function create()
     {
-        $animals = Animal::all();
-
-        return view('animal.animal.create', [
-            'animals' => $animals
-        ]); 
+        //
     }
 
     /**
@@ -41,24 +37,7 @@ class AnimalController extends Controller
      */
     public function store(Request $request)
     {
-        $animals = new Animal;
-        $count = $request->quantity;
-
-        $animals->shelters()->attach([$request['animal_id'] => [
-            'shelter_id' => $request['shelter_id'],
-            'animal_id' => $request['animal_id'],
-            'quantity' => $request['quantity'],
-        ]]);
-
-        for ($i=0; $i < $count; $i++) { 
-            $animalItem = new AnimalItem;
-            $animalItem->animal_id = $request->animal_id;
-            $animalItem->shelter_id = $request->shelter_id;
-            $animalItem->status = 1;
-            $animalItem->save();
-        }
-
-        return redirect()->route("shelter.index")->with('msg', 'Uspješno dodano.');
+        
     }
 
     /**
@@ -69,11 +48,7 @@ class AnimalController extends Controller
      */
     public function show($id)
     {
-        $animal = Animal::with('animalCodes', 'animalCategory', 'animalAttributes', 'animalItems', 'shelters')->findOrFail($id);
-
-        return view('animal.animal.show', [
-            'animal' => $animal,
-        ]);
+        //
     }
 
     /**
@@ -82,9 +57,9 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Animal $animal)
+    public function edit($id)
     {
-        return view('animal.animal.edit')->with('animal', $animal); 
+        //
     }
 
     /**
@@ -96,7 +71,7 @@ class AnimalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request);
+        //
     }
 
     /**

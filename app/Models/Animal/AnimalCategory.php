@@ -9,7 +9,7 @@ class AnimalCategory extends Model
 {
     use HasFactory;
 
-    public function animalSystemCategories()
+    public function animalSystemCategory()
     {
         return $this->belongsTo(AnimalSystemCategory::class);
     }

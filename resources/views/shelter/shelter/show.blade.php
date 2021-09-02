@@ -34,7 +34,7 @@
                   <td>{{ $shelter->address ?? ''  }}</td>
                   <td>{{ $shelter->oib ?? ''  }}</td>
                   <td>{{ $shelter->email ?? ''  }}</td>
-                <td>{{ $shelter->users()->first()->name ?? ''  }}</td>        
+                  <td>{{ $shelter->users()->first()->name ?? ''  }}</td>        
                   <td>@foreach ($shelter->shelterTypes as $type)
                     <button type="button" class="btn btn-{{ $type->id == 1 ? 'warning' : 'danger' }}" data-toggle="tooltip" data-placement="left" title="{{ $type->name }}">
                       {{ $type->code }}
@@ -54,7 +54,7 @@
               <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
             </div>
             <div>
-              <a href="javascript:void(0)" class="btn btn-primary">Dodaj</a>
+              <a href="{{ route('animal.create') }}" class="btn btn-primary">Dodaj</a>
             </div>
           </div>
 
@@ -68,30 +68,33 @@
                   <th>Šifra</th>
                   <th>Naziv jedinke</th>
                   <th>Latinski naziv</th>
-                  <th>Grupa</th>
                   <th>Code</th>
+                  <th></th>
                 </tr>
               </thead>
-              <tbody>      
-               
-                @foreach ($shelter->animals as $animal)
+              <tbody>
+
+                @foreach ($shelter->animals as $item)
                   <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $animal->quantity }}</td>
-                    <td>{{ $animal->sku }}</td>
-                    <td>{{ $animal->name }}</td>
-                    <td>{{ $animal->latin_name }}</td>            
-                    <td>{{ $animal->animalCategory()->first()->name }}</td>
+                    <td>{{ $item->id }}</td>
+                    <td>{{ $item->pivot->quantity }}</td>
+                    <td>aq-2021</td>
+                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->latin_name }}</td>
                     <td>
-                      @foreach ($animal->animalCodes as $code)
-                        <p class="badge badge-warning">{{ $code->name }}</p>
+                      @foreach ($item->animalCodes as $code)
+                        <span class="badge badge-warning">{{ $code->name }}</span>
                       @endforeach
                     </td>
                     <td>
-                    <a href="{{ route("animal.show", $animal) }}" class="btn btn-info">Info</a>
-                    </td>            
-                 </tr>    
-                @endforeach                     
+                      <a class="btn btn-info" href="/shelter/{{request('shelter')}}/animal/{{$item->id}}">
+                        Info
+                      </a>
+                    </td>
+                  </tr>
+                @endforeach
+
+              </tbody>                
             </table>
         </div>
         </div>

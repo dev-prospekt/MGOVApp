@@ -41,8 +41,6 @@ class ShelterSeeder extends Seeder
             'address' => 'Brionska 10, HR-52212 Fažana',
             'oib' => 79193158584,
             'place_zip' => 52212,
-
-
         ]);
 
         $shelter3->shelterTypes()->attach(1);
