@@ -116,7 +116,7 @@ class AnimalController extends Controller
         $animalItem->location = $request->location;
         $animalItem->save();
 
-        //return redirect('/shelter')->with('msg', 'Uspješno dodano.');
+        return redirect('/shelter/'.$animalItem->shelter_id.'/animal/'.$animalItem->shelterCode)->with('msg', 'Uspješno ažurirano.');
     }
 
     /**

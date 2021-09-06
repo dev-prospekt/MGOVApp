@@ -1,13 +1,14 @@
 <?php
 
 
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
@@ -34,8 +35,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('animal', Animal\AnimalController::class);
     
     Route::resource('user', UserController::class);
-    
 
     Route::get('users', 'UserController@index');
     Route::get('users-dt', 'UserController@indexDataTables')->name('users:dt');
+    Route::get("restore/{user_id}", 'UserController@restore');
 });

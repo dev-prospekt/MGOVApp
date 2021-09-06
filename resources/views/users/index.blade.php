@@ -40,6 +40,37 @@
             </div>
         </div>
     </div>
+
+    <div class="col-lg-8 col-xl-8 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                <table class="table" id="restore">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>IME</th>
+                        <th>EMAIL</th>
+                        <th>ACTION</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($usersTrashed as $userTrash)
+                            <tr>
+                                <td>{{ $userTrash->id }}</td>
+                                <td>{{ $userTrash->name }}</td>
+                                <td>{{ $userTrash->email }}</td>
+                                <td>
+                                    <a href="/restore/{{ $userTrash->id }}" class="btn btn-primary">Restore</a>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 @endsection

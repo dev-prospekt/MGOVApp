@@ -20,9 +20,11 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        $usersTrashed = User::onlyTrashed()->get();
 
         return view("users.index", [
-            'users' => $users
+            'users' => $users,
+            'usersTrashed' => $usersTrashed
         ]);
     }
 
@@ -113,6 +115,12 @@ class UserController extends Controller
 
         return response()->json(['msg'=>'Uspješno obrisano.']);
         //return redirect()->route("user.index")->with('msg', 'Uspješno obrisano.');
+    }
+
+    public function restore($user_id)
+    {
+        User::withTrashed()->find($user_id)->restore();
+        return redirect()->route("user.index")->with('msg', 'Uspješno aktiviran.');
     }
 
     public function indexDataTables()

@@ -21,7 +21,7 @@
                 <input type="text" class="form-control" name="location" value="{{ $animal->location }}" required>
             </div>
 
-            <button type="submit" class="btn btn-primary mr-2">Dodaj</button>
+            <button type="submit" class="btn btn-primary mr-2">Ažuriraj</button>
         </div>
 
     </div>
