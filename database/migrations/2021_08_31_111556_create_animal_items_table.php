@@ -18,6 +18,7 @@ class CreateAnimalItemsTable extends Migration
             
             $table->foreignId('animal_id')->constrained('animals');
             $table->foreignId('shelter_id')->constrained('shelters');
+            $table->string('shelterCode');
             $table->string('status');
             $table->string('animal_size');
             $table->string('animal_gender');

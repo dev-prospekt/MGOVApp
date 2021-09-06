@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Animal;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
+use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalItem;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
 class AnimalController extends Controller
@@ -44,9 +47,19 @@ class AnimalController extends Controller
         $animals = new Animal;
         $count = $request->quantity;
 
+        // Increment ID
+        $incrementId = DB::table('animal_shelter')->orderBy('id', 'DESC')->first();
+        if(empty($incrementId->id)){
+            $increment = 1;
+        }
+        else {
+            $increment = $incrementId->id + 1;
+        }
+
         $animals->shelters()->attach([$request['animal_id'] => [
             'shelter_id' => $request['shelter_id'],
             'animal_id' => $request['animal_id'],
+            'shelterCode' => Carbon::now()->format('Y') .''. $request['shelterCode'] .'-'. $increment,
             'quantity' => $request['quantity'],
         ]]);
 
@@ -54,11 +67,12 @@ class AnimalController extends Controller
             $animalItem = new AnimalItem;
             $animalItem->animal_id = $request->animal_id;
             $animalItem->shelter_id = $request->shelter_id;
+            $animalItem->shelterCode = Carbon::now()->format('Y') .''. $request->shelterCode .'-'. $increment;
             $animalItem->status = 1;
             $animalItem->save();
         }
-
-        return redirect()->route("shelter.index")->with('msg', 'Uspješno dodano.');
+        
+        return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
 
     /**
@@ -82,7 +96,7 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Animal $animal)
+    public function edit(AnimalItem $animal)
     {
         return view('animal.animal.edit')->with('animal', $animal); 
     }
@@ -96,7 +110,13 @@ class AnimalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request);
+        $animalItem = AnimalItem::find($id);
+        $animalItem->animal_size = $request->animal_size;
+        $animalItem->animal_gender = $request->animal_gender;
+        $animalItem->location = $request->location;
+        $animalItem->save();
+
+        //return redirect('/shelter')->with('msg', 'Uspješno dodano.');
     }
 
     /**

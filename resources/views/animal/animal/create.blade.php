@@ -9,6 +9,7 @@
                 @method('POST')
 
                 <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
+                <input type="hidden" name="shelterCode" value="{{ auth()->user()->shelter->shelterCode }}">
 
                 <div class="form-group">
                     <select name="animal_id" class="form-control">

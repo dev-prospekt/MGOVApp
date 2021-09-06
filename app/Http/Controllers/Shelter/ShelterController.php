@@ -48,6 +48,7 @@ class ShelterController extends Controller
     {
         $shelter = new Shelter;
         $shelter->name = $request->name;
+        $shelter->shelterCode = $request->shelterCode;
         $shelter->email = $request->email;
         $shelter->address = $request->address;
         $shelter->oib = $request->oib;
@@ -100,6 +101,7 @@ class ShelterController extends Controller
     {
         $shelter = Shelter::findOrFail($id);
         $shelter->name = $request->name;
+        $shelter->shelterCode = $request->shelterCode;
         $shelter->email = $request->email;
         $shelter->address = $request->address;
         $shelter->oib = $request->oib;
@@ -129,10 +131,10 @@ class ShelterController extends Controller
         return redirect()->route('shelter.index')->with('msg', 'Oporavilište je uspješno uklonjeno');
     }
 
-    public function animalItems($shelterId, $animalId)
+    public function animalItems($shelterId, $code)
     {
         $animalItem = Shelter::findOrFail($shelterId)
-                        ->animalItems()->where('animal_id', $animalId)
+                        ->animalItems()->where('shelterCode', $code)
                         ->with('animal')
                         ->get();
 

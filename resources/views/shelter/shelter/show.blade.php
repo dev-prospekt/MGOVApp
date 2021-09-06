@@ -58,9 +58,12 @@
             </div>
           </div>
 
+          @if($msg = Session::get('msg'))
+          <div class="alert alert-success"> {{ $msg }}</div>
+          @endif
 
           <div class="table-responsive">
-            <table class="table">
+            <table id="dataTableExample" class="table">
               <thead>          
                 <tr>
                   <th>#</th>
@@ -76,9 +79,9 @@
 
                 @foreach ($shelter->animals as $item)
                   <tr>
-                    <td>{{ $item->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $item->pivot->quantity }}</td>
-                    <td>aq-2021</td>
+                    <td>{{ $item->pivot->shelterCode }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->latin_name }}</td>
                     <td>
@@ -87,7 +90,7 @@
                       @endforeach
                     </td>
                     <td>
-                      <a class="btn btn-info" href="/shelter/{{request('shelter')}}/animal/{{$item->id}}">
+                      <a class="btn btn-info" href="/shelter/{{request('shelter')}}/animal/{{$item->pivot->shelterCode}}">
                         Info
                       </a>
                     </td>

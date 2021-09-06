@@ -21,11 +21,6 @@ class AnimalSeeder extends Seeder
         ]);
 
         $animal1->animalCodes()->attach([1, 2, 3]);
-        $animal1->shelters()->attach([
-            1 => ['quantity' => 1],
-            2 => ['quantity' => 1],
-        ]);
-
 
         $animal2 =  Animal::create([
             'animal_category_id' => 2,

@@ -13,7 +13,7 @@
                 @endif
 
                 <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="animal-table">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -33,9 +33,9 @@
                                 <td>{{ $anim->animal->name }}</td>
                                 <td>{{ $anim->animal->latin_name }}</td>
                                 <td>{{ $anim->animal->animalCategory->name }}</td>
-                                <td>{{ $anim->animal->location }}</td>
-                                <td>{{ $anim->animal->animal_gender }}</td>
-                                <td>{{ $anim->animal->animal_size }}</td>
+                                <td>{{ $anim->location }}</td>
+                                <td>{{ $anim->animal_gender }}</td>
+                                <td>{{ $anim->animal_size }}</td>
                                 <td>
                                     <a href="{{ route('animal.edit', $anim) }}" class="btn btn-info">
                                         Uredi

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
+use Maatwebsite\Excel\Facades\Excel;
+use Yajra\Datatables\Datatables;
 
 class UserController extends Controller
 {
@@ -107,6 +111,26 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return redirect()->route("user.index")->with('msg', 'Uspješno obrisano.');
+        return response()->json(['msg'=>'Uspješno obrisano.']);
+        //return redirect()->route("user.index")->with('msg', 'Uspješno obrisano.');
+    }
+
+    public function indexDataTables()
+    {
+        $users = User::select(['id','name','email']);
+
+        return Datatables::of($users)
+            ->addColumn('action', function ($user) {
+                return '
+                <div class="d-flex align-items-center justify-content-between">
+                    <a href="user/'.$user->id.'/edit" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+
+                    <a href="javascript:void(0)" id="bntDeleteUser" class="btn btn-xs btn-danger" >
+                        <input type="hidden" id="userId" value="'.$user->id.'" />
+                        Delete
+                    </a>
+                </div>
+                ';
+            })->make();
     }
 }

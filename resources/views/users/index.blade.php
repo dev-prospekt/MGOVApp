@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-lg-6 col-xl-6 grid-margin stretch-card">
+    <div class="col-lg-8 col-xl-8 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 
@@ -16,38 +16,25 @@
                     </div>
                 </div>
 
+                <div class="" id="msg"></div>
+
                 @if($msg = Session::get('msg'))
                 <div class="alert alert-success"> {{ $msg }}</div>
                 @endif
 
                 <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="users-table">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>IME</th>
-                        <th>EMAIL</th>
+                        <th class="w-10">#</th>
+                        <th class="w-10">IME</th>
+                        <th class="w-10">EMAIL</th>
+                        <th class="w-10">ACTION</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($users as $user)
-                    <tr>
-                        <td>{{ $user->id }}</td>
-                        <td>{{ $user->name }}</td>
-                        <td>{{ $user->email }}</td>
-                        <td class="d-flex justify-content-between">
-                            <a href="#" class="btn btn-info" href="#" role="button">Pregled</a>
-                            <a class="btn btn-warning" href="{{ route("user.edit", $user) }}" role="button">Uredi</a>
-                            <a onclick="return confirm('Are you sure?')">
-                                <form action="{{ route('user.destroy', ['user' => $user->id]) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger">Obriši</button>
-                                </form>
-                            </a>
-                        </td>
-                    </tr>       
-                    @endforeach
+
+                    </tbody>
                 </table>
                 </div>
             </div>
@@ -56,3 +43,48 @@
 </div>
 
 @endsection
+
+
+@push('plugin-scripts')
+  <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
+@endpush
+
+@push('custom-scripts')
+  <script>
+      $(function() {
+            $('#users-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{!! route('users:dt') !!}',
+                columns: [
+                    { data: 'id', name: 'id'},
+                    { data: 'name', name: 'name'},
+                    { data: 'email', name: 'email'},
+                    { data: 'action', name: 'action'}
+                ],
+            });
+
+            // Delete
+            $('#users-table').on('click', '#bntDeleteUser', function(e){
+                e.preventDefault();
+                var id = $(this).find('#userId').val();
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: "user/"+id,
+                    method: 'DELETE',
+                    success: function(result) {
+                        $('#users-table').DataTable().ajax.reload();
+                        $("#msg").addClass('alert alert-success');
+                        $("#msg").html(result.msg);
+                    }
+                });
+            });
+        })
+  </script>
+@endpush

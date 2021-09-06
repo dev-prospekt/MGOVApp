@@ -28,10 +28,14 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('shelter', Shelter\ShelterController::class);
 
-    Route::get('shelter/{shelterId}/animal/{animalId}', [ShelterController::class, 'animalItems']);
+    Route::get('shelter/{shelterId}/animal/{code}', [ShelterController::class, 'animalItems']);
 
     Route::resource('animal_item', Animal\AnimalItemController::class);
     Route::resource('animal', Animal\AnimalController::class);
     
     Route::resource('user', UserController::class);
+    
+
+    Route::get('users', 'UserController@index');
+    Route::get('users-dt', 'UserController@indexDataTables')->name('users:dt');
 });

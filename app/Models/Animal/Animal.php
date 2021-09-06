@@ -13,7 +13,7 @@ class Animal extends Model
 
     public function animalCategory()
     {
-        return $this->belongsTo(AnimalCategory::class);
+        return $this->belongsTo(AnimalCategory::class)->with('animalSystemCategory');
     }
 
     public function animalAttributes()
@@ -33,6 +33,6 @@ class Animal extends Model
 
     public function shelters()
     {
-        return $this->belongsToMany(Shelter::class);
+        return $this->belongsToMany(Shelter::class)->withPivot('id');
     }
 }

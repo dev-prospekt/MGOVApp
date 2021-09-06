@@ -13,6 +13,10 @@
                 <input type="text" class="form-control" name="name" value="{{ $shelter->name }}" required>
             </div>
             <div class="form-group">
+                <label>Šifra oporavilišta</label>
+                <input type="text" class="form-control" name="shelterCode" value="{{ $shelter->shelterCode }}" required>
+            </div>
+            <div class="form-group">
                 <label>Email</label>
                 <input type="email" class="form-control" name="email" value="{{ $shelter->email }}" required>
             </div>
@@ -28,14 +32,14 @@
                 <label>Fax</label>
                 <input type="number" class="form-control" name="fax" value="{{ $shelter->fax }}" required>
             </div>
+
+            <button type="submit" class="btn btn-primary mr-2">Ažuriraj</button>
+        </div>
+        <div class="col-md-4">
             <div class="form-group">
                 <label>IBAN</label>
                 <input type="number" class="form-control" name="iban" value="{{ $shelter->iban }}" required>
             </div>
-
-            <button type="submit" class="btn btn-primary mr-2">Dodaj</button>
-        </div>
-        <div class="col-md-4">
             <div class="form-group">
                 <label>Address</label>
                 <input type="text" class="form-control" name="address" value="{{ $shelter->address }}" required>
