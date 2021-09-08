@@ -1,5 +1,9 @@
 @extends('layout.master')
 
+@push('plugin-styles')
+  <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+@endpush
+
 @section('content')
 
 <div class="row">
@@ -50,12 +54,9 @@
                             <td class="d-flex justify-content-between">
                                 <a href="{{ route('shelter.show', [$shelter->id]) }}" class="btn btn-info" href="#" role="button">Pregled</a>
                                 <a class="btn btn-warning" href="{{ route("shelter.edit", $shelter) }}" role="button">Uredi</a>
-                                <a onclick="return confirm('Are you sure?')">
-                                    <form action="{{ route('shelter.destroy', ['shelter' => $shelter->id]) }}" method="POST">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Obriši</button>
-                                    </form>
+                                <a href="javascript:void(0)" id="shelterClick" class="btn btn-danger">
+                                    <input type="hidden" id="shelter_id" value="{{$shelter->id}}">
+                                    Obriši
                                 </a>
                             </td>
                         </tr>        
@@ -68,3 +69,53 @@
 </div> <!-- row -->
 
 @endsection
+
+@push('plugin-scripts')
+  <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+@endpush
+
+@push('custom-scripts')
+  <script>
+    $(function() {
+
+        // Delete
+        $('.table').on('click', '#shelterClick', function(){
+            var id = $(this).find('#shelter_id').val();
+
+            Swal.fire({
+                title: 'Jeste li sigurni?',
+                text: "Želite obrisati oporavilište i više neće biti dostupno!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Da, obriši!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: "shelter/"+id,
+                        method: 'DELETE',
+                        success: function(result) {
+                            if(result.msg == 'success'){
+                                Swal.fire(
+                                    'Odlično!',
+                                    'Uspješno obrisano!',
+                                    'success'
+                                ).then((result) => {
+                                    location.reload(); 
+                                });
+                            }
+                        }
+                    }); 
+                }
+            });
+        });
+
+    });
+  </script>
+@endpush

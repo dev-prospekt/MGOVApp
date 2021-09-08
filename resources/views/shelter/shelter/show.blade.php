@@ -81,7 +81,7 @@
                 @foreach ($shelter->animals as $item)
                   <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->pivot->quantity }}</td>
+                    <td><span class="badge badge-secondary">{{ $item->pivot->quantity }}</span></td>
                     <td>{{ $item->pivot->shelterCode }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->latin_name }}</td>

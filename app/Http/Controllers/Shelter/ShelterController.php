@@ -11,6 +11,7 @@ use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalItem;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalCategory;
+use App\Http\Requests\ShelterPostRequest;
 use App\Models\Animal\AnimalSystemCategory;
 
 class ShelterController extends Controller
@@ -45,7 +46,7 @@ class ShelterController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ShelterPostRequest $request)
     {
         $shelter = new Shelter;
         $shelter->name = $request->name;
@@ -60,6 +61,7 @@ class ShelterController extends Controller
         $shelter->fax = $request->fax;
         $shelter->web_address = $request->web_address;
         $shelter->iban = $request->iban;
+        
         $shelter->save();
 
         return redirect()->route("shelter.index")->with('msg', 'Uspješno dodano.');
@@ -76,7 +78,7 @@ class ShelterController extends Controller
         $shelter = Shelter::with('shelterTypes', 'users', 'animals')->findOrFail($id);
 
         $animalItemInactive = Shelter::findOrFail($id)
-                        ->animalItems()->where('status', 0)
+                        ->animalItems()
                         ->with('animal', 'shelter')
                         ->get();
 
@@ -135,7 +137,8 @@ class ShelterController extends Controller
         $shelter = Shelter::findOrFail($id);
         $shelter->delete();
 
-        return redirect()->route('shelter.index')->with('msg', 'Oporavilište je uspješno uklonjeno');
+        return response()->json(['msg'=>'success']);
+        //return redirect()->route('shelter.index')->with('msg', 'Oporavilište je uspješno uklonjeno');
     }
 
     public function animalItems($shelterId, $code)

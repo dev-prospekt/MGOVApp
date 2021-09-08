@@ -113,27 +113,32 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();
 
-        return response()->json(['msg'=>'Uspješno obrisano.']);
+        return response()->json(['msg'=>'success']);
         //return redirect()->route("user.index")->with('msg', 'Uspješno obrisano.');
     }
 
     public function restore($user_id)
     {
         User::withTrashed()->find($user_id)->restore();
-        return redirect()->route("user.index")->with('msg', 'Uspješno aktiviran.');
+
+        return redirect()->route("user.index");
     }
 
     public function indexDataTables()
     {
-        $users = User::select(['id','name','email']);
+        $users = User::select(['id','name','email'])->where('name', '!=', 'Admin User');
 
         return Datatables::of($users)
             ->addColumn('action', function ($user) {
                 return '
-                <div class="d-flex align-items-center justify-content-between">
-                    <a href="user/'.$user->id.'/edit" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-edit"></i> Edit</a>
+                <div class="d-flex align-items-center">
+                    <a href="user/'.$user->id.'/edit" class="btn btn-xs btn-primary mr-2">
+                        <i class="mdi mdi-tooltip-edit"></i> 
+                        Edit
+                    </a>
 
                     <a href="javascript:void(0)" id="bntDeleteUser" class="btn btn-xs btn-danger" >
+                        <i class="mdi mdi-delete"></i>
                         <input type="hidden" id="userId" value="'.$user->id.'" />
                         Delete
                     </a>

@@ -1,5 +1,11 @@
 @extends('layout.master')
 
+@push('plugin-styles')
+  <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/datatables-net/dataTables.bootstrap4.css') }}" rel="stylesheet" />
+@endpush
+
 @section('content')
 <div class="row">
     <div class="col-lg-8 col-xl-8 grid-margin stretch-card">
@@ -8,7 +14,7 @@
                 
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <h6 class="card-title">Oporavilišta za divlje životinje</h6>
+                        <h6 class="card-title">Korisnici</h6>
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
@@ -26,10 +32,10 @@
                 <table class="table" id="users-table">
                     <thead>
                     <tr>
-                        <th class="w-10">#</th>
-                        <th class="w-10">IME</th>
-                        <th class="w-10">EMAIL</th>
-                        <th class="w-10">ACTION</th>
+                        <th>#</th>
+                        <th>IME</th>
+                        <th>EMAIL</th>
+                        <th>ACTION</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -79,6 +85,7 @@
 @push('plugin-scripts')
   <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
+  <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
@@ -110,9 +117,17 @@
                     url: "user/"+id,
                     method: 'DELETE',
                     success: function(result) {
-                        $('#users-table').DataTable().ajax.reload();
-                        $("#msg").addClass('alert alert-success');
-                        $("#msg").html(result.msg);
+                        if(result.msg == 'success'){
+                            $('#users-table').DataTable().ajax.reload();
+
+                            Swal.fire(
+                                'Odlično!',
+                                'Uspješno ste ugasili korisnika!',
+                                'success'
+                            ).then((result) => {
+                               location.reload(); 
+                            });
+                        }
                     }
                 });
             });

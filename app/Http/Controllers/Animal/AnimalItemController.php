@@ -151,6 +151,6 @@ class AnimalItemController extends Controller
         $copy->shelterCode = Carbon::now()->format('Y') .''. $shelter->shelterCode .'-'. $increment;
         $copy->save();
         
-        return redirect('/shelter/'.$shelterID)->with('msg', 'Uspješno premješteno.');
+        return redirect('/shelter/'.$shelterID)->with('msg', 'Uspješno premješteno u oporavilište '.$shelter->name.'');
     }
 }
