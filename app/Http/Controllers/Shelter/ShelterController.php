@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
+use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalItem;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalCategory;
@@ -74,8 +75,14 @@ class ShelterController extends Controller
     {
         $shelter = Shelter::with('shelterTypes', 'users', 'animals')->findOrFail($id);
 
+        $animalItemInactive = Shelter::findOrFail($id)
+                        ->animalItems()->where('status', 0)
+                        ->with('animal', 'shelter')
+                        ->get();
+
         return view('shelter.shelter.show', [
             'shelter' => $shelter,
+            'animalItemInactive' => $animalItemInactive,
         ]);
     }
 
@@ -134,14 +141,13 @@ class ShelterController extends Controller
     public function animalItems($shelterId, $code)
     {
         $animalItem = Shelter::findOrFail($shelterId)
-                        ->animalItems()->where('shelterCode', $code)
-                        ->with('animal')
+                        ->animalItems()->where('shelterCode', $code)->where('status', 1)
+                        ->with('animal', 'shelter')
                         ->get();
-
+                        
+        $shelters = Shelter::all();
         //dd($animalItem);
 
-        return view('animal.animal.show', [
-            'animal' => $animalItem,
-        ]);
+        return view('animal.animal_item.show', compact('animalItem', 'shelters'));
     }
 }

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
+use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalItem;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -30,9 +31,11 @@ class AnimalController extends Controller
     public function create()
     {
         $animals = Animal::all();
+        $animalsCode = AnimalCode::all();
 
         return view('animal.animal.create', [
-            'animals' => $animals
+            'animals' => $animals,
+            'animalsCode' => $animalsCode,
         ]); 
     }
 
@@ -56,12 +59,16 @@ class AnimalController extends Controller
             $increment = $incrementId->id + 1;
         }
 
-        $animals->shelters()->attach([$request['animal_id'] => [
-            'shelter_id' => $request['shelter_id'],
-            'animal_id' => $request['animal_id'],
-            'shelterCode' => Carbon::now()->format('Y') .''. $request['shelterCode'] .'-'. $increment,
-            'quantity' => $request['quantity'],
-        ]]);
+        $animals->shelters()->attach($request->animal_id, [
+            'shelter_id' => $request->shelter_id,
+            'animal_id' => $request->animal_id,
+            'shelterCode' => Carbon::now()->format('Y') .''. $request->shelterCode .'-'. $increment,
+            'quantity' => $request->quantity,
+        ]);
+
+        $animals->animalCodes()->attach($request->animal_code_id, [
+            'animal_id' => $request->animal_id
+        ]);
 
         for ($i=0; $i < $count; $i++) { 
             $animalItem = new AnimalItem;
@@ -85,7 +92,7 @@ class AnimalController extends Controller
     {
         $animal = Animal::with('animalCodes', 'animalCategory', 'animalAttributes', 'animalItems', 'shelters')->findOrFail($id);
 
-        return view('animal.animal.show', [
+        return view('animal.animal_item.show', [
             'animal' => $animal,
         ]);
     }
@@ -96,9 +103,11 @@ class AnimalController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(AnimalItem $animal)
+    public function edit($id)
     {
-        return view('animal.animal.edit')->with('animal', $animal); 
+        $animal = Animal::find($id);
+
+        return view('animal.animal.edit')->with('animals', $animal); 
     }
 
     /**
@@ -110,13 +119,7 @@ class AnimalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $animalItem = AnimalItem::find($id);
-        $animalItem->animal_size = $request->animal_size;
-        $animalItem->animal_gender = $request->animal_gender;
-        $animalItem->location = $request->location;
-        $animalItem->save();
-
-        return redirect('/shelter/'.$animalItem->shelter_id.'/animal/'.$animalItem->shelterCode)->with('msg', 'Uspješno ažurirano.');
+        
     }
 
     /**

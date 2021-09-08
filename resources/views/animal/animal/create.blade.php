@@ -1,10 +1,14 @@
 @extends('layout.master')
 
+@push('plugin-styles')
+  <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+@endpush
+
 @section('content')
 
     <div class="row">
         <div class="col-md-4">
-            <form action="{{ route('animal.store') }}" method="POST">
+            <form action="{{ route('animal.store') }}" method="POST" multiple>
                 @csrf
                 @method('POST')
 
@@ -20,6 +24,14 @@
                 </div>
 
                 <div class="form-group">
+                    <select class="js-example-basic-multiple w-100" name="animal_code_id[]" multiple="multiple">
+                        @foreach ($animalsCode as $code)
+                            <option value="{{ $code->id }}">{{ $code->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <input type="number" class="form-control" name="quantity">
                 </div>
 
@@ -29,3 +41,12 @@
     </div>
 
 @endsection
+
+
+@push('plugin-scripts')
+  <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
+@endpush
+
+@push('custom-scripts')
+  <script src="{{ asset('assets/js/select2.js') }}"></script>
+@endpush

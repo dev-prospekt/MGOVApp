@@ -45,6 +45,7 @@
         </div>
         </div>
       </div>
+
       <div class="card mt-4">
         <div class="card-body">
           
@@ -90,7 +91,7 @@
                       @endforeach
                     </td>
                     <td>
-                      <a class="btn btn-info" href="/shelter/{{request('shelter')}}/animal/{{$item->pivot->shelterCode}}">
+                      <a class="btn btn-info" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelterCode}}">
                         Info
                       </a>
                     </td>
@@ -102,6 +103,7 @@
         </div>
         </div>
       </div>
+
 
     </div>
 

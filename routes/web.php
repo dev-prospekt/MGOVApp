@@ -12,7 +12,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Shelter\ShelterController;
 
 
 Auth::routes();
@@ -29,9 +28,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('shelter', Shelter\ShelterController::class);
 
-    Route::get('shelter/{shelterId}/animal/{code}', [ShelterController::class, 'animalItems']);
+    Route::get('shelter/{shelterId}/animal/{code}', 'Shelter\ShelterController@animalItems');
 
     Route::resource('animal_item', Animal\AnimalItemController::class);
+
+    Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
+    Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');
+
     Route::resource('animal', Animal\AnimalController::class);
     
     Route::resource('user', UserController::class);
