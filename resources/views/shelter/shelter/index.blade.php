@@ -21,6 +21,10 @@
                     </div>
                 </div>
 
+                @if($msg = Session::get('msg'))
+                <div class="alert alert-success"> {{ $msg }}</div>
+                @endif
+
                 <div class="table-responsive">
                 <table class="table">
                     <thead>

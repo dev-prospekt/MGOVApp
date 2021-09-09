@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShelterPostRequest extends FormRequest
+class UserPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,9 +27,7 @@ class ShelterPostRequest extends FormRequest
         return [
             'name' => ['required'],
             'email' => ['required', 'email'],
-            'shelterCode' => ['required', 'max:5'],
-            'place_zip' => ['required'],
-            'address' => ['required'],
+            'password' => ['required'],
         ];
     }
 
@@ -38,9 +36,7 @@ class ShelterPostRequest extends FormRequest
         return [
             'name.required' => 'Naziv je obavezan podatak',
             'email.required' => 'Email je obavezan podatak',
-            'shelterCode.required' => 'Šifra oporavilišta je obavezan podatak',
-            'place_zip.required' => 'Mjesto i poštanski broj je obavezan podatak',
-            'address.required' => 'Adresa je obavezan podatak',
+            'password.required' => 'Lozinka je obavezan podatak',
         ];
     }
 }

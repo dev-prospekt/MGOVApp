@@ -7,8 +7,9 @@ use App\Exports\UsersExport;
 use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
-use Maatwebsite\Excel\Facades\Excel;
 use Yajra\Datatables\Datatables;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Requests\UserPostRequest;
 
 class UserController extends Controller
 {
@@ -48,7 +49,7 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserPostRequest $request)
     {
         $user = new User;
         $user->name = $request->name;

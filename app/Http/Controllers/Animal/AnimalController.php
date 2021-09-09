@@ -10,6 +10,7 @@ use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalItem;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AnimalPostRequest;
 
 class AnimalController extends Controller
 {
@@ -45,7 +46,7 @@ class AnimalController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AnimalPostRequest $request)
     {
         $animals = new Animal;
         $count = $request->quantity;

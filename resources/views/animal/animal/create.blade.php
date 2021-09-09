@@ -21,6 +21,9 @@
                             <option value="{{ $animal->id }}">{{ $animal->name }}</option>
                         @endforeach
                     </select>
+                    @error('animal_id')
+                        <div class="text-danger">{{$errors->first('animal_id') }} </div>
+                    @enderror
                 </div>
 
                 <div class="form-group">
@@ -29,10 +32,16 @@
                             <option value="{{ $code->id }}">{{ $code->name }}</option>
                         @endforeach
                     </select>
+                    @error('animal_code_id')
+                        <div class="text-danger">{{$errors->first('animal_code_id') }} </div>
+                    @enderror
                 </div>
 
                 <div class="form-group">
                     <input type="number" class="form-control" name="quantity">
+                    @error('quantity')
+                        <div class="text-danger">{{$errors->first('quantity') }} </div>
+                    @enderror
                 </div>
 
                 <button type="submit" class="btn btn-primary mr-2">Dodaj</button>
