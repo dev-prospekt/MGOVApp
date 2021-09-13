@@ -1,8 +1,11 @@
 @extends('layout.master')
 
-@section('content')
+@push('plugin-styles')
+  <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+@endpush
 
-<form action="{{ route("shelter.update", $shelter->id) }}" method="POST">
+@section('content')
+<form action="{{ route("shelter.update", $shelter->id) }}" method="POST" multiple>
     @csrf
     @method('PATCH')
     <div class="row">
@@ -31,6 +34,25 @@
             <div class="form-group">
                 <label>Fax</label>
                 <input type="number" class="form-control" name="fax" value="{{ $shelter->fax }}" required>
+            </div>
+
+            <div class="form-group">
+                <label>Shelter Type</label>
+                <select class="js-example-basic-multiple w-100" name="shelter_type_id[]" multiple="multiple">
+                    @foreach ($shelterType as $code)
+                        @if ($shelter->shelterTypes->isEmpty())
+                            <option value="{{ $code->id }}">{{ $code->name }}</option>
+                        @endif
+
+                        @foreach ($shelter->shelterTypes as $co)
+                            @if ($co->id == $code->id)
+                                <option selected value="{{ $code->id }}">{{ $code->name }}</option>
+                            @else
+                                <option value="{{ $code->id }}">{{ $code->name }}</option>
+                            @endif
+                        @endforeach
+                    @endforeach
+                </select>
             </div>
 
             <button type="submit" class="btn btn-primary mr-2">Ažuriraj</button>
@@ -66,3 +88,11 @@
 </form>
 
 @endsection
+
+@push('plugin-scripts')
+  <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
+@endpush
+
+@push('custom-scripts')
+  <script src="{{ asset('assets/js/select2.js') }}"></script>
+@endpush

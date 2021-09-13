@@ -1,8 +1,12 @@
 @extends('layout.master')
 
+@push('plugin-styles')
+  <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+@endpush
+
 @section('content')
 
-<form action="{{ route("shelter.store") }}" method="POST">
+<form action="{{ route("shelter.store") }}" method="POST" multiple>
     @csrf
     @method('POST')
     <div class="row">
@@ -44,6 +48,14 @@
                 <label>Fax</label>
                 <input type="number" class="form-control" name="fax">
             </div>
+            <div class="form-group">
+                <label>Shelter Type</label>
+                <select class="js-example-basic-multiple w-100" name="shelter_type_id[]" multiple="multiple">
+                    @foreach ($shelterType as $code)
+                        <option value="{{ $code->id }}">{{ $code->name }}</option>
+                    @endforeach
+                </select>
+            </div>
 
             <button type="submit" class="btn btn-primary mr-2">Dodaj</button>
         </div>
@@ -81,3 +93,11 @@
 </form>
 
 @endsection
+
+@push('plugin-scripts')
+  <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
+@endpush
+
+@push('custom-scripts')
+  <script src="{{ asset('assets/js/select2.js') }}"></script>
+@endpush

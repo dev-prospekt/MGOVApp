@@ -9,10 +9,12 @@ use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalItem;
+use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalCategory;
 use App\Http\Requests\ShelterPostRequest;
 use App\Models\Animal\AnimalSystemCategory;
+use Yajra\Datatables\Datatables;
 
 class ShelterController extends Controller
 {
@@ -37,7 +39,11 @@ class ShelterController extends Controller
      */
     public function create()
     {
-        return view("shelter.shelter.create");
+        $shelterType = ShelterType::all();
+
+        return view("shelter.shelter.create", [
+            'shelterType' => $shelterType
+        ]);
     }
 
     /**
@@ -61,8 +67,11 @@ class ShelterController extends Controller
         $shelter->fax = $request->fax;
         $shelter->web_address = $request->web_address;
         $shelter->iban = $request->iban;
-        
         $shelter->save();
+
+        $shelter->shelterTypes()->attach($request->shelter_type_id, [
+            'shelter_id' => $shelter->id
+        ]);
 
         return redirect()->route("shelter.index")->with('msg', 'Uspješno dodano.');
     }
@@ -75,16 +84,10 @@ class ShelterController extends Controller
      */
     public function show($id)
     {
-        $shelter = Shelter::with('shelterTypes', 'users', 'animals')->findOrFail($id);
-
-        $animalItemInactive = Shelter::findOrFail($id)
-                        ->animalItems()
-                        ->with('animal', 'shelter')
-                        ->get();
+        $shelter = Shelter::with('animals', 'users')->findOrFail($id);
 
         return view('shelter.shelter.show', [
             'shelter' => $shelter,
-            'animalItemInactive' => $animalItemInactive,
         ]);
     }
 
@@ -96,7 +99,11 @@ class ShelterController extends Controller
      */
     public function edit(Shelter $shelter)
     {
-        return view('shelter.shelter.edit')->with('shelter', $shelter); 
+        $shelterType = ShelterType::all();
+
+        return view('shelter.shelter.edit', [
+            'shelterType' => $shelterType
+        ])->with('shelter', $shelter); 
     }
 
     /**
@@ -122,6 +129,10 @@ class ShelterController extends Controller
         $shelter->web_address = $request->web_address;
         $shelter->iban = $request->iban;
         $shelter->save();
+
+        $shelter->shelterTypes()->sync($request->shelter_type_id, [
+            'shelter_id' => $shelter->id
+        ]);
 
         return redirect()->route("shelter.index")->with('msg', 'Uspješno ažurirano.');
     }
@@ -152,5 +163,33 @@ class ShelterController extends Controller
         //dd($animalItem);
 
         return view('animal.animal_item.show', compact('animalItem', 'shelters'));
+    }
+
+    public function indexDataTables()
+    {
+        $shelters = Shelter::all();
+
+        return Datatables::of($shelters)
+            ->addColumn('action', function ($shelter) {
+                return '
+                <div class="d-flex align-items-center">
+                    <a href="shelter/'.$shelter->id.'" class="btn btn-xs btn-info mr-2">
+                        <i class="mdi mdi-tooltip-edit"></i> 
+                        Info
+                    </a>
+                
+                    <a href="shelter/'.$shelter->id.'/edit" class="btn btn-xs btn-primary mr-2">
+                        <i class="mdi mdi-tooltip-edit"></i> 
+                        Edit
+                    </a>
+
+                    <a href="javascript:void(0)" id="shelterClick" class="btn btn-xs btn-danger" >
+                        <i class="mdi mdi-delete"></i>
+                        <input type="hidden" id="shelter_id" value="'.$shelter->id.'" />
+                        Delete
+                    </a>
+                </div>
+                ';
+            })->make(true);
     }
 }

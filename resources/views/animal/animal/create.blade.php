@@ -6,49 +6,101 @@
 
 @section('content')
 
+<form action="{{ route('animal.store') }}" method="POST" multiple>
+    @csrf
+    @method('POST')
+
     <div class="row">
         <div class="col-md-4">
-            <form action="{{ route('animal.store') }}" method="POST" multiple>
-                @csrf
-                @method('POST')
-
-                <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
-                <input type="hidden" name="shelterCode" value="{{ auth()->user()->shelter->shelterCode }}">
-
-                <div class="form-group">
-                    <select name="animal_id" class="form-control">
-                        @foreach ($animals as $animal)
-                            <option value="{{ $animal->id }}">{{ $animal->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('animal_id')
-                        <div class="text-danger">{{$errors->first('animal_id') }} </div>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <select class="js-example-basic-multiple w-100" name="animal_code_id[]" multiple="multiple">
-                        @foreach ($animalsCode as $code)
-                            <option value="{{ $code->id }}">{{ $code->name }}</option>
-                        @endforeach
-                    </select>
-                    @error('animal_code_id')
-                        <div class="text-danger">{{$errors->first('animal_code_id') }} </div>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <input type="number" class="form-control" name="quantity">
-                    @error('quantity')
-                        <div class="text-danger">{{$errors->first('quantity') }} </div>
-                    @enderror
-                </div>
-
-                <button type="submit" class="btn btn-primary mr-2">Dodaj</button>
-            </form>
+            <div class="form-group">
+                <label>Invazivna</label>
+                <select class="js-example-basic-multiple w-100" name="animal_code_id[]" multiple="multiple">
+                    @foreach ($animalsCode as $code)
+                        <option value="{{ $code->id }}">{{ $code->name }}</option>
+                    @endforeach
+                </select>
+                @error('animal_code_id')
+                    <div class="text-danger">{{$errors->first('animal_code_id') }} </div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Strogo zaštićena</label>
+                <select class="js-example-basic-multiple w-100" name="animal_code_id[]" multiple="multiple">
+                    @foreach ($animalsCode as $code)
+                        <option value="{{ $code->id }}">{{ $code->name }}</option>
+                    @endforeach
+                </select>
+                @error('animal_code_id')
+                    <div class="text-danger">{{$errors->first('animal_code_id') }} </div>
+                @enderror
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Zaplijena</label>
+                <select class="js-example-basic-multiple w-100" name="animal_code_id[]" multiple="multiple">
+                    @foreach ($animalsCode as $code)
+                        <option value="{{ $code->id }}">{{ $code->name }}</option>
+                    @endforeach
+                </select>
+                @error('animal_code_id')
+                    <div class="text-danger">{{$errors->first('animal_code_id') }} </div>
+                @enderror
+            </div>
         </div>
     </div>
 
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
+            <input type="hidden" name="shelterCode" value="{{ auth()->user()->shelter->shelterCode }}">
+
+            <div class="form-group">
+                <label>Životinja</label>
+                <select name="animal_id" class="form-control">
+                    @foreach ($animals as $animal)
+                        <option value="{{ $animal->id }}">{{ $animal->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Code</label>
+                <select class="js-example-basic-multiple w-100" name="animal_code_id[]" multiple="multiple">
+                    @foreach ($animalsCode as $code)
+                        <option value="{{ $code->id }}">{{ $code->name }}</option>
+                    @endforeach
+                </select>
+                @error('animal_code_id')
+                    <div class="text-danger">{{$errors->first('animal_code_id') }} </div>
+                @enderror
+            </div>
+
+            <div class="form-group">
+                <label>Veličina</label>
+                <select class="w-100" name="animal_size">
+                    <option value="">Odaberi</option>
+                    @foreach ($animalSize as $size)
+                        <option value="{{ $size->value }}">{{ $size->value }}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Količina</label>
+                <input type="number" class="form-control" name="quantity">
+                @error('quantity')
+                    <div class="text-danger">{{$errors->first('quantity') }} </div>
+                @enderror
+            </div>
+
+            <button type="submit" class="btn btn-primary mr-2">Dodaj</button>
+        </div>
+    </div>
+</form>
+        
 @endsection
 
 

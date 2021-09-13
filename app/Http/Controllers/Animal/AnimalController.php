@@ -8,6 +8,7 @@ use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalItem;
+use App\Models\Animal\AnimalSize;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AnimalPostRequest;
@@ -33,10 +34,12 @@ class AnimalController extends Controller
     {
         $animals = Animal::all();
         $animalsCode = AnimalCode::all();
+        $animalSize = AnimalSize::all();
 
         return view('animal.animal.create', [
             'animals' => $animals,
             'animalsCode' => $animalsCode,
+            'animalSize' => $animalSize,
         ]); 
     }
 
@@ -71,10 +74,19 @@ class AnimalController extends Controller
             'animal_id' => $request->animal_id
         ]);
 
-        for ($i=0; $i < $count; $i++) { 
+        for ($i=0; $i < $count; $i++) {
             $animalItem = new AnimalItem;
             $animalItem->animal_id = $request->animal_id;
             $animalItem->shelter_id = $request->shelter_id;
+            $animalItem->animal_size = $request->animal_size;
+            
+            if($count != 1){
+                $animalItem->solitary_or_group = 1;
+            }
+            else {
+                $animalItem->solitary_or_group = 0;
+            }
+
             $animalItem->shelterCode = Carbon::now()->format('Y') .''. $request->shelterCode .'-'. $increment;
             $animalItem->status = 1;
             $animalItem->save();

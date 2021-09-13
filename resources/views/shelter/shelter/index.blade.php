@@ -2,6 +2,7 @@
 
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/datatables-net/dataTables.bootstrap4.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -26,7 +27,7 @@
                 @endif
 
                 <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="shelterDataTable">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -34,13 +35,11 @@
                         <th>ADRESA OPORAVILIŠTA</th>
                         <th>EMAIL</th>
                         <th>TELEFON</th>
-                        <th>ADMINISTRATOR</th>
-                        <th>Ovlašteno</th>
                         <th>AKCIJA</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach ($shelters as $shelter)
+                    {{-- @foreach ($shelters as $shelter)
                         <tr>
                             <td>{{ $shelter->id }}</td>
                             <td>{{ $shelter->name }}</td>                 
@@ -64,7 +63,7 @@
                                 </a>
                             </td>
                         </tr>        
-                    @endforeach
+                    @endforeach --}}
                 </table>
                 </div>
             </div>
@@ -76,11 +75,30 @@
 
 @push('plugin-scripts')
   <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
   <script>
     $(function() {
+
+        $('#shelterDataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{!! route('shelter:dt') !!}',
+            columns: [
+                { data: 'id', name: 'id'},
+                { data: 'name', name: 'name'},
+                { data: 'address', name: 'address'},
+                { data: 'email', name: 'email'},
+                { data: 'telephone', name: 'telephone'},
+                { data: 'action', name: 'action'},
+            ],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
+            }
+        });
 
         // Delete
         $('.table').on('click', '#shelterClick', function(){

@@ -12,11 +12,16 @@ class AnimalItem extends Model
 
     public function animal()
     {
-        return $this->belongsTo(Animal::class)->with('animalCategory');
+        return $this->belongsTo(Animal::class);
     }
 
     public function shelter()
     {
         return $this->belongsTo(Shelter::class);
+    }
+
+    public function animalItemsFile()
+    {
+        return $this->hasMany(AnimalItemFile::class);
     }
 }

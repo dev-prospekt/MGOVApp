@@ -35,6 +35,7 @@
                         <th>#</th>
                         <th>IME</th>
                         <th>EMAIL</th>
+                        <th>OPORAVILIŠTE</th>
                         <th>ACTION</th>
                     </tr>
                     </thead>
@@ -99,8 +100,12 @@
                     { data: 'id', name: 'id'},
                     { data: 'name', name: 'name'},
                     { data: 'email', name: 'email'},
-                    { data: 'action', name: 'action'}
+                    { data: 'shelter', name: 'shelter.name'},
+                    { data: 'action', name: 'action'},
                 ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
+                }
             });
 
             // Delete

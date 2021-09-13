@@ -53,12 +53,18 @@
                                 <td>{{ $anim->animal_gender }}</td>
                                 <td>{{ $anim->animal_size }}</td>
                                 <td>
+                                    <a href="{{ route('animal_item.show', $anim) }}" class="btn btn-info">
+                                        Info
+                                    </a>
                                     <a href="{{ route('animal_item.edit', $anim) }}" class="btn btn-info">
                                         Uredi
                                     </a>
                                     <button type="button" class="btn btn-primary premjesti" data-id="{{$anim->id}}">
                                         Premjesti
                                     </button>
+                                    <a target="_blank" href="/generate-pdf/{{ $anim->id }}" class="btn btn-secondary">
+                                        Izvjestaj
+                                    </a>
                                 </td>
                             </tr>
                         @endforeach

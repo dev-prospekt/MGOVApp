@@ -127,9 +127,15 @@ class UserController extends Controller
 
     public function indexDataTables()
     {
-        $users = User::select(['id','name','email'])->where('name', '!=', 'Admin User');
+        $users = User::where('name', '!=', 'Admin User')
+                ->select('users.*')
+                ->with('shelter')
+                ->get();
 
         return Datatables::of($users)
+            ->addColumn('shelter', function($user){
+                return $user->shelter->name;
+            })
             ->addColumn('action', function ($user) {
                 return '
                 <div class="d-flex align-items-center">
@@ -145,6 +151,6 @@ class UserController extends Controller
                     </a>
                 </div>
                 ';
-            })->make();
+            })->make(true);
     }
 }

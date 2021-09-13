@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Animal;
 
 use Carbon\Carbon;
+use PDF;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
@@ -10,6 +11,8 @@ use App\Models\Animal\AnimalData;
 use App\Models\Animal\AnimalItem;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Animal\AnimalItemFile;
+use Illuminate\Support\Facades\Storage;
 
 class AnimalItemController extends Controller
 {
@@ -101,6 +104,33 @@ class AnimalItemController extends Controller
         //
     }
 
+    public function file(Request $request)
+    {
+        return $this->upload(
+            $request->filenames, 
+            $request->animal_item_id,
+            $request->file_name,
+        );
+    }
+
+    private function upload($file, $animal_item_id, $file_name)
+    {
+        $filenames = Storage::disk('public')->put('files',$file);
+
+        $animalItemFile = new AnimalItemFile;
+        $animalItemFile->animal_item_id = $animal_item_id;
+        $animalItemFile->filenames = $filenames;
+        $animalItemFile->file_name = $file_name;
+        $animalItemFile->save();
+
+        if($animalItemFile){
+            return response()->json(['msg'=>'success', 'data' => $animalItemFile]);
+        }
+        else {
+            return response()->json(['msg'=>'error']);
+        }
+    }
+
     public function getId($id)
     {
         $animalItems = AnimalItem::find($id);
@@ -150,7 +180,25 @@ class AnimalItemController extends Controller
         $copy->shelter_id = $request->shelter_id;
         $copy->shelterCode = Carbon::now()->format('Y') .''. $shelter->shelterCode .'-'. $increment;
         $copy->save();
+
+        // Kopija dokumenata životinje
+        $animalFiles = AnimalItem::find($id)->animalItemsFile;
+        foreach ($animalFiles as $key) {
+            $copyAnimalFiles = $key->replicate();
+            $copyAnimalFiles->animal_item_id = $copy->id;
+            $copyAnimalFiles->save();
+        }
         
         return redirect('/shelter/'.$shelterID)->with('msg', 'Uspješno premješteno u oporavilište '.$shelter->name.'');
+    }
+
+    public function generatePDF($id)
+    {
+        $animalItems = AnimalItem::with('animal')->find($id);
+        
+        $pdf = PDF::loadView('myPDF', compact('animalItems'));
+    
+        return $pdf->stream('my.pdf', array('Attachment' => 0));
+        //return $pdf->download('animal.pdf');
     }
 }

@@ -64,7 +64,7 @@
           @endif
 
           <div class="table-responsive">
-            <table id="dataTableExample" class="table">
+            <table id="shelterAnimalTable" class="table">
               <thead>          
                 <tr>
                   <th>#</th>
@@ -166,7 +166,7 @@
             <div class="d-flex align-items-center hover-pointer">
               <img class="img-xs rounded-circle" src="{{ url('https://via.placeholder.com/37x37') }}" alt="">													
               <div class="ml-2">
-                <p>{{ $user->name }} | {{ $user->email ?? ''}}</p> 
+                <p>{{ $user->name }} | {{ $user->email ?? ''}}</p>
                 <p class="tx-11 text-muted">{{ $user->roles()->first()->name ?? ''}}</p>
               </div>
             </div>

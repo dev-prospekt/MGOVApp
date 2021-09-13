@@ -19,14 +19,4 @@ class AnimalSystemCategory extends Model
     {
         return $this->hasMany(AnimalCategory::class);
     }
-
-    // public function animals()
-    // {
-    //     return $this->hasManyThrough(
-    //         Animal::class,
-    //         AnimalCategory::class,
-    //         'animal_system_category_id',
-    //         'animal_category_id'
-    //     );
-    // }
 }

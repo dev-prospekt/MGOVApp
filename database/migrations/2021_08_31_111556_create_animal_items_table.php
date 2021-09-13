@@ -22,7 +22,7 @@ class CreateAnimalItemsTable extends Migration
             $table->string('status');
             $table->string('animal_size');
             $table->string('animal_gender');
-            $table->tinyInteger('solitary/group');
+            $table->tinyInteger('solitary_or_group');
             $table->string('location');
 
             $table->timestamps();
