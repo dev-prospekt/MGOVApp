@@ -194,11 +194,10 @@ class AnimalItemController extends Controller
 
     public function generatePDF($id)
     {
-        $animalItems = AnimalItem::with('animal')->find($id);
+        $animalItems = AnimalItem::with('animal', 'shelter', 'animalItemsFile')->find($id);
         
         $pdf = PDF::loadView('myPDF', compact('animalItems'));
     
-        return $pdf->stream('my.pdf', array('Attachment' => 0));
-        //return $pdf->download('animal.pdf');
+        return $pdf->stream('my.pdf');
     }
 }
