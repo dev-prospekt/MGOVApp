@@ -57,6 +57,10 @@
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Lokacija:</label>
                             <p class="text-muted">{{ $animalItems->location }}</p>
                         </div>
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Pronađena:</label>
+                            <p class="text-muted">{{ $animalItems->date_find }}</p>
+                        </div>
                     </div>
                 </div>
             </div>

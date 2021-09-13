@@ -24,6 +24,7 @@ class CreateAnimalItemsTable extends Migration
             $table->string('animal_gender');
             $table->tinyInteger('solitary_or_group');
             $table->string('location');
+            $table->string('date_find');
 
             $table->timestamps();
         });

@@ -9,6 +9,7 @@ use App\Models\User;
 */
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
@@ -42,4 +43,5 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('users-dt', 'UserController@indexDataTables')->name('users:dt');
     Route::get("restore/{user_id}", 'UserController@restore');
+
 });

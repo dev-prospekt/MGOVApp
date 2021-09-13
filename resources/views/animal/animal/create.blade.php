@@ -14,40 +14,31 @@
         <div class="col-md-4">
             <div class="form-group">
                 <label>Invazivna</label>
-                <select class="js-example-basic-multiple w-100" name="animal_code_id[]" multiple="multiple">
+                <select class="w-100" name="animal_code_id">
                     @foreach ($animalsCode as $code)
                         <option value="{{ $code->id }}">{{ $code->name }}</option>
                     @endforeach
                 </select>
-                @error('animal_code_id')
-                    <div class="text-danger">{{$errors->first('animal_code_id') }} </div>
-                @enderror
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label>Strogo zaštićena</label>
-                <select class="js-example-basic-multiple w-100" name="animal_code_id[]" multiple="multiple">
+                <select class="w-100" name="animal_code_id">
                     @foreach ($animalsCode as $code)
                         <option value="{{ $code->id }}">{{ $code->name }}</option>
                     @endforeach
                 </select>
-                @error('animal_code_id')
-                    <div class="text-danger">{{$errors->first('animal_code_id') }} </div>
-                @enderror
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-group">
                 <label>Zaplijena</label>
-                <select class="js-example-basic-multiple w-100" name="animal_code_id[]" multiple="multiple">
+                <select class="w-100" name="animal_code_id">
                     @foreach ($animalsCode as $code)
                         <option value="{{ $code->id }}">{{ $code->name }}</option>
                     @endforeach
                 </select>
-                @error('animal_code_id')
-                    <div class="text-danger">{{$errors->first('animal_code_id') }} </div>
-                @enderror
             </div>
         </div>
     </div>
@@ -94,6 +85,11 @@
                 @error('quantity')
                     <div class="text-danger">{{$errors->first('quantity') }} </div>
                 @enderror
+            </div>
+
+            <div class="form-group">
+                <label>Datum pronalska</label>
+                <input type="date" class="form-control" name="date_find">
             </div>
 
             <button type="submit" class="btn btn-primary mr-2">Dodaj</button>

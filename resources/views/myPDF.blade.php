@@ -20,7 +20,7 @@
 
     <p><strong>Naziv:</strong> {{ $animalItems->animal->name }}</p>
     <p><strong>Latinski naziv:</strong> {{ $animalItems->animal->latin_name }}</p>
-    <p><strong>Šifra oporavilišta:</strong> {{ $animalItems->shelterCode }}</p>
+    <p><strong>Šifra:</strong> {{ $animalItems->shelterCode }}</p>
     <p><strong>Veličina:</strong> {{ $animalItems->animal_size }}</p>
     <p><strong>Spol:</strong> {{ $animalItems->animal_gender }}</p>
     <p><strong>Lokacija:</strong> {{ $animalItems->location }}</p>
@@ -44,6 +44,7 @@
     <h2>Oporavilište</h2>
 
     <p><strong>Oporavilište:</strong> {{ $animalItems->shelter->name }}</p>
+    <p><strong>Šifra oporavilišta:</strong> {{ $animalItems->shelter->shelterCode }}</p>
     <p><strong>Email:</strong> {{ $animalItems->shelter->email }}</p>
     <p><strong>Adresa:</strong> {{ $animalItems->shelter->address }}</p>
     <p><strong>OIB:</strong> {{ $animalItems->shelter->oib }}</p>

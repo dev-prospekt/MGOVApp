@@ -32,8 +32,22 @@
                                     <input type="text" class="form-control" name="animal_size" value="{{ $animalItem->animal_size }}" required>
                                 </div>
                                 <div class="form-group">
+                                    <label>Dob jedinke</label>
+                                    <select class="form-control" name="animal_dob" id="">
+                                        <option value="">Odaberi</option>
+                                        <option value="ADL">ADL (adultna)</option>
+                                        <option value="JUV">JUV (juvenilna)</option>
+                                        <option value="SA">SA (subadultna)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label>Spol</label>
-                                    <input type="text" class="form-control" name="animal_gender" value="{{ $animalItem->animal_gender }}" required>
+                                    <select class="form-control" name="animal_gender" id="">
+                                        <option value="">Odaberi</option>
+                                        <option value="muzjak">M (mužjak)</option>
+                                        <option value="zenka">Ž/F (ženka)</option>
+                                        <option value="nije moguce odrediti">N (nije moguće odrediti)</option>
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Lokacija</label>
