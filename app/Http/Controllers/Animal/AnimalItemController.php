@@ -131,10 +131,10 @@ class AnimalItemController extends Controller
     {
         $file = AnimalItemFile::find($id);
         $file->delete();
-        $filename = str_replace('"', "", $file->filenames);
-        Storage::disk('public')->delete('files', $filename);
+        // $filename = str_replace('"', "", $file->filenames);
+        // Storage::disk('public')->delete('files', $filename);
         
-        return response()->json(['msg'=>'success', 'file' => $filename]);
+        return response()->json(['msg'=>'success']);
     }
 
     public function getId($id)

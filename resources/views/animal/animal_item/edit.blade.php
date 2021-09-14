@@ -69,7 +69,7 @@
                 <div class="card-body">
                     <div class="mb-2">
                         @if($msg = Session::get('msg'))
-                        <div class="alert alert-success"> {{ $msg }}</div>
+                        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
                         @endif
                     </div>
 
@@ -80,6 +80,9 @@
                         <div class="form-group">
                             <label>Naziv dokumenta</label>
                             <input type="text" class="form-control" id="file_name" name="file_name">
+                            @error('file_name')
+                                <div class="text-danger">{{$errors->first('file_name') }} </div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -104,18 +107,22 @@
                     </div>
 
                     <div id="findFile" class="d-flex align-items-center flex-wrap justify-flex-start">
-                        @foreach ($animalItem->animalItemsFile as $file)
-                            <div class="d-flex align-items-center mr-3">
-                                <a class="text-muted display-4 mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                                    title="{{ $file->file_name }}" href="/storage/{{ str_replace('"', "", $file->filenames) }}">
-                                    <i class="mdi mdi-file-pdf"></i>
-                                </a>
-                                <a href="javascript:void(0)" id="deleteFile" class="btn btn-sm btn-danger p-1">
-                                    <input type="hidden" class="fileId" value="{{$file->id}}">
-                                    <i class="mdi mdi-delete"></i>
-                                </a>
-                            </div>
-                        @endforeach
+                        @if($animalItem->animalItemsFile->isEmpty())
+                            <p class="text-muted">Trenutno ne postoji dokument</p>
+                        @else
+                            @foreach ($animalItem->animalItemsFile as $file)
+                                <div class="d-flex align-items-center mr-3">
+                                    <a class="text-muted display-4 mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                        title="{{ $file->file_name }}" href="/storage/{{ str_replace('"', "", $file->filenames) }}">
+                                        <i class="mdi mdi-file-pdf"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" id="deleteFile" class="btn btn-sm btn-danger p-1">
+                                        <input type="hidden" class="fileId" value="{{$file->id}}">
+                                        <i class="mdi mdi-delete"></i>
+                                    </a>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>

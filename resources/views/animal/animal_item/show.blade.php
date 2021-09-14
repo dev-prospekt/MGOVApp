@@ -19,13 +19,13 @@
 </nav>
 
 <div class="row">
-    <div class="col-lg-8 col-xl-8 grid-margin stretch-card">
+    <div class="col-lg-12 col-xl-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-0">Podatci</h6>
 
                 @if($msg = Session::get('msg'))
-                <div class="alert alert-success"> {{ $msg }}</div>
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
                 @endif
 
                 <div class="table-responsive">

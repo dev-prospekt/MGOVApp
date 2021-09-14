@@ -23,7 +23,7 @@
                 </div>
 
                 @if($msg = Session::get('msg'))
-                <div class="alert alert-success"> {{ $msg }}</div>
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
                 @endif
 
                 <div class="table-responsive">

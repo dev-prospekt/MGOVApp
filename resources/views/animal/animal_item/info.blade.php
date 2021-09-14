@@ -1,7 +1,10 @@
 @extends('layout.master')
 
-@section('content')
+@push('plugin-styles')
+  <link href="{{ asset('assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
+@endpush
 
+@section('content')
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
         <div>
@@ -77,13 +80,16 @@
                 <div class="row">
                     <div class="col-md-6 grid-margin">
 
-                        @foreach ($animalItems->animalItemsFile as $file)
-                            <div>
-                                <a target="_blank" href="/storage/{{ str_replace('"', "", $file->filenames) }}">
-                                    {{ $file->file_name }}
-                                </a>
-                            </div>
-                        @endforeach
+                        <div class="d-flex align-items-center flex-wrap justify-flex-start">
+                            @foreach ($animalItems->animalItemsFile as $file)
+                                <div class="mr-3">
+                                    <a class="text-muted display-4 mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                        title="{{ $file->file_name }}" href="/storage/{{ str_replace('"', "", $file->filenames) }}">
+                                        <i class="mdi mdi-file-pdf"></i>
+                                    </a>
+                                </div>
+                            @endforeach
+                        </div>
 
                     </div>
                 </div>
@@ -92,5 +98,12 @@
     </div>
     
 </div>
-
 @endsection
+
+@push('custom-scripts')
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+@endpush

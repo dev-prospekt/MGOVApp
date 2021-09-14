@@ -55,5 +55,11 @@
     <!-- end common js -->
 
     @stack('custom-scripts')
+
+    <script>
+      setTimeout(function() {
+          $('#successMessage').fadeOut('slow');
+      }, 3000);
+    </script>
 </body>
 </html>

@@ -26,6 +26,7 @@ class AnimalItemFilePostRequest extends FormRequest
     {
         return [
             'filenames' => "required|mimes:pdf|max:10000",
+            'file_name' => "required",
         ];
     }
 
@@ -34,6 +35,7 @@ class AnimalItemFilePostRequest extends FormRequest
         return [
             'filenames.required' => 'Dokument mora biti ispunjen.',
             'filenames.mimes' => 'Za upload možete koristiti samo PDF.',
+            'file_name.required' => 'Naziv dokumenta mora biti ispunjen.',
         ];
     }
 }
