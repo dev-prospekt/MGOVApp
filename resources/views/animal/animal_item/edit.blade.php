@@ -106,19 +106,19 @@
                         <h6 class="card-title">Dokumenti životinje</h6>
                     </div>
 
-                    <div id="findFile" class="d-flex align-items-center flex-wrap justify-flex-start">
+                    <div id="findFile">
                         @if($animalItem->animalItemsFile->isEmpty())
                             <p class="text-muted">Trenutno ne postoji dokument</p>
                         @else
                             @foreach ($animalItem->animalItemsFile as $file)
-                                <div class="d-flex align-items-center mr-3">
-                                    <a class="text-muted display-4 mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                <div class="d-flex align-items-center">
+                                    <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                         title="{{ $file->file_name }}" href="/storage/{{ str_replace('"', "", $file->filenames) }}">
-                                        <i class="mdi mdi-file-pdf"></i>
+                                        {{ $file->file_name }}
                                     </a>
-                                    <a href="javascript:void(0)" id="deleteFile" class="btn btn-sm btn-danger p-1">
+                                    <a href="javascript:void(0)" id="deleteFile">
                                         <input type="hidden" class="fileId" value="{{$file->id}}">
-                                        <i class="mdi mdi-delete"></i>
+                                        <i class="mdi mdi-delete text-danger h4"></i>
                                     </a>
                                 </div>
                             @endforeach
@@ -149,33 +149,45 @@
                 e.preventDefault();
                 var id = $(this).find('.fileId').val();
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: "/animal_item/file/" + id,
-                    type: 'POST',
-                    contentType: false,
-                    processData: false,
-                    success: function(result) {
-                        if(result.msg == 'success'){
-                            Swal.fire(
-                                'Odlično!',
-                                'Uspješno ste obrisali dokument!',
-                                'success'
-                            ).then((result) => {
-                               location.reload(); 
-                            });
-                        }
-                        else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: 'Nešto je pošlo po zlu!',
-                            });
-                        }
+                Swal.fire({
+                    title: 'Jeste li sigurni?',
+                    text: "Želite obrisati dokuemnt i više neće biti dostupan!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Da, obriši!'
+                }).then((result) => {
+                    if(result.isConfirmed){
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: "/animal_item/file/" + id,
+                            type: 'POST',
+                            contentType: false,
+                            processData: false,
+                            success: function(result) {
+                                if(result.msg == 'success'){
+                                    Swal.fire(
+                                        'Odlično!',
+                                        'Uspješno ste obrisali dokument!',
+                                        'success'
+                                    ).then((result) => {
+                                    location.reload(); 
+                                    });
+                                }
+                                else {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: 'Oops...',
+                                        text: 'Nešto je pošlo po zlu!',
+                                    });
+                                }
+                            }
+                        });
                     }
                 });
             });

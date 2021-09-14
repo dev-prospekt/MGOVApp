@@ -130,6 +130,8 @@
 @endpush
 
 @push('custom-scripts')
+    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+
     <script>
         $(function() {
             // Premjestaj

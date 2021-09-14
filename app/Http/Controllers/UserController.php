@@ -157,7 +157,7 @@ class UserController extends Controller
 
     public function roleMapping()
     {
-        $users = User::all();
+        $users = User::with('roles')->get();
 
         return view('users.rolemapping', [
             'users' => $users
@@ -174,6 +174,9 @@ class UserController extends Controller
         }
         if($request['role_shelteradmin']){
             $user->roles()->attach(Role::where('name', 'Shelter-Admin')->first());
+        }
+        if($request['role_shelteruser']){
+            $user->roles()->attach(Role::where('name', 'Shelter-User')->first());
         }
 
         return redirect("/roleMapping");
