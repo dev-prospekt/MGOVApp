@@ -35,6 +35,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
     Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');
     Route::post('animal_item/file', 'Animal\AnimalItemController@file');
+    Route::post('animal_item/file/{id}', 'Animal\AnimalItemController@fileDelete');
     Route::get('generate-pdf/{id}', 'Animal\AnimalItemController@generatePDF');
 
     Route::resource('animal', Animal\AnimalController::class);

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Animal;
 
-use Carbon\Carbon;
 use PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalItemFile;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\AnimalItemFilePostRequest;
 
 class AnimalItemController extends Controller
 {
@@ -104,7 +105,7 @@ class AnimalItemController extends Controller
         //
     }
 
-    public function file(Request $request)
+    public function file(AnimalItemFilePostRequest $request)
     {
         return $this->upload(
             $request->filenames, 
@@ -123,12 +124,17 @@ class AnimalItemController extends Controller
         $animalItemFile->file_name = $file_name;
         $animalItemFile->save();
 
-        if($animalItemFile){
-            return response()->json(['msg'=>'success', 'data' => $animalItemFile]);
-        }
-        else {
-            return response()->json(['msg'=>'error']);
-        }
+        return redirect('/animal_item/'.$animal_item_id.'/edit')->with('msg', 'Uspješno dodan dokument');
+    }
+
+    public function fileDelete($id)
+    {
+        $file = AnimalItemFile::find($id);
+        $file->delete();
+        $filename = str_replace('"', "", $file->filenames);
+        Storage::disk('public')->delete('files', $filename);
+        
+        return response()->json(['msg'=>'success', 'file' => $filename]);
     }
 
     public function getId($id)

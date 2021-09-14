@@ -102,8 +102,9 @@ class ShelterController extends Controller
         $shelterType = ShelterType::all();
 
         return view('shelter.shelter.edit', [
-            'shelterType' => $shelterType
-        ])->with('shelter', $shelter); 
+            'shelterType' => $shelterType,
+            'shelter' => $shelter
+        ]); 
     }
 
     /**
@@ -154,9 +155,11 @@ class ShelterController extends Controller
 
     public function animalItems($shelterId, $code)
     {
-        $animalItem = Shelter::findOrFail($shelterId)
-                        ->animalItems()->where('shelterCode', $code)->where('status', 1)
-                        ->with('animal', 'shelter')
+        $animalItem = Shelter::with('animals')
+                        ->findOrFail($shelterId)
+                        ->animalItems()
+                        ->where('shelterCode', $code)
+                        ->where('status', 1)
                         ->get();
                         
         $shelters = Shelter::all();

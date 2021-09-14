@@ -17,7 +17,7 @@
     <div class="col-md-4 grid-margin">
         <div class="card rounded">
             <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between mb-2">
+                <div class="mb-2">
                     <h6 class="card-title mb-0">Podatci Životinje</h6>
                 </div>
 

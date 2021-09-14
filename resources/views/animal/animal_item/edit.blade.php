@@ -3,6 +3,7 @@
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -66,7 +67,14 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <form method="POST" id="animalItemFile" enctype="multipart/form-data">
+                    <div class="mb-2">
+                        @if($msg = Session::get('msg'))
+                        <div class="alert alert-success"> {{ $msg }}</div>
+                        @endif
+                    </div>
+
+                    <form method="POST" id="animalItemFile" action="/animal_item/file" enctype="multipart/form-data">
+                        @csrf
                         <input type="hidden" id="animal_item_id" name="animal_item_id" value="{{$animalItem->id}}">
 
                         <div class="form-group">
@@ -77,10 +85,38 @@
                         <div class="form-group">
                             <label>Dokument</label>
                             <input type="file" class="form-control border" id="myDropify" name="filenames">
+                            @error('filenames')
+                                <div class="text-danger">{{$errors->first('filenames') }} </div>
+                            @enderror
                         </div>
             
                         <button type="submit" class="btn btn-primary mr-2">Upload</button>
                     </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <h6 class="card-title">Dokumenti životinje</h6>
+                    </div>
+
+                    <div id="findFile" class="d-flex align-items-center flex-wrap justify-flex-start">
+                        @foreach ($animalItem->animalItemsFile as $file)
+                            <div class="d-flex align-items-center mr-3">
+                                <a class="text-muted display-4 mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                    title="{{ $file->file_name }}" href="/storage/{{ str_replace('"', "", $file->filenames) }}">
+                                    <i class="mdi mdi-file-pdf"></i>
+                                </a>
+                                <a href="javascript:void(0)" id="deleteFile" class="btn btn-sm btn-danger p-1">
+                                    <input type="hidden" class="fileId" value="{{$file->id}}">
+                                    <i class="mdi mdi-delete"></i>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
@@ -96,20 +132,15 @@
 
 @push('custom-scripts')
     <script src="{{ asset('assets/js/dropify.js') }}"></script>
+
     <script>
         $(function() {
-            // Upload Image
-            $("#animalItemFile").submit(function(e){
-                e.preventDefault();
-                let formData = new FormData(this);
+            $('[data-toggle="tooltip"]').tooltip();
 
-                if($("#file_name").val() == '' || $("#myDropify").val() == ''){
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Ispunite polja!',
-                    });
-                }
+            // Delete File
+            $('#findFile').on('click', '#deleteFile', function(e){
+                e.preventDefault();
+                var id = $(this).find('.fileId').val();
 
                 $.ajaxSetup({
                     headers: {
@@ -117,16 +148,15 @@
                     }
                 });
                 $.ajax({
-                    url: "/animal_item/file",
+                    url: "/animal_item/file/" + id,
                     type: 'POST',
-                    data: formData,
                     contentType: false,
                     processData: false,
                     success: function(result) {
                         if(result.msg == 'success'){
                             Swal.fire(
                                 'Odlično!',
-                                'Uspješno ste dodali dokument!',
+                                'Uspješno ste obrisali dokument!',
                                 'success'
                             ).then((result) => {
                                location.reload(); 

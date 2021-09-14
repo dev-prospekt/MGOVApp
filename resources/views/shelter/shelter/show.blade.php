@@ -73,6 +73,7 @@
                   <th>Naziv jedinke</th>
                   <th>Latinski naziv</th>
                   <th>Code</th>
+                  <th>Pronađeno</th>
                   <th></th>
                 </tr>
               </thead>
@@ -90,6 +91,7 @@
                         <span class="badge badge-warning">{{ $code->name }}</span>
                       @endforeach
                     </td>
+                    <td>{{ $item->animalItems->first()->date_find }}</td>
                     <td>
                       <a class="btn btn-info" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelterCode}}">
                         Info
