@@ -10,6 +10,7 @@ use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\UserPostRequest;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -141,16 +142,40 @@ class UserController extends Controller
                 <div class="d-flex align-items-center">
                     <a href="user/'.$user->id.'/edit" class="btn btn-xs btn-primary mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
-                        Edit
+                        Uredi
                     </a>
 
                     <a href="javascript:void(0)" id="bntDeleteUser" class="btn btn-xs btn-danger" >
                         <i class="mdi mdi-delete"></i>
                         <input type="hidden" id="userId" value="'.$user->id.'" />
-                        Delete
+                        Obriši
                     </a>
                 </div>
                 ';
             })->make(true);
+    }
+
+    public function roleMapping()
+    {
+        $users = User::all();
+
+        return view('users.rolemapping', [
+            'users' => $users
+        ]);
+    }
+
+    public function roleMappingAdd(Request $request)
+    {
+        $user = User::where('email', $request['email'])->first();
+        $user->roles()->detach();
+
+        if($request['role_superadmin']){
+            $user->roles()->attach(Role::where('name', 'Super-Admin')->first());
+        }
+        if($request['role_shelteradmin']){
+            $user->roles()->attach(Role::where('name', 'Shelter-Admin')->first());
+        }
+
+        return redirect("/roleMapping");
     }
 }

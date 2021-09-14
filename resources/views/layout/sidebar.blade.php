@@ -34,6 +34,12 @@
           <span class="link-title">Korisnici</span>
         </a>
       </li>
+      <li class="nav-item {{ active_class(['/user*']) }}">
+        <a href="/roleMapping" class="nav-link">
+          <i class="link-icon" data-feather="user"></i>
+          <span class="link-title">Role Mapping</span>
+        </a>
+      </li>
 
       <li class="nav-item nav-category">Docs</li>
       <li class="nav-item">

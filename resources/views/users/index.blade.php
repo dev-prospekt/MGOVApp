@@ -68,7 +68,7 @@
                                 <td>{{ $userTrash->name }}</td>
                                 <td>{{ $userTrash->email }}</td>
                                 <td>
-                                    <a href="/restore/{{ $userTrash->id }}" class="btn btn-primary">Restore</a>
+                                    <a href="/restore/{{ $userTrash->id }}" class="btn btn-primary">Aktiviraj</a>
                                 </td>
                             </tr>
                         @endforeach

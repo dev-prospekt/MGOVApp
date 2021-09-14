@@ -41,8 +41,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('animal', Animal\AnimalController::class);
     
     Route::resource('user', UserController::class);
-
     Route::get('users-dt', 'UserController@indexDataTables')->name('users:dt');
     Route::get("restore/{user_id}", 'UserController@restore');
+    Route::get("/roleMapping", 'UserController@roleMapping');
+    Route::post("/roleMappingAdd", 'UserController@roleMappingAdd');
 
 });
