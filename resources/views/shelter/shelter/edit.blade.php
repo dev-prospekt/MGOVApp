@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label>Šifra oporavilišta</label>
-                <input type="text" class="form-control" name="shelterCode" value="{{ $shelter->shelterCode }}" required>
+                <input type="text" class="form-control" name="shelter_code" value="{{ $shelter->shelter_code }}" required>
             </div>
             <div class="form-group">
                 <label>Email</label>

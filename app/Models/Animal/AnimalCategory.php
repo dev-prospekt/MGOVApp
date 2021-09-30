@@ -9,9 +9,17 @@ class AnimalCategory extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+    protected $casts = ['id' => 'integer'];
+
     public function animalSystemCategory()
     {
         return $this->belongsTo(AnimalSystemCategory::class);
+    }
+
+    public function animalOrder()
+    {
+        return $this->belongsTo(AnimalOrder::class);
     }
 
     public function animals()

@@ -17,8 +17,8 @@ class CreateSheltersTable extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('shelterCode');
             $table->string('email');
+            $table->string('shelter_code');
             $table->string('address');
             $table->bigInteger('oib');
             $table->string('place_zip');
@@ -28,6 +28,8 @@ class CreateSheltersTable extends Migration
             $table->bigInteger('fax');
             $table->string('web_address');
             $table->bigInteger('iban');
+
+
 
             $table->timestamps();
         });

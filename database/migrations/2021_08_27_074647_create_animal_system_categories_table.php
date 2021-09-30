@@ -16,6 +16,7 @@ class CreateAnimalSystemCategoriesTable extends Migration
         Schema::create('animal_system_categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('latin_name');
             $table->timestamps();
         });
     }

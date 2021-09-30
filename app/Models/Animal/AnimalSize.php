@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class AnimalSize extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['id', 'group_name'];
+
+    public function sizeAttributes()
+    {
+        return $this->hasMany(AnimalSizeAttribute::class);
+    }
 }

@@ -15,16 +15,15 @@ class CreateAnimalItemsTable extends Migration
     {
         Schema::create('animal_items', function (Blueprint $table) {
             $table->id();
-            
+
             $table->foreignId('animal_id')->constrained('animals');
             $table->foreignId('shelter_id')->constrained('shelters');
-            $table->string('shelterCode');
             $table->string('status');
-            $table->string('animal_size');
             $table->string('animal_gender');
             $table->tinyInteger('solitary_or_group');
             $table->string('location');
-            $table->string('date_find');
+            $table->string('shelter_code');
+            $table->string('date_found');
 
             $table->timestamps();
         });

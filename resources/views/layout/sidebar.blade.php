@@ -21,23 +21,82 @@
         </a>
       </li>
 
+      <li class="nav-item nav-category">Jedinke</li>
+      <li class="nav-item {{ active_class(['sz_animal_type/*']) }}">
+        <a class="nav-link" data-toggle="collapse" href="#sz-tables" role="button" aria-expanded="{{ is_active_route(['/sz_animal_type/*']) }}" aria-controls="sz-tables">
+          <i class="link-icon" data-feather="layout"></i>
+          <span class="link-title">Strogo zaštićene</span>
+          <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse" id="sz-tables">
+          <ul class="nav sub-menu">
+            <li class="nav-item">
+              <a href="{{ url('/sz_animal_type?type=1') }}" class="nav-link }}">Sisavci</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url('/sz_animal_type?type=2') }}" class="nav-link">Ptice</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{ url('/sz_animal_type?type=3') }}" class="nav-link">Gmazovi</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url('/sz_animal_type?type=4') }}" class="nav-link">Vodozemci</a>
+            </li>
+          </ul>
+        </div>  
+      </li>
+
+      
+      <li class="nav-item {{ active_class(['ij_animal_type']) }}">
+        <a href="{{ url('/ij_animal_type') }}" class="nav-link">
+          <i class="link-icon" data-feather="alert-circle"></i>
+          <span class="link-title">Invazivne vrste</span>
+        </a>
+      </li>
+
+      <li class="nav-item {{ active_class(['zj_animal_type']) }}">
+        <a class="nav-link"  href="{{ url('/zj_animal_type') }}" role="button">
+          <i class="link-icon" data-feather="key"></i>
+          <span class="link-title">Zapljenjene vrste</span>
+        </a>
+      </li>
+
+      <li class="nav-item nav-category">Podaci</li>
+      <li class="nav-item {{ active_class(['animal_import']) }}">
+        <a class="nav-link"  href="{{ url('/animal_import') }}" role="button">
+          <i class="link-icon" data-feather="upload-cloud"></i>
+          <span class="link-title">Import životinja</span>
+        </a>
+      </li>
+      <li class="nav-item {{ active_class(['animal_order']) }}">
+        <a class="nav-link"  href="{{ url('/animal_order') }}" role="button">
+          <i class="link-icon" data-feather="link"></i>
+          <span class="link-title">Redovi životinja</span>
+        </a>
+      </li>
+
+      <li class="nav-item nav-category">Cjenik</li>
+      <li class="nav-item {{ active_class(['animal_size']) }}">
+        <a class="nav-link"  href="{{ url('/animal_size') }}" role="button">
+          <i class="link-icon" data-feather="bar-chart-2"></i>
+          <span class="link-title">Veličine jedinki</span>
+        </a>
+      </li>
+  
+
+
       <li class="nav-item nav-category">CRUD</li>
-      <li class="nav-item {{ active_class(['/shelters*']) }}">
+      <li class="nav-item {{ active_class(['shelter']) }}">
         <a href="{{ route("shelter.index") }}" class="nav-link">
           <i class="link-icon" data-feather="box"></i>
           <span class="link-title">Oporavilišta</span>
         </a>
       </li>
-      <li class="nav-item {{ active_class(['/user*']) }}">
+      <li class="nav-item {{ active_class(['user']) }}">
         <a href="{{ route("user.index") }}" class="nav-link">
           <i class="link-icon" data-feather="user"></i>
           <span class="link-title">Korisnici</span>
-        </a>
-      </li>
-      <li class="nav-item {{ active_class(['/user*']) }}">
-        <a href="/roleMapping" class="nav-link">
-          <i class="link-icon" data-feather="user"></i>
-          <span class="link-title">Role Mapping</span>
         </a>
       </li>
 
@@ -49,6 +108,7 @@
         </a>
       </li>
 
+      
 
     </ul>
   </div>

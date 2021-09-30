@@ -17,26 +17,27 @@ class ShelterSeeder extends Seeder
     {
         $shelter1 = Shelter::factory()->create([
             'name' => 'Aquarium Pula d.o.o.',
-            'shelterCode' => 'AQ',
             'address' => 'Verudela bb, HR-52100 Pula',
             'oib' => 972615522,
             'place_zip' => 52100,
+
+
         ]);
 
         $shelter1->shelterTypes()->attach(1);
 
         $shelter2 = Shelter::factory()->create([
             'name' => 'AWAP – Udruga za zaštitu divljih životinja',
-            'shelterCode' => 'AW',
             'address' => 'Siget 6, HR-10000 Zagreb',
             'oib' => 28856251627,
             'place_zip' => 10000,
+
+
         ]);
         $shelter2->shelterTypes()->attach([1, 2]);
 
         $shelter3 = Shelter::factory()->create([
             'name' => 'Javna ustanova Nacionalni park Brijuni',
-            'shelterCode' => 'NPB',
             'address' => 'Brionska 10, HR-52212 Fažana',
             'oib' => 79193158584,
             'place_zip' => 52212,

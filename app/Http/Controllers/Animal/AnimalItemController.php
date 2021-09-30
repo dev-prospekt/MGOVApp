@@ -91,7 +91,7 @@ class AnimalItemController extends Controller
         $animalItem->location = $request->location;
         $animalItem->save();
 
-        return redirect('/shelter/'.$animalItem->shelter_id.'/animal/'.$animalItem->shelterCode)->with('msg', 'Uspješno ažurirano.');
+        return redirect('/shelter/'.$animalItem->shelter_id.'/animal/'.$animalItem->shelter_code)->with('msg', 'Uspješno ažurirano.');
     }
 
     /**
@@ -169,14 +169,14 @@ class AnimalItemController extends Controller
         $shelter->animals()
         ->newPivotStatement()
         ->where('animal_id', '=', $request->animal_id)
-        ->where('shelterCode', '=', $request->shelterCode)
+        ->where('shelter_code', '=', $request->shelter_code)
         ->decrement('quantity', 1);
 
         // Dodavanje životinje u novi šelter sa novom šifrom
         $shelter->animals()->attach($id, [
             'shelter_id' => $request->shelter_id,
             'animal_id' => $request->animal_id,
-            'shelterCode' => Carbon::now()->format('Y') .''. $shelter->shelterCode .'-'. $increment,
+            'shelter_code' => Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment,
             'quantity' => 1,
         ]);
 
@@ -184,7 +184,7 @@ class AnimalItemController extends Controller
         $copy = $animalItem->replicate();
         $copy->status = 1;
         $copy->shelter_id = $request->shelter_id;
-        $copy->shelterCode = Carbon::now()->format('Y') .''. $shelter->shelterCode .'-'. $increment;
+        $copy->shelter_code = Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment;
         $copy->save();
 
         // Kopija dokumenata životinje

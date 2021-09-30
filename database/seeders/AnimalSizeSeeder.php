@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\Animal\AnimalSize;
+use Illuminate\Database\Seeder;
 
 class AnimalSizeSeeder extends Seeder
 {
@@ -14,58 +14,101 @@ class AnimalSizeSeeder extends Seeder
      */
     public function run()
     {
-        $sizes = [
-            ['value' => 'male <=0,5 kg'],
-            ['value' => 'srednje 0,5 do 2 kg'],
-            ['value' => 'velike > 2 kg'],
-            ['value' => 'male <=0,5 kg'],
-            ['value' => 'srednje 0,5 do 2 kg'],
-            ['value' => 'velike > 2 kg'],
-            ['value' => 'male duljine <=0,5 m'],
-            ['value' => 'srednje duljine 0,5 do 1,5 m'],
-            ['value' => 'velike duljine preko 1,5 m'],
-            ['value' => 'mali (do 99 g)'],
-            ['value' => 'srednji (do 1 kg)'],
-            ['value' => 'veliki (iznad 1 kg)'],
-            ['value' => 'male duljine <= 70 cm'],
-            ['value' => 'velike duljine preko 70 cm'],
-            ['value' => 'male <=100 g'],
-            ['value' => 'srednje 101-399 g'],
-            ['value' => 'velike > = 400 g'],
-            ['value' => 'male <=30 g'],
-            ['value' => 'srednje 31-299 g'],
-            ['value' => 'velike > = 300 g'],
-            ['value' => 'male do 1 kg'],
-            ['value' => 'velike > 1 kg'],
-            ['value' => 'male <=1 kg'],
-            ['value' => 'velike > 1 kg'],
-            ['value' => 'male <=199 g'],
-            ['value' => 'srednje 200 g -2 kg'],
-            ['value' => 'velike > = 2 kg'],
-            ['value' => 'sve veličine'],
-            ['value' => 'mali do 100 g'],
-            ['value' => 'veliki iznad 100 g'],
-            ['value' => 'mali do 1 kg'],
-            ['value' => 'srednji od 1 do 5 kg'],
-            ['value' => 'veliki od 5 kg do 20 kg'],
-            ['value' => 'vrlo veliki iznad 20 kg'],
-            ['value' => 'mali do 1 kg'],
-            ['value' => 'srednji od 1 kg do 5 kg'],
-            ['value' => 'veliki iznad 5 kg'],
-            ['value' => 'male <=1 kg'],
-            ['value' => 'srednje od 1 do 10 kg'],
-            ['value' => 'velike od 10 kg do 50 kg'],
-            ['value' => 'vrlo velike iznad 50 kg'],
-            ['value' => 'mali do 2 kg'],
-            ['value' => 'srednji od 2 do 15 kg'],
-            ['value' => 'veliki iznad 20 kg'],
-            ['value' => 'svi'],
-            ['value' => 'mali do 50 kg'],
-            ['value' => 'veliki iznad 50 kg'],
-        ];
 
-        foreach ($sizes as $size) {
-            AnimalSize::create($size);
-        }
+        AnimalSize::create([
+            'group_name' => 'vodozemci',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'kopnene kornjače',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'morske i vodene kornjače',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'zmije',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'gušteri',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'krokodili, aligatori, gavijali',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'papige',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'pjevice',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'vodarice i guske',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'rodarice i ždralovke',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'grabljivice i sovke',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'golubovi i grlice',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'djetlovke i tukani',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'vodomari',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'fazani',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'kukcojedi',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'šišmiši',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'primati',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'glodavci',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'zvijeri',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'tobolčari',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'neparnoprstaši',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'parnoprstaši',
+        ]);
+
+        AnimalSize::create([
+            'group_name' => 'mravojedi i srodnici',
+        ]);
     }
 }

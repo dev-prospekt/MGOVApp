@@ -83,7 +83,7 @@
                   <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td><span class="badge badge-secondary">{{ $item->pivot->quantity }}</span></td>
-                    <td>{{ $item->pivot->shelterCode }}</td>
+                    <td>{{ $item->pivot->shelter_code }}</td>
                     <td>{{ $item->name }}</td>
                     <td>{{ $item->latin_name }}</td>
                     <td>
@@ -91,9 +91,9 @@
                         <span class="badge badge-warning">{{ $code->name }}</span>
                       @endforeach
                     </td>
-                    <td>{{ $item->animalItems->first()->date_find }}</td>
+                    <td>{{ $item->animalItems->first()->date_find ?? '' }}</td>
                     <td>
-                      <a class="btn btn-info" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelterCode}}">
+                      <a class="btn btn-info" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelter_code}}">
                         Info
                       </a>
                     </td>

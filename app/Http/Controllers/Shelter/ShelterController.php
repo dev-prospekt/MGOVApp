@@ -56,7 +56,7 @@ class ShelterController extends Controller
     {
         $shelter = new Shelter;
         $shelter->name = $request->name;
-        $shelter->shelterCode = $request->shelterCode;
+        $shelter->shelter_code = $request->shelter_code;
         $shelter->email = $request->email;
         $shelter->address = $request->address;
         $shelter->oib = $request->oib;
@@ -118,7 +118,7 @@ class ShelterController extends Controller
     {
         $shelter = Shelter::findOrFail($id);
         $shelter->name = $request->name;
-        $shelter->shelterCode = $request->shelterCode;
+        $shelter->shelter_code = $request->shelter_code;
         $shelter->email = $request->email;
         $shelter->address = $request->address;
         $shelter->oib = $request->oib;
@@ -158,7 +158,7 @@ class ShelterController extends Controller
         $animalItem = Shelter::with('animals')
                         ->findOrFail($shelterId)
                         ->animalItems()
-                        ->where('shelterCode', $code)
+                        ->where('shelter_code', $code)
                         ->where('status', 1)
                         ->get();
                         
@@ -193,6 +193,6 @@ class ShelterController extends Controller
                     </a>
                 </div>
                 ';
-            })->make(true);
+            })->make();
     }
 }

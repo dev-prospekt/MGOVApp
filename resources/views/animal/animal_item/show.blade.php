@@ -100,7 +100,7 @@
                         <span>{{ $animalItem->first()->shelter->name }}</span>
                     </div>
                     <input type="hidden" name="animal_id" id="animal_id">
-                    <input type="hidden" name="shelterCode" id="shelterCode">
+                    <input type="hidden" name="shelter_code" id="shelterCode">
 
                     <select id="shelter_id" name="shelter_id">
                         <option value="">Odaberite oporavilište</option>
@@ -144,7 +144,7 @@
                     console.log(data)
                     $('#changeShelterForm').attr('action', '/animal_item/changeShelter/'+id);
                     $('#animal_id').val(data.animal_id);
-                    $('#shelterCode').val(data.shelterCode);
+                    $('#shelterCode').val(data.shelter_code);
                 });
                 
             });

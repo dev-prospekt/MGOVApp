@@ -15,13 +15,16 @@ class CreateAnimalCategoryTable extends Migration
     {
         Schema::create('animal_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('animal_system_category_id');
+            $table->foreignId('animal_system_category_id')->nullable();
+            $table->foreignId('animal_order_id')->nullable();
+            $table->string('latin_name')->nullable();
+            $table->string('name')->nullable();
+
             $table->timestamps();
         });
     }
 
-    /**
+    /**ž
      * Reverse the migrations.
      *
      * @return void

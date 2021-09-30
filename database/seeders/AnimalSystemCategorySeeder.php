@@ -15,19 +15,28 @@ class AnimalSystemCategorySeeder extends Seeder
     public function run()
     {
         AnimalSystemCategory::create([
-            'name' => 'sisavci'
+            'name' => 'sisavci',
+            'latin_name' => 'Mammalia'
         ]);
 
         AnimalSystemCategory::create([
-            'name' => 'ptice'
+            'name' => 'ptice',
+            'latin_name' => 'Aves'
         ]);
 
         AnimalSystemCategory::create([
-            'name' => 'gmazovi'
+            'name' => 'gmazovi',
+            'latin_name' => 'Reptilia'
         ]);
 
         AnimalSystemCategory::create([
-            'name' => 'vodozemci'
+            'name' => 'vodozemci',
+            'latin_name' => 'Amphibia'
+        ]);
+
+        AnimalSystemCategory::create([
+            'name' => 'ribe',
+            'latin_name' => 'Pisces'
         ]);
     }
 }

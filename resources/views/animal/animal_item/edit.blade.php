@@ -10,7 +10,7 @@
     <nav class="page-breadcrumb">
         <ol class="breadcrumb">
             <div>
-                <a href="/shelter/{{ $animalItem->shelter_id }}/animal/{{ $animalItem->shelterCode }}" class="btn btn-primary">
+                <a href="/shelter/{{ $animalItem->shelter_id }}/animal/{{ $animalItem->shelter_code }}" class="btn btn-primary">
                     <i data-feather="left" data-toggle="tooltip" title="Connect"></i>
                     Natrag
                 </a>

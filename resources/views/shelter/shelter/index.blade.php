@@ -26,7 +26,7 @@
                 <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
                 @endif
 
-                <div class="table-responsive">
+                <div class="table-responsive-sm">
                 <table class="table" id="shelterDataTable">
                     <thead>
                     <tr>

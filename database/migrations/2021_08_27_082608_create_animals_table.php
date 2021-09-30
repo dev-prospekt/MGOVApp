@@ -16,9 +16,10 @@ class CreateAnimalsTable extends Migration
         Schema::create('animals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('animal_category_id');
-            $table->string('animalCode');
+            $table->foreignId('animal_size_id')->nullable();
             $table->string('name');
             $table->string('latin_name');
+
             $table->timestamps();
         });
     }

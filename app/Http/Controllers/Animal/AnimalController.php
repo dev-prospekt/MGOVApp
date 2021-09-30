@@ -22,7 +22,9 @@ class AnimalController extends Controller
      */
     public function index()
     {
-        //
+        $animals = Animal::with('animalType', 'animalCodes', 'animalCategory')->get();
+
+        return view('animal.animal.index', compact('animals'));
     }
 
     /**
@@ -66,7 +68,7 @@ class AnimalController extends Controller
         $animals->shelters()->attach($request->animal_id, [
             'shelter_id' => $request->shelter_id,
             'animal_id' => $request->animal_id,
-            'shelterCode' => Carbon::now()->format('Y') .''. $request->shelterCode .'-'. $increment,
+            'shelter_code' => Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment,
             'quantity' => $request->quantity,
         ]);
 
@@ -78,7 +80,6 @@ class AnimalController extends Controller
             $animalItem = new AnimalItem;
             $animalItem->animal_id = $request->animal_id;
             $animalItem->shelter_id = $request->shelter_id;
-            $animalItem->animal_size = $request->animal_size;
             
             if($count != 1){
                 $animalItem->solitary_or_group = 1;
@@ -87,9 +88,9 @@ class AnimalController extends Controller
                 $animalItem->solitary_or_group = 0;
             }
 
-            $animalItem->shelterCode = Carbon::now()->format('Y') .''. $request->shelterCode .'-'. $increment;
+            $animalItem->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment;
             $animalItem->status = 1;
-            $animalItem->date_find = Carbon::createFromFormat('Y-m-d', $request->date_find)->format('d.m.Y');
+            $animalItem->date_found = Carbon::createFromFormat('Y-m-d', $request->date_found)->format('d.m.Y');
             $animalItem->save();
         }
         

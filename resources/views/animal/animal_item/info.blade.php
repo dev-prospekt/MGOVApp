@@ -8,7 +8,7 @@
 <nav class="page-breadcrumb">
     <ol class="breadcrumb">
         <div>
-            <a href="/shelter/{{ $animalItems->shelter_id }}/animal/{{ $animalItems->shelterCode }}" class="btn btn-primary">
+            <a href="/shelter/{{ $animalItems->shelter_id }}/animal/{{ $animalItems->shelter_code }}" class="btn btn-primary">
                 <i data-feather="left" data-toggle="tooltip" title="Connect"></i>
                 Natrag
             </a>
@@ -36,7 +36,7 @@
                         </div>
                         <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Šifra oporavilišta:</label>
-                            <p class="text-muted">{{ $animalItems->shelterCode }}</p>
+                            <p class="text-muted">{{ $animalItems->shelter_code }}</p>
                         </div>
                         <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Status:</label>

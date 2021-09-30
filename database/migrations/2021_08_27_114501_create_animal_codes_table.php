@@ -16,6 +16,7 @@ class CreateAnimalCodesTable extends Migration
         Schema::create('animal_codes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('desc');
             $table->timestamps();
         });
     }

@@ -14,7 +14,9 @@ class AnimalCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $animalCategories = AnimalCategory::all();
+
+        return view('animal.animal_category.index', compact('animalCategories'));
     }
 
     /**
@@ -35,7 +37,14 @@ class AnimalCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        AnimalCategory::create([
+            'name' => $request->category_name,
+            'animal_system_category_id' => $request->animal_system_category
+        ]);
+
+        if ($request->route()->getName('create_sz_animal_type_cat')) {
+            return redirect()->route('create_sz_animal_type')->with('msg', 'Kategorija je uspješno kreirana');
+        }
     }
 
     /**

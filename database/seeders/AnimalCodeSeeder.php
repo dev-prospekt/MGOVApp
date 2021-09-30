@@ -14,21 +14,20 @@ class AnimalCodeSeeder extends Seeder
      */
     public function run()
     {
-        $codes = [
-            ['name' => 'DP'],
-            ['name' => 'DS4'],
-            ['name' => 'BA2'],
-            ['name' => 'BE1'],
-            ['name' => 'BE2'],
-            ['name' => 'BO1'],
-            ['name' => 'CR'],
-            ['name' => 'EN'],
-            ['name' => 'VU'],
-            ['name' => 'DD'],
-        ];
+        AnimalCode::create(['name' => 'PZ', 'desc' => 'Prioritetne za zbrinjavanje']);
 
-        foreach ($codes as $code) {
-            AnimalCode::create($code);
-        }
+        AnimalCode::create(['name' => 'CR', 'desc' => 'Kritično ugrožena vrsta']);
+
+        AnimalCode::create(['name' => 'DD', 'desc' => 'Nedovoljno poznata']);
+
+        AnimalCode::create(['name' => 'RE', 'desc' => 'Regionalno izumrla vrsta']);
+
+        AnimalCode::create(['name' => 'EN', 'desc' => 'Ugrožena vrsta']);
+
+        AnimalCode::create(['name' => 'VU', 'desc' => 'Osjetljiva vrsta']);
+
+        AnimalCode::create(['name' => 'LC', 'desc' => 'Najmanje zabrinjavajuća']);
+
+        AnimalCode::create(['name' => 'NT', 'desc' => 'Gotovo ugrožena vrsta']);
     }
 }

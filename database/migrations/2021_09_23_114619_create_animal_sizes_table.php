@@ -15,7 +15,8 @@ class CreateAnimalSizesTable extends Migration
     {
         Schema::create('animal_sizes', function (Blueprint $table) {
             $table->id();
-            $table->string('value');
+            $table->string('group_name');
+
             $table->timestamps();
         });
     }
