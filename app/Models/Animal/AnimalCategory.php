@@ -9,8 +9,7 @@ class AnimalCategory extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-    protected $casts = ['id' => 'integer'];
+    protected $fillable = ['animal_system_category_id', 'animal_order_id', 'latin_name'];
 
     public function animalSystemCategory()
     {

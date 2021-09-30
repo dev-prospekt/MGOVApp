@@ -7,10 +7,7 @@
 @endpush
 
 @section('content')
-
-   
     <div class="row">
-
         <div class="col-md-8">
           <div class="card">
             <div class="card-body">
@@ -49,7 +46,7 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <label>Kategorija</label>
+                  <label>Porodica</label>
                   <select class="js-example-basic-single w-100" name="animal_category" id="">   
                     <option>----</option>       
                       @foreach ($animalCategory as $animalCat)
@@ -58,7 +55,7 @@
                   </select>  
                 </div>    
                 <div class="form-group">
-                  <label>Sistemska kategorija</label>
+                  <label>Razred</label>
                   <select class="form-control" name="animal_system_category" id="">     
                       <option>----</option>   
                       @foreach ($animalSystemCategory as $animalSystemCat)
@@ -70,40 +67,7 @@
               </form>
             </div>
           </div>
-        </div> 
-
-        <div class="col-md-4">
-          @if($msg = Session::get('msg'))
-          <div class="alert alert-success"> {{ $msg }}</div>
-          @endif
-
-          <div class="card">
-            <div class="card-body">
-              <p class="card-description">Dodaj Kategoriju (porodicu) ako nije na popisu</p>
-              <form action="{{ route('create_zj_animal_type_cat') }}" method="POST">
-                @csrf
-                <div class="form-group">
-                    <label>Naziv Kategorije</label>
-                    <input type="text" class="form-control" name="category_name" required>
-                </div>
-
-                <div class="form-group">
-                  <label>Sistemska kategorija</label>
-                  <select class="form-control" name="animal_system_category" id="">     
-                      <option>----</option>   
-                      @foreach ($animalSystemCategory as $animalSystemCat)
-                        <option value="{{ $animalSystemCat->id }}"> {{ $animalSystemCat->latin_name }} - {{ $animalSystemCat->name }} </option>
-                      @endforeach
-                  </select>
-                </div> 
-               
-                <button type="submit" class="btn btn-primary mr-2 mt-2">Dodaj Kategoriju</button>
-              </form>
-            </div>
-          </div>
- 
-        </div>
-         
+        </div>      
     </div><!-- end Row -->
         
 

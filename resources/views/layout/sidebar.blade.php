@@ -76,6 +76,13 @@
         </a>
       </li>
 
+      <li class="nav-item {{ active_class(['animal_category']) }}">
+        <a class="nav-link"  href="{{ url('/animal_category') }}" role="button">
+          <i class="link-icon" data-feather="link"></i>
+          <span class="link-title">Porodice životinja</span>
+        </a>
+      </li>
+
       <li class="nav-item nav-category">Cjenik</li>
       <li class="nav-item {{ active_class(['animal_size']) }}">
         <a class="nav-link"  href="{{ url('/animal_size') }}" role="button">

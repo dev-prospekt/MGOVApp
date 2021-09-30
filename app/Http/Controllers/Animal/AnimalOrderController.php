@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\Animal\AnimalOrder;
 use App\Http\Controllers\Controller;
+use App\Models\Animal\AnimalCategory;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Animal\AnimalSystemCategory;
 
@@ -14,7 +15,7 @@ class AnimalOrderController extends Controller
 {
     public function index(Request $request)
     {
-        $animalOrder = AnimalOrder::with('animalSystemCategory')->get();
+        $animalOrder = AnimalOrder::with('animalSystemCategory', 'animalCategory')->get();
         $animalClass = AnimalSystemCategory::all();
 
         if ($request->ajax()) {
@@ -25,19 +26,17 @@ class AnimalOrderController extends Controller
 
                     return $animalOrder->order_name ?? '';
                 })
-
                 ->addColumn('animal_system_category', function (AnimalOrder $animalOrder) {
 
                     return $animalOrder->animalSystemCategory->latin_name ?? '';
                 })
-
                 ->addColumn('action', function (AnimalOrder $animalOrder) {
 
                     return  '<button type="button" class="btn btn-primary btn-sm" id="getEditOrderData" data-id="' . $animalOrder->id . '">Uredi</button>
                     <button type="button" data-id="' . $animalOrder->id . '" data-toggle="modal" data-target="#DeleteOrderModal" class="btn btn-danger btn-sm" id="getDeleteId">Briši</button>';
                 })
 
-                ->rawColumns(['action'])
+                ->rawColumns(['action', 'animal_category'])
                 ->make();
         }
 

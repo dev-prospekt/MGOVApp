@@ -12,8 +12,9 @@
     <div class="row">
         <div class="col-md-8">
             @if($msg = Session::get('msg'))
-                <div class="alert alert-info"> {{ $msg }}</div>
-             @endif
+              <div class="alert alert-info"> {{ $msg }}</div>
+          @endif
+      
           <div class="card">
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between">
@@ -22,18 +23,18 @@
                     <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                 </div>
                 <div>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#CreateOrderModal">Dodaj Novi Red</button>
-                    <a href="{{ route('animal_import.index') }}" class="btn btn-warning">Import Podataka</a>             
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#CreateCatModal">Dodaj Novu Porodicu</button>
+                    <a href="{{ route('animal_import.index') }}" class="btn btn-warning">Import Podataka</a>
                 </div>
             </div>
                                                    
              <div class="table-responsive-sm">
-                <table class="table" id="animals-orders-table">
+                <table class="table" id="animals-cat-table">
                  <thead>
                     <tr>
                       <th>#</th>
                       <th>Razred jedinke</th>
-                      <th>Red jedinke</th>                      
+                      <th>Porodica jedinke</th>                      
                       <th>Akcija</th>             
                     </tr>
                   </thead>
@@ -45,13 +46,13 @@
         </div>  
     </div><!-- end Row -->
 
-<!-- Create Order Modal -->
-<div class="modal fade" id="CreateOrderModal" tabindex="-1" role="dialog"  aria-labelledby="CreateOrderModal" aria-hidden="true">
+<!-- Create Category Modal -->
+<div class="modal fade" id="CreateCatModal" tabindex="-1" role="dialog"  aria-labelledby="CreateCatModal" aria-hidden="true">
   <div class="modal-dialog" role="document">
       <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Kreiraj Novi Red</h4>
+              <h4 class="modal-title">Kreiraj Novu Porodicu</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
           <!-- Modal body -->
@@ -62,7 +63,7 @@
                   </button>
               </div>
               <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                  <strong>Uspjeh!</strong> Red je uspješno kreiran.
+                  <strong>Uspjeh!</strong> Porodica je uspješno kreirana.
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
@@ -77,14 +78,14 @@
               </select> 
               </div>  
               <div class="form-group">
-                  <label for="groupName">Naziv reda:</label>
-                  <input type="text" class="form-control" name="order_name" id="orderName">                                  
+                  <label for="groupName">Naziv Porodice:</label>
+                  <input type="text" class="form-control" name="category_name" id="catName">                                  
               </div>
           
           </div>
           <!-- Modal footer -->
           <div class="modal-footer">
-              <button type="button" class="btn btn-warning" id="SubmitOrderForm">Spremi</button>
+              <button type="button" class="btn btn-warning" id="SubmitCatForm">Spremi</button>
               <button type="button" class="btn btn-danger" data-dismiss="modal">zatvori</button>
           </div>
       </div>
@@ -92,13 +93,13 @@
 </div>
 
 
-<!-- Edit Order Modal -->
-<div class="modal" id="EditOrderModal">
+<!-- Edit Category Modal -->
+<div class="modal" id="EditCatModal">
   <div class="modal-dialog">
       <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Izmjena Reda</h4>
+              <h4 class="modal-title">Izmjena Porodice</h4>
               <button type="button" class="close modelClose" data-dismiss="modal">&times;</button>
           </div>
           <!-- Modal body -->
@@ -109,18 +110,18 @@
                   </button>
               </div>
               <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                  <strong>Uspjeh!</strong> Red je uspješno spremljen.
+                  <strong>Uspjeh!</strong> Porodica je uspješno spremljena.
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
-              <div id="EditOrderModalBody">
+              <div id="EditCatModalBody">
           
               </div>
           </div>
           <!-- Modal footer -->
           <div class="modal-footer">
-              <button type="button" class="btn btn-warning" id="SubmitEditOrderForm">Spremi</button>
+              <button type="button" class="btn btn-warning" id="SubmitEditCatForm">Spremi</button>
               <button type="button" class="btn btn-primary modelClose" data-dismiss="modal">Zatvori</button>
           </div>
       </div>
@@ -128,19 +129,19 @@
 </div>
 
 <!-- Delete AnimalSize Modal -->
-<div class="modal" id="DeleteOrderModal">
+<div class="modal" id="DeleteCatModal">
   <div class="modal-dialog">
       <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Brisanje Reda</h4>
+              <h4 class="modal-title">Brisanje Porodicaa</h4>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
           
           </div>
           <!-- Modal body -->
           <div class="modal-body">
             <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                <strong>Uspjeh!</strong> Red izbrisan
+                <strong>Uspjeh!</strong> Porodica izbrisan
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -149,7 +150,7 @@
           </div>
           <!-- Modal footer -->
           <div class="modal-footer">
-              <button type="button" class="btn btn-warning" id="SubmitDeleteOrderForm">Da</button>
+              <button type="button" class="btn btn-warning" id="SubmitDeleteCatForm">Da</button>
               <button type="button" class="btn btn-primary" data-dismiss="modal">Ne</button>
           </div>
       </div>
@@ -170,16 +171,16 @@
 <script src="{{ asset('assets/js/select2.js') }}"></script>
   <script>
       $(function() {
-            $('#animals-orders-table').DataTable({
+            $('#animals-cat-table').DataTable({
                 processing: true,
                 serverSide: true,
                 pageLength: 15,
-                ajax: '{!! route('animal_order.index') !!}',
+                ajax: '{!! route('animal_category.index') !!}',
         
                 columns: [
                     { data: 'id', name: 'id'},
                     { data: 'animal_system_category', name: 'animal_system_category.latin_name'},  
-                    { data: 'order_name', name: 'order_name'},                                                                                                       
+                    { data: 'animal_category', name: 'latin_name'},                                                                                                       
                     { data: 'action', name: 'action'},                  
                 ],
                 
@@ -189,7 +190,7 @@
            
             });
         // Create Order Ajax request.
-         $('#SubmitOrderForm').click(function(e) {
+         $('#SubmitCatForm').click(function(e) {
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
@@ -197,11 +198,11 @@
                 }
             });
             $.ajax({
-                url: "{{ route('animal_order.store') }}",
+                url: "{{ route('animal_category.store') }}",
                 method: 'POST',
                 data: {
                     animal_class: $('#animalClass').val(),
-                    order_name: $('#orderName').val(),
+                    category_name: $('#catName').val(),
                     _token: '{{csrf_token()}}'
                 },
                 success: function(result) {
@@ -218,7 +219,7 @@
                         $('.sizeDataTable').DataTable().ajax.reload();
                         setInterval(function(){ 
                             $('.alert-success').hide();
-                            $('#CreateSizeModal').modal('hide');
+                            $('#CreateCatModal').modal('hide');
                             location.reload();
                         }, 2000);
                     }
@@ -227,26 +228,26 @@
         });
         // Show Edit Modal
          $('.modelClose').on('click', function(){
-        $('#EditOrderModal').hide();
+        $('#EditCatModal').hide();
         });
         var id;
-        $('body').on('click', '#getEditOrderData', function(e) {
+        $('body').on('click', '#getEditCatData', function(e) {
             // e.preventDefault();
             $('.alert-danger').html('');
             $('.alert-danger').hide();
             id = $(this).data('id');
             $.ajax({
-                url: "animal_order/"+id+"/edit",
+                url: "animal_category/"+id+"/edit",
                 method: 'GET',
                  
                 success: function(result) {
-                    $('#EditOrderModalBody').html(result.html);
-                    $('#EditOrderModal').show();
+                    $('#EditCatModalBody').html(result.html);
+                    $('#EditCatModal').show();
                 }
             });
         });
         // Update Modal.
-        $('#SubmitEditOrderForm').click(function(e) {
+        $('#SubmitEditCatForm').click(function(e) {
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
@@ -254,11 +255,11 @@
                 }
             });
             $.ajax({
-                url: "animal_order/"+id,
+                url: "animal_category/"+id,
                 method: 'PUT',
                 data: {
                   animal_class: $('#editAnimalClass').val(),
-                    order_name: $('#editOrderName').val(),
+                    category_name: $('#editCatName').val(),
                     _token: '{{csrf_token()}}'
                 },
                 success: function(result) {
@@ -274,7 +275,7 @@
                         $('.datatable').DataTable().ajax.reload();
                         setInterval(function(){ 
                             $('.alert-success').hide();
-                            $('#EditOrderModal').hide();
+                            $('#EditCatModal').hide();
                             location.reload();
                            
                         }, 2000);
@@ -284,10 +285,10 @@
         });
         // Delete Ajax request.
         var deleteID;
-        $('body').on('click', '#getDeleteId', function(){
+        $('body').on('click', '#getDeleteCatId', function(){
             deleteID = $(this).data('id');
         })
-        $('#SubmitDeleteOrderForm').click(function(e) {
+        $('#SubmitDeleteCatForm').click(function(e) {
             e.preventDefault();
             var id = deleteID;
             $.ajaxSetup({
@@ -297,7 +298,7 @@
                 
             });
             $.ajax({
-                url: "animal_order/"+id,
+                url: "animal_category/"+id,
                 method: 'DELETE',
                 data: {
                     _token: '{{csrf_token()}}'
@@ -308,15 +309,12 @@
                     setInterval(function(){ 
                         $('.datatable').DataTable().ajax.reload();
                         $('.alert-success').hide();
-                        $('#DeleteOrderModal').hide();
+                        $('#DeleteCatModal').hide();
                         location.reload();
                     }, 1200);
                 }
             });
         });
-
-
-     
         })
   </script>
 @endpush

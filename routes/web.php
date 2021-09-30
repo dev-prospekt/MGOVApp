@@ -24,7 +24,7 @@ use App\Http\Controllers\Animal\AnimalOrderController;
 Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
-    
+
     Route::get('/', [DashboardController::class, 'index']);
 
     Route::get('/test', function () {
@@ -37,7 +37,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('shelter', Shelter\ShelterController::class);
     Route::resource('animal_item', Animal\AnimalItemController::class);
     Route::resource('animal', Animal\AnimalController::class);
-    Route::resource('animalCategory', Animal\AnimalCategoryController::class);
+    Route::resource('animal_category', Animal\AnimalCategoryController::class);
     Route::resource('user', UserController::class);
     Route::resource('animal_size', Animal\AnimalSizeController::class);
     Route::get('get_animal_size', [AnimalSizeController::class, 'getSizes'])->name('get_animal_size');
@@ -75,7 +75,7 @@ Route::group(['middleware' => ['auth']], function () {
 
 
     //Import EXCEL
-    Route::get('/animal_import', [AnimalImportController::class, 'index'])->name('index.animal_import');
+    Route::get('/animal_import', [AnimalImportController::class, 'index'])->name('animal_import.index');
 
     Route::post('animal_order_import', [AnimalImportController::class, 'animalOrderFileImport'])->name('animal_order_import');
     Route::post('animal_category_import', [AnimalImportController::class, 'animalCategoryFileImport'])->name('animal_category_import');
@@ -98,5 +98,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("restore/{user_id}", 'UserController@restore');
     Route::get("/roleMapping", 'UserController@roleMapping');
     Route::post("/roleMappingAdd", 'UserController@roleMappingAdd');
-
 });
