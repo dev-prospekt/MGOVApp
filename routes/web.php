@@ -11,14 +11,13 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Shelter\ShelterController;
+
 use App\Http\Controllers\Animal\AnimalImportController;
 use App\Http\Controllers\Animal\AnimalCategoryController;
 use App\Http\Controllers\Animal\AnimalSeizedTypeController;
 use App\Http\Controllers\Animal\AnimalSizeController;
 use App\Http\Controllers\Animal\AnimalInvaziveTypeController;
 use App\Http\Controllers\Animal\AnimalProtectedTypeController;
-use App\Http\Controllers\Animal\AnimalOrderController;
 
 
 Auth::routes();
@@ -35,6 +34,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('logout', [LoginController::class, 'logout']);
 
     Route::resource('shelter', Shelter\ShelterController::class);
+    Route::resource('shelter_staff', Shelter\ShelterStaffController::class);
     Route::resource('animal_item', Animal\AnimalItemController::class);
     Route::resource('animal', Animal\AnimalController::class);
     Route::resource('animal_category', Animal\AnimalCategoryController::class);

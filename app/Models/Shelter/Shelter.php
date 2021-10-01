@@ -12,7 +12,7 @@ class Shelter extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+    protected $guarded = ['id'];
 
     public function shelterTypes()
     {
@@ -27,13 +27,18 @@ class Shelter extends Model
     public function animals()
     {
         return $this->belongsToMany(Animal::class)
-                    ->with('animalCodes', 'animalItems')
-                    ->where('quantity', '>', 0)
-                    ->withPivot('quantity', 'shelter_code', 'id');
+            ->with('animalCodes', 'animalItems')
+            ->where('quantity', '>', 0)
+            ->withPivot('quantity', 'shelter_code', 'id');
     }
 
     public function animalItems()
     {
         return $this->hasMany(AnimalItem::class);
+    }
+
+    public function shelterStaff()
+    {
+        return $this->hasMany(ShelterStaff::class);
     }
 }

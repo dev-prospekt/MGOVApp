@@ -3,3 +3,19 @@
 a.btn.btn-icon svg {
   margin-top: 7px;
 }
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgb(255 255 255 / 10%);
+}
+
+.email-compose-fields .select2-container--default .select2-selection--multiple,
+ .form-control, .select2-container--default .select2-selection--single,
+  .select2-container--default .select2-selection--single .select2-search__field,
+   .tt-hint, .tt-query, .typeahead, select {
+ 
+  color: #bababa;
+  
+}
