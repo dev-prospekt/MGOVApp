@@ -37,7 +37,8 @@ class Animal extends Model
 
     public function shelters()
     {
-        return $this->belongsToMany(Shelter::class)->withPivot('quantity', 'shelterCode', 'id');
+        return $this->belongsToMany(Shelter::class)
+            ->withPivot('quantity', 'shelter_code', 'id');
     }
 
     public function animalType()

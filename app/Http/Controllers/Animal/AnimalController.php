@@ -34,14 +34,45 @@ class AnimalController extends Controller
      */
     public function create()
     {
-        $animals = Animal::all();
-        $animalsCode = AnimalCode::all();
-        $animalSize = AnimalSize::all();
+        $shelter = Shelter::findOrFail(auth()->user()->shelter->id)
+            ->shelterTypes()
+            ->get();
 
+        foreach ($shelter as $key) {
+            if($key->code == "IJ"){
+                $ij = Animal::with('animalType')
+                            ->whereHas('animalType', function ($q) use ($key) {
+                                $q->where('type_code', $key->code);
+                            })->get();
+            }
+            if($key->code == "SZJ"){
+                $szj = Animal::with('animalType')
+                            ->whereHas('animalType', function ($q) use ($key) {
+                                $q->where('type_code', $key->code);
+                            })->get();
+            }
+            if($key->code == "ZJ"){
+                $zj = Animal::with('animalType')
+                            ->whereHas('animalType', function ($q) use ($key) {
+                                    $q->where('type_code', $key->code);
+                                })->get();
+            }
+        }
+
+        if(empty($ij)){
+            $ij = '';
+        }
+        if(empty($szj)){
+            $szj = '';
+        }
+        if(empty($zj)){
+            $zj = '';
+        }
+                
         return view('animal.animal.create', [
-            'animals' => $animals,
-            'animalsCode' => $animalsCode,
-            'animalSize' => $animalSize,
+            'ij' => $ij,
+            'szj' => $szj,
+            'zj' => $zj,
         ]); 
     }
 
