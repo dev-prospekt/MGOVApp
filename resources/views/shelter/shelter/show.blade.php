@@ -91,7 +91,7 @@
                         <span class="badge badge-warning">{{ $code->name }}</span>
                       @endforeach
                     </td>
-                    <td>{{ $item->animalItems->first()->date_find ?? '' }}</td>
+                    <td>{{ $item->animalItems->first()->date_found ?? '' }}</td>
                     <td>
                       <a class="btn btn-info" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelter_code}}">
                         Info

@@ -103,10 +103,6 @@ class AnimalController extends Controller
             'quantity' => $request->quantity,
         ]);
 
-        $animals->animalCodes()->attach($request->animal_code_id, [
-            'animal_id' => $request->animal_id
-        ]);
-
         for ($i=0; $i < $count; $i++) {
             $animalItem = new AnimalItem;
             $animalItem->animal_id = $request->animal_id;
@@ -121,7 +117,7 @@ class AnimalController extends Controller
 
             $animalItem->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment;
             $animalItem->status = 1;
-            $animalItem->date_found = Carbon::createFromFormat('Y-m-d', $request->date_found)->format('d.m.Y');
+            $animalItem->date_found = Carbon::createFromFormat('m/d/Y', $request->date_found)->format('d.m.Y');
             $animalItem->save();
         }
         

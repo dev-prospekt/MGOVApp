@@ -1,13 +1,11 @@
 @extends('layout.master')
 
 @push('plugin-styles')
-  <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
-
-
-<form action="{{ route('animal.store') }}" method="POST" multiple>
+<form action="{{ route('animal.store') }}" method="POST">
     @csrf
     @method('POST')
 
@@ -70,21 +68,21 @@
 
             <div class="form-group">
                 <label>Datum pronalska</label>
-                <input type="date" class="form-control" name="date_found">
+                <div class="input-group date datepicker" id="datePickerExample">
+                    <input type="text" name="date_found" class="form-control"><span class="input-group-addon"><i data-feather="calendar"></i></span>
+                </div>
             </div>
 
             <button type="submit" class="btn btn-primary mr-2">Dodaj</button>
         </div>
     </div>
 </form>
-        
 @endsection
 
-
 @push('plugin-scripts')
-  <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
-  <script src="{{ asset('assets/js/select2.js') }}"></script>
+  <script src="{{ asset('assets/js/datepicker.js') }}"></script>
 @endpush

@@ -26,7 +26,6 @@ class AnimalPostRequest extends FormRequest
     {
         return [
             'animal_id' => ['required'],
-            'animal_code_id' => ['required'],
             'quantity' => ['required'],
         ];
     }
@@ -35,7 +34,6 @@ class AnimalPostRequest extends FormRequest
     {
         return [
             'animal_id.required' => 'Životinja je obavezan podatak',
-            'animal_code_id.required' => 'Kod je obavezan podatak',
             'quantity.required' => 'Količina je obavezan podatak',
         ];
     }
