@@ -6,9 +6,12 @@ use App\Models\Shelter\Shelter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class AnimalItem extends Model
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
+class AnimalItem extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     public function animal()
     {
@@ -18,10 +21,5 @@ class AnimalItem extends Model
     public function shelter()
     {
         return $this->belongsTo(Shelter::class);
-    }
-
-    public function animalItemsFile()
-    {
-        return $this->hasMany(AnimalItemFile::class);
     }
 }

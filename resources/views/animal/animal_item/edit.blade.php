@@ -78,14 +78,6 @@
                         <input type="hidden" id="animal_item_id" name="animal_item_id" value="{{$animalItem->id}}">
 
                         <div class="form-group">
-                            <label>Naziv dokumenta</label>
-                            <input type="text" class="form-control" id="file_name" name="file_name">
-                            @error('file_name')
-                                <div class="text-danger">{{$errors->first('file_name') }} </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
                             <label>Dokument</label>
                             <input type="file" class="form-control border" id="myDropify" name="filenames">
                             @error('filenames')
@@ -105,25 +97,20 @@
                     <div class="mb-2">
                         <h6 class="card-title">Dokumenti životinje</h6>
                     </div>
-
-                    <div id="findFile">
-                        @if($animalItem->animalItemsFile->isEmpty())
-                            <p class="text-muted">Trenutno ne postoji dokument</p>
-                        @else
-                            @foreach ($animalItem->animalItemsFile as $file)
-                                <div class="d-flex align-items-center">
+                    
+                    @if ($mediaItems)
+                        @foreach ($mediaItems as $file)
+                            <div id="findFile">
+                                <div>
                                     <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                                        title="{{ $file->file_name }}" href="/storage/{{ str_replace('"', "", $file->filenames) }}">
-                                        {{ $file->file_name }}
-                                    </a>
-                                    <a href="javascript:void(0)" id="deleteFile">
-                                        <input type="hidden" class="fileId" value="{{$file->id}}">
-                                        <i class="mdi mdi-delete text-danger h4"></i>
+                                        href="{{ $file->getUrl() }}">
+                                        Dokument
                                     </a>
                                 </div>
-                            @endforeach
-                        @endif
-                    </div>
+                            </div>
+                        @endforeach
+                    @endif
+
                 </div>
             </div>
         </div>

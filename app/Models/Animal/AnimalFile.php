@@ -5,13 +5,16 @@ namespace App\Models\Animal;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AnimalItemFile extends Model
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
+class AnimalFile extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     protected $fillable = [
         'filenames',
-        'animal_item_id',
+        'animal_shelter_id',
     ];
 
     public function setFilenamesAttribute($value)

@@ -18,10 +18,17 @@ class ShelterTypeSeeder extends Seeder
             'name' => 'Oporavak strogo zaštićenih vrsta iz prirode RH',
             'code' => 'OSZV'
         ]);
-
         ShelterType::create([
             'name' => 'Zaplijenjene jedinke',
             'code' => 'ZJ'
+        ]);
+        ShelterType::create([
+            'name' => 'Invazivna jedinka',
+            'code' => 'IJ'
+        ]);
+        ShelterType::create([
+            'name' => 'Strogo zaštićena jedinka',
+            'code' => 'SZJ'
         ]);
     }
 }

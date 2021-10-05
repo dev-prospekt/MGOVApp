@@ -64,6 +64,12 @@ return [
             'url' => env('AWS_URL'),
         ],
 
+        'media' => [
+            'driver' => 'local',
+            'root'   => storage_path('app/public/media'),
+            'url'    => 'http://localhost:3100/storage/media',
+        ],
+
     ],
 
 ];

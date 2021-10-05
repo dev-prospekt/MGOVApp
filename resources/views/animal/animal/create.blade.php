@@ -2,16 +2,17 @@
 
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
-<form action="{{ route('animal.store') }}" method="POST">
+<form action="{{ route('animal.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('POST')
 
     <div class="row">
-        <div class="col-md-4">
-            @if ($szj)
+        @if ($szj)
+            <div class="col-md-4">
                 <div class="form-group">
                     <label>Strogo Zaštićene</label>
                     <select name="animal_id" class="form-control">
@@ -21,10 +22,11 @@
                         @endforeach
                     </select>
                 </div>
-            @endif
-        </div>
-        <div class="col-md-4">
-            @if ($ij)
+            </div>
+        @endif
+
+        @if ($ij)
+            <div class="col-md-4">
                 <div class="form-group">
                     <label>Invazivne jedinke</label>
                     <select name="animal_id" class="form-control">
@@ -34,11 +36,11 @@
                         @endforeach
                     </select>
                 </div>
-            @endif
-        </div>
+            </div>
+        @endif
 
-        <div class="col-md-4">
-            @if ($zj)
+        @if ($zj)
+            <div class="col-md-4">
                 <div class="form-group">
                     <label>Zaplijenjene jedinke</label>
                     <select name="animal_id" class="form-control">
@@ -48,15 +50,22 @@
                         @endforeach
                     </select>
                 </div>
-            @endif
-        </div>
-
+            </div>
+        @endif
     </div>
 
     <div class="row mt-3">
         <div class="col-md-4">
             <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
             <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
+
+            <div class="form-group">
+                <label>Tko je pronašao</label>
+                <input type="text" class="form-control" name="founder">
+                @error('founder')
+                    <div class="text-danger">{{$errors->first('founder') }} </div>
+                @enderror
+            </div>
 
             <div class="form-group">
                 <label>Količina</label>
@@ -75,14 +84,33 @@
 
             <button type="submit" class="btn btn-primary mr-2">Dodaj</button>
         </div>
+
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Dokument</label>
+                <input type="file" class="form-control border" id="myDropify" name="filenames[]" multiple>
+                @error('filenames')
+                    <div class="text-danger">{{$errors->first('filenames') }} </div>
+                @enderror
+            </div>
+        </div>
     </div>
+
 </form>
 @endsection
 
 @push('plugin-scripts')
   <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/dropify/js/dropify.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
   <script src="{{ asset('assets/js/datepicker.js') }}"></script>
+  <script src="{{ asset('assets/js/dropify.js') }}"></script>
+
+  <script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip(); 
+    });
+  </script>
 @endpush

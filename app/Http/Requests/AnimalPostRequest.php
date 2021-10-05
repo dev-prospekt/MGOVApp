@@ -25,7 +25,6 @@ class AnimalPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'animal_id' => ['required'],
             'quantity' => ['required'],
         ];
     }
@@ -33,7 +32,6 @@ class AnimalPostRequest extends FormRequest
     public function messages()
     {
         return [
-            'animal_id.required' => 'Životinja je obavezan podatak',
             'quantity.required' => 'Količina je obavezan podatak',
         ];
     }

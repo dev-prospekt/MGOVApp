@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalCode;
+use App\Models\Animal\AnimalFile;
 use App\Models\Animal\AnimalItem;
 use App\Models\Animal\AnimalSize;
 use Illuminate\Support\Facades\DB;
@@ -102,6 +103,19 @@ class AnimalController extends Controller
             'shelter_code' => Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment,
             'quantity' => $request->quantity,
         ]);
+
+        $pivot_id = Animal::find($request->animal_id)->shelters()->orderBy('pivot_id', 'desc')->first();
+
+        $animalFiles = new AnimalFile;
+        $animalFiles->animal_shelter_id = $pivot_id->pivot->id;
+        $animalFiles->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment;
+        $animalFiles->save();
+
+        if($request->filenames){
+            foreach ($request->filenames as $key) {
+                $animalFiles->addMedia($key)->toMediaCollection('media');
+            }
+        }
 
         for ($i=0; $i < $count; $i++) {
             $animalItem = new AnimalItem;

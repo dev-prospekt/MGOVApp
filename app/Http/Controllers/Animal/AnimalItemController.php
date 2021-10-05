@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalData;
+use App\Models\Animal\AnimalFile;
 use App\Models\Animal\AnimalItem;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -57,9 +58,18 @@ class AnimalItemController extends Controller
     public function show($id)
     {
         $animalItems = AnimalItem::find($id);
+        $animalFiles = AnimalFile::where('shelter_code', $animalItems->shelter_code)->get();
+
+        $mediaFiles = $animalFiles->each(function($item, $key){
+            $item->getMedia('media');
+        });
+
+        $animalItemsMedia = $animalItems->getMedia('media');
 
         return view('animal.animal_item.info', [
             'animalItems' => $animalItems,
+            'animalItemsMedia' => $animalItemsMedia,
+            'mediaFiles' => $mediaFiles,
         ]);
     }
 
@@ -72,8 +82,12 @@ class AnimalItemController extends Controller
     public function edit($id)
     {
         $animalItem = AnimalItem::findOrFail($id);
+        $mediaItems = $animalItem->getMedia('media');
 
-        return view('animal.animal_item.edit')->with('animalItem', $animalItem); 
+        return view('animal.animal_item.edit', [
+            'animalItem' => $animalItem,
+            'mediaItems' => $mediaItems,
+        ]); 
     }
 
     /**
@@ -107,34 +121,10 @@ class AnimalItemController extends Controller
 
     public function file(AnimalItemFilePostRequest $request)
     {
-        return $this->upload(
-            $request->filenames, 
-            $request->animal_item_id,
-            $request->file_name,
-        );
-    }
+        $animalItemFile = AnimalItem::find($request->animal_item_id);
+        $animalItemFile->addMedia($request->filenames)->toMediaCollection('media');
 
-    private function upload($file, $animal_item_id, $file_name)
-    {
-        $filenames = Storage::disk('public')->put('files',$file);
-
-        $animalItemFile = new AnimalItemFile;
-        $animalItemFile->animal_item_id = $animal_item_id;
-        $animalItemFile->filenames = $filenames;
-        $animalItemFile->file_name = $file_name;
-        $animalItemFile->save();
-
-        return redirect('/animal_item/'.$animal_item_id.'/edit')->with('msg', 'Uspješno dodan dokument');
-    }
-
-    public function fileDelete($id)
-    {
-        $file = AnimalItemFile::find($id);
-        $file->delete();
-        // $filename = str_replace('"', "", $file->filenames);
-        // Storage::disk('public')->delete('files', $filename);
-        
-        return response()->json(['msg'=>'success']);
+        return redirect('/animal_item/'.$request->animal_item_id.'/edit')->with('msg', 'Uspješno dodan dokument');
     }
 
     public function getId($id)

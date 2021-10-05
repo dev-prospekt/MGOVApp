@@ -79,18 +79,35 @@
 
                 <div class="row">
                     <div class="col-md-6 grid-margin">
+                        <p>Grupa</p>
 
-                        <div class="d-flex align-items-center flex-wrap justify-flex-start">
-                            @foreach ($animalItems->animalItemsFile as $file)
-                                <div class="mr-3">
-                                    <a class="text-muted display-4 mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                                        title="{{ $file->file_name }}" href="/storage/{{ str_replace('"', "", $file->filenames) }}">
-                                        <i class="mdi mdi-file-pdf"></i>
-                                    </a>
-                                </div>
+                        <div>
+                            @foreach ($mediaFiles as $fi)
+                                @foreach ($fi->getMedia('media') as $media)
+                                    <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                            href="{{ $media->getUrl() }}">
+                                            Dokument
+                                        </a>
+                                @endforeach
                             @endforeach
                         </div>
 
+                    </div>
+
+                    <div class="col-md-6 grid-margin">
+                        <p>Pojedinačni</p>
+                        @if ($animalItemsMedia)
+                            @foreach ($animalItemsMedia as $file)
+                                <div id="findFile">
+                                    <div>
+                                        <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                            href="{{ $file->getUrl() }}">
+                                            Dokument
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
