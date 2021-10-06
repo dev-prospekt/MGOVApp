@@ -106,7 +106,7 @@
                                     <div>
                                         <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                             href="{{ $file->getUrl() }}">
-                                            {{ $media->name }}
+                                            {{ $file->name }}
                                         </a>
                                     </div>
                                 </div>

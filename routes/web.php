@@ -87,6 +87,8 @@ Route::group(['middleware' => ['auth']], function () {
     // Custom
     Route::get('shelter-dt', 'Shelter\ShelterController@indexDataTables')->name('shelter:dt');
 
+    Route::post('animal_item/deleteFile/{id}', 'Animal\AnimalItemController@deleteFile');
+    
     Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
     Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');
     Route::post('animal_item/file', 'Animal\AnimalItemController@file');

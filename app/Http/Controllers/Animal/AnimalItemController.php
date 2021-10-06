@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalItemFile;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\AnimalItemPostRequest;
 use App\Http\Requests\AnimalItemFilePostRequest;
 
 class AnimalItemController extends Controller
@@ -99,7 +100,7 @@ class AnimalItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AnimalItemPostRequest $request, $id)
     {
         $animalItem = AnimalItem::findOrFail($id);
         $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;

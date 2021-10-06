@@ -30,12 +30,15 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Veličina</label>
-                                    <select class="form-control" name="animal_size_attributes_id" id="" required>
+                                    <select class="form-control" name="animal_size_attributes_id" id="">
                                         <option value="">Odaberi</option>
                                         @foreach ($size->sizeAttributes as $siz)
                                             <option value="{{ $siz->id }}">{{ $siz->name }}</option>
                                         @endforeach
                                     </select>
+                                    @error('animal_size_attributes_id')
+                                        <div class="text-danger">{{$errors->first('animal_size_attributes_id') }} </div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Dob jedinke</label>
@@ -45,6 +48,9 @@
                                         <option value="JUV">JUV (juvenilna)</option>
                                         <option value="SA">SA (subadultna)</option>
                                     </select>
+                                    @error('animal_dob')
+                                        <div class="text-danger">{{$errors->first('animal_dob') }} </div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Spol</label>
@@ -54,10 +60,16 @@
                                         <option value="zenka">Ž/F (ženka)</option>
                                         <option value="nije moguce odrediti">N (nije moguće odrediti)</option>
                                     </select>
+                                    @error('animal_gender')
+                                        <div class="text-danger">{{$errors->first('animal_gender') }} </div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
                                     <label>Lokacija</label>
                                     <input type="text" class="form-control" name="location" value="{{ $animalItem->location }}" required>
+                                    @error('location')
+                                        <div class="text-danger">{{$errors->first('location') }} </div>
+                                    @enderror
                                 </div>
                     
                                 <button type="submit" class="btn btn-primary mr-2">Ažuriraj</button>
@@ -109,7 +121,7 @@
                                 <div>
                                     <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                         href="{{ $file->getUrl() }}">
-                                        Dokument
+                                        {{ $file->name }}
                                     </a>
                                 </div>
                             </div>
@@ -135,54 +147,6 @@
     <script>
         $(function() {
             $('[data-toggle="tooltip"]').tooltip();
-
-            // Delete File
-            $('#findFile').on('click', '#deleteFile', function(e){
-                e.preventDefault();
-                var id = $(this).find('.fileId').val();
-
-                Swal.fire({
-                    title: 'Jeste li sigurni?',
-                    text: "Želite obrisati dokuemnt i više neće biti dostupan!",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Da, obriši!'
-                }).then((result) => {
-                    if(result.isConfirmed){
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                            }
-                        });
-                        $.ajax({
-                            url: "/animal_item/file/" + id,
-                            type: 'POST',
-                            contentType: false,
-                            processData: false,
-                            success: function(result) {
-                                if(result.msg == 'success'){
-                                    Swal.fire(
-                                        'Odlično!',
-                                        'Uspješno ste obrisali dokument!',
-                                        'success'
-                                    ).then((result) => {
-                                    location.reload(); 
-                                    });
-                                }
-                                else {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: 'Oops...',
-                                        text: 'Nešto je pošlo po zlu!',
-                                    });
-                                }
-                            }
-                        });
-                    }
-                });
-            });
         })
     </script>
 @endpush
