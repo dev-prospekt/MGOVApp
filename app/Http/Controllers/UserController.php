@@ -86,13 +86,7 @@ class UserController extends Controller
         $user->roles()->detach();
         $user->save();
 
-        if($request->role_id == 2){
-            $user->roles()->attach($request->role_id);
-        }
-        if($request->role_id == 1){
-            $user->roles()->attach($request->role_id);
-        }
-        if($request->role_id == 3){
+        if($request->role_id){
             $user->roles()->attach($request->role_id);
         }
 
