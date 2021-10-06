@@ -63,16 +63,17 @@ class UserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'email' => 'required',
+            'email' => 'required|email|unique:users',
             'password' => 'required',
         ], [
             'name.required' => 'Ime je obavezan podatak',
             'email.required' => 'Email je obavezan podatak',
+            'email.unique' => 'Email postoji',
             'password.required' => 'Lozinka je obavezan podatak',
         ]);
 
         if ($validator->fails()) {
-            return redirect()->route("user.index")->with('error', $validator->errors()->all());
+            return response()->json(['errors' => $validator->errors()->all()]);
         }
 
         $user = new User;
@@ -82,7 +83,7 @@ class UserController extends Controller
         $user->shelter_id = $request->shelter_id;
         $user->save();
 
-        return redirect()->route("user.index")->with('msg', 'Uspješno dodano.');
+        return response()->json(['success' => 'Uspješno dodano.']);
     }
 
     /**
