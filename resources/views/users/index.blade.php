@@ -87,9 +87,7 @@
 </div>
 
 <!-- Users Modal -->
-<div class="modal">
-    
-</div>
+<div class="modal"></div>
 
 @endsection
 
@@ -159,7 +157,7 @@
                                     else {
                                         $('.alert-danger').hide();
                                         $('.alert-success').show();
-                                        
+
                                         setInterval(function(){
                                             $('.alert-success').hide();
                                             $('.modal').modal('hide');
@@ -183,7 +181,46 @@
                     method: 'GET',
                     success: function(result) {
                         $(".modal").show();
-                        $(".modal-content").html(result['html']);
+                        $(".modal").html(result['html']);
+
+                        $(".modal").on('click', '.submitBtn', function(){
+                            var resData = {
+                                name: $(".modal").find('.name').val(),
+                                email: $(".modal").find('.email').val(),
+                                shelter_id: $(".modal").find('.shelter_id').val(),
+                                _token: '{{csrf_token()}}'
+                            };
+
+                            $.ajaxSetup({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                }
+                            });
+                            $.ajax({
+                                url: "user/"+id,
+                                method: 'PUT',
+                                data: resData,
+                                success: function(result) {
+                                    if(result.errors) {
+                                        $('.alert-danger').html('');
+                                        $.each(result.errors, function(key, value) {
+                                            $('.alert-danger').show();
+                                            $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                        });
+                                    } 
+                                    else {
+                                        $('.alert-danger').hide();
+                                        $('.alert-success').show();
+
+                                        setInterval(function(){
+                                            $('.alert-success').hide();
+                                            $('.modal').modal('hide');
+                                            location.reload();
+                                        }, 2000);
+                                    }
+                                }
+                            });
+                        });
                     }
                 });
             });
