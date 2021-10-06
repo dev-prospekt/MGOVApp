@@ -65,11 +65,13 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required',
+            'role_id' => 'required',
         ], [
             'name.required' => 'Ime je obavezan podatak',
             'email.required' => 'Email je obavezan podatak',
             'email.unique' => 'Email postoji',
             'password.required' => 'Lozinka je obavezan podatak',
+            'role_id.required' => 'Rola je obavezan podatak',
         ]);
 
         if ($validator->fails()) {
@@ -81,7 +83,18 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->password = bcrypt($request->password);
         $user->shelter_id = $request->shelter_id;
+        $user->roles()->detach();
         $user->save();
+
+        if($request->role_id == 2){
+            $user->roles()->attach($request->role_id);
+        }
+        if($request->role_id == 1){
+            $user->roles()->attach($request->role_id);
+        }
+        if($request->role_id == 3){
+            $user->roles()->attach($request->role_id);
+        }
 
         return response()->json(['success' => 'Uspješno dodano.']);
     }
@@ -223,6 +236,6 @@ class UserController extends Controller
             $user->roles()->attach(Role::where('name', 'Shelter-User')->first());
         }
 
-        return redirect("/roleMapping");
+        return redirect("/roleMapping")->with('msg', 'Uspješno spremljeno.');
     }
 }

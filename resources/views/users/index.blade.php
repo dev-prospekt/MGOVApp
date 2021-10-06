@@ -134,7 +134,8 @@
                                 email: $(".modal").find('.email').val(),
                                 password: $(".modal").find('.password').val(),
                                 shelter_id: $(".modal").find('.shelter_id').val(),
-                                _token: '{{csrf_token()}}'
+                                role_id: $(".modal").find('.role_id').val(),
+                                _token: '{{csrf_token()}}',
                             };
 
                             $.ajaxSetup({

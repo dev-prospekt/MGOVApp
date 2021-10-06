@@ -35,6 +35,15 @@
                         <input type="password" class="form-control password" name="password">
                     </div>
                     <div class="form-group">
+                        <label>Role</label>
+                        <select class="form-control role_id" name="role_id" id="">
+                            <option value="">Odaberi</option>
+                            <option value="1">Shelter-Admin</option>
+                            <option value="2">Super-Admin</option>
+                            <option value="3">Shelter-User</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Oporavilište</label>
                         <select class="form-control shelter_id" name="shelter_id" id="">
                             @foreach ($shelters as $shelter)
