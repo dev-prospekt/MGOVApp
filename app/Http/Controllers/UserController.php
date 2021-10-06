@@ -8,9 +8,10 @@ use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
+use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\UserPostRequest;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -58,12 +59,26 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserPostRequest $request)
+    public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ], [
+            'name.required' => 'Ime je obavezan podatak',
+            'email.required' => 'Email je obavezan podatak',
+            'password.required' => 'Lozinka je obavezan podatak',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route("user.index")->with('error', $validator->errors()->all());
+        }
+
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = bcrypt($request->email);
+        $user->password = bcrypt($request->password);
         $user->shelter_id = $request->shelter_id;
         $user->save();
 
@@ -111,6 +126,18 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required',
+        ], [
+            'name.required' => 'Ime je obavezan podatak',
+            'email.required' => 'Email je obavezan podatak',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->route("user.index")->with('error', $validator->errors()->all());
+        }
+
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;

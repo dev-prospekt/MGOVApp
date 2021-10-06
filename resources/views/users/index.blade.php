@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-lg-8 col-xl-8 grid-margin stretch-card">
+    <div class="col-lg-12 col-xl-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 
@@ -22,10 +22,16 @@
                     </div>
                 </div>
 
-                <div class="" id="msg"></div>
-
                 @if($msg = Session::get('msg'))
                 <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
+
+                @if($error = Session::get('error'))
+                <div id="dangerMessage" class="alert alert-danger">
+                    @foreach ($error as $err)
+                        <p>{{ $err }}</p>
+                    @endforeach
+                </div>
                 @endif
 
                 <div class="table-responsive-sm">

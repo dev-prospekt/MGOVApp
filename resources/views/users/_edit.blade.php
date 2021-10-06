@@ -11,11 +11,11 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <label>Naziv</label>
-                    <input type="text" class="form-control" name="name" value="{{ $user->name }}" required>
+                    <input type="text" class="form-control" name="name" value="{{ $user->name }}">
                 </div>
                 <div class="form-group">
                     <label>Email</label>
-                    <input type="email" class="form-control" name="email" value="{{ $user->email }}" required>
+                    <input type="email" class="form-control" name="email" value="{{ $user->email }}">
                 </div>
                 <div class="form-group">
                     <label>Oporavilište</label>
