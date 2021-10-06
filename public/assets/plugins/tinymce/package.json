@@ -2,7 +2,7 @@
   "_args": [
     [
       "tinymce@5.6.2",
-      "C:\\laragon\\www\\MGOVApp"
+      "C:\\Users\\AlenBarac\\laragon\\www\\MGOVApp"
     ]
   ],
   "_from": "tinymce@5.6.2",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.6.2.tgz",
   "_spec": "5.6.2",
-  "_where": "C:\\laragon\\www\\MGOVApp",
+  "_where": "C:\\Users\\AlenBarac\\laragon\\www\\MGOVApp",
   "author": {
     "name": "Tiny Technologies, Inc"
   },

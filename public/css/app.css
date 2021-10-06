@@ -25020,4 +25020,18 @@ a.btn.btn-icon svg, .fc a.btn-icon.fc-button svg, .wizard > .actions a.btn-icon 
   margin-top: 7px;
 }
 
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.email-compose-fields .select2-container--default .select2-selection--multiple,
+.form-control, .select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--single .select2-search__field,
+.tt-hint, .tt-query, .typeahead, select {
+  color: #bababa;
+}
+
 /*# sourceMappingURL=app.css.map*/

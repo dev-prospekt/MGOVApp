@@ -54,20 +54,8 @@ class ShelterController extends Controller
      */
     public function store(ShelterPostRequest $request)
     {
-        $shelter = new Shelter;
-        $shelter->name = $request->name;
-        $shelter->shelter_code = $request->shelter_code;
-        $shelter->email = $request->email;
-        $shelter->address = $request->address;
-        $shelter->oib = $request->oib;
-        $shelter->place_zip = $request->place_zip;
-        $shelter->bank_name = $request->bank_name;
-        $shelter->telephone = $request->telephone;
-        $shelter->mobile = $request->mobile;
-        $shelter->fax = $request->fax;
-        $shelter->web_address = $request->web_address;
-        $shelter->iban = $request->iban;
-        $shelter->save();
+
+        $shelter = Shelter::create($request->all());
 
         $shelter->shelterTypes()->attach($request->shelter_type_id, [
             'shelter_id' => $shelter->id
@@ -104,7 +92,7 @@ class ShelterController extends Controller
         return view('shelter.shelter.edit', [
             'shelterType' => $shelterType,
             'shelter' => $shelter
-        ]); 
+        ]);
     }
 
     /**
@@ -149,19 +137,19 @@ class ShelterController extends Controller
         $shelter = Shelter::findOrFail($id);
         $shelter->delete();
 
-        return response()->json(['msg'=>'success']);
+        return response()->json(['msg' => 'success']);
         //return redirect()->route('shelter.index')->with('msg', 'Oporavilište je uspješno uklonjeno');
     }
 
     public function animalItems($shelterId, $code)
     {
         $animalItem = Shelter::with('animals')
-                        ->findOrFail($shelterId)
-                        ->animalItems()->with('animalSizeAttributes')
-                        ->where('shelter_code', $code)
-                        ->where('status', 1)
-                        ->get();
-                        
+                    ->findOrFail($shelterId)
+                    ->animalItems()->with('animalSizeAttributes')
+                    ->where('shelter_code', $code)
+                    ->where('status', 1)
+                    ->get();
+                    
         $shelters = Shelter::all();
         //dd($animalItem);
 
@@ -176,19 +164,19 @@ class ShelterController extends Controller
             ->addColumn('action', function ($shelter) {
                 return '
                 <div class="d-flex align-items-center">
-                    <a href="shelter/'.$shelter->id.'" class="btn btn-xs btn-info mr-2">
+                    <a href="shelter/' . $shelter->id . '" class="btn btn-xs btn-info mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Info
                     </a>
                 
-                    <a href="shelter/'.$shelter->id.'/edit" class="btn btn-xs btn-primary mr-2">
+                    <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-primary mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Edit
                     </a>
 
                     <a href="javascript:void(0)" id="shelterClick" class="btn btn-xs btn-danger" >
                         <i class="mdi mdi-delete"></i>
-                        <input type="hidden" id="shelter_id" value="'.$shelter->id.'" />
+                        <input type="hidden" id="shelter_id" value="' . $shelter->id . '" />
                         Delete
                     </a>
                 </div>
