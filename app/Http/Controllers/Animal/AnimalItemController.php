@@ -59,7 +59,7 @@ class AnimalItemController extends Controller
     {
         $animalItems = AnimalItem::find($id);
         $animalFiles = AnimalFile::where('shelter_code', $animalItems->shelter_code)->get();
-
+        
         $mediaFiles = $animalFiles->each(function($item, $key){
             $item->getMedia('media');
         });
@@ -83,10 +83,12 @@ class AnimalItemController extends Controller
     {
         $animalItem = AnimalItem::findOrFail($id);
         $mediaItems = $animalItem->getMedia('media');
+        $size = $animalItem->animal->animalSize;
 
         return view('animal.animal_item.edit', [
             'animalItem' => $animalItem,
             'mediaItems' => $mediaItems,
+            'size' => $size,
         ]); 
     }
 
@@ -100,7 +102,8 @@ class AnimalItemController extends Controller
     public function update(Request $request, $id)
     {
         $animalItem = AnimalItem::findOrFail($id);
-        $animalItem->animal_size = $request->animal_size;
+        $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
+        $animalItem->animal_dob = $request->animal_dob;
         $animalItem->animal_gender = $request->animal_gender;
         $animalItem->location = $request->location;
         $animalItem->save();
@@ -176,23 +179,20 @@ class AnimalItemController extends Controller
         $copy->shelter_id = $request->shelter_id;
         $copy->shelter_code = Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment;
         $copy->save();
-
-        // Kopija dokumenata životinje
-        $animalFiles = AnimalItem::find($id)->animalItemsFile;
-        foreach ($animalFiles as $key) {
-            $copyAnimalFiles = $key->replicate();
-            $copyAnimalFiles->animal_item_id = $copy->id;
-            $copyAnimalFiles->save();
-        }
         
         return redirect('/shelter/'.$shelterID)->with('msg', 'Uspješno premješteno u oporavilište '.$shelter->name.'');
     }
 
     public function generatePDF($id)
     {
-        $animalItems = AnimalItem::with('animal', 'shelter', 'animalItemsFile')->find($id);
+        $animalItems = AnimalItem::with('animal', 'shelter')->find($id);
+        $animalFiles = AnimalFile::where('shelter_code', $animalItems->shelter_code)->get();
         
-        $pdf = PDF::loadView('myPDF', compact('animalItems'));
+        $mediaFiles = $animalFiles->each(function($item, $key){
+            $item->getMedia('media');
+        });
+        
+        $pdf = PDF::loadView('myPDF', compact('animalItems', 'mediaFiles'));
     
         return $pdf->stream('my.pdf');
     }

@@ -15,4 +15,9 @@ class AnimalSizeAttribute extends Model
     {
         return $this->belongsTo(AnimalSize::class);
     }
+
+    public function animalItem()
+    {
+        return $this->hasOne(AnimalItem::class);
+    }
 }

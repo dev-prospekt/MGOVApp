@@ -157,7 +157,7 @@ class ShelterController extends Controller
     {
         $animalItem = Shelter::with('animals')
                         ->findOrFail($shelterId)
-                        ->animalItems()
+                        ->animalItems()->with('animalSizeAttributes')
                         ->where('shelter_code', $code)
                         ->where('status', 1)
                         ->get();

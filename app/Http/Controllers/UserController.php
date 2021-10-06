@@ -35,13 +35,21 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    // public function create()
+    // {
+    //     $shelters = Shelter::all();
+
+    //     return view("users.create", [
+    //         'shelters' => $shelters
+    //     ]);
+    // }
+
+    public function create() 
     {
         $shelters = Shelter::all();
 
-        return view("users.create", [
-            'shelters' => $shelters
-        ]);
+        $returnHTML = view('users._create', ['shelters'=> $shelters])->render();
+        return response()->json( array('success' => true, 'html' => $returnHTML) );
     }
 
     /**
@@ -79,11 +87,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    // public function edit(User $user)
+    // {
+    //     $shelters = Shelter::all();
+
+    //     return view('users.edit', compact('shelters'))->with('user', $user); 
+    // }
+
+    public function edit(User $user) 
     {
         $shelters = Shelter::all();
 
-        return view('users.edit', compact('shelters'))->with('user', $user); 
+        $returnHTML = view('users._edit', ['shelters'=> $shelters, 'user' => $user])->render();
+        return response()->json( array('success' => true, 'html' => $returnHTML) );
     }
 
     /**
@@ -140,7 +156,7 @@ class UserController extends Controller
             ->addColumn('action', function ($user) {
                 return '
                 <div class="d-flex align-items-center">
-                    <a href="user/'.$user->id.'/edit" class="btn btn-xs btn-primary mr-2">
+                    <a href="javascript:void(0)" class="edit btn btn-xs btn-primary mr-2" data-id="'.$user->id.'">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Uredi
                     </a>

@@ -30,7 +30,12 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label>Veličina</label>
-                                    <input type="text" class="form-control" name="animal_size" value="{{ $animalItem->animal_size }}" required>
+                                    <select class="form-control" name="animal_size_attributes_id" id="" required>
+                                        <option value="">Odaberi</option>
+                                        @foreach ($size->sizeAttributes as $siz)
+                                            <option value="{{ $siz->id }}">{{ $siz->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Dob jedinke</label>

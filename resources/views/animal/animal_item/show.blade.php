@@ -48,10 +48,10 @@
                                 <td>{{ $loop->iteration }}</td>
                                 <td>{{ $anim->animal->name }}</td>
                                 <td>{{ $anim->animal->latin_name }}</td>
-                                <td>{{ $anim->animal->animalCategory->name }}</td>
+                                <td>{{ $anim->animal->animalCategory->latin_name }}</td>
                                 <td>{{ $anim->location }}</td>
                                 <td>{{ $anim->animal_gender }}</td>
-                                <td>{{ $anim->animal_size }}</td>
+                                <td>{{ $anim->animalSizeAttributes->name ?? '' }}</td>
                                 <td>
                                     <a href="{{ route('animal_item.show', $anim) }}" class="btn btn-info">
                                         Info

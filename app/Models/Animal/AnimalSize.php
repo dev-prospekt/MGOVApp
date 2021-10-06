@@ -15,4 +15,9 @@ class AnimalSize extends Model
     {
         return $this->hasMany(AnimalSizeAttribute::class);
     }
+
+    public function animal()
+    {
+        return $this->hasMany(Animal::class);
+    }
 }

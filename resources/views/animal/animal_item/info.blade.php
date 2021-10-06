@@ -39,6 +39,10 @@
                             <p class="text-muted">{{ $animalItems->shelter_code }}</p>
                         </div>
                         <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dob:</label>
+                            <p class="text-muted">{{ $animalItems->animal_dob }}</p>
+                        </div>
+                        <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Status:</label>
                             <p class="text-success">
                                 @if ($animalItems->status == 1)
@@ -50,7 +54,7 @@
                     <div class="col-md-6 grid-margin">
                         <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Veličina: </label>
-                            <p class="text-muted">{{ $animalItems->animal_size }}</p>
+                            <p class="text-muted">{{ $animalItems->animalSizeAttributes->name ?? '' }}</p>
                         </div>
                         <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Spol:</label>
@@ -86,7 +90,7 @@
                                 @foreach ($fi->getMedia('media') as $media)
                                     <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                             href="{{ $media->getUrl() }}">
-                                            Dokument
+                                            {{ $media->name }}
                                         </a>
                                 @endforeach
                             @endforeach
@@ -102,7 +106,7 @@
                                     <div>
                                         <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                             href="{{ $file->getUrl() }}">
-                                            Dokument
+                                            {{ $media->name }}
                                         </a>
                                     </div>
                                 </div>

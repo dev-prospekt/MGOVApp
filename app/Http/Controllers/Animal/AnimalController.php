@@ -97,6 +97,7 @@ class AnimalController extends Controller
             $increment = $incrementId->id + 1;
         }
 
+        // Pivot table
         $animals->shelters()->attach($request->animal_id, [
             'shelter_id' => $request->shelter_id,
             'animal_id' => $request->animal_id,
@@ -104,19 +105,23 @@ class AnimalController extends Controller
             'quantity' => $request->quantity,
         ]);
 
+        // Pivot id (animal_shelter)
         $pivot_id = Animal::find($request->animal_id)->shelters()->orderBy('pivot_id', 'desc')->first();
 
+        // Create AnimalFile
         $animalFiles = new AnimalFile;
-        $animalFiles->animal_shelter_id = $pivot_id->pivot->id;
-        $animalFiles->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment;
+        $animalFiles->animal_shelter_id = $pivot_id->pivot->id; // ID pivot table animal_shelter
+        $animalFiles->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment; // shelter_code
         $animalFiles->save();
 
+        // Save documents - Model AnimalFile
         if($request->filenames){
             foreach ($request->filenames as $key) {
-                $animalFiles->addMedia($key)->toMediaCollection('media');
+                $animalFiles->addMedia($key)->toMediaCollection('media', 'group');
             }
         }
 
+        // Create AnimalItem
         for ($i=0; $i < $count; $i++) {
             $animalItem = new AnimalItem;
             $animalItem->animal_id = $request->animal_id;

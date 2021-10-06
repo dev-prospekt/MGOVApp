@@ -18,7 +18,7 @@
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
-                        <a href="{{ route("user.create") }}" class="btn btn-primary">Dodaj</a>
+                        <a href="javascript:void(0)" class="create btn btn-primary">Dodaj</a>
                     </div>
                 </div>
 
@@ -80,6 +80,15 @@
     </div>
 </div>
 
+<!-- Users Modal -->
+<div class="modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            
+        </div>
+    </div>
+</div>
+
 @endsection
 
 
@@ -106,6 +115,35 @@
                 language: {
                     url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
                 }
+            });
+
+            //Create
+            $(".create").on('click', function(e){
+                e.preventDefault();
+
+                $.ajax({
+                    url: "user/create",
+                    method: 'GET',
+                    success: function(result) {
+                        $(".modal").show();
+                        $(".modal-content").html(result['html']);
+                    }
+                });
+            });
+
+            //Edit
+            $('#users-table').on('click', '.edit', function(e){
+                e.preventDefault();
+                var id = $(this).attr("data-id");
+
+                $.ajax({
+                    url: "user/"+id+"/edit",
+                    method: 'GET',
+                    success: function(result) {
+                        $(".modal").show();
+                        $(".modal-content").html(result['html']);
+                    }
+                });
             });
 
             // Delete
@@ -135,6 +173,11 @@
                         }
                     }
                 });
+            });
+
+            // Modal
+            $(".modal-content").on('click', '.modal-close', function(){
+                $(".modal").hide();
             });
         })
   </script>

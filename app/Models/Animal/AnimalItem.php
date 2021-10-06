@@ -15,11 +15,16 @@ class AnimalItem extends Model implements HasMedia
 
     public function animal()
     {
-        return $this->belongsTo(Animal::class);
+        return $this->belongsTo(Animal::class)->with('animalSize');
     }
 
     public function shelter()
     {
         return $this->belongsTo(Shelter::class);
+    }
+
+    public function animalSizeAttributes()
+    {
+        return $this->belongsTo(AnimalSizeAttribute::class);
     }
 }

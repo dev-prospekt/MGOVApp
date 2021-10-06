@@ -45,4 +45,9 @@ class Animal extends Model
     {
         return $this->belongsToMany(AnimalType::class);
     }
+
+    public function animalSize()
+    {
+        return $this->belongsTo(AnimalSize::class)->with('sizeAttributes');
+    }
 }
