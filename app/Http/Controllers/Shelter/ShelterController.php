@@ -7,14 +7,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
+use Yajra\Datatables\Datatables;
 use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalItem;
 use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
+use App\Models\Shelter\ShelterStaff;
 use App\Models\Animal\AnimalCategory;
 use App\Http\Requests\ShelterPostRequest;
 use App\Models\Animal\AnimalSystemCategory;
-use Yajra\Datatables\Datatables;
+use App\Models\Shelter\ShelterStaffType;
 
 class ShelterController extends Controller
 {
@@ -74,8 +76,19 @@ class ShelterController extends Controller
     {
         $shelter = Shelter::with('animals', 'users')->findOrFail($id);
 
+        $shelterLegalStaff = ShelterStaff::where('shelter_id', $id)->get()
+            ->filter(function ($item) {
+                return $item->shelter_staff_type_id == 1;
+            })->last();
+
+        $file = $shelterLegalStaff ? $shelterLegalStaff->getMedia('legal-docs')->first() : '';
+
+
+
         return view('shelter.shelter.show', [
             'shelter' => $shelter,
+            'shelterLegalStaff' => $shelterLegalStaff,
+            'file' => $file
         ]);
     }
 

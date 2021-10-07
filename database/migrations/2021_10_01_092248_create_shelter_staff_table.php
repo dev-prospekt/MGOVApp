@@ -17,13 +17,14 @@ class CreateShelterStaffTable extends Migration
             $table->id();
 
             $table->foreignId('shelter_staff_type_id');
+            $table->foreignId('shelter_id')->nullable();
 
             $table->string('name');
-            $table->integer('oib');
+            $table->string('oib');
             $table->string('address');
             $table->string('address_place');
-            $table->integer('phone');
-            $table->integer('phone_cell');
+            $table->string('phone');
+            $table->string('phone_cell');
             $table->string('email')->unique();
             $table->string('education')->nullable();
             $table->string('file_contract')->nullable();
