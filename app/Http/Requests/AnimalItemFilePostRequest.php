@@ -25,7 +25,7 @@ class AnimalItemFilePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'filenames' => "required|mimes:pdf|max:10000",
+            'filenames' => "required|max:20000",
         ];
     }
 

@@ -126,7 +126,16 @@ class AnimalItemController extends Controller
     public function file(AnimalItemFilePostRequest $request)
     {
         $animalItemFile = AnimalItem::find($request->animal_item_id);
-        $animalItemFile->addMedia($request->filenames)->toMediaCollection('media');
+        
+        // Delete
+        $clearAll = $animalItemFile->clearMediaCollection('media');
+
+        // Update
+        if($request->filenames){
+            foreach ($request->filenames as $key) {
+                $animalItemFile->addMedia($key)->toMediaCollection('media');
+            }
+        }
 
         return redirect('/animal_item/'.$request->animal_item_id.'/edit')->with('msg', 'Uspješno dodan dokument');
     }

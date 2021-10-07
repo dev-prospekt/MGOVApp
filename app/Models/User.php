@@ -10,12 +10,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\File;
+
+class User extends Authenticatable implements HasMedia
 {
     use Notifiable;
     use HasRoles;
     use HasFactory;
     use SoftDeletes;
+    use InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.

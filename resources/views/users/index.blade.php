@@ -128,16 +128,11 @@
                         $(".modal").show();
                         $(".modal").html(result['html']);
 
-                        $(".modal").on('click', '.submitBtn', function(){
-                            var resData = {
-                                name: $(".modal").find('.name').val(),
-                                email: $(".modal").find('.email').val(),
-                                password: $(".modal").find('.password').val(),
-                                shelter_id: $(".modal").find('.shelter_id').val(),
-                                role_id: $(".modal").find('.role_id').val(),
-                                _token: '{{csrf_token()}}',
-                            };
+                        $('.modal').find("#user-ajax").on('submit', function(e){
+                            e.preventDefault();
 
+                            var formData = this;
+                            
                             $.ajaxSetup({
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -146,7 +141,10 @@
                             $.ajax({
                                 url: "{{ route('user.store') }}",
                                 method: 'POST',
-                                data: resData,
+                                data: new FormData(formData),
+                                processData: false,
+                                dataType: 'json',
+                                contentType: false,
                                 success: function(result) {
                                     if(result.errors) {
                                         $('.alert-danger').html('');

@@ -25,8 +25,8 @@ class AnimalPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'quantity' => ['required'],
-            'filenames' => "required|mimes:pdf|max:10000",
+            'quantity' => "required",
+            'filenames' => "required|max:10000",
         ];
     }
 
@@ -34,7 +34,7 @@ class AnimalPostRequest extends FormRequest
     {
         return [
             'quantity.required' => 'Količina je obavezan podatak',
-            'filenames.mimes' => 'Za upload možete koristiti samo PDF.',
+            'filenames.required' => 'Dokument je obavezan podatak.',
         ];
     }
 }

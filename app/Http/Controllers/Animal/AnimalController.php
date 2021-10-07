@@ -117,7 +117,7 @@ class AnimalController extends Controller
         // Save documents - Model AnimalFile
         if($request->filenames){
             foreach ($request->filenames as $key) {
-                $animalFiles->addMedia($key)->toMediaCollection('media', 'group');
+                $animalFiles->addMedia($key)->toMediaCollection('media');
             }
         }
 

@@ -96,7 +96,7 @@
 
                         <div class="form-group">
                             <label>Dokument</label>
-                            <input type="file" class="form-control border" id="myDropify" name="filenames">
+                            <input type="file" class="form-control border" id="myDropify" name="filenames[]" multiple>
                             @error('filenames')
                                 <div class="text-danger">{{$errors->first('filenames') }} </div>
                             @enderror
