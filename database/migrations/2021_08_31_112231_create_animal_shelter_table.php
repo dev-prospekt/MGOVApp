@@ -19,6 +19,7 @@ class CreateAnimalShelterTable extends Migration
             $table->foreignId('shelter_id')->constrained('shelters');
             $table->integer('quantity');
             $table->string('shelter_code');
+            $table->string('description');
             $table->timestamps();
         });
     }

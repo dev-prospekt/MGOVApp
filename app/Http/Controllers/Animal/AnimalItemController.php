@@ -62,7 +62,13 @@ class AnimalItemController extends Controller
         $animalFiles = AnimalFile::where('shelter_code', $animalItems->shelter_code)->get();
         
         $mediaFiles = $animalFiles->each(function($item, $key){
-            $item->getMedia('media');
+            $item;
+        });
+        $mediaStanjeZaprimanja = $animalFiles->each(function($item, $key){
+            $item;
+        });
+        $mediaStanjePronadena = $animalFiles->each(function($item, $key){
+            $item;
         });
 
         $animalItemsMedia = $animalItems->getMedia('media');
@@ -70,6 +76,8 @@ class AnimalItemController extends Controller
         return view('animal.animal_item.info', [
             'animalItems' => $animalItems,
             'animalItemsMedia' => $animalItemsMedia,
+            'mediaStanjeZaprimanja' => $mediaStanjeZaprimanja,
+            'mediaStanjePronadena' => $mediaStanjePronadena,
             'mediaFiles' => $mediaFiles,
         ]);
     }

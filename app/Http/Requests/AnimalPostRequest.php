@@ -26,7 +26,8 @@ class AnimalPostRequest extends FormRequest
     {
         return [
             'quantity' => "required",
-            'filenames' => "required|max:10000",
+            'location' => "required",
+            'documents' => "required|max:10000",
         ];
     }
 
@@ -34,7 +35,8 @@ class AnimalPostRequest extends FormRequest
     {
         return [
             'quantity.required' => 'Količina je obavezan podatak',
-            'filenames.required' => 'Dokument je obavezan podatak.',
+            'location.required' => 'Lokacija je obavezan podatak',
+            'documents.required' => 'Dokument je obavezan podatak.',
         ];
     }
 }

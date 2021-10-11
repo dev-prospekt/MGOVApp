@@ -64,12 +64,6 @@ return [
             'url' => env('AWS_URL'),
         ],
 
-        'group' => [
-            'driver' => 'local',
-            'root'   => storage_path('app/public/group'),
-            'url'    => 'http://localhost:3100/storage/group',
-        ],
-
         'media' => [
             'driver' => 'local',
             'root'   => storage_path('app/public/media'),

@@ -59,6 +59,6 @@ class PermissionsDemoSeeder extends Seeder
             'email' => 'shelter2@test.com',
             'shelter_id' => 3
         ]);
-        $user2->assignRole($role3);
+        $user3->assignRole($role3);
     }
 }

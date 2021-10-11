@@ -39,41 +39,28 @@ class AnimalController extends Controller
             ->shelterTypes()
             ->get();
 
+        
+        $typeArray = array();
+
         foreach ($shelter as $key) {
-            if($key->code == "IJ"){
-                $ij = Animal::with('animalType')
-                            ->whereHas('animalType', function ($q) use ($key) {
-                                $q->where('type_code', $key->code);
-                            })->get();
-            }
+            $type = Animal::with('animalType')
+                ->whereHas('animalType', function ($q) use ($key) {
+                    $q->where('type_code', $key->code);
+                })->get();
+
             if($key->code == "SZJ"){
-                $szj = Animal::with('animalType')
-                            ->whereHas('animalType', function ($q) use ($key) {
-                                $q->where('type_code', $key->code);
-                            })->get();
+                $typeArray['SZJ'] = $type;
+            }
+            if($key->code == "IJ"){
+                $typeArray['IJ'] = $type;
             }
             if($key->code == "ZJ"){
-                $zj = Animal::with('animalType')
-                            ->whereHas('animalType', function ($q) use ($key) {
-                                    $q->where('type_code', $key->code);
-                                })->get();
+                $typeArray['ZJ'] = $type;
             }
-        }
-
-        if(empty($ij)){
-            $ij = '';
-        }
-        if(empty($szj)){
-            $szj = '';
-        }
-        if(empty($zj)){
-            $zj = '';
         }
                 
         return view('animal.animal.create', [
-            'ij' => $ij,
-            'szj' => $szj,
-            'zj' => $zj,
+            'typeArray' => $typeArray,
         ]); 
     }
 
@@ -97,16 +84,24 @@ class AnimalController extends Controller
             $increment = $incrementId->id + 1;
         }
 
+        // Animal ID
+        foreach ($request->animal_id as $key) {
+            if(!empty($key)){
+                $animal_id = $key;
+            }
+        }
+
         // Pivot table
-        $animals->shelters()->attach($request->animal_id, [
+        $animals->shelters()->attach($animal_id, [
             'shelter_id' => $request->shelter_id,
-            'animal_id' => $request->animal_id,
+            'animal_id' => $animal_id,
             'shelter_code' => Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment,
             'quantity' => $request->quantity,
+            'description' => $request->description,
         ]);
 
         // Pivot id (animal_shelter)
-        $pivot_id = Animal::find($request->animal_id)->shelters()->orderBy('pivot_id', 'desc')->first();
+        $pivot_id = Animal::find($animal_id)->shelters()->orderBy('pivot_id', 'desc')->first();
 
         // Create AnimalFile
         $animalFiles = new AnimalFile;
@@ -114,17 +109,27 @@ class AnimalController extends Controller
         $animalFiles->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment; // shelter_code
         $animalFiles->save();
 
-        // Save documents - Model AnimalFile
-        if($request->filenames){
-            foreach ($request->filenames as $key) {
+        // Save documents
+        if($request->documents){
+            foreach ($request->documents as $key) {
                 $animalFiles->addMedia($key)->toMediaCollection('media');
+            }
+        }
+        if($request->status_receiving_file){
+            foreach ($request->status_receiving_file as $key) {
+                $animalFiles->addMedia($key)->toMediaCollection('status_receiving_file');
+            }
+        }
+        if($request->status_found_file){
+            foreach ($request->status_found_file as $key) {
+                $animalFiles->addMedia($key)->toMediaCollection('status_found_file');
             }
         }
 
         // Create AnimalItem
         for ($i=0; $i < $count; $i++) {
             $animalItem = new AnimalItem;
-            $animalItem->animal_id = $request->animal_id;
+            $animalItem->animal_id = $animal_id;
             $animalItem->shelter_id = $request->shelter_id;
             
             if($count != 1){
@@ -136,6 +141,9 @@ class AnimalController extends Controller
 
             $animalItem->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment;
             $animalItem->status = 1;
+            $animalItem->status_receiving = $request->status_receiving;
+            $animalItem->status_receiving = $request->status_found;
+            $animalItem->location = $request->location;
             $animalItem->date_found = Carbon::createFromFormat('m/d/Y', $request->date_found)->format('d.m.Y');
             $animalItem->save();
         }

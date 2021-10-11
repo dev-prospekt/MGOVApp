@@ -1,5 +1,5 @@
 $(function() {
   'use strict';
 
-  $('#myDropify').dropify();
+  $('input#myDropify').dropify();
 });

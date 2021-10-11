@@ -66,7 +66,7 @@
                         </div>
                         <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Pronađena:</label>
-                            <p class="text-muted">{{ $animalItems->date_find }}</p>
+                            <p class="text-muted">{{ $animalItems->date_found }}</p>
                         </div>
                     </div>
                 </div>
@@ -85,34 +85,63 @@
                     <div class="col-md-6 grid-margin">
                         <p>Grupa</p>
 
-                        <div>
-                            @foreach ($mediaFiles as $fi)
-                                @foreach ($fi->getMedia('media') as $media)
+                        @foreach ($mediaFiles as $fi)
+                            @foreach ($fi->getMedia('media') as $media)
+                                <p>
                                     <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                                            href="{{ $media->getUrl() }}">
-                                            {{ $media->name }}
-                                        </a>
-                                @endforeach
+                                        href="{{ $media->getUrl() }}">
+                                        {{ $media->name }}
+                                    </a>
+                                </p>
                             @endforeach
-                        </div>
+                        @endforeach
 
                     </div>
 
                     <div class="col-md-6 grid-margin">
                         <p>Pojedinačni</p>
+
                         @if ($animalItemsMedia)
                             @foreach ($animalItemsMedia as $file)
-                                <div id="findFile">
-                                    <div>
-                                        <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                                            href="{{ $file->getUrl() }}">
-                                            {{ $file->name }}
-                                        </a>
-                                    </div>
-                                </div>
+                                <p id="findFile">
+                                    <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                        href="{{ $file->getUrl() }}">
+                                        {{ $file->name }}
+                                    </a>
+                                </p>
                             @endforeach
                         @endif
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 grid-margin">
+        <div class="card rounded">
+            <div class="card-body">
+                <p>Stanje životinje u trenutku zaprimanja u oporavilište</p>
+                    
+                <div class="d-flex align-items-center flex-wrap">
+                @foreach ($mediaStanjeZaprimanja as $fi)
+                    @foreach ($fi->getMedia('status_receiving_file') as $images)
+                        <p class="m-2">
+                            <img width="100px" src="{{ $images->getUrl() }}" alt="{{ $images->name }}">
+                        </p>
+                    @endforeach
+                @endforeach
+                </div>
+
+                <p>Stanje u kojem je životinja pronađena</p>
+                    
+                <div class="d-flex align-items-center flex-wrap">
+                @foreach ($mediaStanjePronadena as $fi)
+                    @foreach ($fi->getMedia('status_found_file') as $images)
+                        <p class="m-2">
+                            <img width="100px" src="{{ $images->getUrl() }}" alt="{{ $images->name }}">
+                        </p>
+                    @endforeach
+                @endforeach
                 </div>
             </div>
         </div>
