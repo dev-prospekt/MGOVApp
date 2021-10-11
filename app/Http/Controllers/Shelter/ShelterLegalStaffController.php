@@ -15,13 +15,13 @@ class ShelterLegalStaffController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'oib' => 'required',
-            'address' => 'required',
-            'address_place' => 'required',
-            'phone' => 'required',
-            'phone_cell' => 'required',
-            'email' => 'required',
+            'staff_legal_name' => 'required',
+            'staff_legal_oib' => 'required',
+            'staff_legal_address' => 'required',
+            'staff_legal_address_place' => 'required',
+            'staff_legal_phone' => 'required',
+            'staff_legal_phone_cell' => 'required',
+            'staff_legal_email' => 'required',
             'staff_legal_file' => 'required',
         ]);
 
@@ -34,13 +34,13 @@ class ShelterLegalStaffController extends Controller
         $shelterStaff = ShelterStaff::create([
             'shelter_staff_type_id' => $shelterStaffType->id,
             'shelter_id' => $request->shelter_id,
-            'name' => $request->name,
-            'oib' => $request->oib,
-            'address' => $request->address,
-            'address_place' => $request->address_place,
-            'phone' => $request->phone,
-            'phone_cell' => $request->phone_cell,
-            'email' => $request->email,
+            'name' => $request->staff_legal_name,
+            'oib' => $request->staff_legal_oib,
+            'address' => $request->staff_legal_address,
+            'address_place' => $request->staff_legal_address_place,
+            'phone' => $request->staff_legal_phone,
+            'phone_cell' => $request->staff_legal_phone_cell,
+            'email' => $request->staff_legal_email,
         ]);
 
         if ($request->hasFile('staff_legal_file')) {
@@ -61,13 +61,13 @@ class ShelterLegalStaffController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'oib' => 'required',
-            'address' => 'required',
-            'address_place' => 'required',
-            'phone' => 'required',
-            'phone_cell' => 'required',
-            'email' => 'required',
+            'staff_legal_name' => 'required',
+            'staff_legal_oib' => 'required',
+            'staff_legal_address' => 'required',
+            'staff_legal_address_place' => 'required',
+            'staff_legal_phone' => 'required',
+            'staff_legal_phone_cell' => 'required',
+            'staff_legal_email' => 'required',
             'staff_legal_file' => 'required',
         ]);
 
@@ -77,19 +77,17 @@ class ShelterLegalStaffController extends Controller
 
         ShelterStaff::find($id)->update([
             'shelter_id' => $request->shelter_id,
-            'name' => $request->name,
-            'oib' => $request->oib,
-            'address' => $request->address,
-            'address_place' => $request->address_place,
-            'phone' => $request->phone,
-            'phone_cell' => $request->phone_cell,
-            'email' => $request->email,
+            'name' => $request->staff_legal_name,
+            'oib' => $request->staff_legal_oib,
+            'address' => $request->staff_legal_address,
+            'address_place' => $request->staff_legal_address_place,
+            'phone' => $request->staff_legal_phone,
+            'phone_cell' => $request->staff_legal_phone_cell,
+            'email' => $request->staff_legal_email,
         ]);
 
-        $shelterStaff = ShelterStaff::where('shelter_id', $request->shelter_id)->get()
-            ->filter(function ($item) {
-                return $item->shelter_staff_type_id == 1;
-            })->last();
+
+        $shelterStaff = ShelterStaff::legalStaff($request->shelter_id)->last();
 
         if ($request->hasFile('staff_legal_file')) {
             $shelterStaff->clearMediaCollection('legal-docs');

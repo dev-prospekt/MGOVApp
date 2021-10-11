@@ -35,6 +35,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('shelter', Shelter\ShelterController::class);
     Route::resource('shelter_legal_staff', Shelter\ShelterLegalStaffController::class);
+    Route::resource('shelter_care_staff', Shelter\ShelterCareStaffController::class);
+    Route::resource('shelter_vet_staff', Shelter\ShelterVetStaffController::class);
     Route::resource('animal_item', Animal\AnimalItemController::class);
     Route::resource('animal', Animal\AnimalController::class);
     Route::resource('animal_category', Animal\AnimalCategoryController::class);

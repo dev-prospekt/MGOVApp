@@ -12,12 +12,12 @@
             <div class="modal-body">
              
                 @csrf
-                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+                <div id="dangerLegalStaffCreate" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+                <div id="successLegalStaffCreate" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
                     <strong>Uspjeh!</strong> Odogovorna osoba uspješno kreirana.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -26,42 +26,42 @@
       
                 <div class="form-group">
                   <label for="name">Ime i prezime</label>
-                  <input type="text" class="form-control" id= "staffName" name="name" placeholder="Ime i prezime odgovorne osobe">
+                  <input type="text" class="form-control"  name="staff_legal_name" placeholder="Ime i prezime odgovorne osobe">
                   <input type="hidden" name="shelter_id" value="{{ $shelter->id }}">
                  </div>
   
                 <div class="form-group"> 
                   <label for="name">OIB</label>
-                  <input type="text" class="form-control" id="staffOib" name="oib" placeholder="OIB odgovorne osobe u pravnoj osobi">
+                  <input type="text" class="form-control" name="staff_legal_oib" placeholder="OIB odgovorne osobe u pravnoj osobi">
                 </div>
   
                 <div class="form-group"> 
                   <label for="name">Adresa prebivališta</label>
-                  <input type="text" class="form-control" id="staffAddress" name="address" autocomplete="off" placeholder="adresa prebivališta">
+                  <input type="text" class="form-control"  name="staff_legal_address" autocomplete="off" placeholder="adresa prebivališta">
                 </div>
                 <div class="form-group"> 
                   <label for="name">Adresa boravišta</label>
-                  <input type="text" class="form-control" id="staffAddressPlace" name="address_place" autocomplete="off" placeholder="Adresa boravišta(ako postoji)">
+                  <input type="text" class="form-control"  name="staff_legal_address_place" autocomplete="off" placeholder="Adresa boravišta(ako postoji)">
                 </div>
   
                 <div class="form-group"> 
                   <label for="name">Kontakt telefon</label>
-                  <input type="text" class="form-control" id="staffPhone" name="phone" autocomplete="off" placeholder="Kontakt telefon">          
+                  <input type="text" class="form-control" name="staff_legal_phone" autocomplete="off" placeholder="Kontakt telefon">          
                 </div>
   
                 <div class="form-group"> 
                   <label for="name">Kontakt mobilni telefon</label>
-                  <input type="text" class="form-control" id="staffPhoneCell" name="phone_cell" autocomplete="off" placeholder="Kontakt mobitel">
+                  <input type="text" class="form-control"  name="staff_legal_phone_cell" autocomplete="off" placeholder="Kontakt mobitel">
                 </div>
   
                 <div class="form-group">
                   <label for="email">Email adresa</label>
-                  <input type="email" class="form-control"  name="email" id="staffEmail" placeholder="Email">
+                  <input type="email" class="form-control"  name="staff_legal_email" id="staffEmail" placeholder="Email">
                 </div>
   
                 <div class="form-group">
                   <label>Uvjerenje - kazneni postupak</label>
-                  <input type="file" name="staff_legal_file"  id="staffFile" class="file-upload-default">
+                  <input type="file" name="staff_legal_file" class="file-upload-default">
                   <div class="input-group col-xs-12">
                   <input type="text" class="form-control file-upload-info"  placeholder="Uvjerenje da se ne vodi kazneni postupak protiv odgovorne osobe">
                   <span class="input-group-append">

@@ -76,19 +76,32 @@ class ShelterController extends Controller
     {
         $shelter = Shelter::with('animals', 'users')->findOrFail($id);
 
-        $shelterLegalStaff = ShelterStaff::where('shelter_id', $id)->get()
-            ->filter(function ($item) {
-                return $item->shelter_staff_type_id == 1;
-            })->last();
+        $shelterLegalStaff = ShelterStaff::legalStaff($id)->last();
+        $fileLegal = $shelterLegalStaff ? $shelterLegalStaff->getMedia('legal-docs')->first() : '';
 
-        $file = $shelterLegalStaff ? $shelterLegalStaff->getMedia('legal-docs')->first() : '';
+        $shelterCareStaff = ShelterStaff::careStaff($id)->last();
+
+        $fileContract = $shelterCareStaff ? $shelterCareStaff->getMedia('contract-docs')->first() : '';
+        $fileCertificate = $shelterCareStaff ? $shelterCareStaff->getMedia('certificate-docs')->first() : '';
 
 
+        $shelterVetStaff = ShelterStaff::vetStaff($id)->last();
+
+        $fileVetContract = $shelterVetStaff ? $shelterVetStaff->getMedia('vet-docs')->first() : '';
+        $fileVetDiploma = $shelterVetStaff ? $shelterVetStaff->getMedia('vet-docs')->first() : '';
+        $fileVetAmbulance = $shelterVetStaff ? $shelterVetStaff->getMedia('ambulance-docs')->first() : '';
 
         return view('shelter.shelter.show', [
             'shelter' => $shelter,
             'shelterLegalStaff' => $shelterLegalStaff,
-            'file' => $file
+            'fileLegal' => $fileLegal,
+            'shelterCareStaff' => $shelterCareStaff,
+            'fileContract' => $fileContract,
+            'fileCertificate' => $fileCertificate,
+            'shelterVetStaff' => $shelterVetStaff,
+            'fileVetContract' => $fileVetContract,
+            'fileVetDiploma' => $fileVetDiploma,
+            'fileVetAmbulance' => $fileVetAmbulance
         ]);
     }
 
