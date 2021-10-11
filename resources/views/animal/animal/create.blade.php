@@ -7,6 +7,18 @@
 
 @section('content')
 
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <div>
+            <a href="/shelter/{{ auth()->user()->shelter->id }}" class="btn btn-primary">
+                <i data-feather="left" data-toggle="tooltip" title="Connect"></i>
+                Natrag
+            </a>
+        </div>
+    </ol>
+</nav>
+
+
 <ul class="nav nav-tabs nav-tabs-line" id="lineTab" role="tablist">
     <li class="nav-item">
       <a class="nav-link active" id="home-line-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
