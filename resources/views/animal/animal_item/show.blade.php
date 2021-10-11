@@ -19,7 +19,7 @@
 </nav>
 
 <div class="row">
-    <div class="col-lg-12 col-xl-12 grid-margin stretch-card">
+    <div class="col-lg-8 col-xl-8 grid-margin">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-0">Podatci</h6>
@@ -36,7 +36,6 @@
                         <th>NAZIV</th>
                         <th>LATINSKI NAZIV</th>
                         <th>KATEGORIJA</th>
-                        <th>LOKACIJA</th>
                         <th>SPOL</th>
                         <th>VELIČINA</th>
                         <th></th>
@@ -49,7 +48,6 @@
                                 <td>{{ $anim->animal->name }}</td>
                                 <td>{{ $anim->animal->latin_name }}</td>
                                 <td>{{ $anim->animal->animalCategory->latin_name }}</td>
-                                <td>{{ $anim->location }}</td>
                                 <td>{{ $anim->animal_gender }}</td>
                                 <td>{{ $anim->animalSizeAttributes->name ?? '' }}</td>
                                 <td>
@@ -70,6 +68,20 @@
                         @endforeach
                 </table>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <div class="card-title">
+                    <h6>Dodatni opisni podaci oporavilišta o preuzimanju</h6>
+                </div>
+
+                <hr>
+
+                <p>{{ $animalItem->first()->animal->shelters->first()->pivot->description }}</p>
             </div>
         </div>
     </div>

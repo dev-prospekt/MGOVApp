@@ -142,7 +142,7 @@ class AnimalController extends Controller
             $animalItem->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment;
             $animalItem->status = 1;
             $animalItem->status_receiving = $request->status_receiving;
-            $animalItem->status_receiving = $request->status_found;
+            $animalItem->status_found = $request->status_found;
             $animalItem->location = $request->location;
             $animalItem->date_found = Carbon::createFromFormat('m/d/Y', $request->date_found)->format('d.m.Y');
             $animalItem->save();

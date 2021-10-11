@@ -72,9 +72,9 @@
                   <th>Šifra</th>
                   <th>Naziv jedinke</th>
                   <th>Latinski naziv</th>
-                  <th>Code</th>
+                  <th>Oznaka</th>
+                  <th>Tip jedinke</th>
                   <th>Pronađeno</th>
-                  <th>Dodatni opis</th>
                   <th></th>
                 </tr>
               </thead>
@@ -89,11 +89,15 @@
                     <td>{{ $item->latin_name }}</td>
                     <td>
                       @foreach ($item->animalCodes as $code)
-                        <span class="badge badge-warning">{{ $code->name }}</span>
+                        <span class="badge badge-danger">{{ $code->name }}</span>
+                      @endforeach
+                    </td>
+                    <td>
+                      @foreach ($item->animalType as $res)
+                      <span class="badge badge-warning">{{ $res->type_code }}</span>
                       @endforeach
                     </td>
                     <td>{{ $item->animalItems->first()->date_found ?? '' }}</td>
-                    <td>{{ $item->pivot->description }}</td>
                     <td>
                       <a class="btn btn-info" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelter_code}}">
                         Info

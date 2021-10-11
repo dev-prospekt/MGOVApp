@@ -33,7 +33,11 @@
                                     <select class="form-control" name="animal_size_attributes_id" id="">
                                         <option value="">Odaberi</option>
                                         @foreach ($size->sizeAttributes as $siz)
-                                            <option value="{{ $siz->id }}">{{ $siz->name }}</option>
+                                            @if ($animalItem->animal_size_attributes_id > $siz->id)
+                                                <option selected value="{{$siz->id}}">{{ $siz->name }}</option>
+                                            @else
+                                                <option value="{{ $siz->id }}">{{ $siz->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                     @error('animal_size_attributes_id')
@@ -43,6 +47,9 @@
                                 <div class="form-group">
                                     <label>Dob jedinke</label>
                                     <select class="form-control" name="animal_dob" id="">
+                                        @if ($animalItem->animal_dob)
+                                            <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
+                                        @endif
                                         <option value="">Odaberi</option>
                                         <option value="ADL">ADL (adultna)</option>
                                         <option value="JUV">JUV (juvenilna)</option>
@@ -55,6 +62,9 @@
                                 <div class="form-group">
                                     <label>Spol</label>
                                     <select class="form-control" name="animal_gender" id="">
+                                        @if ($animalItem->animal_dob)
+                                            <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
+                                        @endif
                                         <option value="">Odaberi</option>
                                         <option value="muzjak">M (mužjak)</option>
                                         <option value="zenka">Ž/F (ženka)</option>
