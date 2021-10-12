@@ -3,11 +3,12 @@
 use Illuminate\Database\Seeder;
 use Database\Seeders\ShelterSeeder;
 use Database\Seeders\AnimalCodeSeeder;
-use Database\Seeders\AnimalSizeAttributeSeeder;
 use Database\Seeders\AnimalSizeSeeder;
 use Database\Seeders\AnimalTypeSeeder;
 use Database\Seeders\ShelterTypeSeeder;
 use Database\Seeders\PermissionsDemoSeeder;
+use Database\Seeders\ShelterStaffTypeSeeder;
+use Database\Seeders\AnimalSizeAttributeSeeder;
 use Database\Seeders\AnimalSystemCategorySeeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionsDemoSeeder::class);
         $this->call(ShelterSeeder::class);
         $this->call(ShelterTypeSeeder::class);
+        $this->call(ShelterStaffTypeSeeder::class);
         $this->call(AnimalSystemCategorySeeder::class);
         //$this->call(AnimalCategorySeeder::class);
         $this->call(AnimalTypeSeeder::class);

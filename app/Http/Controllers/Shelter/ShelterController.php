@@ -7,14 +7,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
+use Yajra\Datatables\Datatables;
 use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalItem;
 use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
+use App\Models\Shelter\ShelterStaff;
 use App\Models\Animal\AnimalCategory;
 use App\Http\Requests\ShelterPostRequest;
 use App\Models\Animal\AnimalSystemCategory;
-use Yajra\Datatables\Datatables;
+use App\Models\Shelter\ShelterStaffType;
 
 class ShelterController extends Controller
 {
@@ -74,8 +76,32 @@ class ShelterController extends Controller
     {
         $shelter = Shelter::with('animals', 'users')->findOrFail($id);
 
+        $shelterLegalStaff = ShelterStaff::legalStaff($id)->last();
+        $fileLegal = $shelterLegalStaff ? $shelterLegalStaff->getMedia('legal-docs')->first() : '';
+
+        $shelterCareStaff = ShelterStaff::careStaff($id)->last();
+
+        $fileContract = $shelterCareStaff ? $shelterCareStaff->getMedia('contract-docs')->first() : '';
+        $fileCertificate = $shelterCareStaff ? $shelterCareStaff->getMedia('certificate-docs')->first() : '';
+
+
+        $shelterVetStaff = ShelterStaff::vetStaff($id)->last();
+
+        $fileVetContract = $shelterVetStaff ? $shelterVetStaff->getMedia('vet-docs')->first() : '';
+        $fileVetDiploma = $shelterVetStaff ? $shelterVetStaff->getMedia('vet-docs')->first() : '';
+        $fileVetAmbulance = $shelterVetStaff ? $shelterVetStaff->getMedia('ambulance-docs')->first() : '';
+
         return view('shelter.shelter.show', [
             'shelter' => $shelter,
+            'shelterLegalStaff' => $shelterLegalStaff,
+            'fileLegal' => $fileLegal,
+            'shelterCareStaff' => $shelterCareStaff,
+            'fileContract' => $fileContract,
+            'fileCertificate' => $fileCertificate,
+            'shelterVetStaff' => $shelterVetStaff,
+            'fileVetContract' => $fileVetContract,
+            'fileVetDiploma' => $fileVetDiploma,
+            'fileVetAmbulance' => $fileVetAmbulance
         ]);
     }
 

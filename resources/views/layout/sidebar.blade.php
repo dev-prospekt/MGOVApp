@@ -32,7 +32,7 @@
         <div class="collapse" id="sz-tables">
           <ul class="nav sub-menu">
             <li class="nav-item">
-              <a href="{{ url('/sz_animal_type?type=1') }}" class="nav-link }}">Sisavci</a>
+              <a href="{{ url('/sz_animal_type?type=1') }}" class="nav-link">Sisavci</a>
             </li>
             <li class="nav-item">
               <a href="{{ url('/sz_animal_type?type=2') }}" class="nav-link">Ptice</a>
@@ -92,14 +92,35 @@
         </a>
       </li>
 
-      <li class="nav-item nav-category">CRUD</li>
-      <li class="nav-item {{ active_class(['shelter']) }}">
-        <a href="{{ route("shelter.index") }}" class="nav-link">
-          <i class="link-icon" data-feather="box"></i>
+      <li class="nav-item nav-category">Ustanove</li>
+      <li class="nav-item {{ active_class(['shelter/*']) }}">
+        <a class="nav-link" data-toggle="collapse" href="#shelter-tables" role="button" aria-expanded="{{ is_active_route(['/shelter/*']) }}" aria-controls="shelter-tables">
+          <i class="link-icon" data-feather="layout"></i>
           <span class="link-title">Oporavilišta</span>
+          <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
+        <div class="collapse" id="shelter-tables">
+          <ul class="nav sub-menu">
+            <li class="nav-item">
+              <a href="{{ url('/shelter') }}" class="nav-link">Popis svih</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url('/user') }}" class="nav-link">Korisnici oporavilišta</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{ url('/shelter_staff') }}" class="nav-link">Osoblje oporavilišta</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{ url('/shelter/create') }}" class="nav-link">Dodaj novo</a>
+            </li>
+          
+          </ul>
+        </div>  
       </li>
 
+      <li class="nav-item nav-category">CRUD</li>
       <li class="nav-item {{ active_class(['user']) }}">
         <a class="nav-link" data-toggle="collapse" href="#users" role="button">
           <i class="link-icon" data-feather="user"></i>
