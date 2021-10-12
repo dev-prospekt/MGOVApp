@@ -27,7 +27,7 @@ class ShelterStaffTypeSeeder extends Seeder
         ]);
 
         ShelterStaffType::create([
-            'name' => 'veterinar - vanjski suradnik'
+            'name' => 'skrb-ostali'
         ]);
     }
 }

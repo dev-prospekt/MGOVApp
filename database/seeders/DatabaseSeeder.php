@@ -10,6 +10,8 @@ use Database\Seeders\PermissionsDemoSeeder;
 use Database\Seeders\ShelterStaffTypeSeeder;
 use Database\Seeders\AnimalSizeAttributeSeeder;
 use Database\Seeders\AnimalSystemCategorySeeder;
+use Database\Seeders\ShelterAccomodationTypeSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,17 +22,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-
         $this->call(PermissionsDemoSeeder::class);
         $this->call(ShelterSeeder::class);
         $this->call(ShelterTypeSeeder::class);
         $this->call(ShelterStaffTypeSeeder::class);
-        $this->call(AnimalSystemCategorySeeder::class);
-        //$this->call(AnimalCategorySeeder::class);
+        $this->call(ShelterStaffTypeSeeder::class);
+        $this->call(ShelterAccomodationTypeSeeder::class);
         $this->call(AnimalTypeSeeder::class);
         $this->call(AnimalCodeSeeder::class);
         $this->call(AnimalSizeSeeder::class);
         $this->call(AnimalSizeAttributeSeeder::class);
-        //$this->call(AnimalSeeder::class);
     }
 }

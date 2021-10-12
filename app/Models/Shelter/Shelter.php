@@ -41,4 +41,9 @@ class Shelter extends Model
     {
         return $this->hasMany(ShelterStaff::class);
     }
+
+    public function accomodations()
+    {
+        return $this->hasMany(ShelterAccomodation::class);
+    }
 }
