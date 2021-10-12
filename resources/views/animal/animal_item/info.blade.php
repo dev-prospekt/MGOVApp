@@ -86,14 +86,12 @@
                         <p>Grupa</p>
 
                         @foreach ($mediaFiles as $fi)
-                            @foreach ($fi->getMedia('media') as $media)
-                                <p>
-                                    <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                                        href="{{ $media->getUrl() }}">
-                                        {{ $media->name }}
-                                    </a>
-                                </p>
-                            @endforeach
+                            <p>
+                                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                    href="{{ $fi->getUrl() }}">
+                                    {{ $fi->name }}
+                                </a>
+                            </p>
                         @endforeach
 
                     </div>
@@ -103,12 +101,12 @@
 
                         @if ($animalItemsMedia)
                             @foreach ($animalItemsMedia as $file)
-                                <p id="findFile">
-                                    <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                                        href="{{ $file->getUrl() }}">
-                                        {{ $file->name }}
-                                    </a>
-                                </p>
+                            <p id="findFile">
+                                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                    href="{{ $file->getUrl() }}">
+                                    {{ $file->name }}
+                                </a>
+                            </p>
                             @endforeach
                         @endif
                     </div>
@@ -124,11 +122,9 @@
                     
                 <div class="d-flex align-items-center flex-wrap">
                 @foreach ($mediaStanjeZaprimanja as $fi)
-                    @foreach ($fi->getMedia('status_receiving_file') as $images)
-                        <p class="m-2">
-                            <img width="100px" src="{{ $images->getUrl() }}" alt="{{ $images->name }}">
-                        </p>
-                    @endforeach
+                    <p class="m-2">
+                        <img width="100px" src="{{ $fi->getUrl() }}" alt="{{ $fi->name }}">
+                    </p>
                 @endforeach
                 </div>
 
@@ -136,11 +132,9 @@
                     
                 <div class="d-flex align-items-center flex-wrap">
                 @foreach ($mediaStanjePronadena as $fi)
-                    @foreach ($fi->getMedia('status_found_file') as $images)
-                        <p class="m-2">
-                            <img width="100px" src="{{ $images->getUrl() }}" alt="{{ $images->name }}">
-                        </p>
-                    @endforeach
+                    <p class="m-2">
+                        <img width="100px" src="{{ $fi->getUrl() }}" alt="{{ $fi->name }}">
+                    </p>
                 @endforeach
                 </div>
             </div>

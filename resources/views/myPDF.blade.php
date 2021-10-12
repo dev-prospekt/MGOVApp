@@ -20,8 +20,8 @@
 
     <p><strong>Naziv:</strong> {{ $animalItems->animal->name }}</p>
     <p><strong>Latinski naziv:</strong> {{ $animalItems->animal->latin_name }}</p>
-    <p><strong>Šifra:</strong> {{ $animalItems->shelterCode }}</p>
-    <p><strong>Veličina:</strong> {{ $animalItems->animal_size }}</p>
+    <p><strong>Šifra:</strong> {{ $animalItems->shelter_code }}</p>
+    <p><strong>Veličina:</strong> {{ $animalItems->animalSizeAttributes->name }}</p>
     <p><strong>Spol:</strong> {{ $animalItems->animal_gender }}</p>
     <p><strong>Lokacija:</strong> {{ $animalItems->location }}</p>
 

@@ -22,4 +22,9 @@ class AnimalFile extends Model implements HasMedia
     {
         $this->attributes['filenames'] = json_encode($value);
     }
+
+    public function animalItem()
+    {
+        return $this->hasMany(AnimalItem::class);
+    }
 }

@@ -13,6 +13,7 @@ use App\Models\Animal\AnimalSize;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AnimalPostRequest;
+use App\Models\Animal\AnimalSystemCategory;
 
 class AnimalController extends Controller
 {
@@ -33,17 +34,15 @@ class AnimalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $shelter = Shelter::findOrFail(auth()->user()->shelter->id)
             ->shelterTypes()
             ->get();
-
         
         $typeArray = array();
-
         foreach ($shelter as $key) {
-            $type = Animal::with('animalType')
+            $type = Animal::with('animalType', 'animalCategory')
                 ->whereHas('animalType', function ($q) use ($key) {
                     $q->where('type_code', $key->code);
                 })->get();
@@ -131,6 +130,7 @@ class AnimalController extends Controller
             $animalItem = new AnimalItem;
             $animalItem->animal_id = $animal_id;
             $animalItem->shelter_id = $request->shelter_id;
+            $animalItem->animal_file_id = $animalFiles->id;
             
             if($count != 1){
                 $animalItem->solitary_or_group = 1;

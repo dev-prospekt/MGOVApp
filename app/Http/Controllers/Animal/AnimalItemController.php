@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Animal;
 
 use PDF;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
@@ -59,17 +60,9 @@ class AnimalItemController extends Controller
     public function show($id)
     {
         $animalItems = AnimalItem::find($id);
-        $animalFiles = AnimalFile::where('shelter_code', $animalItems->shelter_code)->get();
-        
-        $mediaFiles = $animalFiles->each(function($item, $key){
-            $item;
-        });
-        $mediaStanjeZaprimanja = $animalFiles->each(function($item, $key){
-            $item;
-        });
-        $mediaStanjePronadena = $animalFiles->each(function($item, $key){
-            $item;
-        });
+        $mediaFiles = $animalItems->animalFile->getMedia('media');
+        $mediaStanjeZaprimanja = $animalItems->animalFile->getMedia('status_receiving_file');
+        $mediaStanjePronadena = $animalItems->animalFile->getMedia('status_found_file');
 
         $animalItemsMedia = $animalItems->getMedia('media');
 
@@ -203,7 +196,7 @@ class AnimalItemController extends Controller
 
     public function generatePDF($id)
     {
-        $animalItems = AnimalItem::with('animal', 'shelter')->find($id);
+        $animalItems = AnimalItem::with('animal', 'shelter', 'animalSizeAttributes')->find($id);
         $animalFiles = AnimalFile::where('shelter_code', $animalItems->shelter_code)->get();
         
         $mediaFiles = $animalFiles->each(function($item, $key){
