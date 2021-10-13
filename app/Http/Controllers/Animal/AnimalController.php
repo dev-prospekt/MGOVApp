@@ -74,8 +74,7 @@ class AnimalController extends Controller
         $animals = new Animal;
         $count = $request->quantity;
 
-
-        dd($request);
+        //dd($request);
 
         // Increment ID
         $incrementId = DB::table('animal_shelter')->orderBy('id', 'DESC')->first();

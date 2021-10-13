@@ -341,7 +341,7 @@
                 maxFileCount: 2,
                 showPreview: false,
                 showUpload: false,
-                allowedFileExtensions: ["jpg, png"],
+                allowedFileExtensions: ["jpg", "png",],
             });
 
             $('[data-toggle="tooltip"]').tooltip(); 
