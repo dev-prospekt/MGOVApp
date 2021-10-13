@@ -98,6 +98,7 @@
   <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
   <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/bootstrap-fileinput/js/locales/cr.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
@@ -108,6 +109,7 @@
         function bootstrapFile()
         {
             $("#file").fileinput({
+                language: "cr",
                 maxFileCount: 2,
                 showPreview: false,
                 showUpload: false,
