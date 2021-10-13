@@ -72,8 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::patch('/zj_animal_type/{animal}', [AnimalSeizedTypeController::class, 'updateZJAnimalTypes'])->name('update_zj_animal_type');
     Route::delete('/zj_animal_type/delete/{id}', [AnimalSeizedTypeController::class, 'deleteZJAnimalType'])->name('delete_zj_animal_type');
 
-    // Redovi
-
+    Route::resource('founder_data', FounderDataController::class);
 
     //Import EXCEL
     Route::get('animal_import', [AnimalImportController::class, 'index'])->name('animal_import.index');

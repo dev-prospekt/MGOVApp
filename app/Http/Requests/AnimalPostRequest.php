@@ -27,7 +27,7 @@ class AnimalPostRequest extends FormRequest
         return [
             'quantity' => "required",
             'location' => "required",
-            'documents' => "required|max:10000",
+            'documents' => "required",
         ];
     }
 

@@ -4,6 +4,7 @@
   <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/datatables-net/dataTables.bootstrap4.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/bootstrap-fileinput/css/fileinput.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -96,167 +97,181 @@
   <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
   <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/bootstrap-fileinput/js/fileinput.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
+
   <script>
       $(function() {
-            $('#users-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{!! route('users:dt') !!}',
-                columns: [
-                    { data: 'id', name: 'id'},
-                    { data: 'name', name: 'name'},
-                    { data: 'email', name: 'email'},
-                    { data: 'shelter', name: 'shelter.name'},
-                    { data: 'action', name: 'action'},
-                ],
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
+
+        function bootstrapFile()
+        {
+            $("#file").fileinput({
+                maxFileCount: 2,
+                showPreview: false,
+                showUpload: false,
+                allowedFileExtensions: ["jpg", "png", "gif"],
+            });
+        }
+
+        $('#users-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{!! route('users:dt') !!}',
+            columns: [
+                { data: 'id', name: 'id'},
+                { data: 'name', name: 'name'},
+                { data: 'email', name: 'email'},
+                { data: 'shelter', name: 'shelter.name'},
+                { data: 'action', name: 'action'},
+            ],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
+            }
+        });
+
+        //Create
+        $(".create").on('click', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                url: "user/create",
+                method: 'GET',
+                success: function(result) {
+                    $(".modal").show();
+                    $(".modal").html(result['html']);
+                    bootstrapFile();
+
+                    $('.modal').find("#user-ajax").on('submit', function(e){
+                        e.preventDefault();
+
+                        var formData = this;
+                        
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: "{{ route('user.store') }}",
+                            method: 'POST',
+                            data: new FormData(formData),
+                            processData: false,
+                            dataType: 'json',
+                            contentType: false,
+                            success: function(result) {
+                                if(result.errors) {
+                                    $('.alert-danger').html('');
+                                    $.each(result.errors, function(key, value) {
+                                        $('.alert-danger').show();
+                                        $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                    });
+                                } 
+                                else {
+                                    $('.alert-danger').hide();
+                                    $('.alert-success').show();
+
+                                    setInterval(function(){
+                                        $('.alert-success').hide();
+                                        $('.modal').modal('hide');
+                                        location.reload();
+                                    }, 2000);
+                                }
+                            }
+                        });
+                    });
                 }
             });
+        });
 
-            //Create
-            $(".create").on('click', function(e){
-                e.preventDefault();
+        //Edit
+        $('#users-table').on('click', '.edit', function(e){
+            e.preventDefault();
+            var id = $(this).attr("data-id");
 
-                $.ajax({
-                    url: "user/create",
-                    method: 'GET',
-                    success: function(result) {
-                        $(".modal").show();
-                        $(".modal").html(result['html']);
+            $.ajax({
+                url: "user/"+id+"/edit",
+                method: 'GET',
+                success: function(result) {
+                    $(".modal").show();
+                    $(".modal").html(result['html']);
 
-                        $('.modal').find("#user-ajax").on('submit', function(e){
-                            e.preventDefault();
+                    $(".modal").on('click', '.submitBtn', function(){
+                        var resData = {
+                            name: $(".modal").find('.name').val(),
+                            email: $(".modal").find('.email').val(),
+                            shelter_id: $(".modal").find('.shelter_id').val(),
+                            _token: '{{csrf_token()}}'
+                        };
 
-                            var formData = this;
-                            
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: "user/"+id,
+                            method: 'PUT',
+                            data: resData,
+                            success: function(result) {
+                                if(result.errors) {
+                                    $('.alert-danger').html('');
+                                    $.each(result.errors, function(key, value) {
+                                        $('.alert-danger').show();
+                                        $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                    });
+                                } 
+                                else {
+                                    $('.alert-danger').hide();
+                                    $('.alert-success').show();
+
+                                    setInterval(function(){
+                                        $('.alert-success').hide();
+                                        $('.modal').modal('hide');
+                                        location.reload();
+                                    }, 2000);
                                 }
-                            });
-                            $.ajax({
-                                url: "{{ route('user.store') }}",
-                                method: 'POST',
-                                data: new FormData(formData),
-                                processData: false,
-                                dataType: 'json',
-                                contentType: false,
-                                success: function(result) {
-                                    if(result.errors) {
-                                        $('.alert-danger').html('');
-                                        $.each(result.errors, function(key, value) {
-                                            $('.alert-danger').show();
-                                            $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
-                                        });
-                                    } 
-                                    else {
-                                        $('.alert-danger').hide();
-                                        $('.alert-success').show();
+                            }
+                        });
+                    });
+                }
+            });
+        });
 
-                                        setInterval(function(){
-                                            $('.alert-success').hide();
-                                            $('.modal').modal('hide');
-                                            location.reload();
-                                        }, 2000);
-                                    }
-                                }
-                            });
+        // Delete
+        $('#users-table').on('click', '#bntDeleteUser', function(e){
+            e.preventDefault();
+            var id = $(this).find('#userId').val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "user/"+id,
+                method: 'DELETE',
+                success: function(result) {
+                    if(result.msg == 'success'){
+                        $('#users-table').DataTable().ajax.reload();
+
+                        Swal.fire(
+                            'Odlično!',
+                            'Uspješno ste ugasili korisnika!',
+                            'success'
+                        ).then((result) => {
+                            location.reload(); 
                         });
                     }
-                });
+                }
             });
+        });
 
-            //Edit
-            $('#users-table').on('click', '.edit', function(e){
-                e.preventDefault();
-                var id = $(this).attr("data-id");
-
-                $.ajax({
-                    url: "user/"+id+"/edit",
-                    method: 'GET',
-                    success: function(result) {
-                        $(".modal").show();
-                        $(".modal").html(result['html']);
-
-                        $(".modal").on('click', '.submitBtn', function(){
-                            var resData = {
-                                name: $(".modal").find('.name').val(),
-                                email: $(".modal").find('.email').val(),
-                                shelter_id: $(".modal").find('.shelter_id').val(),
-                                _token: '{{csrf_token()}}'
-                            };
-
-                            $.ajaxSetup({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                }
-                            });
-                            $.ajax({
-                                url: "user/"+id,
-                                method: 'PUT',
-                                data: resData,
-                                success: function(result) {
-                                    if(result.errors) {
-                                        $('.alert-danger').html('');
-                                        $.each(result.errors, function(key, value) {
-                                            $('.alert-danger').show();
-                                            $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
-                                        });
-                                    } 
-                                    else {
-                                        $('.alert-danger').hide();
-                                        $('.alert-success').show();
-
-                                        setInterval(function(){
-                                            $('.alert-success').hide();
-                                            $('.modal').modal('hide');
-                                            location.reload();
-                                        }, 2000);
-                                    }
-                                }
-                            });
-                        });
-                    }
-                });
-            });
-
-            // Delete
-            $('#users-table').on('click', '#bntDeleteUser', function(e){
-                e.preventDefault();
-                var id = $(this).find('#userId').val();
-
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: "user/"+id,
-                    method: 'DELETE',
-                    success: function(result) {
-                        if(result.msg == 'success'){
-                            $('#users-table').DataTable().ajax.reload();
-
-                            Swal.fire(
-                                'Odlično!',
-                                'Uspješno ste ugasili korisnika!',
-                                'success'
-                            ).then((result) => {
-                               location.reload(); 
-                            });
-                        }
-                    }
-                });
-            });
-
-            // Modal
-            $(".modal").on('click', '.modal-close', function(){
-                $(".modal").hide();
-            });
-        })
+        // Close Modal
+        $(".modal").on('click', '.modal-close', function(){
+            $(".modal").hide();
+        });
+    });
   </script>
 @endpush

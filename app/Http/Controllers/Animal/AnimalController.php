@@ -74,6 +74,9 @@ class AnimalController extends Controller
         $animals = new Animal;
         $count = $request->quantity;
 
+
+        dd($request);
+
         // Increment ID
         $incrementId = DB::table('animal_shelter')->orderBy('id', 'DESC')->first();
         if(empty($incrementId->id)){
@@ -109,21 +112,18 @@ class AnimalController extends Controller
         $animalFiles->save();
 
         // Save documents
-        if($request->documents){
-            foreach ($request->documents as $key) {
-                $animalFiles->addMedia($key)->toMediaCollection('media');
-            }
-        }
-        if($request->status_receiving_file){
-            foreach ($request->status_receiving_file as $key) {
-                $animalFiles->addMedia($key)->toMediaCollection('status_receiving_file');
-            }
-        }
-        if($request->status_found_file){
-            foreach ($request->status_found_file as $key) {
-                $animalFiles->addMedia($key)->toMediaCollection('status_found_file');
-            }
-        }
+        $animalFiles->addMultipleMediaFromRequest(['documents'])
+        ->each(function ($fileAdder) {
+            $fileAdder->toMediaCollection('media');
+        });
+        $animalFiles->addMultipleMediaFromRequest(['status_receiving_file'])
+        ->each(function ($fileAdder) {
+            $fileAdder->toMediaCollection('status_receiving_file');
+        });
+        $animalFiles->addMultipleMediaFromRequest(['status_found_file'])
+        ->each(function ($fileAdder) {
+            $fileAdder->toMediaCollection('status_found_file');
+        });
 
         // Create AnimalItem
         for ($i=0; $i < $count; $i++) {
