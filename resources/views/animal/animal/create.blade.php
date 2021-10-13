@@ -86,13 +86,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Ako se radi o službenoj osobi, podaci o službi-naziv institucije</label>
-                                        <input type="file" name="documents[]" class="file-upload-default" multiple />
-                                        <div class="input-group col-xs-12">
-                                            <input type="text" class="form-control file-upload-info"  placeholder="Dokumenti" />
-                                            <span class="input-group-append">
-                                                <button class="file-upload-browse btn btn-primary" type="button">Učitaj</button>
-                                            </span>
-                                        </div>
+                                        <input type="file" id="founder_documents" name="documents[]" multiple />
                                     </div>
                                 </div>
                             </div>
@@ -271,16 +265,7 @@
                             <div class="form-group">
                                 <label>Dokumenti</label>
 
-                                <input type="file" name="documents[]" class="file-upload-default" multiple />
-                                <div class="input-group col-xs-12">
-                                    <input type="text" class="form-control file-upload-info"  placeholder="Dokumenti" />
-                                    <span class="input-group-append">
-                                        <button class="file-upload-browse btn btn-primary" type="button">Učitaj</button>
-                                    </span>
-                                </div>
-                                @error('documents')
-                                    <div class="text-danger">{{$errors->first('documents') }} </div>
-                                @enderror
+                                <input type="file" id="documents" name="documents[]" multiple />
                             </div>
         
                             <div class="form-group">
@@ -297,13 +282,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Upload stanja životinje u trenutku zaprimanja u oporavilište</label>
-                                <input type="file" name="status_receiving_file[]" class="file-upload-default" multiple />
-                                <div class="input-group col-xs-12">
-                                    <input type="text" class="form-control file-upload-info"  placeholder="Dokumenti" />
-                                    <span class="input-group-append">
-                                        <button class="file-upload-browse btn btn-primary" type="button">Učitaj</button>
-                                    </span>
-                                </div>
+                                <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
                             </div>
                         </div>
         
@@ -322,13 +301,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Upload stanja u kojem je životinja pronađena</label>
-                                <input type="file" name="status_found_file[]" class="file-upload-default" multiple />
-                                <div class="input-group col-xs-12">
-                                    <input type="text" class="form-control file-upload-info"  placeholder="Dokumenti" />
-                                    <span class="input-group-append">
-                                        <button class="file-upload-browse btn btn-primary" type="button">Učitaj</button>
-                                    </span>
-                                </div>
+                                <input type="file" id="status_found_file" name="status_found_file[]" multiple />
                             </div>
         
                         </div>
@@ -344,20 +317,34 @@
 @endsection
 
 @push('plugin-scripts')
-    <script src="{{ asset('assets/plugins/dropzone/dropzone.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
-    <script src="{{ asset('assets/js/dropzone.js') }}"></script>
     <script src="{{ asset('assets/js/datepicker.js') }}"></script>
 
     <script>
         $(function() {
-            $('input#myDropify').dropify();
+
+            $("#founder_documents, #documents").fileinput({
+                language: "cr",
+                maxFileCount: 2,
+                showPreview: false,
+                showUpload: false,
+                allowedFileExtensions: ["pdf"],
+            });
+
+            $("#status_receiving_file, #status_found_file").fileinput({
+                language: "cr",
+                maxFileCount: 2,
+                showPreview: false,
+                showUpload: false,
+                allowedFileExtensions: ["jpg, png"],
+            });
 
             $('[data-toggle="tooltip"]').tooltip(); 
-
             
             $("#ostalo").hide();
             $("#sluzba").change(function(){

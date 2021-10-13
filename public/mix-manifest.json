@@ -331,5 +331,7 @@
     "/assets/plugins/fullcalendar/main.min.js": "/assets/plugins/fullcalendar/main.min.js",
     "/assets/plugins/fullcalendar/main.min.css": "/assets/plugins/fullcalendar/main.min.css",
     "/assets/plugins/jquery-ui-dist/jquery-ui.min.js": "/assets/plugins/jquery-ui-dist/jquery-ui.min.js",
-    "/assets/plugins/moment/moment.min.js": "/assets/plugins/moment/moment.min.js"
+    "/assets/plugins/moment/moment.min.js": "/assets/plugins/moment/moment.min.js",
+    "/assets/plugins/bootstrap-fileinput/fileinput.min.js": "/assets/plugins/bootstrap-fileinput/fileinput.min.js",
+    "/assets/plugins/bootstrap-fileinput/lang/cr.js": "/assets/plugins/bootstrap-fileinput/lang/cr.js"
 }
