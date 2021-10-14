@@ -2,7 +2,6 @@
 
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
-  <link href="{{ asset('assets/plugins/dropify/css/dropify.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
 @endpush
 
@@ -106,10 +105,7 @@
 
                         <div class="form-group">
                             <label>Dokument</label>
-                            <input type="file" class="form-control border" id="myDropify" name="filenames[]" multiple>
-                            @error('filenames')
-                                <div class="text-danger">{{$errors->first('filenames') }} </div>
-                            @enderror
+                            <input type="file" id="file" name="filenames[]" multiple />
                         </div>
             
                         <button type="submit" class="btn btn-primary mr-2">Upload</button>
@@ -152,11 +148,19 @@
 @endpush
 
 @push('custom-scripts')
-    <script src="{{ asset('assets/js/dropify.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script>
 
     <script>
         $(function() {
-            $('[data-toggle="tooltip"]').tooltip();
+            $("#file").fileinput({
+                language: "cr",
+                required: true,
+                maxFileCount: 2,
+                showPreview: false,
+                showUpload: false,
+                allowedFileExtensions: ["pdf"],
+            });
         })
     </script>
 @endpush

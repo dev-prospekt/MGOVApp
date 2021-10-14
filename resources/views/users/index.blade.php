@@ -96,26 +96,12 @@
   <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
   <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-
-  <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
 
   <script>
       $(function() {
-
-        function bootstrapFile()
-        {
-            $("#file").fileinput({
-                language: "cr",
-                maxFileCount: 2,
-                showPreview: false,
-                showUpload: false,
-                allowedFileExtensions: ["jpg", "png", "gif"],
-            });
-        }
 
         $('#users-table').DataTable({
             processing: true,
@@ -143,7 +129,6 @@
                 success: function(result) {
                     $(".modal").show();
                     $(".modal").html(result['html']);
-                    bootstrapFile();
 
                     $('.modal').find("#user-ajax").on('submit', function(e){
                         e.preventDefault();

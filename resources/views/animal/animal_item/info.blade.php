@@ -123,7 +123,7 @@
                 <div class="d-flex align-items-center flex-wrap">
                 @foreach ($mediaStanjeZaprimanja as $fi)
                     <p class="m-2">
-                        <img width="100px" src="{{ $fi->getUrl('thumb') }}" alt="{{ $fi->name }}">
+                        <img src="{{ $fi->getUrl('thumb') }}" alt="{{ $fi->name }}">
                     </p>
                 @endforeach
                 </div>
@@ -133,7 +133,7 @@
                 <div class="d-flex align-items-center flex-wrap">
                 @foreach ($mediaStanjePronadena as $fi)
                     <p class="m-2">
-                        <img width="100px" src="{{ $fi->getUrl('thumb') }}" alt="{{ $fi->name }}">
+                        <img src="{{ $fi->getUrl('thumb') }}" alt="{{ $fi->name }}">
                     </p>
                 @endforeach
                 </div>

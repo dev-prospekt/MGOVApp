@@ -53,10 +53,6 @@
                             @endforeach
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <input type="file" id="file" name="user_file[]" multiple />
-                    </div>
                 </div>
             </div>        
         
