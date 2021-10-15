@@ -34,32 +34,19 @@ class AnimalController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $shelter = Shelter::findOrFail(auth()->user()->shelter->id)
-            ->shelterTypes()
-            ->get();
-        
-        $typeArray = array();
-        foreach ($shelter as $key) {
-            $type = Animal::with('animalType', 'animalCategory')
-                ->whereHas('animalType', function ($q) use ($key) {
-                    $q->where('type_code', $key->code);
-                })->get();
+        $shelter = Shelter::find(auth()->user()->shelter->id);
+        $sysCats = $shelter->animalSystemCategory;
+        $plucked = $sysCats->pluck('id');
 
-            if($key->code == "SZJ"){
-                $typeArray['SZJ'] = $type;
-            }
-            if($key->code == "IJ"){
-                $typeArray['IJ'] = $type;
-            }
-            if($key->code == "ZJ"){
-                $typeArray['ZJ'] = $type;
-            }
-        }
+        $type = Animal::with('animalType')
+            ->whereHas('animalCategory.animalSystemCategory', function($q) use ($plucked) {
+                $q->whereIn('id', $plucked);
+            })->get();
                 
         return view('animal.animal.create', [
-            'typeArray' => $typeArray,
+            'typeArray' => $type,
         ]); 
     }
 

@@ -137,69 +137,26 @@
                     @method('POST')
                 
                     <div class="row">
-        
-                            @if (!empty($typeArray['SZJ']))
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="card-title">
-                                                <h6 class="text-muted">Strogo zaštićene</h6>
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <select name="animal_id[]" class="form-control">
-                                                    <option value="">------</option>
-                                                    @foreach ($typeArray['SZJ'] as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
+                        <div class="col-md-4">
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="card-title">
+                                        <h6 class="text-muted">Životinje</h6>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <select name="animal_id[]" class="form-control">
+                                            <option value="">------</option>
+                                            @foreach ($typeArray as $item)
+                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
-                            @endif
-                    
-                            @if (!empty($typeArray['IJ']))
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="card-title">
-                                                <h6 class="text-muted">Invazivne jedinke</h6>
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <select name="animal_id[]" class="form-control">
-                                                    <option value="">------</option>
-                                                    @foreach ($typeArray['IJ'] as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                    
-                            @if (!empty($typeArray['ZJ']))
-                                <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="card-title">
-                                                <h6 class="text-muted">Zaplijenjene jedinke</h6>
-                                            </div>
-        
-                                            <div class="form-group">
-                                                <select name="animal_id[]" class="form-control">
-                                                    <option value="">------</option>
-                                                    @foreach ($typeArray['ZJ'] as $item)
-                                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
+                            </div>
+
+                        </div>
                     </div>
                 
                     <div class="row mt-3">

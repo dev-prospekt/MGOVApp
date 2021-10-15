@@ -36,7 +36,9 @@
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
                 <h3 class="mb-2">
-                  {{ $countAnimal->animalItems->count() ?? '0' }}
+                  @if (!empty($countAnimal->animalItems))
+                  {{ $countAnimal->animalItems->count() }}  
+                  @endif
                 </h3>
                 <div class="d-flex align-items-baseline">
                   <p class="text-success">

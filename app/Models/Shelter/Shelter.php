@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalItem;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Animal\AnimalSystemCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Shelter extends Model
@@ -17,6 +18,11 @@ class Shelter extends Model
     public function shelterTypes()
     {
         return $this->belongsToMany(ShelterType::class);
+    }
+
+    public function animalSystemCategory()
+    {
+        return $this->belongsToMany(AnimalSystemCategory::class);
     }
 
     public function users()
@@ -41,5 +47,10 @@ class Shelter extends Model
     public function shelterStaff()
     {
         return $this->hasMany(ShelterStaff::class);
+    }
+
+    public function accomodations()
+    {
+        return $this->hasMany(ShelterAccomodation::class);
     }
 }

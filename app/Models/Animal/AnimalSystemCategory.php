@@ -2,17 +2,28 @@
 
 namespace App\Models\Animal;
 
+use App\Models\Shelter\ShelterType;
 use App\Models\Shelter\ShelterUnit;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AnimalSystemCategory extends Model
 {
     use HasFactory;
 
+    public function shelterType()
+    {
+        return $this->belongsToMany(ShelterType::class);
+    }
+
     public function shelterUnit()
     {
         return $this->belongsTo(ShelterUnit::class);
+    }
+
+    public function shelters()
+    {
+        return $this->belongsToMany(Shelter::class);
     }
 
     public function animalCategory()

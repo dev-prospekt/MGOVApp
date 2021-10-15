@@ -25050,4 +25050,21 @@ hr {
   display: none;
 }
 
+.email-head-subject {
+  padding: 10px 25px;
+  border: 1px solid #262f43;
+}
+
+.email-body {
+  border: 1px solid #262f43;
+}
+
+.shelter-nav {
+  border-bottom: 1px solid #262f43;
+  margin-bottom: 1rem;
+}
+.shelter-nav a.active {
+  color: #fbbc06;
+}
+
 /*# sourceMappingURL=app.css.map*/

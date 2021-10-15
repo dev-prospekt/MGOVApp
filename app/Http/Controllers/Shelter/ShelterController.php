@@ -10,13 +10,15 @@ use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
 use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalItem;
+use App\Models\Animal\AnimalType;
+use Illuminate\Support\Facades\DB;
 use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
 use App\Models\Shelter\ShelterStaff;
 use App\Models\Animal\AnimalCategory;
+use App\Models\Shelter\ShelterStaffType;
 use App\Http\Requests\ShelterPostRequest;
 use App\Models\Animal\AnimalSystemCategory;
-use App\Models\Shelter\ShelterStaffType;
 
 class ShelterController extends Controller
 {
@@ -43,9 +45,31 @@ class ShelterController extends Controller
     {
         $shelterType = ShelterType::all();
 
+        //Last shelter ID
+        $shelterID = DB::table('shelters')->orderBy('id', 'DESC')->first();
+        $shelter = Shelter::with('shelterTypes')->findOrFail($shelterID->id);
+
+        $type = array('shelterType' => $shelter->shelterTypes);
+        foreach($shelter->shelterTypes as $item){
+            $type['type'] = $item->animalSystemCategory;
+        }
+
         return view("shelter.shelter.create", [
-            'shelterType' => $shelterType
+            'shelterType' => $shelterType,
+            'type' => $type,
         ]);
+    }
+
+    public function createAnimalSystemCat(Request $request)
+    {
+        //dd($request);
+        
+        $shelter = Shelter::find($request->shelter_id);
+        $shelter->animalSystemCategories()->attach($request->animal_system_category_id, [
+            'shelter_id' => $shelter->id
+        ]);
+
+        return redirect()->route("shelter.show", $shelter->id)->with('finishMSG', 'Uspješno spremljeno.');
     }
 
     /**
@@ -56,14 +80,16 @@ class ShelterController extends Controller
      */
     public function store(ShelterPostRequest $request)
     {
-
         $shelter = Shelter::create($request->all());
 
         $shelter->shelterTypes()->attach($request->shelter_type_id, [
             'shelter_id' => $shelter->id
         ]);
 
-        return redirect()->route("shelter.index")->with('msg', 'Uspješno dodano.');
+        return redirect()->route("shelter.create")
+                ->with('msg', 'Uspješno dodano.')
+                ->with('active', 'Uspješno dodano.')
+                ->with('shelter_id', $shelter->id);
     }
 
     /**
@@ -74,8 +100,9 @@ class ShelterController extends Controller
      */
     public function show($id)
     {
-        $shelter = Shelter::with('animals', 'users')->findOrFail($id);
+        $shelter = Shelter::with('users')->findOrFail($id);
 
+        /*Shelter staff type users*/
         $shelterLegalStaff = ShelterStaff::legalStaff($id)->last();
         $fileLegal = $shelterLegalStaff ? $shelterLegalStaff->getMedia('legal-docs')->first() : '';
 
@@ -84,12 +111,13 @@ class ShelterController extends Controller
         $fileContract = $shelterCareStaff ? $shelterCareStaff->getMedia('contract-docs')->first() : '';
         $fileCertificate = $shelterCareStaff ? $shelterCareStaff->getMedia('certificate-docs')->first() : '';
 
-
         $shelterVetStaff = ShelterStaff::vetStaff($id)->last();
 
-        $fileVetContract = $shelterVetStaff ? $shelterVetStaff->getMedia('vet-docs')->first() : '';
+        $fileVetContract = $shelterVetStaff ? $shelterVetStaff->getMedia('contract-docs')->first() : '';
         $fileVetDiploma = $shelterVetStaff ? $shelterVetStaff->getMedia('vet-docs')->first() : '';
         $fileVetAmbulance = $shelterVetStaff ? $shelterVetStaff->getMedia('ambulance-docs')->first() : '';
+
+        $shelterPersonelStaff = ShelterStaff::personelStaff($id)->all();
 
         return view('shelter.shelter.show', [
             'shelter' => $shelter,
@@ -101,7 +129,8 @@ class ShelterController extends Controller
             'shelterVetStaff' => $shelterVetStaff,
             'fileVetContract' => $fileVetContract,
             'fileVetDiploma' => $fileVetDiploma,
-            'fileVetAmbulance' => $fileVetAmbulance
+            'fileVetAmbulance' => $fileVetAmbulance,
+            'shelterPersonelStaff' => $shelterPersonelStaff
         ]);
     }
 
@@ -161,6 +190,8 @@ class ShelterController extends Controller
     public function destroy($id)
     {
         $shelter = Shelter::findOrFail($id);
+        $shelter->shelterTypes()->detach();
+        $shelter->animalSystemCategories()->detach();
         $shelter->delete();
 
         return response()->json(['msg' => 'success']);

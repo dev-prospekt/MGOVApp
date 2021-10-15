@@ -18,6 +18,7 @@ use App\Http\Controllers\Animal\AnimalCategoryController;
 use App\Http\Controllers\Animal\AnimalSeizedTypeController;
 use App\Http\Controllers\Animal\AnimalInvaziveTypeController;
 use App\Http\Controllers\Animal\AnimalProtectedTypeController;
+use App\Http\Controllers\Shelter\ShelterAccomodationController;
 
 
 Auth::routes();
@@ -37,6 +38,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('shelter_legal_staff', Shelter\ShelterLegalStaffController::class);
     Route::resource('shelter_care_staff', Shelter\ShelterCareStaffController::class);
     Route::resource('shelter_vet_staff', Shelter\ShelterVetStaffController::class);
+    Route::resource('shelter_personel_staff', Shelter\ShelterPersonelStaffController::class);
     Route::resource('animal_item', Animal\AnimalItemController::class);
     Route::resource('animal', Animal\AnimalController::class);
     Route::resource('animal_category', Animal\AnimalCategoryController::class);
@@ -46,6 +48,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('animal_order', Animal\AnimalOrderController::class);
 
     Route::get('shelter/{shelterId}/animal/{animalId}', [ShelterController::class, 'animalItems']);
+    Route::get('/shelter/{shelter_id}/shelter_accomodation', [ShelterAccomodationController::class, 'index'])->name('shelter_accomodation');
+
+    Route::get('/shelter_accomodation/create', [ShelterAccomodationController::class, 'create'])->name('shelter_accomodation.create');
+
     // Strogo zaštićene
     Route::get('/sz_animal_type', [AnimalProtectedTypeController::class, 'getSZAnimalTypes'])->name('sz_animal_type');
     Route::get('/sz_animal_type/create', [AnimalProtectedTypeController::class, 'createSZAnimalTypes'])->name('create_sz_animal_type');
@@ -87,6 +93,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Custom
     Route::get('shelter-dt', 'Shelter\ShelterController@indexDataTables')->name('shelter:dt');
+
+    Route::post('createAnimalSystemCat', 'Shelter\ShelterController@createAnimalSystemCat')->name('createAnimalSystemCat');
 
     Route::post('animal_item/deleteFile/{id}', 'Animal\AnimalItemController@deleteFile');
     

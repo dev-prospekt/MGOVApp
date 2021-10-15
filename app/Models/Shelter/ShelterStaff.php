@@ -43,4 +43,12 @@ class ShelterStaff extends Model implements HasMedia
                 return $item->shelter_staff_type_id == 3;
             });
     }
+
+    public function scopePersonelStaff($query, $shelter_id)
+    {
+        return $query->where('shelter_id', $shelter_id)->get()
+            ->filter(function ($item) {
+                return $item->shelter_staff_type_id == 4;
+            });
+    }
 }
