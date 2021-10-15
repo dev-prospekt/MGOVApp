@@ -105,7 +105,11 @@
                         </div>
                         <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupni broj:</label>
-                            <p class="text-muted">{{ $animalItem->count() }}</p>
+                            <p class="text-muted">
+                                @if ($animalItem->first()->status == 1)
+                                {{ $animalItem->count() }}
+                                @endif
+                            </p>
                         </div>
                     </div>
                 </div>

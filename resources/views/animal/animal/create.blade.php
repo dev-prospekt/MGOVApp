@@ -50,7 +50,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Služba koja je izvršila zaplijenu</label>
-                                        <select id="sluzba" name="sluzba" class="form-control">
+                                        <select id="sluzba" name="service" class="form-control">
                                             <option value="">------</option>
                                             <option value="Državni inspektorat-inspekcija zaštite prirode">Državni inspektorat-inspekcija zaštite prirode</option>
                                             <option value="Državni inspektorat-veterinarska inspekcija">Državni inspektorat-veterinarska inspekcija</option>
@@ -203,8 +203,8 @@
                                     @foreach ($founder as $fo)
                                         <option value="{{$fo->id}}">
                                             {{$fo->name}} {{$fo->lastname}} 
-                                            @if($fo->sluzba != 'ostalo-navesti:')
-                                                ({{$fo->sluzba}})
+                                            @if($fo->service != 'ostalo-navesti:')
+                                                ({{$fo->service}})
                                             @else
                                                 ({{$fo->others}})
                                             @endif

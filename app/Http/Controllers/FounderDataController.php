@@ -16,7 +16,7 @@ class FounderDataController extends Controller
         $founder->country = $request->country;
         $founder->contact = $request->contact;
         $founder->email = $request->email;
-        $founder->sluzba = $request->sluzba;
+        $founder->service = $request->service;
         $founder->others = $request->others;
         $founder->save();
 

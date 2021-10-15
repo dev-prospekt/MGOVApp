@@ -206,9 +206,8 @@ class ShelterController extends Controller
                     ->where('shelter_code', $code)
                     ->where('status', 1)
                     ->get();
-                    
+
         $shelters = Shelter::all();
-        //dd($animalItem);
 
         return view('animal.animal_item.show', compact('animalItem', 'shelters'));
     }
