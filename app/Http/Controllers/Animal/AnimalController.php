@@ -38,12 +38,19 @@ class AnimalController extends Controller
     {
         $shelter = Shelter::find(auth()->user()->shelter->id);
         $sysCats = $shelter->animalSystemCategory;
-        $plucked = $sysCats->pluck('id');
+        $shelterType = $shelter->shelterTypes;
+
+        $pluckCat = $sysCats->pluck('id');
+        $pluckTyp = $shelterType->pluck('code');
 
         $type = Animal::with('animalType')
-            ->whereHas('animalCategory.animalSystemCategory', function($q) use ($plucked) {
-                $q->whereIn('id', $plucked);
-            })->get();
+            ->whereHas('animalType', function($q) use ($pluckTyp){
+                $q->whereIn('type_code', $pluckTyp);
+            })
+            ->whereHas('animalCategory.animalSystemCategory', function($q) use ($pluckCat) {
+                $q->whereIn('id', $pluckCat);
+            })
+            ->get();
                 
         return view('animal.animal.create', [
             'typeArray' => $type,
