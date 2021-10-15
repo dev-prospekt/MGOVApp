@@ -22,7 +22,7 @@ class ShelterSeeder extends Seeder
             'address_place' => 'Verudela bb',
             'place_zip' => 52100,
         ]);
-        $shelter1->shelterTypes()->attach(1);
+        $shelter1->shelterTypes()->attach([1, 4]);
         $shelter1->animalSystemCategory()->attach([1,3]);
 
         $shelter2 = Shelter::factory()->create([
