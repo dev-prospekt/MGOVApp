@@ -22,6 +22,8 @@ class CreateFounderDataTable extends Migration
             $table->string('country');
             $table->string('contact');
             $table->string('email');
+            $table->string('sluzba');
+            $table->string('others')->nullable();
 
             $table->timestamps();
         });

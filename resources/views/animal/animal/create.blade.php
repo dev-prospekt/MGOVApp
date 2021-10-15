@@ -38,7 +38,11 @@
                 <div class="row">
                     <div class="col-md-6">
 
-                        <form action="{{ route('founder_data.store') }}" method="POST">
+                        @if($msg = Session::get('founder'))
+                        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                        @endif
+
+                        <form action="{{ route('founder_data.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
 
@@ -46,25 +50,25 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Služba koja je izvršila zaplijenu</label>
-                                        <select id="sluzba" name="oznaka" class="form-control">
+                                        <select id="sluzba" name="sluzba" class="form-control">
                                             <option value="">------</option>
-                                            <option value="1">Državni inspektorat-inspekcija zaštite prirode</option>
-                                            <option value="2">Državni inspektorat-veterinarska inspekcija</option>
-                                            <option value="3">Ministarstvo unutarnjih poslova</option>
-                                            <option value="4">Ministarstvo financija, Carinska uprava</option>
-                                            <option value="5">fizička/pravna osoba</option>
-                                            <option value="6">komunalna služba-lokalna i regionalna samouprava</option>
-                                            <option value="7">nepoznato</option>
-                                            <option value="8">djelatnici Javnih ustanova NP/PP ili županija</option>
-                                            <option value="9">vlasnik životinje</option>
-                                            <option value="10">ostalo-navesti:</option>
+                                            <option value="Državni inspektorat-inspekcija zaštite prirode">Državni inspektorat-inspekcija zaštite prirode</option>
+                                            <option value="Državni inspektorat-veterinarska inspekcija">Državni inspektorat-veterinarska inspekcija</option>
+                                            <option value="Ministarstvo unutarnjih poslova">Ministarstvo unutarnjih poslova</option>
+                                            <option value="Ministarstvo financija, Carinska uprava">Ministarstvo financija, Carinska uprava</option>
+                                            <option value="fizička/pravna osoba">fizička/pravna osoba</option>
+                                            <option value="komunalna služba-lokalna i regionalna samouprava">komunalna služba-lokalna i regionalna samouprava</option>
+                                            <option value="nepoznato">nepoznato</option>
+                                            <option value="djelatnici Javnih ustanova NP/PP ili županija">djelatnici Javnih ustanova NP/PP ili županija</option>
+                                            <option value="vlasnik životinje">vlasnik životinje</option>
+                                            <option value="ostalo-navesti:">ostalo-navesti:</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-6" id="ostalo">
                                     <div class="form-group">
                                         <label>Ostalo navesti</label>
-                                        <input type="text" name="ostalo" class="form-control">
+                                        <input type="text" name="others" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -86,7 +90,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label>Ako se radi o službenoj osobi, podaci o službi-naziv institucije</label>
-                                        <input type="file" id="founder_documents" name="documents[]" multiple />
+                                        <input type="file" id="founder_documents" name="founder_documents[]" multiple />
                                     </div>
                                 </div>
                             </div>
@@ -157,13 +161,7 @@
                             </div>
 
                         </div>
-                    </div>
-                
-                    <div class="row mt-3">
                         <div class="col-md-4">
-                            <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
-                            <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
-        
                             <div class="form-group">
                                 <label>Vrsta oznake</label>
                                 <select name="oznaka" class="form-control">
@@ -178,7 +176,7 @@
                                     <option value="ostalo">ostalo</option>
                                 </select>
                             </div>
-                
+
                             <div class="form-group">
                                 <label>Količina</label>
                                 <input type="number" class="form-control" name="quantity">
@@ -186,7 +184,8 @@
                                     <div class="text-danger">{{$errors->first('quantity') }} </div>
                                 @enderror
                             </div>
-                
+                        </div>
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label>Datum pronalska</label>
                                 <div class="input-group date datepicker" id="datePickerExample">
@@ -198,9 +197,29 @@
                             </div>
         
                             <div class="form-group">
-                                <label>Okolnosti i način pronalaska životinje</label>
-                                <input type="text" class="form-control" name="okolnosti">
+                                <label>Pronalaznik</label>
+                                <select name="founder_id" class="form-control">
+                                    <option value="">------</option>
+                                    @foreach ($founder as $fo)
+                                        <option value="{{$fo->id}}">
+                                            {{$fo->name}} {{$fo->lastname}} 
+                                            @if($fo->sluzba != 'ostalo-navesti:')
+                                                ({{$fo->sluzba}})
+                                            @else
+                                                ({{$fo->others}})
+                                            @endif
+                                        </option>
+                                    @endforeach
+                                </select>
                             </div>
+                        </div>
+
+                    </div>
+                
+                    <div class="row mt-3">
+                        <div class="col-md-4">
+                            <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
+                            <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
         
                             <div class="form-group">
                                 <label>Lokacija na kojoj je životinja pronađena</label>
@@ -260,6 +279,11 @@
                                 <label>Upload stanja u kojem je životinja pronađena</label>
                                 <input type="file" id="status_found_file" name="status_found_file[]" multiple />
                             </div>
+
+                            <div class="form-group">
+                                <label>Okolnosti i način pronalaska životinje</label>
+                                <input type="text" class="form-control" name="okolnosti">
+                            </div>
         
                         </div>
                     </div>
@@ -307,7 +331,7 @@
             $("#sluzba").change(function(){
                 var id = $("#sluzba").val();
 
-                if(id != 10){
+                if(id != 'ostalo-navesti:'){
                     $("#ostalo").hide();
                 }
                 else {

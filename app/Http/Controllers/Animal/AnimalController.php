@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Animal;
 
 use Carbon\Carbon;
+use App\Models\FounderData;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
@@ -37,6 +38,7 @@ class AnimalController extends Controller
     public function create()
     {
         // auth()->user()->shelter->id
+        $founder = FounderData::all();
         $shelter = Shelter::find(auth()->user()->shelter->id);
         $sysCats = $shelter->animalSystemCategory;
         $shelterType = $shelter->shelterTypes;
@@ -54,6 +56,7 @@ class AnimalController extends Controller
                 
         return view('animal.animal.create', [
             'typeArray' => $type,
+            'founder' => $founder,
         ]); 
     }
 
@@ -67,8 +70,6 @@ class AnimalController extends Controller
     {
         $animals = new Animal;
         $count = $request->quantity;
-
-        //dd($request);
 
         // Increment ID
         $incrementId = DB::table('animal_shelter')->orderBy('id', 'DESC')->first();
@@ -105,18 +106,24 @@ class AnimalController extends Controller
         $animalFiles->save();
 
         // Save documents
-        $animalFiles->addMultipleMediaFromRequest(['documents'])
-        ->each(function ($fileAdder) {
-            $fileAdder->toMediaCollection('media');
-        });
-        $animalFiles->addMultipleMediaFromRequest(['status_receiving_file'])
-        ->each(function ($fileAdder) {
-            $fileAdder->toMediaCollection('status_receiving_file');
-        });
-        $animalFiles->addMultipleMediaFromRequest(['status_found_file'])
-        ->each(function ($fileAdder) {
-            $fileAdder->toMediaCollection('status_found_file');
-        });
+        if($request->documents){
+            $animalFiles->addMultipleMediaFromRequest(['documents'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('media');
+            });
+        }
+        if($request->status_receiving_file){
+            $animalFiles->addMultipleMediaFromRequest(['status_receiving_file'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('status_receiving_file');
+            });
+        }
+        if($request->status_found_file){
+            $animalFiles->addMultipleMediaFromRequest(['status_found_file'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('status_found_file');
+            });
+        }
 
         // Create AnimalItem
         for ($i=0; $i < $count; $i++) {
@@ -136,6 +143,7 @@ class AnimalController extends Controller
             $animalItem->status = 1;
             $animalItem->status_receiving = $request->status_receiving;
             $animalItem->status_found = $request->status_found;
+            $animalItem->founder_id = $request->founder_id;
             $animalItem->location = $request->location;
             $animalItem->date_found = Carbon::createFromFormat('m/d/Y', $request->date_found)->format('d.m.Y');
             $animalItem->save();

@@ -73,7 +73,7 @@
     </div>
 
     <div class="col-md-4">
-        <div class="card">
+        <div class="card grid-margin">
             <div class="card-body">
                 <div class="card-title">
                     <h6>Dodatni opisni podaci oporavilišta o preuzimanju</h6>
@@ -82,6 +82,33 @@
                 <hr>
 
                 <p>{{ $animalItem->first()->animal->shelters->first()->pivot->description }}</p>
+            </div>
+        </div>
+
+        <div class="card grid-margin">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 grid-margin">
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv: </label>
+                            <p class="text-muted">{{ $animalItem->first()->animal->name }}</p>
+                        </div>
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv: </label>
+                            <p class="text-muted">{{ $animalItem->first()->animal->latin_name }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 grid-margin">
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Pronađeni:</label>
+                            <p class="text-muted">{{ $animalItem->first()->date_found }}</p>
+                        </div>
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupni broj:</label>
+                            <p class="text-muted">{{ $animalItem->count() }}</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -22,6 +22,7 @@ class CreateAnimalItemsTable extends Migration
             $table->string('status');
             $table->string('status_receiving');
             $table->string('status_found');
+            $table->foreignId('founder_id');
             $table->string('animal_gender');
             $table->foreignId('animal_size_attributes_id');
             $table->string('animal_dob');

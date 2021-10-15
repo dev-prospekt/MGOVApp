@@ -25067,4 +25067,8 @@ hr {
   color: #fbbc06;
 }
 
+.select2-container {
+  width: 100% !important;
+}
+
 /*# sourceMappingURL=app.css.map*/

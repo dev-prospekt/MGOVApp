@@ -65,7 +65,7 @@ class ShelterController extends Controller
         //dd($request);
         
         $shelter = Shelter::find($request->shelter_id);
-        $shelter->animalSystemCategories()->attach($request->animal_system_category_id, [
+        $shelter->animalSystemCategory()->attach($request->animal_system_category_id, [
             'shelter_id' => $shelter->id
         ]);
 

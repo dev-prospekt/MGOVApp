@@ -27,7 +27,6 @@ class AnimalPostRequest extends FormRequest
         return [
             'quantity' => "required",
             'location' => "required",
-            'documents' => "required",
         ];
     }
 
@@ -36,7 +35,6 @@ class AnimalPostRequest extends FormRequest
         return [
             'quantity.required' => 'Količina je obavezan podatak',
             'location.required' => 'Lokacija je obavezan podatak',
-            'documents.required' => 'Dokument je obavezan podatak.',
         ];
     }
 }
