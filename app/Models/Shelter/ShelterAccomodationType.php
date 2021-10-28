@@ -9,10 +9,10 @@ class ShelterAccomodationType extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'type', 'type_mark', 'type_description'];
 
     public function shelterAccomodation()
     {
-        return $this->belongsTo(ShelterAccomodation::class);
+        return $this->hasMany(ShelterAccomodation::class);
     }
 }

@@ -16,6 +16,9 @@ class CreateShelterAccomodationTypesTable extends Migration
         Schema::create('shelter_accomodation_types', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('type');
+            $table->string('type_mark');
+            $table->string('type_description');
             $table->timestamps();
         });
     }

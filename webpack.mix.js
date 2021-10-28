@@ -89,6 +89,9 @@ mix.copyDirectory('node_modules/feather-icons/dist', 'public/assets/plugins/feat
     'public/assets/plugins/fullcalendar')
   .copyDirectory('node_modules/jquery-ui-dist/jquery-ui.min.js', 'public/assets/plugins/jquery-ui-dist/jquery-ui.min.js')
   .copyDirectory('node_modules/moment/min/moment.min.js', 'public/assets/plugins/moment/moment.min.js')
+  .copyDirectory('node_modules/bootstrap-fileinput/js/fileinput.min.js', 'public/assets/plugins/bootstrap-fileinput')
+  .copyDirectory('node_modules/bootstrap-fileinput/js/locales/cr.js', 'public/assets/plugins/bootstrap-fileinput/lang')
+ 
   
   
 
