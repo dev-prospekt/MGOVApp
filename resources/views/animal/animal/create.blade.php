@@ -2,7 +2,6 @@
 
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
-  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 
 @section('content')
@@ -162,9 +161,12 @@
                             <div class="form-group" id="hib_est_from_to">
                                 <label>Hibernacija/estivacija</label>
                                 <div class="input-group" id="daterangepicker">
-                                    <input type="text" name="hib_est_from_to" class="form-control date-range-picker">
-                                    <input type="hidden" name="hib_est_from" id="from">
-                                    <input type="hidden" name="hib_est_to" id="to">
+                                    <div class="input-group date datepicker" id="datePickerExample">
+                                        <input type="text" name="hibern_start" class="form-control">
+                                        <span class="input-group-addon">
+                                        <i data-feather="calendar"></i>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
 
@@ -344,7 +346,6 @@
 
 @push('custom-scripts')
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
         $(function() {
@@ -359,23 +360,6 @@
                 });
                 $('div#datePickerExample').datepicker('setDate', today);
             }
-
-            // DATE RANGE PICKER
-            $('.date-range-picker').daterangepicker({
-                autoUpdateInput: false,
-            });
-            $('.date-range-picker').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-                $(this).parent().find("#from").attr('value', picker.startDate.format('MM/DD/YYYY'));
-                $(this).parent().find("#to").attr('value', picker.endDate.format('MM/DD/YYYY'));
-            });
-            $('.date-range-picker').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).attr('value', '');
-                $(this).val('');
-                $(this).parent().find("#from").attr('value', '');
-                $(this).parent().find("#to").attr('value', '');
-            });
-            // DATE RANGE PICKER
 
             $("#founder_documents, #documents, #reason_file").fileinput({
                 required: true,

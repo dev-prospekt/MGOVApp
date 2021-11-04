@@ -156,6 +156,9 @@ class AnimalController extends Controller
                 $date_range = new DateRange;
                 $date_range->animal_item_id = $animalItem->id;
                 $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
+                if($request->hib_est == 'da'){
+                    $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start)->format('d.m.Y');
+                }
                 $date_range->save();
             }
         }
