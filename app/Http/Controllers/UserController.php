@@ -78,8 +78,6 @@ class UserController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        dd($request);
-
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
@@ -87,8 +85,6 @@ class UserController extends Controller
         $user->shelter_id = $request->shelter_id;
         $user->roles()->detach();
         $user->save();
-
-
 
         if($request->role_id){
             $user->roles()->attach($request->role_id);

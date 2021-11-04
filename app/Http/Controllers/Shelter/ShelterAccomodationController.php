@@ -62,16 +62,17 @@ class ShelterAccomodationController extends Controller
         return response()->json(['success' => 'Smještajna jedinica uspješno spremljena.']);
     }
 
-    public function show($id)
+    public function show(Shelter $shelter, ShelterAccomodation $shelterAccomodation)
     {
-        $shelterAccomodation = ShelterAccomodation::find($id);
-        $returnHTML = view('shelter.shelter_accomodation._update', ['shelterAccomodationItem' => $shelterAccomodation])->render();
+        $returnHTML = view('shelter.shelter_accomodation._update', ['shelter' => $shelter, 'shelterAccomodationItem' => $shelterAccomodation])->render();
 
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Shelter $shelter, ShelterAccomodation $shelter_accomodation)
     {
+
+        // dd($request);
         $validator = Validator::make($request->all(), [
             'edit_accomodation_name' => 'required',
             'edit_accomodation_size' => 'required',
@@ -82,7 +83,11 @@ class ShelterAccomodationController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $shelter_accomodation = ShelterAccomodation::find($id)->update([
+
+
+        //  $shelter_id = $shelter->id;
+
+        $shelter_accomodation->update([
             'name' => $request->edit_accomodation_name,
             'dimensions' => $request->edit_accomodation_size,
             'description' => $request->edit_accomodation_desc

@@ -45,9 +45,9 @@
         <div>
         </div>
      
-        <button  type="button" class="btn btn-primary btn-icon mr-2 edit-accomodation" data-id="{{ $shelterItem->id ?? ''  }}" >
+        <button  type="button" class="btn btn-primary btn-icon mr-2 edit-accomodation" data-accomodation-id="{{ $shelterItem->id ?? ''  }}" data-shelter-id="{{ $shelter->id ?? ''  }}">
           <i data-feather="check-square"></i>
-        </button>        
+        </button>       
           <a type="button" type="button" class="btn btn-danger btn-icon" >
             <i data-feather="box"></i>
       </a>
@@ -145,146 +145,120 @@
 <script>
  $(function() {
 
-//CREATE
- $("button#createAccomodation").on('click', function(e){
-            e.preventDefault();
-            var shelter_id = $(this).attr("data-shelter-id");
-            $.ajax({
-                url: "/shelters/"+shelter_id+"/accomodations/create",
-                method: 'GET',
-                success: function(result) {
-                    $(".modal").show();
-                    $(".modal").html(result['html']);
-                    $(".modal").find('#storeAccomodation #accomodationPhotosCreate').fileinput({
-                        language: "cr",
-                        showPreview: false,
-                        showUpload: false,
-                        allowedFileExtensions: ['jpg', 'png']
-                    });
-                    $('.modal').find("#storeAccomodation").on('submit', function(e){
-                        e.preventDefault();
-                        var formData = this;
-                
-                        $.ajax({
-                            url: "/shelters/"+shelter_id+"/accomodations",
-                            method: 'POST',
-                            data: new FormData(formData),
-                            processData: false,
-                            dataType: 'json',
-                            contentType: false,
-                            success: function(result) {
-                                if(result.errors) {
-                                    $('.alert-danger').html('');
-                                    $.each(result.errors, function(key, value) {
-                                        $('.alert-danger').show();
-                                        $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
-                                    });
-                                } 
-                                else {
-                                    $('.alert-danger').hide();
-                                    $('.alert-success').show();
-                                    setInterval(function(){
-                                        $('.alert-success').hide();
-                                        $('.modal').modal('hide');
-                                        location.reload();
-                                    }, 2000);
-                                }
-                            }
-                        });
-                    });
-                }
-            });
-        });
-
-        //Edit
-        $('button.edit-accomodation').on('click', function(e){
-          e.preventDefault();
-          var id = $(this).attr("data-id");
-            $.ajax({
-                url: "/accomodations/"+id,
-                method: 'GET',
-                success: function(result) {
-                    $(".modal").show();
-                    $(".modal").html(result['html']);
-                    $(".modal").find('#updateAccomodationPhotos').fileinput({
-                        language: "cr",
-                        showPreview: false,
-                        showUpload: false,
-                        allowedFileExtensions: ["jpg", "png"],
-                    });
-                    
-                    $('.modal').find("#updateAccomodation").on('submit', function(e){
-                        e.preventDefault();
-
-                        var formUpdateData = this; 
-
-                        var alertDanger = $('#dangerAccomodationUpdate');
-                        var alertSuccess = $('#successAccomodationUpdate');
-                        
-                        $.ajaxSetup({
-                          headers: {
-                              'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                          }
-                      });
-      
-                        $.ajax({
-                            url: "/accomodations/"+id,
-                            method: 'PUT',
-                            data: new FormData(formUpdateData),
-                            processData: false,
-                            dataType: 'json',
-                            contentType: false,
-                            success: function(result) {
-                            console.log(result);
-                          
-                            if(result.errors) {
-                                alertDanger.html('');
-                                console.log(result);
-                                $.each(result.errors, function(key, value) {
-                                    alertDanger.show();
-                                    alertDanger.append('<strong><li>'+value+'</li></strong>');
-                                });
-                            } else {
-                            
-                                alertDanger.hide();
-                                alertSuccess.show();
-                
-                                setInterval(function(){ 
-                                    alertDanger.hide();
-                                    $('#editStaffLegalModal').modal('hide');
-                                    location.reload();
-                                    console.log(result);
-                                }, 2000);
-                            }
-                        }
-                        });
-                    });
-                  }
-              });
-          });
-
- // Close Modal
- $(".modal").on('click', '.modal-close', function(){
-            $(".modal").hide();
-        });
-
-    //Edit
-    $('button.edit-accomodation').on('click', function(e){
+    //CREATE
+    $("button#createAccomodation").on('click', function(e){
         e.preventDefault();
-        var id = $(this).attr("data-id");
-        console.log(id);
-        
+        var shelter_id = $(this).attr("data-shelter-id");
         $.ajax({
-            url: "/shelter_accomodation/"+id+"/edit",
+            url: "/shelters/"+shelter_id+"/accomodations/create",
             method: 'GET',
             success: function(result) {
                 $(".modal").show();
                 $(".modal").html(result['html']);
-              
+                $(".modal").find('#storeAccomodation #accomodationPhotosCreate').fileinput({
+                    language: "cr",
+                    showPreview: false,
+                    showUpload: false,
+                    allowedFileExtensions: ['jpg', 'png']
+                });
+                $('.modal').find("#storeAccomodation").on('submit', function(e){
+                    e.preventDefault();
+                    var formData = this;
+            
+                    $.ajax({
+                        url: "/shelters/"+shelter_id+"/accomodations",
+                        method: 'POST',
+                        data: new FormData(formData),
+                        processData: false,
+                        dataType: 'json',
+                        contentType: false,
+                        success: function(result) {
+                            if(result.errors) {
+                                $('.alert-danger').html('');
+                                $.each(result.errors, function(key, value) {
+                                    $('.alert-danger').show();
+                                    $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                });
+                            } 
+                            else {
+                                $('.alert-danger').hide();
+                                $('.alert-success').show();
+                                setInterval(function(){
+                                    $('.alert-success').hide();
+                                    $('.modal').modal('hide');
+                                    location.reload();
+                                }, 2000);
+                            }
+                        }
+                    });
+                });
             }
         });
     });
 
+    //Edit
+    $('button.edit-accomodation').on('click', function(e){
+      e.preventDefault();
+      var shelter_id = $(this).attr("data-shelter-id");
+      var accomodation_id = $(this).attr("data-accomodation-id");
+        $.ajax({
+            url: "/shelters/"+shelter_id+"/accomodations/"+accomodation_id,
+            method: 'GET',
+            success: function(result) {
+                $(".modal").show();
+                $(".modal").html(result['html']);
+                $(".modal").find('#updateAccomodationPhotos').fileinput({
+                    language: "cr",
+                    showPreview: false,
+                    showUpload: false,
+                    allowedFileExtensions: ["jpg", "png"],
+                });
+                
+                $('.modal').find("#updateAccomodation").on('submit', function(e){
+                    e.preventDefault();
+
+                    var formUpdateData = new FormData(this);
+
+                    var alertDanger = $('#dangerAccomodationUpdate');
+                    var alertSuccess = $('#successAccomodationUpdate');
+                    
+                    $.ajax({
+                        url: "/shelters/"+shelter_id+"/accomodations/"+accomodation_id,
+                        type: 'POST',
+                        data: formUpdateData,
+                        processData: false,
+                        contentType: false,
+                        success: function(result) {
+                      
+                        if(result.errors) {
+                            alertDanger.html('');
+                            console.log(result);
+                            $.each(result.errors, function(key, value) {
+                                alertDanger.show();
+                                alertDanger.append('<strong><li>'+value+'</li></strong>');
+                            });
+                        } else {
+                        
+                            alertDanger.hide();
+                            alertSuccess.show();
+            
+                            setInterval(function(){
+                                    $('.alert-success').hide();
+                                    $('.modal').modal('hide');
+                                    location.reload();
+                                }, 2000);
+                        }
+                    }
+                    });
+                });
+              }
+          });
+      });
+
+      // Close Modal
+      $(".modal").on('click', '.close', function(){
+          $(".modal").hide();
+      });
 });
 </script>
 @endpush

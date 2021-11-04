@@ -48,21 +48,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('get_animal_size', [AnimalSizeController::class, 'getSizes'])->name('get_animal_size');
     Route::resource('animal_order', Animal\AnimalOrderController::class);
 
-    Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->shallow();
-
-
+    Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->parameters([
+        'accomodations' => 'shelter_accomodation'
+    ]);
 
     Route::get('shelter/{shelterId}/animal/{animalId}', [ShelterController::class, 'animalItems']);
-
-    /*  Route::get('/shelter/{shelter_id}/shelter_accomodation', [ShelterAccomodationController::class, 'index'])->name('shelter_accomodation');
-
-    Route::get('/shelter/{shelter_id}/shelter_accomodation/create', [ShelterAccomodationController::class, 'create'])->name('shelter_accomodation.create');
-    Route::post('/shelter/{shelter_id}/shelter_accomodation_box', [ShelterAccomodationController::class, 'storeAccomodationBox'])->name('shelter_accomodation_box.store');
-    Route::post('/shelter/{shelter_id}/shelter_accomodation_place', [ShelterAccomodationController::class, 'storeAccomodationPlace'])->name('shelter_accomodation_place.store');
-
-    Route::get('/shelter_accomodation/{id}/edit', [ShelterAccomodationController::class, 'editAccomodation'])->name('shelter_accomodation.show');
-    Route::put('/shelter_accomodation/{id}', [ShelterAccomodationController::class, 'updateAccomodation'])->name('shelter_accomodation.update'); */
-
 
     // Strogo zaštićene
     Route::get('/sz_animal_type', [AnimalProtectedTypeController::class, 'getSZAnimalTypes'])->name('sz_animal_type');
