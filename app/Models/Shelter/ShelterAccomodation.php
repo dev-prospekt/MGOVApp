@@ -4,13 +4,12 @@ namespace App\Models\Shelter;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ShelterAccomodation extends Model implements HasMedia
-{ 
+{
     use HasFactory, InteractsWithMedia;
 
     protected $fillable = ['shelter_id', 'shelter_accomodation_type_id', 'name', 'dimensions', 'description'];

@@ -25067,6 +25067,7 @@ hr {
   color: #fbbc06;
 }
 
+<<<<<<< HEAD
 .select2-container {
   width: 100% !important;
 }
@@ -25074,3 +25075,18 @@ hr {
 /*# sourceMappingURL=app.css.map*/
 
 
+=======
+.profile-page .profile-body .right-wrapper .latest-photos > .row > div figure {
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 6px;
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+}
+
+.profile-page .profile-body .right-wrapper .latest-photos > .row > div figure img {
+  border-radius: 0;
+}
+
+/*# sourceMappingURL=app.css.map*/
+>>>>>>> c4a809e2305a6425a8c4f82f8c8cb4430b05db19

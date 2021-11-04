@@ -38,5 +38,15 @@ hr {
     color: #fbbc06;
   }
 }
+.profile-page .profile-body .right-wrapper .latest-photos > .row > div figure {
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 6px;
+  width: 110px;
+  height: 110px;
+  overflow: hidden;
+}
+.profile-page .profile-body .right-wrapper .latest-photos > .row > div figure img {
+  border-radius: 0;
+}
 
 

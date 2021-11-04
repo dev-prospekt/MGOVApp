@@ -1,5 +1,5 @@
 <!-- Update Staffs Modal -->
-<div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
            <!-- Modal Header -->
             <div class="modal-header">
@@ -7,10 +7,11 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <!-- Modal body -->
-            <form id="updateAccomodation" action="" enctype="multipart/form-data">
-              
+            <form id="updateAccomodation" enctype="multipart/form-data"> 
               @method('PUT')
-              @csrf
+              
+              
+             
             <div class="modal-body">
               
                 <div id="dangerAccomodationUpdate" class="alert alert-danger alert-legal-staff alert-dismissible fade show" role="alert" style="display: none;">
@@ -27,24 +28,22 @@
       
                 <div class="form-group">
                   <label>Naziv</label>
-                  <input type="text" class="form-control size" name="accomodation_name" id="accomodationName" placeholder="Naziv nastambe npr. Kavez 01" value="{{ $shelterAccomodationItem->name }}">             
+                  <input type="text" class="form-control size" name="edit_accomodation_name" id="updateAccomodationName" placeholder="Naziv nastambe npr. Kavez 01" value="{{ $shelterAccomodationItem->name }}">             
                 </div>
                       
               <div class="form-group">
                   <label>Dimenzije</label>
-                  <input type="text" class="form-control size" name="accomodation_size" id="accomodationSize" placeholder="dimenzija u metrima D x Š x V" value="{{ $shelterAccomodationItem->dimensions }}">           
+                  <input type="text" class="form-control size" name="edit_accomodation_size" id="updateAccomodationSize" placeholder="dimenzija u metrima D x Š x V" value="{{ $shelterAccomodationItem->dimensions }}">           
               </div>
 
               <div class="form-group">
                   <label for="exampleFormControlTextarea1">Opis nastambe</label>
-                  <textarea class="form-control" id="accomodationDesc" name="accomodation_desc" rows="5" value="{{ $shelterAccomodationItem->description }}"></textarea>
+                  <textarea class="form-control" id="updateAccomodationDesc" name="edit_accomodation_desc" rows="8">{{ $shelterAccomodationItem->description }}</textarea>
               </div>  
                         
               <div class="form-group">
                   <label>Popratna fotodokumentacija</label>
-                  <div class="file-loading">
-                      <input  name="accomodation_photos[]" type="file" id="accomodationPhoto" multiple>
-                  </div>
+                      <input  name="edit_accomodation_photos[]" type="file" id="updateAccomodationPhotos" multiple>
               </div>
 
             </div>

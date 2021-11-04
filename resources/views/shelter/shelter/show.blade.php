@@ -10,7 +10,7 @@
     <a class="nav-link active" href="#">Podaci o korisnicima</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelter_accomodation', [$shelter->id, 'shelter' => $shelter->id]) }}">Nastambe oporavilišta</a>
+    <a class="nav-link" href="{{ route('shelters.accomodations.index', [$shelter->id]) }}">Nastambe oporavilišta</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#">Oprema, prehrana</a>
@@ -22,7 +22,7 @@
 </ul>
 
     <div class="d-flex align-items-center justify-content-between">
-      <div></div>
+      <div> <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5></div>
       <div>      
           <a href="javascript:void(0)" class="btn btn-primary btn-icon-text" data-toggle="modal" 
           data-target="#createStaffModal" type="button" class="btn btn-primary btn-icon-text">
@@ -51,8 +51,7 @@
       <div class="col-md-12 grid-margin">
         <div class="card">
           <div class="card-body">
-            <h6 class="card-title">{{ $shelter->name ?? '' }}</h6>
-            <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>          
+            <h6 class="card-title">Podaci oporavilišta</h6>        
               <div class="row">
                 <div class="col-md-4 grid-margin">    
                     <div class="mt-2">

@@ -9,9 +9,11 @@
 @section('content')
 
 <ul class="nav shelter-nav">
+
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelter.show', [$shelter_id]) }}">Podaci o korisnicima</a>
+    <a class="nav-link" href="{{ route('shelter.show', [ $shelter->id]) }}">Podaci o korisnicima</a>
   </li>
+
   <li class="nav-item">
     <a class="nav-link active" href="#">Nastambe oporavilišta</a>
   </li>
@@ -23,16 +25,17 @@
   </li>
 </ul>
 
+
 <div class="d-flex align-items-center justify-content-between">
-  <h5 class="mb-3 mb-md-0">{{ $shelterAccomodationItems[0]->shelter->name ?? '' }}</h5>
+  <h5 class="mb-3 mb-md-0">{{ $shelter->name ?? '' }}</h5>
   <div>      
-      <a href="{{ route('shelter_accomodation.create', ['shelter_id' => $shelter_id, 'shelter' => $shelter_id]) }}" type="button" class="btn btn-primary btn-icon-text">
+      <button id="createAccomodation" href="#" type="button" class="btn btn-primary btn-icon-text" data-shelter-id="{{ $shelter->id ?? ''  }}">
         Dodaj smještajne jedinice
         <i class="btn-icon-append" data-feather="user-plus"></i>
-      </a>                  
+      </button>                  
   </div>
 </div>
-
+@if($shelterAccomodationItems)
 <div class="row inbox-wrapper">    
   <div class="col-lg-12"> 
     @foreach ($shelterAccomodationItems as $shelterItem)
@@ -42,12 +45,12 @@
         <div>
         </div>
      
-        <button type="button" class="btn btn-primary btn-icon mr-2 edit-accomodation" data-id="{{ $shelterItem->id ?? ''  }}" >
+        <button  type="button" class="btn btn-primary btn-icon mr-2 edit-accomodation" data-id="{{ $shelterItem->id ?? ''  }}" >
           <i data-feather="check-square"></i>
         </button>        
-        <a type="button" type="button" class="btn btn-danger btn-icon" >
+          <a type="button" type="button" class="btn btn-danger btn-icon" >
             <i data-feather="box"></i>
-        </a>
+      </a>
         
       </div>
       <div class="profile-page tx-13 mt-4">
@@ -120,13 +123,12 @@
         </div>
       </div>
      
-
-   
         </div>
       </div>
       @endforeach
   </div>
 </div>
+@endif
 
 <div class="modal"></div>
 @endsection
@@ -141,8 +143,130 @@
 <script src="{{ asset('assets/js/file-upload.js') }}"></script>
 
 <script>
-  //Edit
-  $(function() {
+ $(function() {
+
+//CREATE
+ $("button#createAccomodation").on('click', function(e){
+            e.preventDefault();
+            var shelter_id = $(this).attr("data-shelter-id");
+            $.ajax({
+                url: "/shelters/"+shelter_id+"/accomodations/create",
+                method: 'GET',
+                success: function(result) {
+                    $(".modal").show();
+                    $(".modal").html(result['html']);
+                    $(".modal").find('#storeAccomodation #accomodationPhotosCreate').fileinput({
+                        language: "cr",
+                        showPreview: false,
+                        showUpload: false,
+                        allowedFileExtensions: ['jpg', 'png']
+                    });
+                    $('.modal').find("#storeAccomodation").on('submit', function(e){
+                        e.preventDefault();
+                        var formData = this;
+                
+                        $.ajax({
+                            url: "/shelters/"+shelter_id+"/accomodations",
+                            method: 'POST',
+                            data: new FormData(formData),
+                            processData: false,
+                            dataType: 'json',
+                            contentType: false,
+                            success: function(result) {
+                                if(result.errors) {
+                                    $('.alert-danger').html('');
+                                    $.each(result.errors, function(key, value) {
+                                        $('.alert-danger').show();
+                                        $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                    });
+                                } 
+                                else {
+                                    $('.alert-danger').hide();
+                                    $('.alert-success').show();
+                                    setInterval(function(){
+                                        $('.alert-success').hide();
+                                        $('.modal').modal('hide');
+                                        location.reload();
+                                    }, 2000);
+                                }
+                            }
+                        });
+                    });
+                }
+            });
+        });
+
+        //Edit
+        $('button.edit-accomodation').on('click', function(e){
+          e.preventDefault();
+          var id = $(this).attr("data-id");
+            $.ajax({
+                url: "/accomodations/"+id,
+                method: 'GET',
+                success: function(result) {
+                    $(".modal").show();
+                    $(".modal").html(result['html']);
+                    $(".modal").find('#updateAccomodationPhotos').fileinput({
+                        language: "cr",
+                        showPreview: false,
+                        showUpload: false,
+                        allowedFileExtensions: ["jpg", "png"],
+                    });
+                    
+                    $('.modal').find("#updateAccomodation").on('submit', function(e){
+                        e.preventDefault();
+
+                        var formUpdateData = this; 
+
+                        var alertDanger = $('#dangerAccomodationUpdate');
+                        var alertSuccess = $('#successAccomodationUpdate');
+                        
+                        $.ajaxSetup({
+                          headers: {
+                              'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                          }
+                      });
+      
+                        $.ajax({
+                            url: "/accomodations/"+id,
+                            method: 'PUT',
+                            data: new FormData(formUpdateData),
+                            processData: false,
+                            dataType: 'json',
+                            contentType: false,
+                            success: function(result) {
+                            console.log(result);
+                          
+                            if(result.errors) {
+                                alertDanger.html('');
+                                console.log(result);
+                                $.each(result.errors, function(key, value) {
+                                    alertDanger.show();
+                                    alertDanger.append('<strong><li>'+value+'</li></strong>');
+                                });
+                            } else {
+                            
+                                alertDanger.hide();
+                                alertSuccess.show();
+                
+                                setInterval(function(){ 
+                                    alertDanger.hide();
+                                    $('#editStaffLegalModal').modal('hide');
+                                    location.reload();
+                                    console.log(result);
+                                }, 2000);
+                            }
+                        }
+                        });
+                    });
+                  }
+              });
+          });
+
+ // Close Modal
+ $(".modal").on('click', '.modal-close', function(){
+            $(".modal").hide();
+        });
 
     //Edit
     $('button.edit-accomodation').on('click', function(e){
@@ -161,7 +285,6 @@
         });
     });
 
-    
-  });
+});
 </script>
 @endpush
