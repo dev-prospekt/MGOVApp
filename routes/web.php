@@ -47,7 +47,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('get_animal_size', [AnimalSizeController::class, 'getSizes'])->name('get_animal_size');
     Route::resource('animal_order', Animal\AnimalOrderController::class);
 
-    Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->shallow();
+    Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->parameters([
+        'accomodations' => 'shelter_accomodation'
+    ]);
 
 
 

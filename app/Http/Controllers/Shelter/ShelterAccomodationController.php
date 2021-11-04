@@ -8,8 +8,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Shelter\ShelterAccomodation;
 use App\Models\Shelter\ShelterAccomodationType;
-use App\Http\Requests\ShelterAccomodationBoxRequest;
-use App\Http\Requests\ShelterAccomodationPlaceRequest;
 
 class ShelterAccomodationController extends Controller
 {
@@ -31,11 +29,19 @@ class ShelterAccomodationController extends Controller
 
     public function store(Request $request, Shelter $shelter)
     {
-        $validator = Validator::make($request->all(), [
-            'accomodation_name' => 'required',
-            'accomodation_size' => 'required',
-            'accomodation_desc' => 'required',
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'accomodation_name' => 'required',
+                'accomodation_size' => 'required',
+                'accomodation_desc' => 'required',
+            ],
+            [
+                'accomodation_name.required' => 'Naziv je obvezano polje',
+                'accomodation_size.required' => 'Dimenzije su obvezano polje',
+                'accomodation_desc.required' => 'Opis je obvezno polje',
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
@@ -62,27 +68,35 @@ class ShelterAccomodationController extends Controller
         return response()->json(['success' => 'Smještajna jedinica uspješno spremljena.']);
     }
 
-    public function show($id)
+    public function show(Shelter $shelter, ShelterAccomodation $shelter_accomodation)
     {
-        $shelterAccomodation = ShelterAccomodation::find($id);
-        $returnHTML = view('shelter.shelter_accomodation._update', ['shelterAccomodationItem' => $shelterAccomodation])->render();
+
+        $returnHTML = view('shelter.shelter_accomodation._update', ['shelterAccomodationItem' => $shelter_accomodation, 'shelter' => $shelter])->render();
 
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, Shelter $shelter, ShelterAccomodation $shelter_accomodation)
     {
-        $validator = Validator::make($request->all(), [
-            'edit_accomodation_name' => 'required',
-            'edit_accomodation_size' => 'required',
-            'edit_accomodation_desc' => 'required',
-        ]);
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'edit_accomodation_name' => 'required',
+                'edit_accomodation_size' => 'required',
+                'edit_accomodation_desc' => 'required',
+            ],
+            [
+                'edit_accomodation_name.required' => 'Naziv je obvezano polje',
+                'edit_accomodation_size.required' => 'Dimenzije su obvezano polje',
+                'edit_accomodation_desc.required' => 'Opis je obvezno polje',
+            ]
+        );
 
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $shelter_accomodation = ShelterAccomodation::find($id)->update([
+        $shelter_accomodation->update([
             'name' => $request->edit_accomodation_name,
             'dimensions' => $request->edit_accomodation_size,
             'description' => $request->edit_accomodation_desc
@@ -93,6 +107,12 @@ class ShelterAccomodationController extends Controller
                 $shelter_accomodation->addMedia($image)->toMediaCollection('accomodation-photos');
             }
         }
-        return response()->json(['success' => 'Smještajna jedinica uspješno spremljena.', 'request' => $request]);
+        return response()->json(['success' => 'Smještajna jedinica uspješno spremljena.']);
+    }
+
+    public function destroy(Shelter $shelter, ShelterAccomodation $shelter_accomodation)
+    {
+        $shelter_accomodation->delete();
+        return response()->json(['success' => 'Smještajna jedinica uspješno izbrisana.']);
     }
 }

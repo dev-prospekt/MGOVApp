@@ -45,12 +45,12 @@
         <div>
         </div>
      
-        <button  type="button" class="btn btn-primary btn-icon mr-2 edit-accomodation" data-id="{{ $shelterItem->id ?? ''  }}" >
+        <button  type="button" class="btn btn-primary btn-icon mr-2 edit-accomodation" data-accomodation-id="{{ $shelterItem->id ?? ''  }}" data-shelter-id="{{ $shelter->id ?? ''  }}">
           <i data-feather="check-square"></i>
         </button>        
-          <a type="button" type="button" class="btn btn-danger btn-icon" >
+          <button type="button" type="button" class="btn btn-danger btn-icon delete-accomodation" data-accomodation-id="{{ $shelterItem->id ?? ''  }}" data-shelter-id="{{ $shelter->id ?? ''  }}">
             <i data-feather="box"></i>
-      </a>
+          </button>
         
       </div>
       <div class="profile-page tx-13 mt-4">
@@ -199,9 +199,10 @@
         //Edit
         $('button.edit-accomodation').on('click', function(e){
           e.preventDefault();
-          var id = $(this).attr("data-id");
+          var shelter_id = $(this).attr("data-shelter-id");
+          var accomodation_id = $(this).attr("data-accomodation-id");
             $.ajax({
-                url: "/accomodations/"+id,
+                url: "/shelters/"+shelter_id+"/accomodations/"+accomodation_id,
                 method: 'GET',
                 success: function(result) {
                     $(".modal").show();
@@ -228,18 +229,17 @@
                       });
       
                         $.ajax({
-                            url: "/accomodations/"+id,
-                            method: 'PUT',
+                            url: "/shelters/"+shelter_id+"/accomodations/"+accomodation_id,
+                            type:'POST',
                             data: new FormData(formUpdateData),
                             processData: false,
                             dataType: 'json',
                             contentType: false,
                             success: function(result) {
-                            console.log(result);
                           
                             if(result.errors) {
                                 alertDanger.html('');
-                                console.log(result);
+                                
                                 $.each(result.errors, function(key, value) {
                                     alertDanger.show();
                                     alertDanger.append('<strong><li>'+value+'</li></strong>');
@@ -249,18 +249,56 @@
                                 alertDanger.hide();
                                 alertSuccess.show();
                 
-                                setInterval(function(){ 
-                                    alertDanger.hide();
-                                    $('#editStaffLegalModal').modal('hide');
-                                    location.reload();
-                                    console.log(result);
-                                }, 2000);
+                                setInterval(function(){
+                                        $('.alert-success').hide();
+                                        $('.modal').modal('hide');
+                                        location.reload();
+                                    }, 2000);
                             }
                         }
                         });
+
                     });
                   }
               });
+          });
+
+
+          // Delete accomodation
+          $('body').on('click', '.delete-accomodation', function() {
+
+           var accomodation_id = $(this).data('accomodation-id');
+           var shelter_id = $(this).data('shelter-id');
+
+            Swal.fire({
+                title: "Brisanje?",
+                text: "Potvrdite ako ste sigurni za brisanje!",
+                type: "warning",
+                showCancelButton: !0,
+                confirmButtonText: "Da, brisanje!",
+                cancelButtonText: "Ne, odustani!",
+                reverseButtons: !0
+            }).then(function (e) {
+
+            if (e.value === true) {
+                            
+                $.ajax({
+                    type: 'DELETE',
+                    url: "/shelters/" + shelter_id + "/accomodations/"+ accomodation_id,
+                    data: {_token: '{{csrf_token()}}'},
+                    dataType: 'JSON',
+                    success: function (results) {
+                        location.reload();
+                    }
+                });
+
+              } else {
+                e.dismiss;
+              }
+
+              }, function (dismiss) {
+              return false;
+              })
           });
 
  // Close Modal

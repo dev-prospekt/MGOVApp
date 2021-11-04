@@ -7,11 +7,9 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <!-- Modal body -->
-            <form id="updateAccomodation" enctype="multipart/form-data"> 
+            <form id="updateAccomodation" method="POST" enctype="multipart/form-data"> 
               @method('PUT')
-              
-              
-             
+               
             <div class="modal-body">
               
                 <div id="dangerAccomodationUpdate" class="alert alert-danger alert-legal-staff alert-dismissible fade show" role="alert" style="display: none;">

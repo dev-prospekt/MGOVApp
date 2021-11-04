@@ -2,7 +2,7 @@
   <div class="modal-content">
          <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Izmjeni smještajnu jedinicu</h4>
+              <h4 class="modal-title">Spremi smještajnu jedinicu</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
           <!-- Modal body -->
@@ -39,7 +39,7 @@
     
               <div class="form-group">
                 <label>Naziv</label>
-                <input type="text" class="form-control size" name="accomodation_name" id="accomodationName" placeholder="Naziv nastambe npr. Kavez 01">             
+                <input type="text" class="form-control size" name="accomodation_name" id="accomodationName" placeholder="Naziv nastambe/prostora">             
               </div>
                     
             <div class="form-group">
@@ -48,7 +48,7 @@
             </div>
 
             <div class="form-group">
-                <label for="exampleFormControlTextarea1">Opis nastambe</label>
+                <label for="exampleFormControlTextarea1">Opis nastambe/prostora</label>
                 <textarea class="form-control" id="accomodationDesc" name="accomodation_desc" rows="10"></textarea>
             </div>  
                       
