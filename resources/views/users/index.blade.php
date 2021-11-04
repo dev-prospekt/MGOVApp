@@ -99,7 +99,6 @@
 @endpush
 
 @push('custom-scripts')
-
   <script>
       $(function() {
 

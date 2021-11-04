@@ -2,7 +2,7 @@
 
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
-  <link href="{{ asset('assets/plugins/dropzone/dropzone.min.css') }}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 @endpush
 
 @section('content')
@@ -142,26 +142,59 @@
                 
                     <div class="row">
                         <div class="col-md-4">
-
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <h6 class="text-muted">Životinje</h6>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <select name="animal_id[]" class="form-control">
-                                            <option value="">------</option>
-                                            @foreach ($typeArray as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
+                            <div class="form-group">
+                                <label>Životinje</label>
+                                <select name="animal_id[]" class="form-control">
+                                    <option value="">------</option>
+                                    @foreach ($typeArray as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Hibernacija/estivacija</label>
+                                <select class="form-control hib_est" name="hib_est">
+                                    <option value="">------</option>
+                                    <option value="da">Da</option>
+                                    <option value="ne">Ne</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="hib_est_from_to">
+                                <label>Hibernacija/estivacija</label>
+                                <div class="input-group" id="daterangepicker">
+                                    <input type="text" name="hib_est_from_to" class="form-control date-range-picker">
+                                    <input type="hidden" name="hib_est_from" id="from">
+                                    <input type="hidden" name="hib_est_to" id="to">
                                 </div>
                             </div>
 
+                            <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
+                            <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
+        
+                            <div class="form-group">
+                                <label>Lokacija na kojoj je životinja pronađena</label>
+                                <input type="text" class="form-control" name="location">
+                                @error('location')
+                                    <div class="text-danger">{{$errors->first('location') }} </div>
+                                @enderror
+                            </div>
+        
+                            <div class="form-group">
+                                <label>Dodatni opisni podaci oporavilišta o preuzimanju</label>
+                                <textarea class="form-control" name="description" id="" cols="30" rows="10"></textarea>
+                            </div>
                         </div>
+
                         <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Dolazak životinje u oporavilište</label>
+                                <div class="input-group date datepicker" id="datePickerExample">
+                                    <input type="text" name="start_date" class="form-control">
+                                    <span class="input-group-addon">
+                                    <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label>Vrsta oznake</label>
                                 <select name="oznaka" class="form-control">
@@ -184,8 +217,18 @@
                                     <div class="text-danger">{{$errors->first('quantity') }} </div>
                                 @enderror
                             </div>
-                        </div>
-                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <label>Dokumenti <strong>(PDF)</strong></label>
+
+                                <input type="file" id="documents" name="documents[]" multiple />
+                            </div>
+
+                            <div class="form-group">
+                                <label>Okolnosti i način pronalaska životinje</label>
+                                <input type="text" class="form-control" name="okolnosti">
+                            </div>
+
                             <div class="form-group">
                                 <label>Datum pronalska</label>
                                 <div class="input-group date datepicker" id="datePickerExample">
@@ -214,77 +257,73 @@
                             </div>
                         </div>
 
+                        <div class="col-md-4">
+                            <div class="card grid-margin">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Razlog zaprimanja životinje u oporavilište</label>
+                                        <select name="reason" class="form-control">
+                                            <option value="">----</option>
+                                            <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                                            <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
+                                            <option value="otrovana">otrovana</option>
+                                            <option value="bolesna">bolesna</option>
+                                            <option value="uginula">uginula</option>
+                                            <option value="ostalo">ostalo</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Upload <strong>(PDF)</strong></label>
+                                        <input type="file" id="reason_file" name="reason_file[]" multiple />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card grid-margin">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
+                                        <select name="status_receiving" class="form-control">
+                                            <option value="">----</option>
+                                            <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                                            <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
+                                            <option value="otrovana">otrovana</option>
+                                            <option value="bolesna">bolesna</option>
+                                            <option value="uginula">uginula</option>
+                                            <option value="ostalo">ostalo</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Upload <strong>(JPG, PNG)</strong></label>
+                                        <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card grid-margin">
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Stanje u kojem je životinja pronađena</label>
+                                        <select name="status_found" class="form-control">
+                                            <option value="">----</option>
+                                            <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                                            <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
+                                            <option value="otrovana">otrovana</option>
+                                            <option value="bolesna">bolesna</option>
+                                            <option value="uginula">uginula</option>
+                                            <option value="ostalo">ostalo</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Upload <strong>(JPG, PNG)</strong></label>
+                                        <input type="file" id="status_found_file" name="status_found_file[]" multiple />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                
-                    <div class="row mt-3">
-                        <div class="col-md-4">
-                            <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
-                            <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
-        
-                            <div class="form-group">
-                                <label>Lokacija na kojoj je životinja pronađena</label>
-                                <input type="text" class="form-control" name="location">
-                                @error('location')
-                                    <div class="text-danger">{{$errors->first('location') }} </div>
-                                @enderror
-                            </div>
-        
-                            <div class="form-group">
-                                <label>Dodatni opisni podaci oporavilišta o preuzimanju</label>
-                                <textarea class="form-control" name="description" id="" cols="30" rows="10"></textarea>
-                            </div>
-                
+
+                    <div class="row">
+                        <div class="col-md-12">
                             <button type="submit" class="btn btn-primary mr-2">Dodaj</button>
-                        </div>
-                
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Dokumenti</label>
-
-                                <input type="file" id="documents" name="documents[]" multiple />
-                            </div>
-        
-                            <div class="form-group">
-                                <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
-                                <select name="status_receiving" class="form-control">
-                                    <option value="">----</option>
-                                    <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                    <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                                    <option value="otrovana">otrovana</option>
-                                    <option value="bolesna">bolesna</option>
-                                    <option value="uginula">uginula</option>
-                                    <option value="ostalo">ostalo</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Upload stanja životinje u trenutku zaprimanja u oporavilište</label>
-                                <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
-                            </div>
-                        </div>
-        
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Stanje u kojem je životinja pronađena</label>
-                                <select name="status_found" class="form-control">
-                                    <option value="">----</option>
-                                    <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                    <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                                    <option value="otrovana">otrovana</option>
-                                    <option value="bolesna">bolesna</option>
-                                    <option value="uginula">uginula</option>
-                                    <option value="ostalo">ostalo</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Upload stanja u kojem je životinja pronađena</label>
-                                <input type="file" id="status_found_file" name="status_found_file[]" multiple />
-                            </div>
-
-                            <div class="form-group">
-                                <label>Okolnosti i način pronalaska životinje</label>
-                                <input type="text" class="form-control" name="okolnosti">
-                            </div>
-        
                         </div>
                     </div>
                 
@@ -304,12 +343,42 @@
 @endpush
 
 @push('custom-scripts')
-    <script src="{{ asset('assets/js/datepicker.js') }}"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <script>
         $(function() {
 
-            $("#founder_documents, #documents").fileinput({
+            if($('div#datePickerExample').length) {
+                var date = new Date();
+                var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                $('div#datePickerExample').datepicker({
+                    format: "mm/dd/yyyy",
+                    todayHighlight: true,
+                    autoclose: true,
+                });
+                $('div#datePickerExample').datepicker('setDate', today);
+            }
+
+            // DATE RANGE PICKER
+            $('.date-range-picker').daterangepicker({
+                autoUpdateInput: false,
+            });
+            $('.date-range-picker').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+                $(this).parent().find("#from").attr('value', picker.startDate.format('MM/DD/YYYY'));
+                $(this).parent().find("#to").attr('value', picker.endDate.format('MM/DD/YYYY'));
+            });
+            $('.date-range-picker').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).attr('value', '');
+                $(this).val('');
+                $(this).parent().find("#from").attr('value', '');
+                $(this).parent().find("#to").attr('value', '');
+            });
+            // DATE RANGE PICKER
+
+            $("#founder_documents, #documents, #reason_file").fileinput({
+                required: true,
                 language: "cr",
                 maxFileCount: 2,
                 showPreview: false,
@@ -318,6 +387,7 @@
             });
 
             $("#status_receiving_file, #status_found_file").fileinput({
+                required: true,
                 language: "cr",
                 maxFileCount: 2,
                 showPreview: false,
@@ -326,7 +396,8 @@
             });
 
             $('[data-toggle="tooltip"]').tooltip(); 
-            
+
+            // SLUZBA
             $("#ostalo").hide();
             $("#sluzba").change(function(){
                 var id = $("#sluzba").val();
@@ -336,6 +407,19 @@
                 }
                 else {
                     $("#ostalo").show();
+                }
+            });
+
+            // HIBERNACIJA
+            $("#hib_est_from_to").hide();
+            $(".hib_est").change(function(){
+                var id = $(".hib_est").val();
+
+                if(id != 'da'){
+                    $("#hib_est_from_to").hide();
+                }
+                else {
+                    $("#hib_est_from_to").show();
                 }
             });
         });

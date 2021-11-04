@@ -88,7 +88,7 @@ class ShelterController extends Controller
 
         return redirect()->route("shelter.create")
                 ->with('msg', 'Uspješno dodano.')
-                ->with('active', 'Uspješno dodano.')
+                ->with('active', 'Možete izabrati životinje.')
                 ->with('shelter_id', $shelter->id);
     }
 
@@ -191,7 +191,7 @@ class ShelterController extends Controller
     {
         $shelter = Shelter::findOrFail($id);
         $shelter->shelterTypes()->detach();
-        $shelter->animalSystemCategories()->detach();
+        $shelter->animalSystemCategory()->detach();
         $shelter->delete();
 
         return response()->json(['msg' => 'success']);

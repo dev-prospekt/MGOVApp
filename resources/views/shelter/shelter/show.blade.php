@@ -113,11 +113,11 @@
                   </div> 
                   <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">OVLAŠTENJE: </label>
-                    <p class="text-muted">
-                      @foreach ($shelter->shelterTypes as $type)
-                      {{ $type->name ?? '' }}
-                      @endforeach
-                    </p>
+                    @foreach ($shelter->shelterTypes as $type)
+                      <p class="text-muted">
+                        {{ $type->name ?? '' }}
+                      </p>
+                    @endforeach
                   </div>
   
                   <div class="mt-2">
@@ -497,7 +497,7 @@
                   <th>Oznaka</th>
                   <th>Tip jedinke</th>
                   <th>Pronađeno</th>
-                  <th>Upisano</th>
+                  <th>Dolazak životinje</th>
                   <th></th>
                 </tr>
               </thead>
@@ -521,7 +521,6 @@
                       @endforeach
                     </td>
                     <td>{{ $item->animalItems->first()->date_found ?? '' }}</td>
-                    <td>{{ date('H:i - d.m.Y', strtotime($item->pivot->created_at)) }}</td>
                     <td>
                       <a class="btn btn-info" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelter_code}}">
                         Info

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Animal;
 
 use Carbon\Carbon;
+use App\Models\DateRange;
 use App\Models\FounderData;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
@@ -52,6 +53,7 @@ class AnimalController extends Controller
                         ->whereHas('animalCategory.animalSystemCategory', function($q) use ($pluckCat) {
                             $q->whereIn('id', $pluckCat);
                         })
+                        ->orderBy('name')
                         ->get();
                 
         return view('animal.animal.create', [
@@ -139,6 +141,7 @@ class AnimalController extends Controller
                 $animalItem->solitary_or_group = 0;
             }
 
+            $animalItem->reason = $request->reason;
             $animalItem->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment;
             $animalItem->status = 1;
             $animalItem->status_receiving = $request->status_receiving;
@@ -147,6 +150,14 @@ class AnimalController extends Controller
             $animalItem->location = $request->location;
             $animalItem->date_found = Carbon::createFromFormat('m/d/Y', $request->date_found)->format('d.m.Y');
             $animalItem->save();
+
+            // Date Range
+            if(!empty($request->start_date)){
+                $date_range = new DateRange;
+                $date_range->animal_item_id = $animalItem->id;
+                $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
+                $date_range->save();
+            }
         }
         
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');

@@ -26,6 +26,7 @@ class CreateAnimalItemsTable extends Migration
             $table->string('animal_gender');
             $table->foreignId('animal_size_attributes_id');
             $table->string('animal_dob');
+            $table->string('reason');
             $table->tinyInteger('solitary_or_group');
             $table->string('location');
             $table->string('shelter_code');

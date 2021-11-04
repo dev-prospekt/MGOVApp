@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShelterAccomodationTypesTable extends Migration
+class CreateDateFullCaresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateShelterAccomodationTypesTable extends Migration
      */
     public function up()
     {
-        Schema::create('shelter_accomodation_types', function (Blueprint $table) {
+        Schema::create('date_full_cares', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('type');
-            $table->string('type_mark');
-            $table->string('type_description');
+
+            $table->foreignId('animal_item_id');
+            $table->string('start_date');
+            $table->string('end_date')->nullable();
+            $table->string('days')->nullable();
+
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateShelterAccomodationTypesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shelter_accomodation_types');
+        Schema::dropIfExists('date_full_cares');
     }
 }

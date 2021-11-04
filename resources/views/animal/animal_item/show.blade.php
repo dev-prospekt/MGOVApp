@@ -33,8 +33,6 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>NAZIV</th>
-                        <th>LATINSKI NAZIV</th>
                         <th>KATEGORIJA</th>
                         <th>SPOL</th>
                         <th>VELIČINA</th>
@@ -45,8 +43,6 @@
                         @foreach ($animalItem as $anim)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $anim->animal->name }}</td>
-                                <td>{{ $anim->animal->latin_name }}</td>
                                 <td>{{ $anim->animal->animalCategory->latin_name }}</td>
                                 <td>{{ $anim->animal_gender }}</td>
                                 <td>{{ $anim->animalSizeAttributes->name ?? '' }}</td>
@@ -100,14 +96,10 @@
                     </div>
                     <div class="col-md-6 grid-margin">
                         <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Pronađeni:</label>
-                            <p class="text-muted">{{ $animalItem->first()->date_found }}</p>
-                        </div>
-                        <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupni broj:</label>
                             <p class="text-muted">
                                 @if ($animalItem->first()->status == 1)
-                                {{ $animalItem->count() }}
+                                    {{ $animalItem->count() }}
                                 @endif
                             </p>
                         </div>

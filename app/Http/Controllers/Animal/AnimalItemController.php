@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Animal;
 
 use PDF;
 use Carbon\Carbon;
+use App\Models\DateRange;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
@@ -11,6 +12,7 @@ use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalData;
 use App\Models\Animal\AnimalFile;
 use App\Models\Animal\AnimalItem;
+use App\Models\ShelterAnimalPrice;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalItemFile;
@@ -64,6 +66,18 @@ class AnimalItemController extends Controller
         $mediaStanjeZaprimanja = $animalItems->animalFile->getMedia('status_receiving_file');
         $mediaStanjePronadena = $animalItems->animalFile->getMedia('status_found_file');
 
+        // Day and Price
+        if(!empty($animalItems->dateRange->end_date)){
+            $from = Carbon::createFromFormat('d.m.Y', $animalItems->dateRange->start_date);
+            $to = (isset($animalItems->dateRange->end_date)) ? Carbon::createFromFormat('d.m.Y', $animalItems->dateRange->end_date) : '';
+            $diff_in_days = $to->diffInDays($from);
+        }
+
+        $totalPriceStand = (isset($animalItems->shelterAnimalPrice->stand_care)) ? $animalItems->shelterAnimalPrice->stand_care : '';
+        $totalPriceHibern = (isset($animalItems->shelterAnimalPrice->hibern)) ? $animalItems->shelterAnimalPrice->hibern : '';
+        $totalPriceFullCare = (isset($animalItems->shelterAnimalPrice->full_care)) ? $animalItems->shelterAnimalPrice->full_care : '';
+
+        // Media
         $animalItemsMedia = $animalItems->getMedia('media');
 
         return view('animal.animal_item.info', [
@@ -72,6 +86,10 @@ class AnimalItemController extends Controller
             'mediaStanjeZaprimanja' => $mediaStanjeZaprimanja,
             'mediaStanjePronadena' => $mediaStanjePronadena,
             'mediaFiles' => $mediaFiles,
+            'diff_in_days' => (isset($diff_in_days) ? $diff_in_days : 0),
+            'totalPriceStand' => (isset($totalPriceStand) ? $totalPriceStand : 0),
+            'totalPriceHibern' => (isset($totalPriceHibern) ? $totalPriceHibern : 0),
+            'totalPriceFullCare' => (isset($totalPriceFullCare) ? $totalPriceFullCare : 0),
         ]);
     }
 
@@ -82,15 +100,17 @@ class AnimalItemController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
         $animalItem = AnimalItem::findOrFail($id);
         $mediaItems = $animalItem->getMedia('media');
         $size = $animalItem->animal->animalSize;
+        $dateRange = $animalItem->dateRange;
 
         return view('animal.animal_item.edit', [
             'animalItem' => $animalItem,
             'mediaItems' => $mediaItems,
             'size' => $size,
+            'dateRange' => $dateRange,
         ]); 
     }
 
@@ -110,7 +130,7 @@ class AnimalItemController extends Controller
         $animalItem->location = $request->location;
         $animalItem->save();
 
-        return redirect('/shelter/'.$animalItem->shelter_id.'/animal/'.$animalItem->shelter_code)->with('msg', 'Uspješno ažurirano.');
+        return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
     }
 
     /**
@@ -176,12 +196,20 @@ class AnimalItemController extends Controller
         ->where('shelter_code', '=', $request->shelter_code)
         ->decrement('quantity', 1);
 
+        // COPY DESC AND CREATED
+        $lastShelter = $shelter->animals()
+        ->newPivotStatement()
+        ->where('animal_id', '=', $request->animal_id)
+        ->where('shelter_code', '=', $request->shelter_code)->get();
+
         // Dodavanje životinje u novi šelter sa novom šifrom
         $shelter->animals()->attach($id, [
-            'shelter_id' => $request->shelter_id,
             'animal_id' => $request->animal_id,
-            'shelter_code' => Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment,
+            'shelter_id' => $request->shelter_id,
             'quantity' => 1,
+            'shelter_code' => Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment,
+            'description' => $lastShelter->first()->description,
+            'created' => $lastShelter->first()->created,
         ]);
 
         // Kopija životinje u novi šelter

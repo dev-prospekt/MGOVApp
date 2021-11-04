@@ -17,7 +17,7 @@
 </nav>
 
 <div class="row">
-    <div class="col-md-4 grid-margin">
+    <div class="col-md-6 grid-margin">
         <div class="card rounded">
             <div class="card-body">
                 <div class="mb-2">
@@ -42,13 +42,39 @@
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dob:</label>
                             <p class="text-muted">{{ $animalItems->animal_dob }}</p>
                         </div>
+
+                        @if (!empty($animalItems->dateRange->end_date))
+                            <div class="mt-3">
+                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum početka skrbi o životinji</label>
+                                <p class="text-muted">
+                                    <strong>{{ $animalItems->dateRange->start_date }}</strong>
+                                </p>
+                            </div>
+                            <div class="mt-3">
+                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum prestanka skrbi o životinji</label>
+                                <p class="text-muted">
+                                    <strong>{{ $animalItems->dateRange->end_date ?? '' }}</strong>
+                                </p>
+                            </div>
+                            <div class="mt-3">
+                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Razlog prestanka skrbi o životinji</label>
+                                <p class="text-muted">
+                                    {{ $animalItems->dateRange->reason_date_end }}
+                                </p>
+                            </div>
+                        @endif
+
                         <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Status:</label>
-                            <p class="text-success">
                                 @if ($animalItems->status == 1)
+                                    <p class="text-success">
                                     Aktivan
+                                    </p>
+                                @else
+                                    <p class="text-danger">
+                                    Neaktivan
+                                    </p>
                                 @endif
-                            </p>
                         </div>
                     </div>
                     <div class="col-md-6 grid-margin">
@@ -68,14 +94,46 @@
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Pronađena:</label>
                             <p class="text-muted">{{ $animalItems->date_found }}</p>
                         </div>
+                        @if (!empty($animalItems->dateRange->end_date))
+                            <div class="mt-3">
+                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Broj dana skrbi</label>
+                                <p class="text-muted">
+                                    {{ $diff_in_days }}
+                                </p>
+                            </div>
+                            <div class="mt-3">
+                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupna cijena</label>
+                                <p class="text-muted">
+                                    {{ $totalPriceStand ? $totalPriceStand : '' }} kn
+                                </p>
+                            </div>
+                            
+                            @if ($totalPriceFullCare)
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Cijena proširene skrbi</label>
+                                    <p class="text-muted">
+                                        {{ $totalPriceFullCare ? $totalPriceFullCare : '' }} kn
+                                    </p>
+                                </div>
+                            @endif
+                            @if ($totalPriceHibern)
+                                <div class="mt-3">
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Cijena hibernacije</label>
+                                    <p class="text-muted">
+                                        {{ $totalPriceHibern ? $totalPriceHibern : '' }} kn
+                                    </p>
+                                </div>
+                            @endif
+
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="col-md-4 grid-margin">
-        <div class="card rounded">
+    <div class="col-md-6 grid-margin">
+        <div class="card rounded grid-margin">
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                     <h6 class="card-title mb-0">Dokumenti životinje</h6>
@@ -113,10 +171,8 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="col-md-4 grid-margin">
-        <div class="card rounded">
+        <div class="card rounded grid-margin">
             <div class="card-body">
                 <p>Stanje životinje u trenutku zaprimanja u oporavilište</p>
 

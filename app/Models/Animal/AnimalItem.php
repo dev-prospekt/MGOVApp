@@ -2,12 +2,15 @@
 
 namespace App\Models\Animal;
 
+use App\Models\DateRange;
+use App\Models\DateFullCare;
 use App\Models\Shelter\Shelter;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 use Spatie\MediaLibrary\HasMedia;
+use App\Models\ShelterAnimalPrice;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AnimalItem extends Model implements HasMedia
 {
@@ -15,7 +18,7 @@ class AnimalItem extends Model implements HasMedia
 
     public function animal()
     {
-        return $this->belongsTo(Animal::class)->with('animalSize');
+        return $this->belongsTo(Animal::class)->with('animalSize', 'animalCategory');
     }
 
     public function animalFile()
@@ -31,5 +34,20 @@ class AnimalItem extends Model implements HasMedia
     public function animalSizeAttributes()
     {
         return $this->belongsTo(AnimalSizeAttribute::class);
+    }
+
+    public function dateRange()
+    {
+        return $this->hasOne(DateRange::class);
+    }
+
+    public function dateFullCare()
+    {
+        return $this->hasMany(DateFullCare::class);
+    }
+
+    public function shelterAnimalPrice()
+    {
+        return $this->hasOne(ShelterAnimalPrice::class);
     }
 }

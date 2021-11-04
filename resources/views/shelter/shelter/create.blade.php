@@ -28,7 +28,10 @@
                         <h6 class="card-title">Oporavilište - osnovne informacije</h6>
         
                         @if($msg = Session::get('msg'))
-                        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                            <div id="successMessage" class="alert alert-success">
+                                {{ $msg }}
+                                <strong>{{ Session::get('active') }}</strong>
+                            </div>
                         @endif
         
                         <form action="{{ route("shelter.store") }}" method="POST" multiple>
