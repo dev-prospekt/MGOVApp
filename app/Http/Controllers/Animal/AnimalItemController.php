@@ -106,11 +106,21 @@ class AnimalItemController extends Controller
         $size = $animalItem->animal->animalSize;
         $dateRange = $animalItem->dateRange;
 
+        $dateFullCare_total = $animalItem->dateFullCare;
+        $countDays = 0;
+        foreach ($dateFullCare_total as $key) {
+            $countDays += $key->days;
+        }
+        $maxDate = 10;
+        $totalCountForUse = ($maxDate - $countDays);
+        $totalDays = $totalCountForUse;
+
         return view('animal.animal_item.edit', [
             'animalItem' => $animalItem,
             'mediaItems' => $mediaItems,
             'size' => $size,
             'dateRange' => $dateRange,
+            'totalDays' => $totalDays,
         ]); 
     }
 

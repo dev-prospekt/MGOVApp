@@ -122,7 +122,7 @@
                                     </div>
     
                                     <div class="form-group" id="period">
-                                        <label>Razdoblje provođenja proširene skrbi</label>
+                                        <label>Razdoblje provođenja proširene skrbi <strong>(ostalo {{ $totalDays }} dana)</strong></label>
                                         <div class="d-flex">
                                             <div class="input-group date datepicker" id="datePickerExample">
                                                 <input type="text" name="full_care_start" class="form-control full_care_start">
