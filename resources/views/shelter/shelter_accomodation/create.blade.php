@@ -26,7 +26,7 @@
         <div class="card">
             <div class="card-body">
                 <p class="card-description">Osigurane opremljene nastambe</p>
-                    <form action="{{ route('shelter_accomodation_box.store', $shelter_id) }}" method="POST" id="shelterAccomodation" enctype="multipart/form-data">
+                    <form action="{{ route('shelters.accomodations.store', $shelter_id) }}" method="POST" id="shelterAccomodation" enctype="multipart/form-data">
                         @csrf
                         @method('POST')
             
@@ -84,7 +84,7 @@
         <div class="card">
             <div class="card-body">
                 <p class="card-description">Osigurani opremljeni prostori oporavilišta</p>
-                    <form action="{{ route('shelter_accomodation_place.store', $shelter_id) }}" method="POST" id="shelterAccomodation" enctype="multipart/form-data">
+                    <form action="#" method="POST" id="shelterAccomodation" enctype="multipart/form-data">
                         @csrf
                         @method('POST')
             
