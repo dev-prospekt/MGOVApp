@@ -26,6 +26,8 @@ class AnimalItemPriceController extends Controller
             $from = Carbon::createFromFormat('d.m.Y', $animalItem->dateRange->start_date);
             $to = (isset($animalItem->dateRange->end_date)) ? Carbon::createFromFormat('d.m.Y', $animalItem->dateRange->end_date) : '';
             $diff_in_days = $to->diffInDays($from);
+
+            // Standardna cijena
             $totalPriceStand = $this->getPrice($animalItem, $diff_in_days);
         }
 
@@ -49,6 +51,8 @@ class AnimalItemPriceController extends Controller
                     $hib_diff_days = $hib_to->diffInDays($hib_from);
 
                     $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);
+
+                    // Cijena za hibernaciju
                     $totalPriceHibern = $this->getPrice($animalItem, $hib_day);
                 }
             }
@@ -80,6 +84,7 @@ class AnimalItemPriceController extends Controller
                 'days' => $full_care_diff_in_days,
             ]);
 
+            // CIjena za proširenu skrb
             $totalPriceFullCare = $this->getPrice($animalItem, ($fullCaretotaldays + $full_care_diff_in_days), 'fullCare');
         }
 
