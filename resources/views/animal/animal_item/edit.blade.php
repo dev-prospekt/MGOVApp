@@ -123,20 +123,22 @@
     
                                     <div class="form-group" id="period">
                                         <label>Razdoblje provođenja proširene skrbi <strong>(ostalo {{ $totalDays }} dana)</strong></label>
+                                        @if ($totalDays != 0)
                                         <div class="d-flex">
                                             <div class="input-group date datepicker" id="datePickerExample">
-                                                <input type="text" name="full_care_start" {{ $totalDays ? 0 : 'disabled' }} class="form-control full_care_start">
+                                                <input type="text" name="full_care_start" class="form-control full_care_start">
                                                 <span class="input-group-addon">
                                                     <i data-feather="calendar"></i>
                                                 </span>
                                             </div>
                                             <div class="input-group date datepicker" id="datePickerExample">
-                                                <input type="text" name="full_care_end" {{ $totalDays ? 0 : 'disabled' }} class="form-control full_care_end">
+                                                <input type="text" name="full_care_end" class="form-control full_care_end">
                                                 <span class="input-group-addon">
                                                     <i data-feather="calendar"></i>
                                                 </span>
                                             </div>
                                         </div>
+                                        @endif
                                     </div>
     
                                     <div class="card">

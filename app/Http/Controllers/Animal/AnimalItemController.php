@@ -76,6 +76,12 @@ class AnimalItemController extends Controller
         $totalPriceStand = (isset($animalItems->shelterAnimalPrice->stand_care)) ? $animalItems->shelterAnimalPrice->stand_care : '';
         $totalPriceHibern = (isset($animalItems->shelterAnimalPrice->hibern)) ? $animalItems->shelterAnimalPrice->hibern : '';
         $totalPriceFullCare = (isset($animalItems->shelterAnimalPrice->full_care)) ? $animalItems->shelterAnimalPrice->full_care : '';
+        
+        $totalPriceAnimal = 0;
+        $arrayPrice = [$totalPriceStand, $totalPriceHibern, $totalPriceFullCare];
+        foreach ($arrayPrice as $key => $value) {
+            $totalPriceAnimal += floatval($value);
+        }
 
         // Media
         $animalItemsMedia = $animalItems->getMedia('media');
@@ -90,6 +96,7 @@ class AnimalItemController extends Controller
             'totalPriceStand' => (isset($totalPriceStand) ? $totalPriceStand : 0),
             'totalPriceHibern' => (isset($totalPriceHibern) ? $totalPriceHibern : 0),
             'totalPriceFullCare' => (isset($totalPriceFullCare) ? $totalPriceFullCare : 0),
+            'totalPriceAnimal' => $totalPriceAnimal
         ]);
     }
 
@@ -121,6 +128,7 @@ class AnimalItemController extends Controller
             'size' => $size,
             'dateRange' => $dateRange,
             'totalDays' => $totalDays,
+            'dateFullCare_total' => $dateFullCare_total
         ]); 
     }
 

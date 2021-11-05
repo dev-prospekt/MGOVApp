@@ -102,9 +102,9 @@
                                 </p>
                             </div>
                             <div class="mt-3">
-                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupna cijena</label>
+                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Standardna cijena</label>
                                 <p class="text-muted">
-                                    {{ $totalPriceStand ? $totalPriceStand : '' }} kn
+                                    {{ $totalPriceStand }} kn
                                 </p>
                             </div>
                             
@@ -112,7 +112,7 @@
                                 <div class="mt-3">
                                     <label class="tx-11 font-weight-bold mb-0 text-uppercase">Cijena proširene skrbi</label>
                                     <p class="text-muted">
-                                        {{ $totalPriceFullCare ? $totalPriceFullCare : '' }} kn
+                                        {{ $totalPriceFullCare }} kn
                                     </p>
                                 </div>
                             @endif
@@ -120,10 +120,17 @@
                                 <div class="mt-3">
                                     <label class="tx-11 font-weight-bold mb-0 text-uppercase">Cijena hibernacije</label>
                                     <p class="text-muted">
-                                        {{ $totalPriceHibern ? $totalPriceHibern : '' }} kn
+                                        {{ $totalPriceHibern }} kn
                                     </p>
                                 </div>
                             @endif
+
+                            <div class="mt-3">
+                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupna cijena</label>
+                                <p class="text-muted">
+                                    {{ $totalPriceAnimal }} kn
+                                </p>
+                            </div>
 
                         @endif
                     </div>
