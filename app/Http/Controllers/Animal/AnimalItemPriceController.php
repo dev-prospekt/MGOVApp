@@ -84,8 +84,19 @@ class AnimalItemPriceController extends Controller
                 'days' => $full_care_diff_in_days,
             ]);
 
-            // CIjena za proširenu skrb
+            // Cijena za proširenu skrb
             $totalPriceFullCare = $this->getPrice($animalItem, ($fullCaretotaldays + $full_care_diff_in_days), 'fullCare');
+        }
+        else {
+            // Ako ne postoji u requestu datum za proširenu skrb
+            // onda nakon update-a cijena bude null
+            // zato uzimamo ukupni broj dana ovdje i ažuriramo cijenu za ukupnim brojem dana.
+            $fullCaretotaldays = 0;
+            foreach ($animalItem->dateFullCare as $key) {
+                $fullCaretotaldays += $key->days;
+            }
+            // Cijena za proširenu skrb
+            $totalPriceFullCare = $this->getPrice($animalItem, $fullCaretotaldays, 'fullCare');
         }
 
         // Create or Update Price
