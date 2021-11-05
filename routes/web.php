@@ -18,8 +18,7 @@ use App\Http\Controllers\Animal\AnimalCategoryController;
 use App\Http\Controllers\Animal\AnimalSeizedTypeController;
 use App\Http\Controllers\Animal\AnimalInvaziveTypeController;
 use App\Http\Controllers\Animal\AnimalProtectedTypeController;
-use App\Http\Controllers\Shelter\ShelterAccomodationController;
-use App\Models\Shelter\ShelterAccomodation;
+
 
 Auth::routes();
 
@@ -55,15 +54,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('shelter/{shelterId}/animal/{animalId}', [ShelterController::class, 'animalItems']);
 
-    /*  Route::get('/shelter/{shelter_id}/shelter_accomodation', [ShelterAccomodationController::class, 'index'])->name('shelter_accomodation');
-
-    Route::get('/shelter/{shelter_id}/shelter_accomodation/create', [ShelterAccomodationController::class, 'create'])->name('shelter_accomodation.create');
-    Route::post('/shelter/{shelter_id}/shelter_accomodation_box', [ShelterAccomodationController::class, 'storeAccomodationBox'])->name('shelter_accomodation_box.store');
-    Route::post('/shelter/{shelter_id}/shelter_accomodation_place', [ShelterAccomodationController::class, 'storeAccomodationPlace'])->name('shelter_accomodation_place.store');
-
-    Route::get('/shelter_accomodation/{id}/edit', [ShelterAccomodationController::class, 'editAccomodation'])->name('shelter_accomodation.show');
-    Route::put('/shelter_accomodation/{id}', [ShelterAccomodationController::class, 'updateAccomodation'])->name('shelter_accomodation.update'); */
-
+    /*
+    |--------------------------------------------------------------------------
+    | Animal Types
+    |--------------------------------------------------------------------------
+    */
 
     // Strogo zaštićene
     Route::get('/sz_animal_type', [AnimalProtectedTypeController::class, 'getSZAnimalTypes'])->name('sz_animal_type');
@@ -91,16 +86,15 @@ Route::group(['middleware' => ['auth']], function () {
     Route::patch('/zj_animal_type/{animal}', [AnimalSeizedTypeController::class, 'updateZJAnimalTypes'])->name('update_zj_animal_type');
     Route::delete('/zj_animal_type/delete/{id}', [AnimalSeizedTypeController::class, 'deleteZJAnimalType'])->name('delete_zj_animal_type');
 
-    // Redovi
-
-
-    //Import EXCEL
+    /*
+    |--------------------------------------------------------------------------
+    | Import EXCEL
+    |--------------------------------------------------------------------------
+    */
     Route::get('/animal_import', [AnimalImportController::class, 'index'])->name('animal_import.index');
-
     Route::post('animal_order_import', [AnimalImportController::class, 'animalOrderFileImport'])->name('animal_order_import');
     Route::post('animal_category_import', [AnimalImportController::class, 'animalCategoryFileImport'])->name('animal_category_import');
     Route::post('animal_sz_import', [AnimalImportController::class, 'animalProtectedFileImport'])->name('animal_sz_import');
-
     Route::post('animal_invazive_import', [AnimalImportController::class, 'animalInvaziveImport'])->name('animal_invazive_import');
     Route::post('animal_seized_import', [AnimalImportController::class, 'animalSeizedImport'])->name('animal_seized_import');
 

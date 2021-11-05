@@ -49,7 +49,8 @@
 
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Opis nastambe/prostora</label>
-                <textarea class="form-control" id="accomodationDesc" name="accomodation_desc" rows="10"></textarea>
+                {{-- <textarea class="form-control" id="accomodationDesc" name="accomodation_desc" rows="10"></textarea> --}}
+                <textarea class="form-control" name="accomodation_desc"  id="accomodationDesc" rows="10"></textarea>
             </div>  
                       
             <div class="form-group">
@@ -67,3 +68,4 @@
       </form>
   </div>
 </div>
+

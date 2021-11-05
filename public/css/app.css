@@ -25050,15 +25050,6 @@ hr {
   display: none;
 }
 
-.email-head-subject {
-  padding: 10px 25px;
-  border: 1px solid #262f43;
-}
-
-.email-body {
-  border: 1px solid #262f43;
-}
-
 .shelter-nav {
   border-bottom: 1px solid #262f43;
   margin-bottom: 1rem;
@@ -25077,6 +25068,16 @@ hr {
 
 .profile-page .profile-body .right-wrapper .latest-photos > .row > div figure img {
   border-radius: 0;
+}
+
+.tox .tox-toolbar__primary {
+  background: none !important;
+  background-color: #0c1427 !important;
+}
+
+.td-nowrapp {
+  white-space: unset !important;
+  line-height: 18px !important;
 }
 
 /*# sourceMappingURL=app.css.map*/

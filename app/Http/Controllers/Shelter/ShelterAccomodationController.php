@@ -71,9 +71,12 @@ class ShelterAccomodationController extends Controller
     public function show(Shelter $shelter, ShelterAccomodation $shelter_accomodation)
     {
 
-        $returnHTML = view('shelter.shelter_accomodation._update', ['shelterAccomodationItem' => $shelter_accomodation, 'shelter' => $shelter])->render();
+        return view('shelter.shelter_accomodation.show', ['shelterAccomodationItem' => $shelter_accomodation, 'shelter' => $shelter]);
+    }
 
-        return response()->json(array('success' => true, 'html' => $returnHTML));
+    public function edit(Shelter $shelter, ShelterAccomodation $shelter_accomodation)
+    {
+        return view('shelter.shelter_accomodation.edit', ['shelterAccomodationItem' => $shelter_accomodation, 'shelter' => $shelter]);
     }
 
     public function update(Request $request, Shelter $shelter, ShelterAccomodation $shelter_accomodation)

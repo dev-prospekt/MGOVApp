@@ -25,9 +25,8 @@
   </li>
 </ul>
 
-
 <div class="d-flex align-items-center justify-content-between">
-  <h5 class="mb-3 mb-md-0">{{ $shelter->name ?? '' }}</h5>
+  <h5 class="mb-3 mb-md-0">Smještajna jedinica</h5>
   <div>      
       <button id="createAccomodation" href="#" type="button" class="btn btn-primary btn-icon-text" data-shelter-id="{{ $shelter->id ?? ''  }}">
         Dodaj smještajne jedinice
@@ -35,61 +34,86 @@
       </button>                  
   </div>
 </div>
-<div class="row mt-4">
-
-  <div class="col-lg-12 col-xl-12 stretch-card">
-    <div class="card ">
+@if($shelterAccomodationItem)
+<div class="row inbox-wrapper mt-3">
+  <div class="col-lg-12">
+    <div class="card">
       <div class="card-body">
-        <div class="d-flex justify-content-between align-items-baseline mb-2">
-          <h6 class="card-title mb-0">Popis smještajnih jedinica</h6>
-        </div>
-        <div class="table-responsive">
-          <table class="table table-hover mb-0">
-            <thead>
-              <tr>
-                
-                <th>Oznaka</th>
-                <th>Opis oznake</th> 
-                <th>Tip jedinice</th>
-                <th class="pt-0">Naziv jedinice</th>                    
-                <th>Dimenzije</th>
-                <th class="pt-0">Akcija</th> 
-              </tr>
-            </thead>
-            <tbody>
-              @foreach ($shelterAccomodationItems as $shelterItem)
-              <tr>
-               
-                <td>{{ $shelterItem->accommodationType->type_mark }}</td>
-                <td style="width:25%;" class="td-nowrapp">{{ $shelterItem->accommodationType->type_description  }}</td> 
-                <td>{{ $shelterItem->accommodationType->name }}</td>
-                <td>{{ $shelterItem->name }}</td>
-                 
-                <td>{{ $shelterItem->dimensions }}</td>
-                <td>
+        <div class="row">
+          <div class="col-lg-3 email-aside border-lg-right">
+            <div class="aside-content">
+              <div class="aside-header">
+               <span class="title">{{ $shelterAccomodationItem->accommodationType->name }}</span>
+               <p class="description mt-3"><span class="text-secondary">Numeracija: </span> {{ $shelterAccomodationItem->accommodationType->type_mark  }}</p>
+                <p class="description mt-3"><span class="text-secondary">Opis oznake: </span> {{ $shelterAccomodationItem->accommodationType->type_description  }}</p>
+              </div>
+              
+              <div class="aside-nav collapse">
+            
+                <span class="title">Akcije</span>
+                <ul class="nav nav-pills nav-stacked">
+                  <li>
+                    <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterAccomodationItem->id]) }}"><i data-feather="tag" class="text-warning"></i> Izmjeni jedinicu</a>
+                  </li>
+                  <li><a href="#">
+                    <i data-feather="tag" class="text-primary"></i> Povratak na popis</a>
+                  </li>
+                  <li>
+                    <a href="#"> <i data-feather="tag" class="text-danger"></i> Brisanje jedinice</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-9 email-content">
+            <div class="email-head">
+              <div class="email-head-subject">
+                <div class="title d-flex align-items-center justify-content-between">
                   <div class="d-flex align-items-center">
-                    <a href="{{ route('shelters.accomodations.show', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-info mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
-                        Pregled
-                    </a>
+                    <span class="text-secondary">Naziv jedinice: </span>
+                    <span class="ml-2"> {{ $shelterAccomodationItem->name }}</span>
+                  </div>         
+                </div>
+              </div>
+              <div class="email-head-sender d-flex align-items-center justify-content-between flex-wrap">
+                <div class="d-flex align-items-center">          
+                  <span class="title text-secondary">Dimenzije: </span>
+                  <div class="sender d-flex align-items-center">
+                    <span>{{ $shelterAccomodationItem->dimensions }}</span>
                 
-                    <a href="shelter/3/edit" class="btn btn-xs btn-primary mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
-                        Uredi
+                  </div>
+                </div>        
+              </div>
+            </div>
+            <div class="email-body">
+              <div class="title mb-3"><span class="title text-secondary">Opis jedinice: </span></div>
+              {!! $shelterAccomodationItem->description !!}
+            
+            </div>
+            <div class="email-attachments">
+              <span class="title text-secondary">Fotodokumentacija: </span>
+              <div class="latest-photos mt-3">
+                <div class="row">
+                  @foreach ($shelterAccomodationItem->media as $thumbnail) 
+                  <div class="col-md-3 col-sm-2">
+                    <a href="{{ $thumbnail->getUrl() }}">
+                    <figure>
+                      <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
+                    </figure>
                     </a>
-                </div>  
-                </td>
-              </tr>
-              @endforeach
-
-            </tbody>
-          </table>
+                  </div>                  
+                  @endforeach
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div> 
+          
+      </div>
     </div>
   </div>
-</div> <!-- row -->
-
+</div>
+@endif
 
 <div class="modal"></div>
 @endsection
