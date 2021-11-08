@@ -164,7 +164,7 @@
                                         </div>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>
+                                    <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>
                                 </div>
                             </form>
 
@@ -253,6 +253,25 @@
                 $("div#datePickerExample").find(".hib_est_from").datepicker('setDate', $("div#datePickerExample").find(".hib_est_from").val());
                 $("div#datePickerExample").find(".hib_est_to").datepicker('setDate', $("div#datePickerExample").find(".hib_est_to").val());
             }
+
+            // Proširena skrb, obavezno
+            $('.full_care_start').on('change', function(){
+                if($(this).val()){
+                    $('#submit').attr("disabled", true);
+
+                    $('.full_care_end').on('change', function(){
+                        if($(this).val()){
+                            $('#submit').attr("disabled", false);
+                        }
+                        else {
+                            $('#submit').attr("disabled", true);
+                        }
+                    });
+                }
+                else {
+                    $('#submit').attr("disabled", false);
+                }
+            });
         })
     </script>
 @endpush

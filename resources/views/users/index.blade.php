@@ -102,7 +102,7 @@
   <script>
       $(function() {
 
-        $('#users-table').DataTable({
+        var table = $('#users-table').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{!! route('users:dt') !!}',
@@ -161,7 +161,7 @@
                                     setInterval(function(){
                                         $('.alert-success').hide();
                                         $('.modal').modal('hide');
-                                        location.reload();
+                                        table.ajax.reload();
                                     }, 2000);
                                 }
                             }

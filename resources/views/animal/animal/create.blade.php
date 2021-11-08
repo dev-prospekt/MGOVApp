@@ -2,6 +2,7 @@
 
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
 @endpush
 
 @section('content')
@@ -90,6 +91,7 @@
                                     <div class="form-group">
                                         <label>Ako se radi o službenoj osobi, podaci o službi-naziv institucije</label>
                                         <input type="file" id="founder_documents" name="founder_documents[]" multiple />
+                                        <div id="error_founder_documents"></div>
                                     </div>
                                 </div>
                             </div>
@@ -224,6 +226,7 @@
                                 <label>Dokumenti <strong>(PDF)</strong></label>
 
                                 <input type="file" id="documents" name="documents[]" multiple />
+                                <div id="error_documents"></div>
                             </div>
 
                             <div class="form-group">
@@ -277,6 +280,7 @@
                                     <div class="form-group">
                                         <label>Upload <strong>(PDF)</strong></label>
                                         <input type="file" id="reason_file" name="reason_file[]" multiple />
+                                        <div id="error_reason_file"></div>
                                     </div>
                                 </div>
                             </div>
@@ -297,6 +301,7 @@
                                     <div class="form-group">
                                         <label>Upload <strong>(JPG, PNG)</strong></label>
                                         <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
+                                        <div id="error_status_receiving_file"></div>
                                     </div>
                                 </div>
                             </div>
@@ -317,6 +322,7 @@
                                     <div class="form-group">
                                         <label>Upload <strong>(JPG, PNG)</strong></label>
                                         <input type="file" id="status_found_file" name="status_found_file[]" multiple />
+                                        <div id="error_status_found_file"></div>
                                     </div>
                                 </div>
                             </div>
@@ -349,7 +355,6 @@
 
     <script>
         $(function() {
-
             if($('div#datePickerExample').length) {
                 var date = new Date();
                 var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
@@ -361,22 +366,52 @@
                 $('div#datePickerExample').datepicker('setDate', today);
             }
 
-            $("#founder_documents, #documents, #reason_file").fileinput({
+            $("#founder_documents").fileinput({elErrorContainer: '#error_founder_documents',
                 required: true,
                 language: "cr",
                 maxFileCount: 2,
                 showPreview: false,
                 showUpload: false,
                 allowedFileExtensions: ["pdf"],
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su "{extensions}"',
             });
-
-            $("#status_receiving_file, #status_found_file").fileinput({
+            $("#documents").fileinput({elErrorContainer: '#error_documents',
+                required: true,
+                language: "cr",
+                maxFileCount: 2,
+                showPreview: false,
+                showUpload: false,
+                allowedFileExtensions: ["pdf"],
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su "{extensions}"',
+            });
+            $("#reason_file").fileinput({elErrorContainer: '#error_reason_file', 
+                required: true,
+                language: "cr",
+                maxFileCount: 2,
+                showPreview: false,
+                showUpload: false,
+                allowedFileExtensions: ["pdf"],
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su "{extensions}"',
+            });
+            $("#status_found_file").fileinput({
                 required: true,
                 language: "cr",
                 maxFileCount: 2,
                 showPreview: false,
                 showUpload: false,
                 allowedFileExtensions: ["jpg", "png",],
+                elErrorContainer: '#error_status_found_file',
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su "{extensions}"',
+            });
+            $("#status_receiving_file").fileinput({
+                required: true,
+                language: "cr",
+                maxFileCount: 2,
+                showPreview: false,
+                showUpload: false,
+                allowedFileExtensions: ["jpg", "png",],
+                elErrorContainer: '#error_status_receiving_file',
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su "{extensions}"',
             });
 
             $('[data-toggle="tooltip"]').tooltip(); 

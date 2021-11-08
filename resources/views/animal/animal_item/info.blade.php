@@ -162,7 +162,7 @@
                     </div>
 
                     <div class="col-md-6 grid-margin">
-                        <p>Pojedinačni</p>
+                        <p class="mb-2">Pojedinačni dokumenti</p>
 
                         @if ($animalItemsMedia)
                             @foreach ($animalItemsMedia as $file)
@@ -174,8 +174,45 @@
                             </p>
                             @endforeach
                         @endif
+
+                        @if ($mediaStanjeZaprimanja)
+                            <p>Stanje životinje u trenutku zaprimanja u oporavilište</p>
+                            @foreach ($mediaStanjeZaprimanja as $file)
+                            <p id="findFile">
+                                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                    href="{{ $file->getUrl() }}">
+                                    {{ $file->name }}
+                                </a>
+                            </p>
+                            @endforeach
+                        @endif
+
+                        @if ($mediaStanjePronadena)
+                            <p>Stanje u kojem je životinja pronađena</p>
+                            @foreach ($mediaStanjePronadena as $file)
+                            <p id="findFile">
+                                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                    href="{{ $file->getUrl() }}">
+                                    {{ $file->name }}
+                                </a>
+                            </p>
+                            @endforeach
+                        @endif
+
+                        @if ($mediaReasonFile)
+                            <p>Razlog zaprimanja životinje u oporavilište</p>
+                            @foreach ($mediaReasonFile as $file)
+                            <p id="findFile">
+                                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                    href="{{ $file->getUrl() }}">
+                                    {{ $file->name }}
+                                </a>
+                            </p>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
+
             </div>
         </div>
 

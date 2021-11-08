@@ -65,6 +65,7 @@ class AnimalItemController extends Controller
         $mediaFiles = $animalItems->animalFile->getMedia('media');
         $mediaStanjeZaprimanja = $animalItems->animalFile->getMedia('status_receiving_file');
         $mediaStanjePronadena = $animalItems->animalFile->getMedia('status_found_file');
+        $mediaReasonFile = $animalItems->animalFile->getMedia('reason_file');
 
         // Day and Price
         if(!empty($animalItems->dateRange->end_date)){
@@ -91,6 +92,7 @@ class AnimalItemController extends Controller
             'animalItemsMedia' => $animalItemsMedia,
             'mediaStanjeZaprimanja' => $mediaStanjeZaprimanja,
             'mediaStanjePronadena' => $mediaStanjePronadena,
+            'mediaReasonFile' => $mediaReasonFile,
             'mediaFiles' => $mediaFiles,
             'diff_in_days' => (isset($diff_in_days) ? $diff_in_days : 0),
             'totalPriceStand' => (isset($totalPriceStand) ? $totalPriceStand : 0),

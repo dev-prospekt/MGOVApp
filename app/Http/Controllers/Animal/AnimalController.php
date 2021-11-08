@@ -126,6 +126,12 @@ class AnimalController extends Controller
                 $fileAdder->toMediaCollection('status_found_file');
             });
         }
+        if($request->reason_file){
+            $animalFiles->addMultipleMediaFromRequest(['reason_file'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('reason_file');
+            });
+        }
 
         // Create AnimalItem
         for ($i=0; $i < $count; $i++) {

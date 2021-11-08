@@ -90,7 +90,7 @@ class AnimalItemPriceController extends Controller
         else {
             // Ako ne postoji u requestu datum za proširenu skrb
             // onda nakon update-a cijena bude null
-            // zato uzimamo ukupni broj dana ovdje i ažuriramo cijenu za ukupnim brojem dana.
+            // zato uzimamo ukupni broj dana ovdje i ažuriramo cijenu sa ukupnim brojem dana.
             $fullCaretotaldays = 0;
             foreach ($animalItem->dateFullCare as $key) {
                 $fullCaretotaldays += $key->days;
