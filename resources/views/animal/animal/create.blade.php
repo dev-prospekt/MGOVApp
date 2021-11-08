@@ -366,32 +366,35 @@
                 $('div#datePickerExample').datepicker('setDate', today);
             }
 
-            $("#founder_documents").fileinput({elErrorContainer: '#error_founder_documents',
+            $("#founder_documents").fileinput({
                 required: true,
                 language: "cr",
                 maxFileCount: 2,
                 showPreview: false,
                 showUpload: false,
                 allowedFileExtensions: ["pdf"],
-                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su "{extensions}"',
+                elErrorContainer: '#error_founder_documents',
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
             });
-            $("#documents").fileinput({elErrorContainer: '#error_documents',
+            $("#documents").fileinput({
                 required: true,
                 language: "cr",
                 maxFileCount: 2,
                 showPreview: false,
                 showUpload: false,
                 allowedFileExtensions: ["pdf"],
-                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su "{extensions}"',
+                elErrorContainer: '#error_documents',
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
             });
-            $("#reason_file").fileinput({elErrorContainer: '#error_reason_file', 
-                required: true,
+            $("#reason_file").fileinput({
+                required: true, 
                 language: "cr",
                 maxFileCount: 2,
                 showPreview: false,
                 showUpload: false,
                 allowedFileExtensions: ["pdf"],
-                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su "{extensions}"',
+                elErrorContainer: '#error_reason_file',
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
             });
             $("#status_found_file").fileinput({
                 required: true,
@@ -401,7 +404,7 @@
                 showUpload: false,
                 allowedFileExtensions: ["jpg", "png",],
                 elErrorContainer: '#error_status_found_file',
-                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su "{extensions}"',
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
             });
             $("#status_receiving_file").fileinput({
                 required: true,
@@ -411,7 +414,7 @@
                 showUpload: false,
                 allowedFileExtensions: ["jpg", "png",],
                 elErrorContainer: '#error_status_receiving_file',
-                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su "{extensions}"',
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
             });
 
             $('[data-toggle="tooltip"]').tooltip(); 

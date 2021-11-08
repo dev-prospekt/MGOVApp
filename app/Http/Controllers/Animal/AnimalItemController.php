@@ -19,6 +19,7 @@ use App\Models\Animal\AnimalItemFile;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\AnimalItemPostRequest;
 use App\Http\Requests\AnimalItemFilePostRequest;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class AnimalItemController extends Controller
 {
@@ -179,6 +180,14 @@ class AnimalItemController extends Controller
         }
 
         return redirect('/animal_item/'.$request->animal_item_id.'/edit')->with('msg', 'Uspješno dodan dokument');
+    }
+
+    public function deleteFile($file)
+    {
+        $media = Media::find($file);
+        $media->delete();
+
+        return redirect()->back()->with('msg', 'Uspješno izbrisan dokument.');
     }
 
     public function getId($id)

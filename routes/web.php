@@ -98,15 +98,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('createAnimalSystemCat', 'Shelter\ShelterController@createAnimalSystemCat')->name('createAnimalSystemCat');
 
-    Route::post('animal_item/deleteFile/{id}', 'Animal\AnimalItemController@deleteFile');
-
     // Update AnimalItem Date, Price
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
     
     Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
     Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');
     Route::post('animal_item/file', 'Animal\AnimalItemController@file');
-    Route::post('animal_item/file/{id}', 'Animal\AnimalItemController@fileDelete');
+    Route::get('animal_item/file/{file}', 'Animal\AnimalItemController@deleteFile')->name('fileDelete');
     Route::get('generate-pdf/{id}', 'Animal\AnimalItemController@generatePDF');
 
     Route::get('users-dt', 'UserController@indexDataTables')->name('users:dt');

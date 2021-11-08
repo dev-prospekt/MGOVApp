@@ -4,6 +4,7 @@
     <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
 @endpush
 
 @section('content')
@@ -190,7 +191,7 @@
                         <div class="form-group">
                             <label>PDF</label>
                             <input type="file" id="file" name="filenames[]" multiple />
-                            <div id="errorBlock"></div>
+                            <div id="error_file"></div>
                         </div>
             
                         <button type="submit" class="btn btn-primary mr-2">Upload</button>
@@ -207,6 +208,9 @@
                                     <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                         href="{{ $file->getUrl() }}">
                                         {{ $file->name }}
+                                    </a>
+                                    <a href="{{ route('fileDelete', $file) }}" class="btn btn-sm btn-danger p-1">
+                                        <i class="mdi mdi-delete"></i>
                                     </a>
                                 </div>
                             </div>
@@ -236,11 +240,11 @@
             $("#file").fileinput({
                 language: "cr",
                 required: true,
-                maxFileCount: 2,
                 showPreview: false,
                 showUpload: false,
                 allowedFileExtensions: ["pdf"],
-                elErrorContainer: "#errorBlock"
+                elErrorContainer: '#error_file',
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
             });
 
             if($('div#datePickerExample').length) {
