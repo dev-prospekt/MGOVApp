@@ -25,13 +25,13 @@
 <div class="d-flex align-items-center justify-content-between">
   <h5 class="mb-3 mb-md-0">Smještajna jedinica</h5>
   <div>      
-      <button id="createAccomodation" href="#" type="button" class="btn btn-primary btn-icon-text" data-shelter-id="{{ $shelter->id ?? ''  }}">
-        Dodaj smještajne jedinice
-        <i class="btn-icon-append" data-feather="user-plus"></i>
-      </button>                  
+    <a id="createAccomodation" href="{{ route('shelters.accomodations.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
+      Dodaj smještajne jedinice
+      <i class="btn-icon-append" data-feather="user-plus"></i>
+    </a>                   
   </div>
 </div>
-<div class="row inbox-wrapper">
+<div class="row inbox-wrapper mt-4">
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
@@ -39,7 +39,19 @@
         <!-- Modal body -->
           <form data-action="{{ route('shelters.accomodations.update', [$shelter->id, $shelterAccomodationItem->id]) }}" id="updateAccomodation" method="POST" enctype="multipart/form-data"> 
             @method('PUT') 
-            @csrf          
+            @csrf  
+            
+            <div id="dangerAccomodationUpdate" class="alert alert-danger alert-legal-staff alert-dismissible fade show" role="alert" style="display: none;">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div id="successAccomodationUpdate" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+              <strong>Uspjeh!</strong> Smještajna jedinica uspješno spremljena.
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
             <div class="form-group">
               <label>Naziv</label>
               <input type="text" class="form-control size" name="edit_accomodation_name" id="updateAccomodationName" placeholder="Naziv nastambe npr. Kavez 01" value="{{ $shelterAccomodationItem->name }}">             
@@ -59,7 +71,7 @@
                 <label>Popratna fotodokumentacija</label>
                     <input  name="edit_accomodation_photos[]" type="file" id="updateAccomodationPhotos" multiple>
             </div>
-          <button type="submit" class="submitBtn btn btn-warning">Spremi</button>      
+          <input type="submit" class="submitBtn btn btn-warning" value="Spremi">      
         </form>
       </div>
     </div>
@@ -108,35 +120,40 @@
       $(formId).on('submit', function(e) {
           e.preventDefault();
 
+          var formData = new FormData(document.getElementById("updateAccomodation"));;
           var accomodation_desc = tinyMCE.get('updateAccomodationDesc').getContent();
 
-         
-
-          var formData = this;
-         
-          formData.append('accomodation_desc', accomodation_desc);
-
+          formData.append('edit_accomodation_desc', accomodation_desc);
           
-          
-          //data.push({name: 'edit_accomodation_desc', value: tinyMCE.get('updateAccomodationDesc').getContent()});
+          var alertDanger = $('#dangerAccomodationUpdate');
+          var alertSuccess = $('#successAccomodationUpdate');
 
            $.ajax({
               type: 'POST',
               url: $(formId).attr('data-action'),
-              data: new FormData(formData),
+              data: formData,
               processData: false,
               dataType: 'json',
-              contentType: false,
-              success: function (response, textStatus, xhr) {
-                location.reload();
-              },
-              complete: function (xhr) {
+              contentType: false, 
+              success: function(result) {
+                       
+              if(result.errors) {
+                  alertDanger.html('');
                   
-              },
-              error: function (XMLHttpRequest, textStatus, errorThrown) {
-                  var response = XMLHttpRequest;
-
+                  $.each(result.errors, function(key, value) {
+                      alertDanger.show();
+                      alertDanger.append('<strong><li>'+value+'</li></strong>');
+                  });
+              } else {         
+                  alertDanger.hide();
+                  alertSuccess.show();
+  
+                  setInterval(function(){
+                      window.location=result.redirectTo;
+                      }, 2000);
               }
+            }   
+            
           });  
       });
 

@@ -18,12 +18,12 @@ class ShelterAccomodationController extends Controller
         return view('shelter.shelter_accomodation.index', compact('shelterAccomodationItems', 'shelter'));
     }
 
-    public function create()
+    public function create(Shelter $shelter)
     {
         $accomodation_types = ShelterAccomodationType::all('id', 'name');
+        $shelterAccomodationItems = ShelterAccomodation::with('accommodationType')->where('shelter_id', $shelter->id)->get();
 
-        $returnHTML = view('shelter.shelter_accomodation._create', ['accomodation_types' => $accomodation_types])->render();
-        return response()->json(array('success' => true, 'html' => $returnHTML));
+        return view('shelter.shelter_accomodation.create', ['accomodation_types' => $accomodation_types, 'shelter_id' => $shelter->id, 'shelterAccomodationItems' => $shelterAccomodationItems]);
     }
 
 
@@ -64,8 +64,9 @@ class ShelterAccomodationController extends Controller
                 $shelter_accomodation->addMedia($image)->toMediaCollection('accomodation-photos');
             }
         }
+        $redirectUrl = '/shelters/' . $shelter->id . '/accomodations/' . $shelter_accomodation->id . '/';
 
-        return response()->json(['success' => 'Smještajna jedinica uspješno spremljena.']);
+        return response()->json(['success' => 'Smještajna jedinica uspješno spremljena.', 'redirectTo' => $redirectUrl]);
     }
 
     public function show(Shelter $shelter, ShelterAccomodation $shelter_accomodation)
@@ -89,8 +90,8 @@ class ShelterAccomodationController extends Controller
                 'edit_accomodation_desc' => 'required',
             ],
             [
-                'edit_accomodation_name.required' => 'Naziv je obvezano polje',
-                'edit_accomodation_size.required' => 'Dimenzije su obvezano polje',
+                'edit_accomodation_name.required' => 'Naziv je obvezno polje',
+                'edit_accomodation_size.required' => 'Dimenzije su obvezno polje',
                 'edit_accomodation_desc.required' => 'Opis je obvezno polje',
             ]
         );
@@ -110,7 +111,8 @@ class ShelterAccomodationController extends Controller
                 $shelter_accomodation->addMedia($image)->toMediaCollection('accomodation-photos');
             }
         }
-        return response()->json(['success' => 'Smještajna jedinica uspješno spremljena.']);
+        $redirectUrl = '/shelters/' . $shelter->id . '/accomodations/' . $shelter_accomodation->id . '/';
+        return response()->json(['success' => 'Smještajna jedinica uspješno spremljena.', 'redirectTo' => $redirectUrl]);
     }
 
     public function destroy(Shelter $shelter, ShelterAccomodation $shelter_accomodation)

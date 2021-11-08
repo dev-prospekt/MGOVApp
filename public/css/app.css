@@ -25080,4 +25080,8 @@ hr {
   line-height: 18px !important;
 }
 
+.latest-photos img {
+  max-height: 160px;
+}
+
 /*# sourceMappingURL=app.css.map*/
