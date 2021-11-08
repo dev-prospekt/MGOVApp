@@ -169,9 +169,6 @@ class AnimalItemController extends Controller
     {
         $animalItemFile = AnimalItem::find($request->animal_item_id);
         
-        // Delete
-        $clearAll = $animalItemFile->clearMediaCollection('media');
-
         // Update
         if($request->filenames){
             foreach ($request->filenames as $key) {
