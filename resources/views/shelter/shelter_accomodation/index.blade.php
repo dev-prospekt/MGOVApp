@@ -73,7 +73,7 @@
                         Pregled
                     </a>
                 
-                    <a href="shelter/3/edit" class="btn btn-xs btn-primary mr-2">
+                    <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-primary mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Uredi
                     </a>
