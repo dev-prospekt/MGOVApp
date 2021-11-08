@@ -17,7 +17,7 @@ class CreateShelterAccomodationsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('dimensions');
-            $table->string('description');
+            $table->longText('description');
 
             $table->foreignId('shelter_id')->constrained('shelters');
             $table->foreignId('shelter_accomodation_type_id')->nullable();

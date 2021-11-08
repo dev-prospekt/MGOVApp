@@ -25,11 +25,11 @@ hr {
 }
 
 .email-head-subject {
-  padding: 10px 25px;
-  border: 1px solid #262f43;
+ // padding: 10px 25px;
+ // border: 1px solid #262f43;
 }
 .email-body {
-  border: 1px solid #262f43;
+ // border: 1px solid #262f43;
 }
 .shelter-nav{
   border-bottom: 1px solid #262f43;
@@ -49,4 +49,17 @@ hr {
   border-radius: 0;
 }
 
+.tox .tox-toolbar__primary {
+  background: none !important;
+  background-color: #0c1427 !important;
+}
 
+
+.td-nowrapp {
+  white-space: unset !important;
+  line-height: 18px !important;
+}
+
+.latest-photos img {
+  max-height: 160px;
+}
