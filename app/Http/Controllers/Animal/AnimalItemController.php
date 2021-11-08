@@ -168,7 +168,7 @@ class AnimalItemController extends Controller
     public function file(AnimalItemFilePostRequest $request)
     {
         $animalItemFile = AnimalItem::find($request->animal_item_id);
-        
+
         // Update
         if($request->filenames){
             foreach ($request->filenames as $key) {
@@ -184,7 +184,7 @@ class AnimalItemController extends Controller
         $media = Media::find($file);
         $media->delete();
 
-        return redirect()->back()->with('msg', 'Uspješno izbrisan dokument.');
+        return response()->json(['msg' => 'success']);
     }
 
     public function getId($id)
@@ -235,7 +235,6 @@ class AnimalItemController extends Controller
             'quantity' => 1,
             'shelter_code' => Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment,
             'description' => $lastShelter->first()->description,
-            'created' => $lastShelter->first()->created,
         ]);
 
         // Kopija životinje u novi šelter

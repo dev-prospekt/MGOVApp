@@ -9,7 +9,6 @@
     <ol class="breadcrumb">
         <div>
             <a href="/shelter/{{ $animalItems->shelter_id }}/animal/{{ $animalItems->shelter_code }}" class="btn btn-primary">
-                <i data-feather="left" data-toggle="tooltip" title="Connect"></i>
                 Natrag
             </a>
         </div>
@@ -148,32 +147,17 @@
 
                 <div class="row">
                     <div class="col-md-6 grid-margin">
-                        <p>Grupa</p>
+                        <p class="mb-3">Grupa</p>
 
                         @foreach ($mediaFiles as $fi)
+                            <p>Dokumenti</p>
                             <p>
                                 <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                     href="{{ $fi->getUrl() }}">
-                                    {{ $fi->name }}
+                                    {{ $fi->file_name }}
                                 </a>
                             </p>
                         @endforeach
-
-                    </div>
-
-                    <div class="col-md-6 grid-margin">
-                        <p class="mb-2">Pojedinačni dokumenti</p>
-
-                        @if ($animalItemsMedia)
-                            @foreach ($animalItemsMedia as $file)
-                            <p id="findFile">
-                                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                                    href="{{ $file->getUrl() }}">
-                                    {{ $file->name }}
-                                </a>
-                            </p>
-                            @endforeach
-                        @endif
 
                         @if ($mediaStanjeZaprimanja)
                             <p>Stanje životinje u trenutku zaprimanja u oporavilište</p>
@@ -181,7 +165,7 @@
                             <p id="findFile">
                                 <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                     href="{{ $file->getUrl() }}">
-                                    {{ $file->name }}
+                                    {{ $file->file_name }}
                                 </a>
                             </p>
                             @endforeach
@@ -193,7 +177,7 @@
                             <p id="findFile">
                                 <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                     href="{{ $file->getUrl() }}">
-                                    {{ $file->name }}
+                                    {{ $file->file_name }}
                                 </a>
                             </p>
                             @endforeach
@@ -205,11 +189,28 @@
                             <p id="findFile">
                                 <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                     href="{{ $file->getUrl() }}">
-                                    {{ $file->name }}
+                                    {{ $file->file_name }}
                                 </a>
                             </p>
                             @endforeach
                         @endif
+
+                    </div>
+
+                    <div class="col-md-6 grid-margin">
+                        <p class="mb-2">Pojedinačni dokumenti</p>
+
+                        @if ($animalItemsMedia)
+                            @foreach ($animalItemsMedia as $file)
+                            <p id="findFile">
+                                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                                    href="{{ $file->getUrl() }}">
+                                    {{ $file->file_name }}
+                                </a>
+                            </p>
+                            @endforeach
+                        @endif
+
                     </div>
                 </div>
 
@@ -243,11 +244,3 @@
     
 </div>
 @endsection
-
-@push('custom-scripts')
-    <script>
-        $(function() {
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
-@endpush

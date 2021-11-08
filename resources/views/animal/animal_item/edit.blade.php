@@ -207,9 +207,9 @@
                                 <div>
                                     <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
                                         href="{{ $file->getUrl() }}">
-                                        {{ $file->name }}
+                                        {{ $file->file_name }}
                                     </a>
-                                    <a href="{{ route('fileDelete', $file) }}" class="btn btn-sm btn-danger p-1">
+                                    <a data-href="{{ route('fileDelete', $file) }}" class="btn btn-sm btn-danger p-1 deleteFile" >
                                         <i class="mdi mdi-delete"></i>
                                     </a>
                                 </div>
@@ -275,6 +275,41 @@
                 else {
                     $('#submit').attr("disabled", false);
                 }
+            });
+
+            // Delete files
+            $(".deleteFile").on('click', function(e){
+                e.preventDefault();
+
+                url = $(this).attr('data-href');
+
+                Swal.fire({
+                    title: 'Jeste li sigurni?',
+                    text: "Želite obrisati oporavilište i više neće biti dostupno!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Da, obriši!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            method: 'GET',
+                            success: function(result) {
+                                if(result.msg == 'success'){
+                                    Swal.fire(
+                                        'Odlično!',
+                                        'Uspješno obrisano!',
+                                        'success'
+                                    ).then((result) => {
+                                        location.reload();
+                                    });
+                                }
+                            }
+                        }); 
+                    }
+                });
             });
         })
     </script>
