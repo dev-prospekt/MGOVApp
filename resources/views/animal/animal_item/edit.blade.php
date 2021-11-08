@@ -184,7 +184,7 @@
                         @endif
                     </div>
 
-                    <form method="POST" id="animalItemFile" action="/animal_item/file" enctype="multipart/form-data">
+                    <form method="POST" id="animalItemFile" action="{{ route('animaItem.addedFile') }}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" id="animal_item_id" name="animal_item_id" value="{{$animalItem->id}}">
 
@@ -209,7 +209,7 @@
                                         href="{{ $file->getUrl() }}">
                                         {{ $file->file_name }}
                                     </a>
-                                    <a data-href="{{ route('fileDelete', $file) }}" class="btn btn-sm btn-danger p-1 deleteFile" >
+                                    <a data-href="{{ route('animalItem.fileDelete', $file) }}" class="btn btn-sm btn-danger p-1 deleteFile" >
                                         <i class="mdi mdi-delete"></i>
                                     </a>
                                 </div>
@@ -298,13 +298,7 @@
                             method: 'GET',
                             success: function(result) {
                                 if(result.msg == 'success'){
-                                    Swal.fire(
-                                        'Odlično!',
-                                        'Uspješno obrisano!',
-                                        'success'
-                                    ).then((result) => {
-                                        location.reload();
-                                    });
+                                    location.reload();
                                 }
                             }
                         }); 

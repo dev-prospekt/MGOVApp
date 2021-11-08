@@ -25065,8 +25065,6 @@ hr {
 
 /*# sourceMappingURL=app.css.map*/
 
-
-=======
 .profile-page .profile-body .right-wrapper .latest-photos > .row > div figure {
   transition: all 0.3s ease-in-out;
   margin-bottom: 6px;
@@ -25079,10 +25077,6 @@ hr {
   border-radius: 0;
 }
 
-<<<<<<< HEAD
-/*# sourceMappingURL=app.css.map*/
->>>>>>> c4a809e2305a6425a8c4f82f8c8cb4430b05db19
-=======
 .tox .tox-toolbar__primary {
   background: none !important;
   background-color: #0c1427 !important;
@@ -25096,6 +25090,3 @@ hr {
 .latest-photos img {
   max-height: 160px;
 }
-
-/*# sourceMappingURL=app.css.map*/
->>>>>>> ee234ad27d054f41df8d86d57074fdbfd1e89ddd

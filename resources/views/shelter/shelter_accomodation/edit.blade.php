@@ -66,6 +66,8 @@
                 <label for="exampleFormControlTextarea1">Opis nastambe</label>
                 <textarea class="form-control" id="updateAccomodationDesc" name="edit_accomodation_desc" rows="8">{{ $shelterAccomodationItem->description }}</textarea>
             </div>  
+
+            
                       
             <div class="form-group">
                 <label>Popratna fotodokumentacija</label>

@@ -82,8 +82,9 @@ class AnimalItemController extends Controller
         $totalPriceAnimal = 0;
         $arrayPrice = [$totalPriceStand, $totalPriceHibern, $totalPriceFullCare];
         foreach ($arrayPrice as $key => $value) {
-            $totalPriceAnimal += floatval($value);
+            $totalPriceAnimal += (float)$value;
         }
+        $totalPriceAnimal = number_format((float)$totalPriceAnimal, 2, '.', '');
 
         // Media
         $animalItemsMedia = $animalItems->getMedia('media');

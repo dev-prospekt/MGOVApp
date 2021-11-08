@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\FounderDataController;
 use App\Http\Controllers\Shelter\ShelterController;
 use App\Http\Controllers\Animal\AnimalSizeController;
 use App\Http\Controllers\Animal\AnimalImportController;
@@ -105,11 +106,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Update AnimalItem Date, Price
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
+
+    Route::post('founder', [FounderDataController::class, 'store'])->name('founder_data.store');
     
     Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
     Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');
-    Route::post('animal_item/file', 'Animal\AnimalItemController@file');
-    Route::get('animal_item/file/{file}', 'Animal\AnimalItemController@deleteFile')->name('fileDelete');
+    Route::post('animal_item/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');
+    Route::get('animal_item/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
     Route::get('generate-pdf/{id}', 'Animal\AnimalItemController@generatePDF');
 
     Route::get('users-dt', 'UserController@indexDataTables')->name('users:dt');
