@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Shelter\ShelterAccomodation;
 use App\Models\Shelter\ShelterAccomodationType;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class ShelterAccomodationController extends Controller
 {
@@ -119,5 +120,13 @@ class ShelterAccomodationController extends Controller
     {
         $shelter_accomodation->delete();
         return response()->json(['success' => 'Smještajna jedinica uspješno izbrisana.']);
+    }
+
+    public function deleteImage($img)
+    {
+        $media = Media::find($img);
+        $media->delete();
+
+        return response()->json(['msg' => 'success']);
     }
 }

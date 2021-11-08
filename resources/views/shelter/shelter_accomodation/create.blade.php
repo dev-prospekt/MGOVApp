@@ -88,11 +88,8 @@
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                       <thead>
-                        <tr>
-                          
-                          
-                         
-                         
+                        <tr>                                 
+                                 
                           <th class="pt-0">Naziv jedinice</th>                    
                           <th>Dimenzije</th>
                           <th class="pt-0">Pregled/Uredi</th> 

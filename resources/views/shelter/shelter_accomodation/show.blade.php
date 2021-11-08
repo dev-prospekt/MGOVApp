@@ -131,7 +131,6 @@
 <script>
  $(function() {
 
-
           // Delete accomodation
           $('body').on('click', '#deleteAccomodation', function() {
 

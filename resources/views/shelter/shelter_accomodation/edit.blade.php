@@ -2,6 +2,7 @@
 
 @push('plugin-styles')
 <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
+<link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -28,7 +29,11 @@
     <a id="createAccomodation" href="{{ route('shelters.accomodations.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
       Dodaj smještajne jedinice
       <i class="btn-icon-append" data-feather="user-plus"></i>
-    </a>                   
+    </a>  
+    <a id="createAccomodation" href="{{ route('shelters.accomodations.index', $shelter->id) }}" type="button" class="btn btn-warning btn-icon-text">
+      Popis svih
+      <i class="btn-icon-append"  data-feather="box"></i>
+    </a>                 
   </div>
 </div>
 <div class="row inbox-wrapper mt-4">
@@ -66,10 +71,32 @@
                 <label for="exampleFormControlTextarea1">Opis nastambe</label>
                 <textarea class="form-control" id="updateAccomodationDesc" name="edit_accomodation_desc" rows="8">{{ $shelterAccomodationItem->description }}</textarea>
             </div>  
+
+            <div class="email-attachments mb-2">
+              <span class="title text-secondary">Fotodokumentacija: </span>
+              <div class="latest-photos mt-3">
+                <div class="row">
+                  @if ($shelterAccomodationItem->media)
+                    @foreach ($shelterAccomodationItem->media as $thumbnail) 
+                    <div class="col-md-2 col-sm-2">
+                      <a href="{{ $thumbnail->getUrl() }}">
+                      <figure>
+                        <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
+                      </figure>
+                      </a>
+                      <a type="button" data-href="{{ route('accomodation.thumbDelete', $thumbnail) }}" class="btn btn-sm btn-danger btn-icon deleteThumb" >
+                        <i data-feather="trash"></i>
+                    </a>
+                    </div>                  
+                    @endforeach
+                  @endif       
+                </div>
+              </div>
+            </div>
                       
             <div class="form-group">
-                <label>Popratna fotodokumentacija</label>
-                    <input  name="edit_accomodation_photos[]" type="file" id="updateAccomodationPhotos" multiple>
+                <label>Dodatne fotografije:</label>
+                  <input  name="edit_accomodation_photos[]" type="file" id="updateAccomodationPhotos" multiple>
             </div>
           <input type="submit" class="submitBtn btn btn-warning" value="Spremi">      
         </form>
@@ -91,10 +118,14 @@
 <script src="{{ asset('assets/js/tinymce.js') }}"></script>
 <script>
   $(function() {
+    var formId = '#updateAccomodation';
     $('#updateAccomodationPhotos').fileinput({
           language: "cr",
           showPreview: false,
           showUpload: false,
+          uploadAsync: false,
+          overwriteInitial: false,
+          uploadUrl: $(formId).attr('data-action'),
           allowedFileExtensions: ['jpg', 'png']
       });
 
@@ -115,7 +146,7 @@
         });
 
 
-      var formId = '#updateAccomodation';
+     // var formId = '#updateAccomodation';
 
       $(formId).on('submit', function(e) {
           e.preventDefault();
@@ -156,6 +187,35 @@
             
           });  
       });
+
+      // Delete files
+      $(".deleteThumb").on('click', function(e){
+      e.preventDefault();
+      url = $(this).attr('data-href');
+      Swal.fire({
+          title: 'Jeste li sigurni?',
+          text: "Želite obrisati oporavilište i više neće biti dostupno!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Da, obriši!',
+          cancelButtonText: "Ne, odustani!",
+      }).then((result) => {
+          if (result.isConfirmed) {
+              $.ajax({
+                  url: url,
+                  method: 'GET',
+                  success: function(result) {
+                      if(result.msg == 'success'){
+                     
+                              location.reload();
+                       }
+                   }
+                }); 
+            }
+        });
+    });
 
   });
 </script>
