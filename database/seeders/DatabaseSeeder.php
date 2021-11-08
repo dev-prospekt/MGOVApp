@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ShelterTypeSeeder::class);
         $this->call(ShelterStaffTypeSeeder::class);
         $this->call(ShelterStaffTypeSeeder::class);
+        $this->call(AnimalSystemCategorySeeder::class);
         $this->call(ShelterAccomodationTypeSeeder::class);
         $this->call(AnimalTypeSeeder::class);
         $this->call(AnimalCodeSeeder::class);

@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="row">
-    <div class="col-lg-8 col-xl-8 grid-margin stretch-card">
+    <div class="col-lg-12 col-xl-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 
@@ -18,14 +18,20 @@
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
-                        <a href="{{ route("user.create") }}" class="btn btn-primary">Dodaj</a>
+                        <a href="javascript:void(0)" class="create btn btn-primary">Dodaj</a>
                     </div>
                 </div>
 
-                <div class="" id="msg"></div>
-
                 @if($msg = Session::get('msg'))
                 <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
+
+                @if($error = Session::get('error'))
+                <div id="dangerMessage" class="alert alert-danger">
+                    @foreach ($error as $err)
+                        <p>{{ $err }}</p>
+                    @endforeach
+                </div>
                 @endif
 
                 <div class="table-responsive-sm">
@@ -80,6 +86,9 @@
     </div>
 </div>
 
+<!-- Users Modal -->
+<div class="modal"></div>
+
 @endsection
 
 
@@ -92,50 +101,158 @@
 @push('custom-scripts')
   <script>
       $(function() {
-            $('#users-table').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: '{!! route('users:dt') !!}',
-                columns: [
-                    { data: 'id', name: 'id'},
-                    { data: 'name', name: 'name'},
-                    { data: 'email', name: 'email'},
-                    { data: 'shelter', name: 'shelter.name'},
-                    { data: 'action', name: 'action'},
-                ],
-                language: {
-                    url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
+
+        var table = $('#users-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{!! route('users:dt') !!}',
+            columns: [
+                { data: 'id', name: 'id'},
+                { data: 'name', name: 'name'},
+                { data: 'email', name: 'email'},
+                { data: 'shelter', name: 'shelter.name'},
+                { data: 'action', name: 'action'},
+            ],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
+            }
+        });
+
+        //Create
+        $(".create").on('click', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                url: "user/create",
+                method: 'GET',
+                success: function(result) {
+                    $(".modal").show();
+                    $(".modal").html(result['html']);
+
+                    $('.modal').find("#user-ajax").on('submit', function(e){
+                        e.preventDefault();
+
+                        var formData = this;
+                        
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: "{{ route('user.store') }}",
+                            method: 'POST',
+                            data: new FormData(formData),
+                            processData: false,
+                            dataType: 'json',
+                            contentType: false,
+                            success: function(result) {
+                                if(result.errors) {
+                                    $('.alert-danger').html('');
+                                    $.each(result.errors, function(key, value) {
+                                        $('.alert-danger').show();
+                                        $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                    });
+                                } 
+                                else {
+                                    $('.alert-danger').hide();
+                                    $('.alert-success').show();
+
+                                    setInterval(function(){
+                                        $('.alert-success').hide();
+                                        $('.modal').modal('hide');
+                                        table.ajax.reload();
+                                    }, 2000);
+                                }
+                            }
+                        });
+                    });
                 }
             });
+        });
 
-            // Delete
-            $('#users-table').on('click', '#bntDeleteUser', function(e){
-                e.preventDefault();
-                var id = $(this).find('#userId').val();
+        //Edit
+        $('#users-table').on('click', '.edit', function(e){
+            e.preventDefault();
+            var id = $(this).attr("data-id");
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    }
-                });
-                $.ajax({
-                    url: "user/"+id,
-                    method: 'DELETE',
-                    success: function(result) {
-                        if(result.msg == 'success'){
-                            $('#users-table').DataTable().ajax.reload();
+            $.ajax({
+                url: "user/"+id+"/edit",
+                method: 'GET',
+                success: function(result) {
+                    $(".modal").show();
+                    $(".modal").html(result['html']);
 
-                            Swal.fire(
-                                'Odlično!',
-                                'Uspješno ste ugasili korisnika!',
-                                'success'
-                            ).then((result) => {
-                               location.reload(); 
-                            });
-                        }
-                    }
-                });
+                    $(".modal").on('click', '.submitBtn', function(){
+                        var resData = {
+                            name: $(".modal").find('.name').val(),
+                            email: $(".modal").find('.email').val(),
+                            shelter_id: $(".modal").find('.shelter_id').val(),
+                            _token: '{{csrf_token()}}'
+                        };
+
+                        $.ajax({
+                            url: "user/"+id,
+                            method: 'PUT',
+                            data: resData,
+                            success: function(result) {
+                                if(result.errors) {
+                                    $('.alert-danger').html('');
+                                    $.each(result.errors, function(key, value) {
+                                        $('.alert-danger').show();
+                                        $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                    });
+                                } 
+                                else {
+                                    $('.alert-danger').hide();
+                                    $('.alert-success').show();
+
+                                    setInterval(function(){
+                                        $('.alert-success').hide();
+                                        $('.modal').modal('hide');
+                                        location.reload();
+                                    }, 2000);
+                                }
+                            }
+                        });
+                    });
+                }
             });
-        })
+        });
+
+        // Delete
+        $('#users-table').on('click', '#bntDeleteUser', function(e){
+            e.preventDefault();
+            var id = $(this).find('#userId').val();
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "user/"+id,
+                method: 'DELETE',
+                success: function(result) {
+                    if(result.msg == 'success'){
+                        $('#users-table').DataTable().ajax.reload();
+
+                        Swal.fire(
+                            'Odlično!',
+                            'Uspješno ste ugasili korisnika!',
+                            'success'
+                        ).then((result) => {
+                            location.reload(); 
+                        });
+                    }
+                }
+            });
+        });
+
+        // Close Modal
+        $(".modal").on('click', '.modal-close', function(){
+            $(".modal").hide();
+        });
+    });
   </script>
 @endpush

@@ -91,8 +91,11 @@ mix.copyDirectory('node_modules/feather-icons/dist', 'public/assets/plugins/feat
   .copyDirectory('node_modules/moment/min/moment.min.js', 'public/assets/plugins/moment/moment.min.js')
   .copyDirectory('node_modules/bootstrap-fileinput/js/fileinput.min.js', 'public/assets/plugins/bootstrap-fileinput')
   .copyDirectory('node_modules/bootstrap-fileinput/js/locales/cr.js', 'public/assets/plugins/bootstrap-fileinput/lang')
+<<<<<<< HEAD
+=======
  
   
+>>>>>>> c4a809e2305a6425a8c4f82f8c8cb4430b05db19
   
 
   

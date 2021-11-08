@@ -4,16 +4,22 @@ namespace App\Http\Controllers\Animal;
 
 use PDF;
 use Carbon\Carbon;
+use App\Models\DateRange;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalData;
+use App\Models\Animal\AnimalFile;
 use App\Models\Animal\AnimalItem;
+use App\Models\ShelterAnimalPrice;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalItemFile;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\AnimalItemPostRequest;
 use App\Http\Requests\AnimalItemFilePostRequest;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class AnimalItemController extends Controller
 {
@@ -57,9 +63,44 @@ class AnimalItemController extends Controller
     public function show($id)
     {
         $animalItems = AnimalItem::find($id);
+        $mediaFiles = $animalItems->animalFile->getMedia('media');
+        $mediaStanjeZaprimanja = $animalItems->animalFile->getMedia('status_receiving_file');
+        $mediaStanjePronadena = $animalItems->animalFile->getMedia('status_found_file');
+        $mediaReasonFile = $animalItems->animalFile->getMedia('reason_file');
+
+        // Day and Price
+        if(!empty($animalItems->dateRange->end_date)){
+            $from = Carbon::createFromFormat('d.m.Y', $animalItems->dateRange->start_date);
+            $to = (isset($animalItems->dateRange->end_date)) ? Carbon::createFromFormat('d.m.Y', $animalItems->dateRange->end_date) : '';
+            $diff_in_days = $to->diffInDays($from);
+        }
+
+        $totalPriceStand = (isset($animalItems->shelterAnimalPrice->stand_care)) ? $animalItems->shelterAnimalPrice->stand_care : '';
+        $totalPriceHibern = (isset($animalItems->shelterAnimalPrice->hibern)) ? $animalItems->shelterAnimalPrice->hibern : '';
+        $totalPriceFullCare = (isset($animalItems->shelterAnimalPrice->full_care)) ? $animalItems->shelterAnimalPrice->full_care : '';
+        
+        $totalPriceAnimal = 0;
+        $arrayPrice = [$totalPriceStand, $totalPriceHibern, $totalPriceFullCare];
+        foreach ($arrayPrice as $key => $value) {
+            $totalPriceAnimal += (float)$value;
+        }
+        $totalPriceAnimal = number_format((float)$totalPriceAnimal, 2, '.', '');
+
+        // Media
+        $animalItemsMedia = $animalItems->getMedia('media');
 
         return view('animal.animal_item.info', [
             'animalItems' => $animalItems,
+            'animalItemsMedia' => $animalItemsMedia,
+            'mediaStanjeZaprimanja' => $mediaStanjeZaprimanja,
+            'mediaStanjePronadena' => $mediaStanjePronadena,
+            'mediaReasonFile' => $mediaReasonFile,
+            'mediaFiles' => $mediaFiles,
+            'diff_in_days' => (isset($diff_in_days) ? $diff_in_days : 0),
+            'totalPriceStand' => (isset($totalPriceStand) ? $totalPriceStand : 0),
+            'totalPriceHibern' => (isset($totalPriceHibern) ? $totalPriceHibern : 0),
+            'totalPriceFullCare' => (isset($totalPriceFullCare) ? $totalPriceFullCare : 0),
+            'totalPriceAnimal' => $totalPriceAnimal
         ]);
     }
 
@@ -70,10 +111,29 @@ class AnimalItemController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {
+    {   
         $animalItem = AnimalItem::findOrFail($id);
+        $mediaItems = $animalItem->getMedia('media');
+        $size = $animalItem->animal->animalSize;
+        $dateRange = $animalItem->dateRange;
 
-        return view('animal.animal_item.edit')->with('animalItem', $animalItem); 
+        $dateFullCare_total = $animalItem->dateFullCare;
+        $countDays = 0;
+        foreach ($dateFullCare_total as $key) {
+            $countDays += $key->days;
+        }
+        $maxDate = 10;
+        $totalCountForUse = ($maxDate - $countDays);
+        $totalDays = $totalCountForUse;
+
+        return view('animal.animal_item.edit', [
+            'animalItem' => $animalItem,
+            'mediaItems' => $mediaItems,
+            'size' => $size,
+            'dateRange' => $dateRange,
+            'totalDays' => $totalDays,
+            'dateFullCare_total' => $dateFullCare_total
+        ]); 
     }
 
     /**
@@ -83,15 +143,16 @@ class AnimalItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AnimalItemPostRequest $request, $id)
     {
         $animalItem = AnimalItem::findOrFail($id);
-        $animalItem->animal_size = $request->animal_size;
+        $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
+        $animalItem->animal_dob = $request->animal_dob;
         $animalItem->animal_gender = $request->animal_gender;
         $animalItem->location = $request->location;
         $animalItem->save();
 
-        return redirect('/shelter/'.$animalItem->shelter_id.'/animal/'.$animalItem->shelter_code)->with('msg', 'Uspješno ažurirano.');
+        return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
     }
 
     /**
@@ -107,34 +168,24 @@ class AnimalItemController extends Controller
 
     public function file(AnimalItemFilePostRequest $request)
     {
-        return $this->upload(
-            $request->filenames, 
-            $request->animal_item_id,
-            $request->file_name,
-        );
+        $animalItemFile = AnimalItem::find($request->animal_item_id);
+
+        // Update
+        if($request->filenames){
+            foreach ($request->filenames as $key) {
+                $animalItemFile->addMedia($key)->toMediaCollection('media');
+            }
+        }
+
+        return redirect('/animal_item/'.$request->animal_item_id.'/edit')->with('msg', 'Uspješno dodan dokument');
     }
 
-    private function upload($file, $animal_item_id, $file_name)
+    public function deleteFile($file)
     {
-        $filenames = Storage::disk('public')->put('files',$file);
+        $media = Media::find($file);
+        $media->delete();
 
-        $animalItemFile = new AnimalItemFile;
-        $animalItemFile->animal_item_id = $animal_item_id;
-        $animalItemFile->filenames = $filenames;
-        $animalItemFile->file_name = $file_name;
-        $animalItemFile->save();
-
-        return redirect('/animal_item/'.$animal_item_id.'/edit')->with('msg', 'Uspješno dodan dokument');
-    }
-
-    public function fileDelete($id)
-    {
-        $file = AnimalItemFile::find($id);
-        $file->delete();
-        // $filename = str_replace('"', "", $file->filenames);
-        // Storage::disk('public')->delete('files', $filename);
-        
-        return response()->json(['msg'=>'success']);
+        return response()->json(['msg' => 'success']);
     }
 
     public function getId($id)
@@ -172,12 +223,19 @@ class AnimalItemController extends Controller
         ->where('shelter_code', '=', $request->shelter_code)
         ->decrement('quantity', 1);
 
+        // COPY DESC AND CREATED
+        $lastShelter = $shelter->animals()
+        ->newPivotStatement()
+        ->where('animal_id', '=', $request->animal_id)
+        ->where('shelter_code', '=', $request->shelter_code)->get();
+
         // Dodavanje životinje u novi šelter sa novom šifrom
         $shelter->animals()->attach($id, [
-            'shelter_id' => $request->shelter_id,
             'animal_id' => $request->animal_id,
-            'shelter_code' => Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment,
+            'shelter_id' => $request->shelter_id,
             'quantity' => 1,
+            'shelter_code' => Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment,
+            'description' => $lastShelter->first()->description,
         ]);
 
         // Kopija životinje u novi šelter
@@ -186,23 +244,20 @@ class AnimalItemController extends Controller
         $copy->shelter_id = $request->shelter_id;
         $copy->shelter_code = Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment;
         $copy->save();
-
-        // Kopija dokumenata životinje
-        $animalFiles = AnimalItem::find($id)->animalItemsFile;
-        foreach ($animalFiles as $key) {
-            $copyAnimalFiles = $key->replicate();
-            $copyAnimalFiles->animal_item_id = $copy->id;
-            $copyAnimalFiles->save();
-        }
         
         return redirect('/shelter/'.$shelterID)->with('msg', 'Uspješno premješteno u oporavilište '.$shelter->name.'');
     }
 
     public function generatePDF($id)
     {
-        $animalItems = AnimalItem::with('animal', 'shelter', 'animalItemsFile')->find($id);
+        $animalItems = AnimalItem::with('animal', 'shelter', 'animalSizeAttributes')->find($id);
+        $animalFiles = AnimalFile::where('shelter_code', $animalItems->shelter_code)->get();
         
-        $pdf = PDF::loadView('myPDF', compact('animalItems'));
+        $mediaFiles = $animalFiles->each(function($item, $key){
+            $item->getMedia('media');
+        });
+        
+        $pdf = PDF::loadView('myPDF', compact('animalItems', 'mediaFiles'));
     
         return $pdf->stream('my.pdf');
     }

@@ -42,6 +42,10 @@
           </a>               
       </div>
     </div>
+
+    @if($msg = Session::get('finishMSG'))
+    <div id="successMessage" class="alert alert-success mt-3"> {{ $msg }}</div>
+    @endif
    
     <div class="row mt-4">
       <div class="col-md-12 grid-margin">
@@ -108,11 +112,11 @@
                   </div> 
                   <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">OVLAŠTENJE: </label>
-                    <p class="text-muted">
-                      @foreach ($shelter->shelterTypes as $type)
-                      {{ $type->name ?? '' }}
-                      @endforeach
-                    </p>
+                    @foreach ($shelter->shelterTypes as $type)
+                      <p class="text-muted">
+                        {{ $type->name ?? '' }}
+                      </p>
+                    @endforeach
                   </div>
   
                   <div class="mt-2">
@@ -401,69 +405,137 @@
   </div> 
 
   <!-- end row -->
-      <div class="row">
-        <div class="col-md-12 grid-margin stretch-card">  
-          <div class="card rounded">
-              <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div>
-                    <h6 class="card-title">Ostale osobe za skrb životinja</h6>        
-                  </div>
-                  <div>        
-                    <a type="button" class="btn btn-info btn-icon-text" data-toggle="modal" data-target="#createPersonelStaffModal">
-                      Dodaj<i class="btn-icon-append" data-feather="user-plus"></i>
-                    </a>                      
-                  </div>
-                </div> 
-                
-                  <div class="table-responsive mt-4">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Ime  i prezime</th>
-                            <th>OIB</th>
-                            <th>Adresa Prebivališta</th>
-                            <th>Adresa boravišta</th>
-                            <th>Telefon</th>
-                            <th>Mobitel</th>
-                            <th>Email</th>
-                            <th>Stručna sprema</th>
-                            <th>Akcija</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                          @if ($shelterPersonelStaff)
-                          
-                          @foreach($shelterPersonelStaff as $staff)   
-                          <tr>
-                            <td>{{ $staff->name }}</td>
-                            <td>{{ $staff->oib }}</td>
-                            <td>{{ $staff->address }}</td>
-                            <td>{{ $staff->address_place }}</td>
-                            <td>{{ $staff->phone }}</td>
-                            <td>{{ $staff->phone_cell }}</td>
-                            <td>{{ $staff->email }}</td>
-                            <td>{{ $staff->education }}</td>
-                          
-                            <td><button type="button" class="btn btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
-                              <i data-feather="check-square"></i>
-                            </button>        
-                            <button type="button" id="deletePersonelStaff" type="button" class="btn btn-danger btn-icon" 
-                              data-id="{{ $staff->id ?? ''  }}">
-                                <i data-feather="box"></i>
-                              </button></td>
-                          </tr>
-                          @endforeach
-                        
-                          @endif
-                        </tbody>
-                    </table>
-                  </div>          
-                    
+  <div class="row">
+    <div class="col-md-12 grid-margin stretch-card">  
+      <div class="card rounded">
+          <div class="card-body">
+            <div class="d-flex align-items-center justify-content-between">
+              <div>
+                <h6 class="card-title">Ostale osobe za skrb životinja</h6>        
               </div>
-            </div>
-          </div> 
+              <div>        
+                <a type="button" class="btn btn-info btn-icon-text" data-toggle="modal" data-target="#createPersonelStaffModal">
+                  Dodaj<i class="btn-icon-append" data-feather="user-plus"></i>
+                </a>                      
+              </div>
+            </div> 
+            
+              <div class="table-responsive mt-4">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Ime  i prezime</th>
+                        <th>OIB</th>
+                        <th>Adresa Prebivališta</th>
+                        <th>Adresa boravišta</th>
+                        <th>Telefon</th>
+                        <th>Mobitel</th>
+                        <th>Email</th>
+                        <th>Stručna sprema</th>
+                        <th>Akcija</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                      @if ($shelterPersonelStaff)
+                      
+                      @foreach($shelterPersonelStaff as $staff)   
+                      <tr>
+                        <td>{{ $staff->name }}</td>
+                        <td>{{ $staff->oib }}</td>
+                        <td>{{ $staff->address }}</td>
+                        <td>{{ $staff->address_place }}</td>
+                        <td>{{ $staff->phone }}</td>
+                        <td>{{ $staff->phone_cell }}</td>
+                        <td>{{ $staff->email }}</td>
+                        <td>{{ $staff->education }}</td>
+                      
+                        <td><button type="button" class="btn btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
+                          <i data-feather="check-square"></i>
+                        </button>        
+                        <button type="button" id="deletePersonelStaff" type="button" class="btn btn-danger btn-icon" 
+                          data-id="{{ $staff->id ?? ''  }}">
+                            <i data-feather="box"></i>
+                          </button></td>
+                      </tr>
+                      @endforeach
+                    
+                      @endif
+                    </tbody>
+                </table>
+              </div>          
+                
+          </div>
+        </div>
+      </div> 
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 grid-margin">
+      <div class="card">
+        <div class="card-body">
+  
+          <h6 class="card-title">Životinje u oporavilištu</h6> 
+  
+          <div class="grid-margin">
+            <a href="{{ route('animal.create') }}" class="btn btn-primary">Dodaj</a>
+          </div>
+  
+          @if($msg = Session::get('msg'))
+          <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+          @endif
+  
+          <div class="table-responsive">
+            <table id="shelterAnimalTable" class="table">
+              <thead>          
+                <tr>
+                  <th>#</th>
+                  <th>Ukupno</th>
+                  <th>Šifra</th>
+                  <th>Naziv jedinke</th>
+                  <th>Latinski naziv</th>
+                  <th>Oznaka</th>
+                  <th>Tip jedinke</th>
+                  <th>Pronađeno</th>
+                  <th>Dolazak životinje</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+  
+                @foreach ($shelter->animals as $item)
+                  <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td><span class="badge badge-secondary">{{ $item->pivot->quantity }}</span></td>
+                    <td>{{ $item->pivot->shelter_code }}</td>
+                    <td>{{ $item->name }}</td>
+                    <td>{{ $item->latin_name }}</td>
+                    <td>
+                      @foreach ($item->animalCodes as $code)
+                        <span class="badge badge-danger">{{ $code->name }}</span>
+                      @endforeach
+                    </td>
+                    <td>
+                      @foreach ($item->animalType as $res)
+                      <span class="badge badge-warning">{{ $res->type_code }}</span>
+                      @endforeach
+                    </td>
+                    <td>{{ $item->animalItems->first()->date_found ?? '' }}</td>
+                    <td>
+                      <a class="btn btn-info" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelter_code}}">
+                        Info
+                      </a>
+                    </td>
+                  </tr>
+                @endforeach
+  
+              </tbody>                
+            </table>
+          </div>
+  
+        </div>
       </div>
+    </div>
+  </div>
 
 {{-- Create Legal Staff Modal --}}
 @include('shelter.shelter.shelter_staff_legal._create')
@@ -503,207 +575,205 @@
 
       $(function() {
            
-                  // Create Legal Shelter Staff Ajax request.
-                   $('#createLegalStaff').on('submit', function(e) {
-                      e.preventDefault();
+        // Create Legal Shelter Staff Ajax request.
+        $('#createLegalStaff').on('submit', function(e) {
+          e.preventDefault();
 
-                      var legalForm = this;
-                      var alertDanger = $('#dangerLegalStaffCreate');
-                      var alertSuccess = $('#successLegalStaffCreate');
-                    
-                      $.ajax({
-                          url: $(legalForm).attr('action'),
-                          method: 'POST',
-                          data: new FormData(legalForm),
-                          processData: false,
-                          dataType: 'json',
-                          contentType: false,
-
-                          success: function(result) {
-                            console.log(result);
-                            
-                              if(result.errors) {
-                                  alertDanger.html('');
-                                  console.log(result);
-                                  $.each(result.errors, function(key, value) {
-                                      alertDanger.show();
-                                      alertDanger.append('<strong><li>'+value+'</li></strong>');
-                                  });
-                              } else {
-                                  alertDanger.hide();
-                                  alertSuccess.show();
-                  
-                                  setInterval(function(){ 
-                                      alertSuccess.hide();
-                                      $('#createStaffLegalModal').modal('hide');
-                                      location.reload();
-                                  }, 2000);
-                              }
-                          }
-                      });
-                });
+          var legalForm = this;
+          var alertDanger = $('#dangerLegalStaffCreate');
+          var alertSuccess = $('#successLegalStaffCreate');
         
-                // Update Legal Shelter Staff Ajax request.
-                $('#updateLegalStaff').on('submit', function(e) {
-                    e.preventDefault();
-                    var updateLegalForm = this;
-                    var alertDanger = $('#dangerLegalStaffUpdate');
-                    var alertSuccess = $('#successLegalStaffUpdate');
-                  
-                    $.ajax({
-                        url: $(updateLegalForm).attr('action'),
-                        method: 'POST',
-                        data: new FormData(updateLegalForm),
-                        processData: false,
-                        dataType: 'json',
-                        contentType: false,
+          $.ajax({
+              url: $(legalForm).attr('action'),
+              method: 'POST',
+              data: new FormData(legalForm),
+              processData: false,
+              dataType: 'json',
+              contentType: false,
 
-                        success: function(result) {
-                        console.log(result);
-                          
-                            if(result.errors) {
-                                alertDanger.html('');
-                                console.log(result);
-                                $.each(result.errors, function(key, value) {
-                                    alertDanger.show();
-                                    alertDanger.append('<strong><li>'+value+'</li></strong>');
-                                });
-                            } else {
-                            
-                                alertDanger.hide();
-                                alertSuccess.show();
+              success: function(result) {
+                console.log(result);
                 
-                                setInterval(function(){ 
-                                    alertDanger.hide();
-                                    $('#editStaffLegalModal').modal('hide');
-                                    location.reload();
-                                    console.log(result);
-                                }, 2000);
-                            }
-                        }
-                    });
-                });
-                // Delete legal Staff
-                $('body').on('click', '#deleteLegalStaff', function() {
-
-                  deleteID = $(this).data('id');
-                  
-                  Swal.fire({
-                      title: "Brisanje?",
-                      text: "Potvrdite ako ste sigurni za brisanje Osobe!",
-                      type: "warning",
-                      showCancelButton: !0,
-                      confirmButtonText: "Da, brisanje!",
-                      cancelButtonText: "Ne, odustani!",
-                      reverseButtons: !0
-                  }).then(function (e) {
-
-                if (e.value === true) {
-                                  
-                    $.ajaxSetup({
-                      headers: {
-                          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                      }
-                
-                  });
-                    $.ajax({
-                        type: 'DELETE',
-                        url: "{{url('/shelter_legal_staff')}}/" + deleteID,
-                        data: {_token: '{{csrf_token()}}'},
-                        dataType: 'JSON',
-                        success: function (results) {
-                            location.reload();
-                        }
-                    });
-
-                } else {
-                    e.dismiss;
-                }
-
-            }, function (dismiss) {
-                return false;
-            })
+                  if(result.errors) {
+                      alertDanger.html('');
+                      console.log(result);
+                      $.each(result.errors, function(key, value) {
+                          alertDanger.show();
+                          alertDanger.append('<strong><li>'+value+'</li></strong>');
+                      });
+                  } else {
+                      alertDanger.hide();
+                      alertSuccess.show();
+      
+                      setInterval(function(){ 
+                          alertSuccess.hide();
+                          $('#createStaffLegalModal').modal('hide');
+                          location.reload();
+                      }, 2000);
+                  }
+              }
           });
+        });
+        
+        // Update Legal Shelter Staff Ajax request.
+        $('#updateLegalStaff').on('submit', function(e) {
+            e.preventDefault();
+            var updateLegalForm = this;
+            var alertDanger = $('#dangerLegalStaffUpdate');
+            var alertSuccess = $('#successLegalStaffUpdate');
+          
+            $.ajax({
+                url: $(updateLegalForm).attr('action'),
+                method: 'POST',
+                data: new FormData(updateLegalForm),
+                processData: false,
+                dataType: 'json',
+                contentType: false,
+
+                success: function(result) {
+                console.log(result);
+                  
+                    if(result.errors) {
+                        alertDanger.html('');
+                        console.log(result);
+                        $.each(result.errors, function(key, value) {
+                            alertDanger.show();
+                            alertDanger.append('<strong><li>'+value+'</li></strong>');
+                        });
+                    } else {
+                    
+                        alertDanger.hide();
+                        alertSuccess.show();
+        
+                        setInterval(function(){ 
+                            alertDanger.hide();
+                            $('#editStaffLegalModal').modal('hide');
+                            location.reload();
+                            console.log(result);
+                        }, 2000);
+                    }
+                }
+            });
+        });
+
+        // Delete legal Staff
+        $('body').on('click', '#deleteLegalStaff', function() {
+
+          deleteID = $(this).data('id');
+          
+          Swal.fire({
+              title: "Brisanje?",
+              text: "Potvrdite ako ste sigurni za brisanje Osobe!",
+              type: "warning",
+              showCancelButton: !0,
+              confirmButtonText: "Da, brisanje!",
+              cancelButtonText: "Ne, odustani!",
+              reverseButtons: !0
+          }).then(function (e) {
+              if (e.value === true) {           
+                $.ajaxSetup({
+                  headers: {
+                      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                  }
+            
+                });
+                $.ajax({
+                    type: 'DELETE',
+                    url: "{{url('/shelter_legal_staff')}}/" + deleteID,
+                    data: {_token: '{{csrf_token()}}'},
+                    dataType: 'JSON',
+                    success: function (results) {
+                        location.reload();
+                    }
+                });
+              } else {
+                e.dismiss;
+              }
+
+          }, function (dismiss) {
+              return false;
+          })
+        });
 
             // Create Care Staff
             $('#createCareStaff').on('submit', function(e) {
-                    e.preventDefault();
+              e.preventDefault();
 
-                    var careForm = this;
-                    var alertDanger = $('#dangerCareStaffCreate');
-                    var alertSuccess = $('#successCareStaffCreate');
-                  
-                    $.ajax({
-                        url: $(careForm).attr('action'),
-                        method: 'POST',
-                        data: new FormData(careForm),
-                        processData: false,
-                        dataType: 'json',
-                        contentType: false,
-
-                        success: function(result) {
-                          console.log(result);
-                          
-                            if(result.errors) {
-                                alertDanger.html('');
-                                $.each(result.errors, function(key, value) {
-                                    alertDanger.show();
-                                    alertDanger.append('<strong><li>'+value+'</li></strong>');
-                                });
-                            } else {
-                                alertDanger.hide();
-                                alertSuccess.show();
-                
-                                setInterval(function(){ 
-                                    $('.alert-success').hide();
-                                    $('#createStaffCareModal').modal('hide');
-                                    location.reload();
-                                }, 2000);
-                            }
-                        }
-                    });
-                });
-
-              // Update Legal Shelter Staff Ajax request.
-              $('#updateCareStaff').on('submit', function(e) {
-                e.preventDefault();
-                var updateCareForm = this;
-                var alertDanger = $('#dangerCareStaffUpdate');
-                var alertSuccess = $('#successCareStaffUpdate');
-              
-                $.ajax({
-                    url: $(updateCareForm).attr('action'),
-                    method: 'POST',
-                    data: new FormData(updateCareForm),
-                    processData: false,
-                    dataType: 'json',
-                    contentType: false,
-
-                    success: function(result) {
-                    console.log(result);
-                      
-                        if(result.errors) {
-                            alertDanger.html('');
-                            console.log(result);
-                            $.each(result.errors, function(key, value) {
-                                alertDanger.show();
-                                alertDanger.append('<strong><li>'+value+'</li></strong>');
-                            });
-                        } else {
-                        
-                            alertDanger.hide();
-                            alertSuccess.show();
+              var careForm = this;
+              var alertDanger = $('#dangerCareStaffCreate');
+              var alertSuccess = $('#successCareStaffCreate');
             
-                            setInterval(function(){ 
-                                alertDanger.hide();
-                                $('#editStaffCareModal').modal('hide');
-                                console.log(result)
-                                location.reload();
-                                ;
-                            }, 2000);
-                        }
+              $.ajax({
+                  url: $(careForm).attr('action'),
+                  method: 'POST',
+                  data: new FormData(careForm),
+                  processData: false,
+                  dataType: 'json',
+                  contentType: false,
+
+                  success: function(result) {
+                    console.log(result);
+                  
+                    if(result.errors) {
+                        alertDanger.html('');
+                        $.each(result.errors, function(key, value) {
+                            alertDanger.show();
+                            alertDanger.append('<strong><li>'+value+'</li></strong>');
+                        });
+                    } else {
+                        alertDanger.hide();
+                        alertSuccess.show();
+        
+                        setInterval(function(){ 
+                            $('.alert-success').hide();
+                            $('#createStaffCareModal').modal('hide');
+                            location.reload();
+                        }, 2000);
                     }
-                });
+                  }
+              });
+            });
+
+            // Update Legal Shelter Staff Ajax request.
+            $('#updateCareStaff').on('submit', function(e) {
+              e.preventDefault();
+              var updateCareForm = this;
+              var alertDanger = $('#dangerCareStaffUpdate');
+              var alertSuccess = $('#successCareStaffUpdate');
+            
+              $.ajax({
+                  url: $(updateCareForm).attr('action'),
+                  method: 'POST',
+                  data: new FormData(updateCareForm),
+                  processData: false,
+                  dataType: 'json',
+                  contentType: false,
+
+                  success: function(result) {
+                  console.log(result);
+                    
+                      if(result.errors) {
+                          alertDanger.html('');
+                          console.log(result);
+                          $.each(result.errors, function(key, value) {
+                              alertDanger.show();
+                              alertDanger.append('<strong><li>'+value+'</li></strong>');
+                          });
+                      } else {
+                      
+                          alertDanger.hide();
+                          alertSuccess.show();
+          
+                          setInterval(function(){ 
+                              alertDanger.hide();
+                              $('#editStaffCareModal').modal('hide');
+                              console.log(result)
+                              location.reload();
+                              ;
+                          }, 2000);
+                      }
+                  }
+              });
             });
 
             // Delete care Staff

@@ -83,7 +83,7 @@
   <script>
     $(function() {
 
-        $('#shelterDataTable').DataTable({
+        var table = $('#shelterDataTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{!! route('shelter:dt') !!}',
@@ -129,7 +129,7 @@
                                     'Uspješno obrisano!',
                                     'success'
                                 ).then((result) => {
-                                    location.reload(); 
+                                    table.ajax.reload();
                                 });
                             }
                         }

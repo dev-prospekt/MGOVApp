@@ -8,9 +8,10 @@ use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
+use Spatie\Permission\Models\Role;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\UserPostRequest;
-use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -35,13 +36,21 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    // public function create()
+    // {
+    //     $shelters = Shelter::all();
+
+    //     return view("users.create", [
+    //         'shelters' => $shelters
+    //     ]);
+    // }
+
+    public function create() 
     {
         $shelters = Shelter::all();
 
-        return view("users.create", [
-            'shelters' => $shelters
-        ]);
+        $returnHTML = view('users._create', ['shelters'=> $shelters])->render();
+        return response()->json( array('success' => true, 'html' => $returnHTML) );
     }
 
     /**
@@ -50,16 +59,38 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserPostRequest $request)
+    public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users',
+            'password' => 'required',
+            'role_id' => 'required',
+        ], [
+            'name.required' => 'Ime je obavezan podatak',
+            'email.required' => 'Email je obavezan podatak',
+            'email.unique' => 'Email postoji',
+            'password.required' => 'Lozinka je obavezan podatak',
+            'role_id.required' => 'Rola je obavezan podatak',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->password = bcrypt($request->email);
+        $user->password = bcrypt($request->password);
         $user->shelter_id = $request->shelter_id;
+        $user->roles()->detach();
         $user->save();
 
-        return redirect()->route("user.index")->with('msg', 'Uspješno dodano.');
+        if($request->role_id){
+            $user->roles()->attach($request->role_id);
+        }
+
+        return response()->json(['success' => 'Uspješno dodano.']);
     }
 
     /**
@@ -79,11 +110,19 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    // public function edit(User $user)
+    // {
+    //     $shelters = Shelter::all();
+
+    //     return view('users.edit', compact('shelters'))->with('user', $user); 
+    // }
+
+    public function edit(User $user) 
     {
         $shelters = Shelter::all();
 
-        return view('users.edit', compact('shelters'))->with('user', $user); 
+        $returnHTML = view('users._edit', ['shelters'=> $shelters, 'user' => $user])->render();
+        return response()->json( array('success' => true, 'html' => $returnHTML) );
     }
 
     /**
@@ -95,13 +134,25 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email',
+        ], [
+            'name.required' => 'Ime je obavezan podatak',
+            'email.required' => 'Email je obavezan podatak',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
         $user->shelter_id = $request->shelter_id;
         $user->save();
 
-        return redirect()->route("user.index")->with('msg', 'Uspješno ažurirano.');
+        return response()->json(['success' => 'Uspješno dodano.']);
     }
 
     /**
@@ -140,7 +191,7 @@ class UserController extends Controller
             ->addColumn('action', function ($user) {
                 return '
                 <div class="d-flex align-items-center">
-                    <a href="user/'.$user->id.'/edit" class="btn btn-xs btn-primary mr-2">
+                    <a href="javascript:void(0)" class="edit btn btn-xs btn-primary mr-2" data-id="'.$user->id.'">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Uredi
                     </a>
@@ -179,6 +230,6 @@ class UserController extends Controller
             $user->roles()->attach(Role::where('name', 'Shelter-User')->first());
         }
 
-        return redirect("/roleMapping");
+        return redirect("/roleMapping")->with('msg', 'Uspješno spremljeno.');
     }
 }

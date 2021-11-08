@@ -19,7 +19,7 @@
 </nav>
 
 <div class="row">
-    <div class="col-lg-12 col-xl-12 grid-margin stretch-card">
+    <div class="col-lg-8 col-xl-8 grid-margin">
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title mb-0">Podatci</h6>
@@ -33,10 +33,7 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>NAZIV</th>
-                        <th>LATINSKI NAZIV</th>
                         <th>KATEGORIJA</th>
-                        <th>LOKACIJA</th>
                         <th>SPOL</th>
                         <th>VELIČINA</th>
                         <th></th>
@@ -46,12 +43,9 @@
                         @foreach ($animalItem as $anim)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>{{ $anim->animal->name }}</td>
-                                <td>{{ $anim->animal->latin_name }}</td>
-                                <td>{{ $anim->animal->animalCategory->name }}</td>
-                                <td>{{ $anim->location }}</td>
+                                <td>{{ $anim->animal->animalCategory->latin_name }}</td>
                                 <td>{{ $anim->animal_gender }}</td>
-                                <td>{{ $anim->animal_size }}</td>
+                                <td>{{ $anim->animalSizeAttributes->name ?? '' }}</td>
                                 <td>
                                     <a href="{{ route('animal_item.show', $anim) }}" class="btn btn-info">
                                         Info
@@ -69,6 +63,47 @@
                             </tr>
                         @endforeach
                 </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card grid-margin">
+            <div class="card-body">
+                <div class="card-title">
+                    <h6>Dodatni opisni podaci oporavilišta o preuzimanju</h6>
+                </div>
+
+                <hr>
+
+                <p>{{ $animalItem->first()->animal->shelters->first()->pivot->description }}</p>
+            </div>
+        </div>
+
+        <div class="card grid-margin">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 grid-margin">
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv: </label>
+                            <p class="text-muted">{{ $animalItem->first()->animal->name }}</p>
+                        </div>
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv: </label>
+                            <p class="text-muted">{{ $animalItem->first()->animal->latin_name }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 grid-margin">
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupni broj:</label>
+                            <p class="text-muted">
+                                @if ($animalItem->first()->status == 1)
+                                    {{ $animalItem->count() }}
+                                @endif
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
