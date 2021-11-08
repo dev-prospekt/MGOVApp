@@ -27,7 +27,7 @@
   <h5 class="mb-3 mb-md-0">Smještajna jedinica</h5>
   <div>      
     <a id="createAccomodation" href="{{ route('shelters.accomodations.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
-      Dodaj smještajne jedinice
+      Dodaj smještajnu jedinicu
       <i class="btn-icon-append" data-feather="user-plus"></i>
     </a>  
     <a id="createAccomodation" href="{{ route('shelters.accomodations.index', $shelter->id) }}" type="button" class="btn btn-warning btn-icon-text">
@@ -181,7 +181,7 @@
   
                   setInterval(function(){
                       window.location=result.redirectTo;
-                      }, 2000);
+                      }, 1000);
               }
             }   
             

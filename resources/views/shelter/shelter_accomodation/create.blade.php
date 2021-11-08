@@ -3,12 +3,13 @@
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
 @endpush
 
 @section('content')
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-      <h4 class="mb-3 mb-md-0">Kreiraj smještajne jedinice</h4>
+      <h5 class="mb-3 mb-md-0">Kreiraj smještajnu jedinicu</h5>
   </div>
 </div>
    
@@ -25,7 +26,6 @@
       <div class="col-md-7">
         <div class="card">
             <div class="card-body">
-                <p class="card-description">Osigurane opremljene nastambe</p>
                     <form data-action="{{ route('shelters.accomodations.store', $shelter_id) }}" method="POST" id="storeShelterAccomodation" enctype="multipart/form-data">
                         @csrf                
                         <div id="dangerAccomodationStore" class="alert alert-danger alert-legal-staff alert-dismissible fade show" role="alert" style="display: none;">
@@ -41,7 +41,7 @@
                           </div>
             
                         <div class="form-group">
-                            <label class="control-label">Tip Nastambe</label>
+                            <label class="control-label">Tip smještajne jedinice</label>
                             <input type="hidden" name="shelter_id" id="shelterID" value="{{ $shelter_id }}">
                             <select class="js-example-basic w-100" name="accomodation_type">
                                 <option selected disabled>---</option>
@@ -62,15 +62,14 @@
                           
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Opis nastambe</label>
+                            <label for="exampleFormControlTextarea1">Opis smještajne jedinice</label>
                             <textarea class="form-control" id="accomodationDesc" name="accomodation_desc" rows="5"></textarea>                    
                         </div>  
                                         
                         <div class="form-group">
-                            <label>Popratna fotodokumentacija</label>
-                            <div class="file-loading">
-                                <input  name="accomodation_photos[]" type="file" id="accomodationPhotos" multiple>
-                            </div>
+                            <label>Popratna fotodokumentacija (jpg, png)</label>  
+                                <input name="accomodation_photos[]" type="file" id="accomodationPhotos" multiple>
+                                <div id="errorAccomoadionPhotos"></div> 
                         </div>
                         <button type="submit" class="btn btn-primary submit">Spremi nastambu</button>                                   
                     </form>
@@ -81,7 +80,7 @@
       <div class="col-md-5">
         <div class="card">
             <div class="card-body">
-                <p class="card-description">Smještajne jedinice</p>
+                <p class="card-description">Lista jedinica</p>
                 @if ($shelterAccomodationItems)
                     
             
@@ -140,7 +139,10 @@ $(function() {
         language: "cr",
         showPreview: false,
         showUpload: false,
-        allowedFileExtensions: ["jpg", "png", "gif"]
+        allowedFileExtensions: ["jpg", "png", "gif"],
+        elErrorContainer: '#errorAccomoadionPhotos',
+        msgInvalidFileExtension: 'Nevažeća fotografija, Podržani su "{extensions}" formati.'
+
     });
 
     tinymce.init({

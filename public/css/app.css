@@ -25050,6 +25050,31 @@ hr {
   display: none;
 }
 
+.email-body h1,
+.email-body h2,
+.email-body h1,
+.email-body h3,
+.email-body h4,
+.email-body h5 {
+  padding-bottom: 5px;
+}
+
+.email-body h2 {
+  font-size: 22px;
+}
+
+.email-body h3 {
+  font-size: 20px;
+}
+
+.email-body h4 {
+  font-size: 19px;
+}
+
+.email-body p {
+  margin-bottom: 10px;
+}
+
 .shelter-nav {
   border-bottom: 1px solid #262f43;
   margin-bottom: 1rem;
