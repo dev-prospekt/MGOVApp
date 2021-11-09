@@ -25058,13 +25058,6 @@ hr {
   color: #fbbc06;
 }
 
-<<<<<<< HEAD
-.select2-container {
-  width: 100% !important;
-}
-
-/*# sourceMappingURL=app.css.map*/
-
 .profile-page .profile-body .right-wrapper .latest-photos > .row > div figure {
   transition: all 0.3s ease-in-out;
   margin-bottom: 6px;
@@ -25089,11 +25082,7 @@ hr {
 
 .latest-photos img {
   max-height: 160px;
-<<<<<<< HEAD
-}
-=======
   border: 1px solid #383838;
 }
 
 /*# sourceMappingURL=app.css.map*/
->>>>>>> 55dddd17c58cac5cdff3d76cc59e14a2e073a698
