@@ -14,12 +14,14 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FounderDataController;
 use App\Http\Controllers\Shelter\ShelterController;
+
 use App\Http\Controllers\Animal\AnimalSizeController;
 use App\Http\Controllers\Animal\AnimalImportController;
 use App\Http\Controllers\Animal\AnimalCategoryController;
 use App\Http\Controllers\Animal\AnimalSeizedTypeController;
 use App\Http\Controllers\Animal\AnimalInvaziveTypeController;
 use App\Http\Controllers\Animal\AnimalProtectedTypeController;
+
 
 
 Auth::routes();
@@ -52,9 +54,12 @@ Route::group(['middleware' => ['auth']], function () {
         'accomodations' => 'shelter_accomodation'
     ]);
 
+    Route::resource('shelters.nutritions', Shelter\ShelterNutritionController::class)->parameters([
+        'nutritions' => 'shelter_nutrition'
+    ]);
+
     // delete shelter Accomodation images
     Route::get('accomodation/thumb/{thumb}', 'Shelter\ShelterAccomodationController@deleteImage')->name('accomodation.thumbDelete');
-
     Route::get('shelter/{shelterId}/animal/{animalId}', [ShelterController::class, 'animalItems']);
 
     /*
@@ -111,7 +116,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
 
     Route::post('founder', [FounderDataController::class, 'store'])->name('founder_data.store');
-    
+
     Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
     Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');
     Route::post('animal_item/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');

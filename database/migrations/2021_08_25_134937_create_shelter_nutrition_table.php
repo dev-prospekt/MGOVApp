@@ -16,13 +16,11 @@ class CreateShelterNutritionTable extends Migration
         Schema::create('shelter_nutrition', function (Blueprint $table) {
             $table->id();
 
-            $table->string('food_type');
-            $table->string('food_store');
-            $table->string('food_transport');
-            $table->string('food_supplements');
-            $table->string('image');
-
+            $table->string('nutrition_unit');
+            $table->longText('nutrition_desc');
+            $table->foreignId('animal_system_category_id')->nullable();
             $table->foreignId('shelter_id')->constrained('shelters');
+
             $table->timestamps();
         });
     }

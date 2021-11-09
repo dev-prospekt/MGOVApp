@@ -7,10 +7,27 @@
 @endpush
 
 @section('content')
+<ul class="nav shelter-nav">
+
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('shelter.show', [ $shelter_id]) }}">Podaci o korisnicima</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link active" href="{{ route('shelters.accomodations.index', $shelter_id) }}">Smještajne jedinice</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('shelters.nutritions.index', $shelter_id) }}">Hranjenje životinja</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#">Korisnici aplikacije</a>
+  </li>
+</ul>
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
       <h5 class="mb-3 mb-md-0">Kreiraj smještajnu jedinicu</h5>
   </div>
+
 </div>
    
     <div class="row">

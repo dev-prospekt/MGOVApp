@@ -53,4 +53,9 @@ class Shelter extends Model
     {
         return $this->hasMany(ShelterAccomodation::class);
     }
+
+    public function nutritionItems()
+    {
+        return $this->hasMany(ShelterNutrition::class);
+    }
 }

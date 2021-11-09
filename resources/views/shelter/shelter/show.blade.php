@@ -13,7 +13,7 @@
     <a class="nav-link" href="{{ route('shelters.accomodations.index', [$shelter->id]) }}">Nastambe oporavilišta</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Oprema, prehrana</a>
+    <a class="nav-link" href="{{ route('shelters.nutritions.index', [$shelter->id]) }}">Hranjenje životinja</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="#">Korisnici aplikacije</a>
