@@ -10,17 +10,17 @@
 <ul class="nav shelter-nav">
 
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelter.show', [$shelter->id ]) }}">Podaci o korisnicima</a>
+    <a class="nav-link" href="{{ route('shelter.show', [ $shelter->id]) }}">Podaci o korisnicima</a>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('shelters.accomodations.index', $shelter->id) }}">Smještajne jedinice</a>
+    <a class="nav-link" href="{{ route('shelters.accomodations.index', $shelter->id) }}">Smještajne jedinice</a>
   </li>
   <li class="nav-item">
     <a class="nav-link active" href="{{ route('shelters.nutritions.index', $shelter->id) }}">Hranjenje životinja</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Korisnici aplikacije</a>
+    <a class="nav-link" href="{{ route('shelters.equipments.index', $shelter->id) }}">Oprema, prijevoz životinja</a>
   </li>
 </ul>
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">

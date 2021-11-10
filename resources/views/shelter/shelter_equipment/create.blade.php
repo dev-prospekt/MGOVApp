@@ -10,22 +10,22 @@
 <ul class="nav shelter-nav">
 
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelter.show', [ $shelter_id]) }}">Podaci o korisnicima</a>
+    <a class="nav-link" href="{{ route('shelter.show', [ $shelter->id]) }}">Podaci o korisnicima</a>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link active" href="{{ route('shelters.accomodations.index', $shelter_id) }}">Smještajne jedinice</a>
+    <a class="nav-link" href="{{ route('shelters.accomodations.index', $shelter->id) }}">Smještajne jedinice</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelters.nutritions.index', $shelter_id) }}">Hranjenje životinja</a>
+    <a class="nav-link" href="{{ route('shelters.nutritions.index', $shelter->id) }}">Hranjenje životinja</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('shelters.equipments.index', $shelter_id) }}">Oprema, prijevoz životinja</a>
+    <a class="nav-link active" href="{{ route('shelters.equipments.index', $shelter->id) }}">Oprema, prijevoz životinja</a>
   </li>
 </ul>
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-      <h5 class="mb-3 mb-md-0">Kreiraj smještajnu jedinicu</h5>
+      <h5 class="mb-3 mb-md-0">Kreiraj opremu oporavilišta</h5>
   </div>
 
 </div>
@@ -43,52 +43,47 @@
       <div class="col-md-7">
         <div class="card">
             <div class="card-body">
-                    <form data-action="{{ route('shelters.accomodations.store', $shelter_id) }}" method="POST" id="storeShelterAccomodation" enctype="multipart/form-data">
+                    <form data-action="{{ route('shelters.equipments.store', $shelter_id) }}" method="POST" id="storeShelterEquipment" enctype="multipart/form-data">
                         @csrf                
-                        <div id="dangerAccomodationStore" class="alert alert-danger alert-legal-staff alert-dismissible fade show" role="alert" style="display: none;">
+                        <div id="dangerEquipmentStore" class="alert alert-danger alert-legal-staff alert-dismissible fade show" role="alert" style="display: none;">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
-                          <div id="successAccomodationStore" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                            <strong>Uspjeh!</strong> Smještajna jedinica uspješno spremljena.
+                          <div id="successEquipmentStore" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+                            <strong>Uspjeh!</strong> Oprema oporavilišta uspješno spremljena.
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                           </div>
             
                         <div class="form-group">
-                            <label class="control-label">Tip smještajne jedinice</label>
-                            <input type="hidden" name="shelter_id" id="shelterID" value="{{ $shelter_id }}">
-                            <select class="js-example-basic w-100" name="accomodation_type">
+                            <label class="control-label">Tip opreme:</label>
+                            
+                            <select class="js-example-basic w-100" name="equipment_type">
                                 <option selected disabled>---</option>
-                                @foreach ($accomodation_types as $accomodationType)
-                                    <option value="{{ $accomodationType['id'] }}">{{ $accomodationType['name'] }}</option>
+                                @foreach ($equipment_types as $equipmentType)
+                                    <option value="{{ $equipmentType['id'] }}">{{ $equipmentType['name'] }}</option>
                                 @endforeach
                             </select>   
                         </div>
 
                         <div class="form-group">
-                            <label>Naziv</label>
-                            <input type="text" class="form-control size" name="accomodation_name" id="accomodationSize" placeholder="Naziv nastambe npr. Kavez 01"> 
+                            <label>Naziv opreme/prijevoza:</label>
+                            <input type="text" class="form-control size" name="equipment_title" id="equipmentSize" placeholder="Naziv opreme/prijevoznog sredstva oporavilišta"> 
                         </div>
                                 
                         <div class="form-group">
-                            <label>Dimenzije</label>
-                            <input type="text" class="form-control size" name="accomodation_size" id="accomodationSize" placeholder="dimenzija u metrima D x Š x V"> 
-                          
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Opis smještajne jedinice</label>
-                            <textarea class="form-control" id="accomodationDesc" name="accomodation_desc" rows="5"></textarea>                    
+                            <label for="exampleFormControlTextarea1">Opis opreme oporavilišta</label>
+                            <textarea class="form-control" id="equipmentDesc" name="equipment_desc" rows="5"></textarea>                    
                         </div>  
                                         
                         <div class="form-group">
                             <label>Popratna fotodokumentacija (jpg, png)</label>  
-                                <input name="accomodation_photos[]" type="file" id="accomodationPhotos" multiple>
-                                <div id="errorAccomoadionPhotos"></div> 
+                                <input name="equipment_photos[]" type="file" id="equipmentPhotos" multiple>
+                                <div id="errorEquipmentPhotos"></div> 
                         </div>
-                        <button type="submit" class="btn btn-primary submit">Spremi nastambu</button>                                   
+                        <button type="submit" class="btn btn-warning submit">Spremi opremu</button>                                   
                     </form>
             </div>
         </div>
@@ -97,32 +92,30 @@
       <div class="col-md-5">
         <div class="card">
             <div class="card-body">
-                <p class="card-description">Lista jedinica</p>
-                @if ($shelterAccomodationItems)
-                    
-            
+                <p class="card-description">Lista opreme oporavilišta</p>
+                @if ($shelterEquipmentItems)       
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                       <thead>
                         <tr>                                 
                                  
-                          <th class="pt-0">Naziv jedinice</th>                    
-                          <th>Dimenzije</th>
+                          <th class="pt-0">Naziv opreme</th>                    
+                          <th>Tip opreme</th>
                           <th class="pt-0">Pregled/Uredi</th> 
                         </tr>
                       </thead>
                       <tbody>
-                        @foreach ($shelterAccomodationItems as $shelterItem)
+                        @foreach ($shelterEquipmentItems as $equipmentItem)
                         <tr>                                        
-                          <td>{{ $shelterItem->name }}</td>                     
-                          <td>{{ $shelterItem->dimensions }}</td>
+                          <td class="td-nowrapp" style="width: 50%;">{{ $equipmentItem->equipment_title }}</td>                     
+                          <td>{{ $equipmentItem->equipmentType->name }}</td>
                           <td>
                             <div class="d-flex align-items-center">
                               
-                              <a type="button" class="btn btn-primary btn-icon mr-2" href="{{ route('shelters.accomodations.show', [$shelter_id, $shelterItem->id]) }}">
+                              <a type="button" class="btn btn-primary btn-icon mr-2" href="{{ route('shelters.equipments.show', [$shelter_id, $equipmentItem->id]) }}">
                                 <i data-feather="check-square"></i>                          
                               </a>                    
-                              <a href="{{ route('shelters.accomodations.edit', [$shelter_id, $shelterItem->id]) }}" type="button" class="btn btn-warning btn-icon">
+                              <a href="{{ route('shelters.equipments.edit', [$shelter_id, $equipmentItem->id]) }}" type="button" class="btn btn-warning btn-icon">
                                 <i data-feather="box"></i>
                               </a>
                           </div>  
@@ -151,7 +144,7 @@
 @push('custom-scripts')
 <script>
 $(function() {
-    $("#accomodationPhotos").fileinput({
+    $("#equipmentPhotos").fileinput({
         dropZoneEnabled: false,
         language: "cr",
         showPreview: false,
@@ -163,7 +156,7 @@ $(function() {
     });
 
     tinymce.init({
-            selector: 'textarea#accomodationDesc',
+            selector: 'textarea#equipmentDesc',
             height: 350,
             menubar: false,
             plugins: [
@@ -179,17 +172,17 @@ $(function() {
         });
 
 
-        var formId = '#storeShelterAccomodation';
+        var formId = '#storeShelterEquipment';
         $(formId).on('submit', function(e) {
             e.preventDefault();
       
-            var formData = new FormData(document.getElementById("storeShelterAccomodation"));;
-            var accomodation_desc = tinyMCE.get('accomodationDesc').getContent();
+            var formData = new FormData(document.getElementById("storeShelterEquipment"));;
+            var accomodation_desc = tinyMCE.get('equipmentDesc').getContent();
 
-            formData.append('accomodation_desc', accomodation_desc);
+            formData.append('equipment_desc', accomodation_desc);
                  
-            var alertDanger = $('#dangerAccomodationStore');
-            var alertSuccess = $('#successAccomodationStore');
+            var alertDanger = $('#dangerEquipmentStore');
+            var alertSuccess = $('#successEquipmentStore');
 
             $.ajax({
                 type: 'POST',

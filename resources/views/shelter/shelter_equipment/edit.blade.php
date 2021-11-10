@@ -13,24 +13,24 @@
   </li>
 
   <li class="nav-item">
-    <a class="nav-link active" href="{{ route('shelters.accomodations.index', $shelter->id) }}">Smještajne jedinice</a>
+    <a class="nav-link" href="{{ route('shelters.accomodations.index', $shelter->id) }}">Smještajne jedinice</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('shelters.nutritions.index', $shelter->id) }}">Hranjenje životinja</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link " href="{{ route('shelters.equipments.index', $shelter->id) }}">Oprema, prijevoz životinja</a>
+    <a class="nav-link active" href="{{ route('shelters.equipments.index', $shelter->id) }}">Oprema, prijevoz životinja</a>
   </li>
 </ul>
 
 <div class="d-flex align-items-center justify-content-between">
-  <h5 class="mb-3 mb-md-0">Smještajna jedinica</h5>
+  <h5 class="mb-3 mb-md-0">Oprema oporavilišta</h5>
   <div>      
-    <a id="createAccomodation" href="{{ route('shelters.accomodations.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
+    <a id="createEquipment" href="{{ route('shelters.equipments.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
       Dodaj smještajnu jedinicu
       <i class="btn-icon-append" data-feather="user-plus"></i>
     </a>  
-    <a id="createAccomodation" href="{{ route('shelters.accomodations.index', $shelter->id) }}" type="button" class="btn btn-warning btn-icon-text">
+    <a id="createEquipment" href="{{ route('shelters.equipments.index', $shelter->id) }}" type="button" class="btn btn-warning btn-icon-text">
       Popis svih
       <i class="btn-icon-append"  data-feather="box"></i>
     </a>                 
@@ -40,51 +40,58 @@
   <div class="col-lg-12">
     <div class="card">
       <div class="card-body">
-        <h6 class="card-title">Izmjeni smještajnu jedinicu</h6>
+        <h6 class="card-title">Izmjeni opremu oporavilišta</h6>
         <!-- Modal body -->
-          <form data-action="{{ route('shelters.accomodations.update', [$shelter->id, $shelterAccomodationItem->id]) }}" id="updateAccomodation" method="POST" enctype="multipart/form-data"> 
+          <form data-action="{{ route('shelters.equipments.update', [$shelter->id, $shelterEquipmentItem->id]) }}" id="updateEquipment" method="POST" enctype="multipart/form-data"> 
             @method('PUT') 
             @csrf  
             
-            <div id="dangerAccomodationUpdate" class="alert alert-danger alert-legal-staff alert-dismissible fade show" role="alert" style="display: none;">
+            <div id="dangerEquipmentUpdate" class="alert alert-danger alert-legal-staff alert-dismissible fade show" role="alert" style="display: none;">
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
             </div>
-            <div id="successAccomodationUpdate" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-              <strong>Uspjeh!</strong> Smještajna jedinica uspješno spremljena.
+            <div id="successEquipmentUpdate" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+              <strong>Uspjeh!</strong> Oprema oporavilišta uspješno spremljena.
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
             </div>
+
+            
+            <div class="form-group">
+              <label class="control-label">Tip opreme:</label>
+              
+              <select class="js-example-basic w-100" name="equipment_type">
+                  <option selected disabled>---</option>
+                  @foreach ($equipment_types as $equipmentType)
+                      <option value="{{ $equipmentType['id']}}" {{ ( $equipmentType['id'] == $selectedEquipmentType) ? 'selected' : '' }}>{{ $equipmentType['name'] }}</option>
+                  @endforeach
+              </select>   
+          </div>
             <div class="form-group">
               <label>Naziv</label>
-              <input type="text" class="form-control size" name="edit_accomodation_name" id="updateAccomodationName" placeholder="Naziv nastambe npr. Kavez 01" value="{{ $shelterAccomodationItem->name }}">             
-            </div>
-                    
-            <div class="form-group">
-                <label>Dimenzije</label>
-                <input type="text" class="form-control size" name="edit_accomodation_size" id="updateAccomodationSize" placeholder="dimenzija u metrima D x Š x V" value="{{ $shelterAccomodationItem->dimensions }}">           
-            </div>
+              <input type="text" class="form-control size" name="edit_equipment_title" id="updateEquipmentTitle" placeholder="Naziv nastambe npr. Kavez 01" value="{{ $shelterEquipmentItem->equipment_title }}">             
+            </div>              
 
             <div class="form-group">
                 <label for="exampleFormControlTextarea1">Opis nastambe</label>
-                <textarea class="form-control" id="updateAccomodationDesc" name="edit_accomodation_desc" rows="8">{{ $shelterAccomodationItem->description }}</textarea>
+                <textarea class="form-control" id="updateEquipmentDesc" name="edit_equipment_desc" rows="8">{{ $shelterEquipmentItem->equipment_desc }}</textarea>
             </div>  
 
             <div class="email-attachments mb-2">
               <span class="title text-secondary">Fotodokumentacija: </span>
               <div class="latest-photos mt-3">
                 <div class="row">
-                  @if ($shelterAccomodationItem->media)
-                    @foreach ($shelterAccomodationItem->media as $thumbnail) 
+                  @if ($shelterEquipmentItem->media)
+                    @foreach ($shelterEquipmentItem->media as $thumbnail) 
                     <div class="col-md-2 col-sm-2">
                       <a href="{{ $thumbnail->getUrl() }}">
                       <figure>
                         <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
                       </figure>
                       </a>
-                      <a type="button" data-href="{{ route('accomodation.thumbDelete', $thumbnail) }}" class="btn btn-sm btn-danger btn-icon deleteThumb" >
+                      <a type="button" data-href="{{ route('equipment.thumbDelete', $thumbnail) }}" class="btn btn-sm btn-danger btn-icon deleteThumb" >
                         <i data-feather="trash"></i>
                     </a>
                     </div>                  
@@ -96,7 +103,7 @@
                       
             <div class="form-group">
                 <label>Dodatne fotografije:</label>
-                  <input  name="edit_accomodation_photos[]" type="file" id="updateAccomodationPhotos" multiple>
+                  <input  name="edit_equipment_photos[]" type="file" id="updateEquipmentPhotos" multiple>
             </div>
           <input type="submit" class="submitBtn btn btn-warning" value="Spremi">      
         </form>
@@ -118,8 +125,8 @@
 <script src="{{ asset('assets/js/tinymce.js') }}"></script>
 <script>
   $(function() {
-    var formId = '#updateAccomodation';
-    $('#updateAccomodationPhotos').fileinput({
+    var formId = '#updateEquipment';
+    $('#updateEquipmentPhotos').fileinput({
           language: "cr",
           showPreview: false,
           showUpload: false,
@@ -130,7 +137,7 @@
       });
 
       tinymce.init({
-            selector: 'textarea#updateAccomodationDesc',
+            selector: 'textarea#updateEquipmentDesc',
             height: 400,
             menubar: false,
             plugins: [
@@ -146,18 +153,18 @@
         });
 
 
-     // var formId = '#updateAccomodation';
+     // var formId = '#updateEquipment';
 
       $(formId).on('submit', function(e) {
           e.preventDefault();
 
-          var formData = new FormData(document.getElementById("updateAccomodation"));;
-          var accomodation_desc = tinyMCE.get('updateAccomodationDesc').getContent();
+          var formData = new FormData(document.getElementById("updateEquipment"));;
+          var Equipment_desc = tinyMCE.get('updateEquipmentDesc').getContent();
 
-          formData.append('edit_accomodation_desc', accomodation_desc);
+          formData.append('edit_equipment_desc', Equipment_desc);
           
-          var alertDanger = $('#dangerAccomodationUpdate');
-          var alertSuccess = $('#successAccomodationUpdate');
+          var alertDanger = $('#dangerEquipmentUpdate');
+          var alertSuccess = $('#successEquipmentUpdate');
 
            $.ajax({
               type: 'POST',
@@ -206,8 +213,7 @@
                   url: url,
                   method: 'GET',
                   success: function(result) {
-                      if(result.msg == 'success'){
-                     
+                      if(result.msg == 'success'){               
                               location.reload();
                        }
                    }

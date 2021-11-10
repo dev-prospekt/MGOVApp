@@ -10,13 +10,13 @@
     <a class="nav-link active" href="#">Podaci o korisnicima</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelters.accomodations.index', [$shelter->id]) }}">Nastambe oporavilišta</a>
+    <a class="nav-link" href="{{ route('shelters.accomodations.index', [$shelter->id]) }}">Smještajne jedinice</a>
   </li>
   <li class="nav-item">
     <a class="nav-link" href="{{ route('shelters.nutritions.index', [$shelter->id]) }}">Hranjenje životinja</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Korisnici aplikacije</a>
+    <a class="nav-link" href="{{ route('shelters.equipments.index', [$shelter->id]) }}">Oprema, transport</a>
   </li>
 
 </ul>

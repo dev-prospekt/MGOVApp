@@ -10,6 +10,7 @@ use Database\Seeders\PermissionsDemoSeeder;
 use Database\Seeders\ShelterStaffTypeSeeder;
 use Database\Seeders\AnimalSizeAttributeSeeder;
 use Database\Seeders\AnimalSystemCategorySeeder;
+use Database\Seeders\ShelterEquipmentTypeSeeder;
 use Database\Seeders\ShelterAccomodationTypeSeeder;
 
 
@@ -33,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AnimalCodeSeeder::class);
         $this->call(AnimalSizeSeeder::class);
         $this->call(AnimalSizeAttributeSeeder::class);
+        $this->call(ShelterEquipmentTypeSeeder::class);
     }
 }
