@@ -4,6 +4,7 @@
   <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
   
   <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -96,7 +97,7 @@
                 <div class="row">
                   @foreach ($shelterAccomodationItem->media as $thumbnail) 
                   <div class="col-md-2 col-sm-2">
-                    <a href="{{ $thumbnail->getUrl() }}">
+                    <a href="{{ $thumbnail->getUrl() }}" data-lightbox="accomodation">
                     <figure>
                       <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
                     </figure>
@@ -122,6 +123,7 @@
   <script src="{{ asset('assets/plugins/tinymce/tinymce.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script> 
+  <script src="{{ asset('assets/plugins/lightbox2/lightbox.min.js') }}"></script> 
 @endpush
 
 @push('custom-scripts')

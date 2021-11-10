@@ -88,7 +88,7 @@
                 <div class="row">
                   @foreach ($shelterEquipmentItem->media as $thumbnail) 
                   <div class="col-md-2 col-sm-2">
-                    <a href="{{ $thumbnail->getUrl() }}">
+                    <a href="{{ $thumbnail->getUrl() }}" data-lightbox="equipment">
                     <figure>
                       <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
                     </figure>
@@ -114,6 +114,7 @@
   <script src="{{ asset('assets/plugins/tinymce/tinymce.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script> 
+  <script src="{{ asset('assets/plugins/lightbox2/lightbox.min.js') }}"></script> 
 @endpush
 
 @push('custom-scripts')
