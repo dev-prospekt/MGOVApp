@@ -10,7 +10,7 @@
 <ul class="nav shelter-nav">
 
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelter.show', [$shelter->id ]) }}">Podaci o korisnicima</a>
+    <a class="nav-link" href="{{ route('shelter.show', [ $shelter->id]) }}">Podaci o korisnicima</a>
   </li>
 
   <li class="nav-item">
@@ -25,7 +25,7 @@
 </ul>
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-      <h5 class="mb-3 mb-md-0">Kreiraj program prehrane</h5>
+      <h5 class="mb-3 mb-md-0">Izmjeni program prehrane</h5>
   </div>
 </div>
 
@@ -39,10 +39,11 @@
             </button>
           </div>
         @endif</div>
-      <div class="col-md-8">
+      <div class="col-md-12">
         <div class="card">
             <div class="card-body">
-                    <form data-action="{{ route('shelters.nutritions.store', $shelter->id) }}" method="POST" id="storeShelterNutrition" enctype="multipart/form-data">
+                    <form data-action="{{ route('shelters.nutritions.update', [$shelter->id, $shelterNutritionItem->id]) }}" method="POST" id="updateShelterNutrition" enctype="multipart/form-data">
+                        @method('PUT')
                         @csrf                
                         <div id="dangerNutritionStore" class="alert alert-danger alert-legal-staff alert-dismissible fade show" role="alert" style="display: none;">
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -61,66 +62,24 @@
                             <select class="js-example-basic w-100" name="animal_class">
                                 <option selected disabled>ovlašteno za oporavilište</option>
                                @foreach ($shelter->animalSystemCategory as $systemCat)
-                                    <option value="{{ $systemCat->id }}">{{ $systemCat->latin_name }} ({{ $systemCat->name }})</option>
+                                    <option value="{{ $systemCat->id }}" {{ ( $systemCat->id == $selectedSystemCat) ? 'selected' : '' }}> {{ $systemCat->latin_name }} </option>
                                 @endforeach 
                             </select>   
                           </div>
                                 
                         <div class="form-group">
                             <label>Vrsta/skupina divljih životinja</label>
-                            <input type="text" class="form-control size" name="nutrition_unit" id="nutritionUnit" placeholder="Vrsta/skupina divljih životinja za koje se iskazuje interes"> 
+                            <input type="text" class="form-control size" name="nutrition_unit" id="nutritionUnit" 
+                            placeholder="Vrsta/skupina divljih životinja za koje se iskazuje interes" value="{{ $shelterNutritionItem->nutrition_unit }}"> 
                           
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">Opis programa hranjenja</label>
-                            <textarea class="form-control" id="nutritionDesc" name="nutrition_desc" rows="5"></textarea>                    
+                            <textarea class="form-control" id="updateNutritionDesc" name="nutrition_desc" rows="5">{{$shelterNutritionItem->nutrition_desc }}</textarea>                    
                         </div>  
                                         
-                        <button type="submit" class="btn btn-primary submit">Spremi program hranjenja</button>                                   
+                        <input type="submit" class="submitBtn btn btn-warning" value="Spremi program hranjenja">                                   
                     </form>
-            </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <p class="card-description">Lista programa prehrane</p>
-                
-                @if ($shelterNutritionItems) 
-                <div class="table-responsive">
-                  <table class="table table-hover mb-0">
-                    <thead>
-                      <tr>          
-                        <th>Razred</th> 
-                        <th>Vrsta/skupina životinja</th>
-                        <th class="pt-0">Pregled/Uredi</th> 
-                      </tr>
-                    </thead>
-                    <tbody>
-                      @foreach ($shelterNutritionItems as $nutritionItem)
-                      <tr>
-                        <td>{{ $nutritionItem->animalSystemCategory->latin_name }}</td>
-                        <td>{{ $nutritionItem->nutrition_unit }}</td>
-                         
-                        <td>
-                        <div class="d-flex align-items-center">                
-                          <a type="button" class="btn btn-primary btn-icon mr-2" href="{{ route('shelters.nutritions.show', [$shelter->id, $nutritionItem->id]) }}">
-                            <i data-feather="check-square"></i>                          
-                          </a>                    
-                          <a href="{{ route('shelters.nutritions.edit', [$shelter->id, $nutritionItem->id]) }}" type="button" class="btn btn-warning btn-icon">
-                            <i data-feather="clipboard"></i>
-                          </a>
-                      </div>  
-                        </td>
-                      </tr>
-                      @endforeach
-        
-                    </tbody>
-                  </table>
-                  </div>
-                  @endif
-           
             </div>
         </div>
       </div>      
@@ -135,7 +94,7 @@
 <script>
 $(function() {
     tinymce.init({
-            selector: 'textarea#nutritionDesc',
+            selector: 'textarea#updateNutritionDesc',
             height: 500,
             menubar: false,
             plugins: [
@@ -150,14 +109,14 @@ $(function() {
             content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; color:#fff; }'
         });
 
-        var formId = '#storeShelterNutrition';
+        var formId = '#updateShelterNutrition';
         $(formId).on('submit', function(e) {
             e.preventDefault();
       
-            var formData = new FormData(document.getElementById("storeShelterNutrition"));;
-            var nutrition_desc = tinyMCE.get('nutritionDesc').getContent();
+            var formData = new FormData(document.getElementById("updateShelterNutrition"));;
+            var nutrition_desc = tinyMCE.get('updateNutritionDesc').getContent();
 
-            formData.append('nutrition_desc', nutrition_desc);
+            formData.append('edit_nutrition_desc', nutrition_desc);
                  
             var alertDanger = $('#dangerNutritionStore');
             var alertSuccess = $('#successNutritionStore');
@@ -183,15 +142,14 @@ $(function() {
                         alertSuccess.show();
         
                         setInterval(function(){
-                            location.reload();
-                            }, 2000);
+                            window.location = result.redirectTo;
+                            }, 1000);
                     }
                 }   
                 
             });  
         });
-
-        
+ 
   });
 
 </script>

@@ -85,7 +85,7 @@ class ShelterNutritionController extends Controller
      */
     public function show(Shelter $shelter, ShelterNutrition $shelterNutrition)
     {
-        //
+        return view('shelter.shelter_nutrition.show', ['shelterNutritionItem' => $shelterNutrition, 'shelter' => $shelter]);
     }
 
     /**
@@ -96,7 +96,9 @@ class ShelterNutritionController extends Controller
      */
     public function edit(Shelter $shelter, ShelterNutrition $shelterNutrition)
     {
-        //
+
+        $selectedSystemCat = $shelterNutrition->animal_system_category_id;
+        return view('shelter.shelter_nutrition.edit', ['shelterNutritionItem' => $shelterNutrition, 'shelter' => $shelter, 'selectedSystemCat' => $selectedSystemCat]);
     }
 
     /**
@@ -108,7 +110,36 @@ class ShelterNutritionController extends Controller
      */
     public function update(Request $request, Shelter $shelter, ShelterNutrition $shelterNutrition)
     {
-        //
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'nutrition_unit' => 'required',
+                'nutrition_desc' => 'required',
+                'animal_class' => 'required',
+            ],
+            [
+                'nutrition_unit.required' => 'Unesite Vrstu/skupinu divljih životinja',
+                'nutrition_desc.required' => 'Opis programa hranjenja je obvezno polje',
+                'animal_class.required' => 'Odaberite razred životinje/a',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
+        $shelter_animal_cat = AnimalSystemCategory::findOrFail($request->animal_class);
+        $shelterNutritionItem = ShelterNutrition::find($shelterNutrition->id);
+
+        $shelterNutritionItem->nutrition_unit = $request->nutrition_unit;
+        $shelterNutritionItem->nutrition_desc = $request->nutrition_desc;
+        $shelterNutritionItem->shelter_id = $shelter->id;
+
+        $shelterNutritionItem->animalSystemCategory()->associate($shelter_animal_cat);
+        $shelterNutritionItem->save();
+
+        $redirectUrl = '/shelters/' . $shelter->id . '/nutritions/' . $shelterNutrition->id . '/';
+        return response()->json(['success' => 'Program hranjenja uspješno spremljen.', 'redirectTo' => $redirectUrl]);
     }
 
     /**
@@ -119,6 +150,7 @@ class ShelterNutritionController extends Controller
      */
     public function destroy(Shelter $shelter, ShelterNutrition $shelterNutrition)
     {
-        //
+        $shelterNutrition->delete();
+        return response()->json(['success' => 'Program hranjenja uspješno izbrisan.']);
     }
 }

@@ -52,14 +52,13 @@
                 <th>Vrsta/skupina divljih životinja</th>
                 <th class="pt-0">Akcija</th> 
               </tr>
-            </thead>
-            @dump($shelterNutritionItems)
+          </thead>
             <tbody>
               @foreach ($shelterNutritionItems as $nutritionItem)
               <tr>
                
-                <td>{{ $nutritionItem->id }}</td>
-                <td>{{ $nutritionItem->animalSystemCategory->name }}</td>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $nutritionItem->animalSystemCategory->latin_name }}</td>
                 <td>{{ $nutritionItem->nutrition_unit }}</td>
                  
                
