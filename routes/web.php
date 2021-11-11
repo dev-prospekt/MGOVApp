@@ -68,6 +68,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('equipment/thumb/{thumb}', 'Shelter\ShelterEquipmentController@deleteImage')->name('equipment.thumbDelete');
 
     Route::get('shelter/{shelterId}/animal/{animalId}', [ShelterController::class, 'animalItems']);
+    // get all shelter staff
+    Route::get('shelter/{shelter}/shelter_staff', [ShelterController::class, 'getShelterStaff'])->name('shelter.shelter_staff');
 
     /*
     |--------------------------------------------------------------------------

@@ -11,7 +11,10 @@
 <ul class="nav shelter-nav">
 
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelter.show', [ $shelter->id]) }}">Podaci o korisnicima</a>
+    <a class="nav-link" href="{{ route('shelter.show', $shelter->id) }}">Oporavilište</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('shelter.shelter_staff', $shelter->id) }}">Odgovorne osobe</a>
   </li>
 
   <li class="nav-item">

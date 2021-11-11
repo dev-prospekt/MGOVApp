@@ -41,5 +41,12 @@ class ShelterEquipmentTypeSeeder extends Seeder
             'type_mark' => 'B7',
             'type_description' => 'Osiguran prijevoz životinja prometnim sredstvima u skladu s posebnim propisima o zaštiti životinja tijekom prijevoza i s prijevozom povezanih postupaka'
         ]);
+
+        ShelterEquipmentType::create([
+            'name' => 'Održavanje i dezinfekcija prostora te opreme',
+            'type' => 'održavanje i dezinfekcija',
+            'type_mark' => 'B9',
+            'type_description' => 'Osigurano održavanje i dezinfekcija prostora te opreme u skladu s posebnim propisima'
+        ]);
     }
 }
