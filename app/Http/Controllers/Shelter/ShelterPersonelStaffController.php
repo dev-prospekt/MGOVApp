@@ -17,11 +17,19 @@ class ShelterPersonelStaffController extends Controller
             'staff_personel_name' => 'required',
             'staff_personel_oib' => 'required',
             'staff_personel_address' => 'required',
-            'staff_personel_address_place' => 'required',
             'staff_personel_phone' => 'required',
             'staff_personel_phone_cell' => 'required',
             'staff_personel_email' => 'required',
             'staff_personel_education' => 'required',
+        ], [
+            'staff_personel_name.required' => 'Ime i prezime je obvezan podatak',
+            'staff_personel_oib.required' => 'OIB obvezan podatak',
+            'staff_personel_address.required' => 'Adresa prebivališta je obvezan podatak',
+            'staff_personel_phone.required' => 'Kontakt telefon je obvezan podatak',
+            'staff_personel_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
+            'staff_personel_email.required' => 'Email adresa je obvezan podatak',
+            'staff_personel_education.required' => 'Stručna sprema je obvezan podatak',
+
         ]);
 
         if ($validator->fails()) {
@@ -64,6 +72,15 @@ class ShelterPersonelStaffController extends Controller
             'staff_personel_phone' => 'required',
             'staff_personel_phone_cell' => 'required',
             'staff_personel_email' => 'required',
+
+        ], [
+            'staff_personel_name.required' => 'Ime i prezime je obvezan podatak',
+            'staff_personel_oib.required.required' => 'OIB obvezan podatak',
+            'staff_personel_address.required.required' => 'Adresa prebivališta je obvezan podatak',
+            'staff_personel_phone.required.required' => 'Kontakt telefon je obvezan podatak',
+            'staff_personel_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
+            'staff_personel_email.required' => 'Email adresa je obvezan podatak',
+            'staff_personel_education.required' => 'Stručna sprema je obvezan podatak',
 
         ]);
 

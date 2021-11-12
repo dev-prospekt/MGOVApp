@@ -30,6 +30,10 @@
   <div>
       <h5 class="mb-3 mb-md-0">Izmjeni program prehrane</h5>
   </div>
+  <a id="createAccomodation" href="{{ route('shelters.nutritions.index', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
+    Povratak na popis
+    <i class="btn-icon-append" data-feather="clipboard"></i>
+  </a>  
 </div>
 
     <div class="row">

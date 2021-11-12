@@ -61,9 +61,9 @@
                           </div>
             
                         <div class="form-group">
-                            <label class="control-label">Tip opreme:</label>
+                            <label class="control-label">Tip entiteta:</label>
                             
-                            <select class="js-example-basic w-100" name="equipment_type">
+                            <select id="equipmentType" class="js-example-basic w-100" name="equipment_type">
                                 <option selected disabled>---</option>
                                 @foreach ($equipment_types as $equipmentType)
                                     <option value="{{ $equipmentType['id'] }}">{{ $equipmentType['name'] }}</option>
@@ -71,22 +71,35 @@
                             </select>   
                         </div>
 
-                        <div class="form-group">
+                        <div id="js-equipment-title" class="form-group">
                             <label>Naziv opreme/prijevoza:</label>
                             <input type="text" class="form-control size" name="equipment_title" id="equipmentSize" placeholder="Naziv opreme/prijevoznog sredstva oporavilišta"> 
                         </div>
+                        
+                      
+                          <div id="js-valture-field" class="form-group">
+                                <label>Nadležna služba</label>
+                                <input type="text" class="form-control size" name="equipment_valture_service" id="equipmentSize" placeholder="Nadležna veterinarska stanica"> 
+                          </div>
+                      
                                 
                         <div class="form-group">
-                            <label for="exampleFormControlTextarea1">Opis opreme oporavilišta</label>
+                            <label for="exampleFormControlTextarea1">Opis entiteta</label>
                             <textarea class="form-control" id="equipmentDesc" name="equipment_desc" rows="5"></textarea>                    
                         </div>  
                                         
-                        <div class="form-group">
+                        <div id="js-equipmnt-photos" class="form-group">
                             <label>Popratna fotodokumentacija (jpg, png)</label>  
                                 <input name="equipment_photos[]" type="file" id="equipmentPhotos" multiple>
                                 <div id="errorEquipmentPhotos"></div> 
                         </div>
-                        <button type="submit" class="btn btn-warning submit">Spremi opremu</button>                                   
+
+                        <div id="js-equipment-contract" class="form-group">
+                          <label>Ugovor/sporazum/drugi dokaz sa subjektom ovlaštenim za obavljanje navedenih poslova</label>  
+                              <input name="equipment_docs[]" type="file" id="equipmentDocs" multiple>
+                              <div id="errorEquipmentDocs"></div> 
+                        </div>
+                        <button type="submit" class="btn btn-warning submit">Spremi enitet</button>                                   
                     </form>
             </div>
         </div>
@@ -95,15 +108,15 @@
       <div class="col-md-5">
         <div class="card">
             <div class="card-body">
-                <p class="card-description">Lista opreme oporavilišta</p>
+                <p class="card-description">Lista entiteta</p>
                 @if ($shelterEquipmentItems)       
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                       <thead>
                         <tr>                                 
                                  
-                          <th class="pt-0">Naziv opreme</th>                    
-                          <th>Tip opreme</th>
+                          <th class="pt-0">Naziv entiteta</th>                    
+                          <th>Tip entiteta</th>
                           <th class="pt-0">Pregled/Uredi</th> 
                         </tr>
                       </thead>
@@ -147,14 +160,50 @@
 @push('custom-scripts')
 <script>
 $(function() {
+
+  //show/hide fields based on dropdown
+  $("#js-valture-field").hide();
+  $("#js-equipment-contract").hide();
+
+  $("#equipmentType").change(function(){
+      var drop_id = $("#equipmentType").val();
+      
+      if(drop_id ==  '6'){
+          $("#js-equipment-title").hide();
+          $("#js-valture-field").show();
+
+          $("#js-equipmnt-photos").hide();              
+          $("#js-equipment-contract").show();
+          
+      }
+      else {
+        $("#js-equipment-title").show();
+        $("#js-equipmnt-photos").show();
+        $("#js-valture-field").hide();
+        $("#js-equipment-contract").hide();
+        
+      }
+    });
+    
     $("#equipmentPhotos").fileinput({
         dropZoneEnabled: false,
         language: "cr",
         showPreview: false,
         showUpload: false,
         allowedFileExtensions: ["jpg", "png", "gif"],
-        elErrorContainer: '#errorAccomoadionPhotos',
+        elErrorContainer: '#errorEquipmentPhotos',
         msgInvalidFileExtension: 'Nevažeća fotografija, Podržani su "{extensions}" formati.'
+
+    });
+
+    $("#equipmentDocs").fileinput({
+        dropZoneEnabled: false,
+        language: "cr",
+        showPreview: false,
+        showUpload: false,
+        allowedFileExtensions: ["doc", "docx", "pdf", 'jpg', 'png'],
+        elErrorContainer: '#errorEquipmentDocs',
+        msgInvalidFileExtension: 'Nevažeći formati, Podržani su "{extensions}" formati.'
 
     });
 
@@ -214,9 +263,7 @@ $(function() {
                 }   
                 
             });  
-        });
-
-        
+        }); 
   });
 
 </script>

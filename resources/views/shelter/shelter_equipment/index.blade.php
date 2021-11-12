@@ -43,17 +43,16 @@
     <div class="card ">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-baseline mb-2">
-          <h6 class="card-title mb-0">Popis opreme oporavilišta</h6>
+          <h6 class="card-title mb-0">Popis entiteta</h6>
         </div>
         <div class="table-responsive">
           <table class="table table-hover mb-0">
             <thead>
-              <tr>
-                
+              <tr>        
                 <th>Oznaka</th>
                 <th>Opis oznake</th> 
-                <th>Tip opreme</th>
-                <th class="pt-0">Naziv opreme</th>                    
+                <th>Tip entiteta</th>
+                <th class="pt-0">Naziv entiteta</th>                    
                 <th class="pt-0">Akcija</th> 
               </tr>
             </thead>

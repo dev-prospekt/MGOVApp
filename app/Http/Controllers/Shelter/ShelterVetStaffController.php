@@ -14,13 +14,18 @@ class ShelterVetStaffController extends Controller
     {
 
         $validator = Validator::make($request->all(), [
-            'staff_vet_type' => 'required',
             'staff_vet_oib' => 'required',
             'staff_vet_address' => 'required',
-            'staff_vet_address_place' => 'required',
             'staff_vet_phone' => 'required',
             'staff_vet_phone_cell' => 'required',
             'staff_vet_email' => 'required',
+        ], [
+            'staff_vet_oib.required' => 'OIB obvezan podatak',
+            'staff_vet_address.required' => 'Adresa prebivališta je obvezan podatak',
+            'staff_vet_phone.required' => 'Kontakt telefon je obvezan podatak',
+            'staff_vet_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
+            'staff_vet_email.required' => 'Email adresa je obvezan podatak',
+
         ]);
 
         if ($validator->fails()) {
@@ -73,6 +78,13 @@ class ShelterVetStaffController extends Controller
             'staff_vet_phone' => 'required',
             'staff_vet_phone_cell' => 'required',
             'staff_vet_email' => 'required',
+        ], [
+            'staff_vet_oib.required' => 'OIB obvezan podatak',
+            'staff_vet_address.required' => 'Adresa prebivališta je obvezan podatak',
+            'staff_vet_phone.required' => 'Kontakt telefon je obvezan podatak',
+            'staff_vet_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
+            'staff_vet_email.required' => 'Email adresa je obvezan podatak',
+
         ]);
 
         if ($validator->fails()) {

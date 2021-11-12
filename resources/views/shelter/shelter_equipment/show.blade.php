@@ -56,13 +56,13 @@
                 <span class="title">Akcije</span>
                 <ul class="nav nav-pills nav-stacked">
                   <li>
-                    <a href="{{ route('shelters.equipments.edit', [$shelter->id, $shelterEquipmentItem->id]) }}"><i data-feather="tag" class="text-warning"></i> Izmjeni opremu</a>
+                    <a href="{{ route('shelters.equipments.edit', [$shelter->id, $shelterEquipmentItem->id]) }}"><i data-feather="tag" class="text-warning"></i> Izmjeni entitet</a>
                   </li>
                   <li><a href="{{ route('shelters.equipments.index', [$shelter->id]) }}">
                     <i data-feather="tag" class="text-primary"></i> Povratak na popis</a>
                   </li>
                   <li>
-                    <a id="deleteEquipment" href="#" data-shelter-id="{{ $shelter->id }}" data-equipment-id="{{ $shelterEquipmentItem->id  }}"> <i data-feather="tag" class="text-danger"></i> Brisanje opreme</a>
+                    <a id="deleteEquipment" href="#" data-shelter-id="{{ $shelter->id }}" data-equipment-id="{{ $shelterEquipmentItem->id  }}"> <i data-feather="tag" class="text-danger"></i> Brisanje entiteta</a>
                   </li>
                 </ul>
               </div>
@@ -73,7 +73,7 @@
               <div class="email-head-subject">
                 <div class="title d-flex align-items-center justify-content-between">
                   <div class="d-flex align-items-center">
-                    <span class="text-secondary">Naziv opreme: </span>
+                    <span class="text-secondary">Naziv entiteta: </span>
                     <span class="ml-2"> {{ $shelterEquipmentItem->equipment_title }}</span>
                   </div>         
                 </div>
@@ -81,25 +81,34 @@
          
             </div>
             <div class="email-body">
-              <div class="title mb-3"><span class="title text-secondary">Opis opreme: </span></div>
+              <div class="title mb-3"><span class="title text-secondary">Opis entiteta: </span></div>
               {!! $shelterEquipmentItem->equipment_desc !!}
             
             </div>
             <div class="email-attachments">
+              @if ($shelterEquipmentItem->equipmentType->type != 'zbrinjavanje lešina')               
               <span class="title text-secondary">Fotodokumentacija: </span>
+                @else  
+                <span class="title text-secondary">Dokumentacija: </span>
+              @endif
               <div class="latest-photos mt-3">
                 <div class="row">
                   @foreach ($shelterEquipmentItem->media as $thumbnail) 
-                  <div class="col-md-2 col-sm-2">
-                    <a href="{{ $thumbnail->getUrl() }}" data-lightbox="equipment">
-                    <figure>
-                      <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
-                    </figure>
-                    </a>
-                  </div>                  
+                    @if ($shelterEquipmentItem->equipmentType->type != 'zbrinjavanje lešina')
+                    <div class="col-md-2 col-sm-2">
+                      <a href="{{ $thumbnail->getUrl() }}" data-lightbox="equipment">
+                      <figure>
+                        <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
+                      </figure>
+                      </a>
+                    </div> 
+                      @else                  
+                        <i data-feather="paperclip" class="text-muted mr-2"></i> <a href="{{ $thumbnail->getUrl() }}"> {{ $thumbnail->file_name }}</a>       
+                    @endif                
                   @endforeach
                 </div>
               </div>
+              
             </div>
           </div>
         </div>

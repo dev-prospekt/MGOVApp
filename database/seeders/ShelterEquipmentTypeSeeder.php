@@ -48,5 +48,12 @@ class ShelterEquipmentTypeSeeder extends Seeder
             'type_mark' => 'B9',
             'type_description' => 'Osigurano održavanje i dezinfekcija prostora te opreme u skladu s posebnim propisima'
         ]);
+
+        ShelterEquipmentType::create([
+            'name' => 'Zbrinjavanje lešina i nusproizvoda životinjskog podrijetla',
+            'type' => 'zbrinjavanje lešina',
+            'type_mark' => 'B8',
+            'type_description' => 'Osigurano redovito zbrinjavanje lešina životinja i nusproizvoda životinjskog podrijetla u skladu s posebnim propisima'
+        ]);
     }
 }

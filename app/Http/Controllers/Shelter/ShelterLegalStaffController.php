@@ -13,16 +13,22 @@ class ShelterLegalStaffController extends Controller
 
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'staff_legal_name' => 'required',
             'staff_legal_oib' => 'required',
             'staff_legal_address' => 'required',
-            'staff_legal_address_place' => 'required',
             'staff_legal_phone' => 'required',
             'staff_legal_phone_cell' => 'required',
             'staff_legal_email' => 'required',
             'staff_legal_file' => 'required',
+        ], [
+            'staff_legal_name.required' => 'Ime i prezime je obvezan podatak',
+            'staff_legal_oib.required' => 'OIB obvezan podatak',
+            'staff_legal_address.required' => 'Adresa prebivališta je obvezan podatak',
+            'staff_legal_phone.required' => 'Kontakt telefon je obvezan podatak',
+            'staff_legal_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
+            'staff_legal_email.required' => 'Email adresa je obvezan podatak',
+            'staff_legal_file.required' => 'Uvjerenje - kazneni postupak je obvezan podatak',
         ]);
 
         if ($validator->fails()) {
@@ -50,7 +56,6 @@ class ShelterLegalStaffController extends Controller
         return response()->json(['success' => 'Red je uspješno kreiran.']);
     }
 
-
     /**
      * Update the specified resource in storage.
      *
@@ -64,11 +69,18 @@ class ShelterLegalStaffController extends Controller
             'staff_legal_name' => 'required',
             'staff_legal_oib' => 'required',
             'staff_legal_address' => 'required',
-            'staff_legal_address_place' => 'required',
             'staff_legal_phone' => 'required',
             'staff_legal_phone_cell' => 'required',
             'staff_legal_email' => 'required',
             'staff_legal_file' => 'required',
+        ], [
+            'staff_legal_name.required' => 'Ime i prezime je obvezan podatak',
+            'staff_legal_oib.required' => 'OIB obvezan podatak',
+            'staff_legal_address.required' => 'Adresa prebivališta je obvezan podatak',
+            'staff_legal_phone.required' => 'Kontakt telefon je obvezan podatak',
+            'staff_legal_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
+            'staff_legal_email.required' => 'Email adresa je obvezan podatak',
+            'staff_legal_file.required' => 'Uvjerenje - kazneni postupak je obvezan podatak',
         ]);
 
         if ($validator->fails()) {

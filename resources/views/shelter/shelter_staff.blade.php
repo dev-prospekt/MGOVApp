@@ -29,13 +29,13 @@
       <div>      
           <a href="javascript:void(0)" class="btn btn-primary btn-icon-text" data-toggle="modal" 
           data-target="#createStaffModal" type="button" class="btn btn-primary btn-icon-text">
-            Odgovorna osoba - pravna osoba
+            Pravna osoba
             <i class="btn-icon-append" data-feather="user-plus"></i>
           </a>
     
           <a type="button" class="btn btn-warning btn-icon-text" data-toggle="modal" 
           data-target="#createCareStaffModal">
-            Odgovorna osoba - skrb životinja
+            Osoba - skrb životinja
             <i class="btn-icon-append" data-feather="user-plus"></i>
           </a>
     
@@ -203,13 +203,7 @@
                   </div>
               </div>
             </div>
-            <div class="col-md-8 grid-margin">
-              <div class="mt-2">
-                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis prethodnog radnog iskustva:</label>
-                <p class="text-muted">{{ $shelterCareStaff->education ?? '' }}</p>
-              </div>
-    
-            </div>
+            
           </div>       
         </div>
       </div> 

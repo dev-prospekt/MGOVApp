@@ -47,12 +47,10 @@ class ShelterEquipmentController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'equipment_title' => 'required',
                 'equipment_desc' => 'required',
                 'equipment_type' => 'required',
             ],
             [
-                'equipment_title.required' => 'Naziv je obvezano polje',
                 'equipment_type.required' => 'Odaberite tip opreme',
                 'equipment_desc.required' => 'Opis je obvezno polje',
             ]
@@ -68,7 +66,7 @@ class ShelterEquipmentController extends Controller
         $shelterEquipmentItem = ShelterEquipment::create([
             'shelter_id' => $shelter_id,
             'shelter_equipment_type_id' => $equipment_type->id,
-            'equipment_title' => $request->equipment_title,
+            'equipment_title' => $request->equipment_title ? $request->equipment_title : $request->equipment_valture_service,
             'equipment_desc' => $request->equipment_desc
         ]);
         $equipment_type->shelterEquipment()->save($shelterEquipmentItem);
@@ -76,6 +74,12 @@ class ShelterEquipmentController extends Controller
         if ($request->hasFile('equipment_photos')) {
             foreach ($request->file('equipment_photos') as $image) {
                 $shelterEquipmentItem->addMedia($image)->toMediaCollection('equipment-photos');
+            }
+        }
+
+        if ($request->hasFile('equipment_docs')) {
+            foreach ($request->file('equipment_docs') as $doc) {
+                $shelterEquipmentItem->addMedia($doc)->toMediaCollection('equipment-docs');
             }
         }
         $redirectUrl = '/shelters/' . $shelter->id . '/equipments/' . $shelterEquipmentItem->id . '/';
@@ -122,13 +126,9 @@ class ShelterEquipmentController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'edit_equipment_title' => 'required',
                 'edit_equipment_desc' => 'required',
-                'equipment_type' => 'required',
             ],
             [
-                'edit_equipment_title.required' => 'Naziv je obvezano polje',
-                'equipment_type.required' => 'Odaberite tip opreme',
                 'edit_equipment_desc.required' => 'Opis je obvezno polje',
             ]
         );
@@ -137,19 +137,24 @@ class ShelterEquipmentController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $shelter_equipment_type = ShelterEquipmentType::findOrFail($request->equipment_type);
+        //$shelter_equipment_type = ShelterEquipmentType::findOrFail($request->equipment_type);
 
         $shelterEquipmentItem = ShelterEquipment::find($shelterEquipment->id);
-        $shelterEquipmentItem->equipment_title = $request->edit_equipment_title;
+        $shelterEquipmentItem->equipment_title = $request->edit_equipment_title ? $request->edit_equipment_title : $request->edit_equipment_valture_service;
         $shelterEquipmentItem->equipment_desc = $request->edit_equipment_desc;
-        $shelterEquipmentItem->shelter_id = $shelter->id;
+        // $shelterEquipmentItem->shelter_id = $shelter->id;
 
-        $shelterEquipmentItem->equipmentType()->associate($shelter_equipment_type);
+        // $shelterEquipmentItem->equipmentType()->associate($shelter_equipment_type);
         $shelterEquipmentItem->save();
 
         if ($request->hasFile('edit_equipment_photos')) {
             foreach ($request->file('edit_equipment_photos') as $image) {
                 $shelterEquipmentItem->addMedia($image)->toMediaCollection('equipment-photos');
+            }
+        }
+        if ($request->hasFile('edit_equipment_docs')) {
+            foreach ($request->file('edit_equipment_docs') as $doc) {
+                $shelterEquipmentItem->addMedia($doc)->toMediaCollection('equipment-docs');
             }
         }
         $redirectUrl = '/shelters/' . $shelter->id . '/equipments/' . $shelterEquipmentItem->id . '/';

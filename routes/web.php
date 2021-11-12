@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 /*
@@ -21,7 +20,6 @@ use App\Http\Controllers\Animal\AnimalCategoryController;
 use App\Http\Controllers\Animal\AnimalSeizedTypeController;
 use App\Http\Controllers\Animal\AnimalInvaziveTypeController;
 use App\Http\Controllers\Animal\AnimalProtectedTypeController;
-
 
 
 Auth::routes();
