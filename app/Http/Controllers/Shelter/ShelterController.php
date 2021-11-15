@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Shelter;
 
-use App\Models\User;
+use Carbon\Carbon;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
@@ -113,10 +114,12 @@ class ShelterController extends Controller
      */
     public function edit(Shelter $shelter)
     {
-        $shelterType = ShelterType::all();
+        $shelterTypes = ShelterType::all();
+        $selectedShelterTypes = $shelter->shelterTypes()->get();
 
         return view('shelter.edit', [
-            'shelterType' => $shelterType,
+            'shelterTypes' => $shelterTypes,
+            'selectedShelterTypes' => $selectedShelterTypes,
             'shelter' => $shelter
         ]);
     }
@@ -130,14 +133,17 @@ class ShelterController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $shelter = Shelter::findOrFail($id);
         $shelter->name = $request->name;
         $shelter->shelter_code = $request->shelter_code;
         $shelter->email = $request->email;
         $shelter->address = $request->address;
+        $shelter->address_place = $request->address_place;
         $shelter->oib = $request->oib;
         $shelter->place_zip = $request->place_zip;
         $shelter->bank_name = $request->bank_name;
+        $shelter->register_date =  Carbon::createFromFormat('m/d/Y', $request->register_date)->format('Y-m-d');
         $shelter->telephone = $request->telephone;
         $shelter->mobile = $request->mobile;
         $shelter->fax = $request->fax;
@@ -149,7 +155,7 @@ class ShelterController extends Controller
             'shelter_id' => $shelter->id
         ]);
 
-        return redirect()->route("shelter.index")->with('msg', 'Uspješno ažurirano.');
+        return redirect()->route("shelter.show", $shelter->id)->with('msg', 'Uspješno ažurirano.');
     }
 
     /**
@@ -198,13 +204,13 @@ class ShelterController extends Controller
                 
                     <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-primary mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
-                        Edit
+                        Uredi
                     </a>
 
                     <a href="javascript:void(0)" id="shelterClick" class="btn btn-xs btn-danger" >
                         <i class="mdi mdi-delete"></i>
                         <input type="hidden" id="shelter_id" value="' . $shelter->id . '" />
-                        Delete
+                        Brisanje
                     </a>
                 </div>
                 ';

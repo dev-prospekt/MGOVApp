@@ -15,6 +15,8 @@ class Shelter extends Model
 
     protected $guarded = ['id'];
 
+
+
     public function shelterTypes()
     {
         return $this->belongsToMany(ShelterType::class);
@@ -57,5 +59,10 @@ class Shelter extends Model
     public function nutritionItems()
     {
         return $this->hasMany(ShelterNutrition::class);
+    }
+
+    public function getRegisterDateAttribute($value)
+    {
+        return \Carbon\Carbon::parse($value)->format('m/d/Y');
     }
 }

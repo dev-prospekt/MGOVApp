@@ -14,6 +14,7 @@ class ShelterStaff extends Model implements HasMedia
 
     protected $guarded = [];
 
+
     public function shelter()
     {
         return $this->belongsTo(Shelter::class);

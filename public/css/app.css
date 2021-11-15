@@ -25306,4 +25306,14 @@ hr {
   border: 1px solid #383838;
 }
 
+/*tabs nav*/
+.nav.nav-tabs.nav-tabs-line .nav-link.active {
+  border-bottom: 2px solid #fbbc06;
+  color: #fbbc06;
+}
+
+.nav.nav-tabs .nav-item .nav-link.active {
+  background-color: #070d19;
+}
+
 /*# sourceMappingURL=app.css.map*/
