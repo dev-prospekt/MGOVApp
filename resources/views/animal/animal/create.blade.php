@@ -150,7 +150,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>1. Odabir životinjske vrste</label>
-                                <select name="animal_id[]" class="form-control">
+                                <select name="animal_id[]" class="form-control" id="animalSelect">
                                     <option value="">------</option>
                                     @foreach ($typeArray as $item)
                                         <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -191,18 +191,15 @@
                                     <option value="ADL">ADL (adultna)</option>
                                     <option value="JUV">JUV (juvenilna)</option>
                                     <option value="SA">SA (subadultna)</option>
+                                    <option value="N">N (neodređeno)</option>
                                 </select>
                                 @error('animal_dob')
                                     <div class="text-danger">{{$errors->first('animal_dob') }} </div>
                                 @enderror
                             </div>
                
-               
-
                             <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
                             <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
-        
-                    
         
                             {{-- <div class="form-group">
                                 <label>Dodatni opisni podaci oporavilišta o preuzimanju</label>
@@ -215,22 +212,18 @@
                             <div class="form-group">
                                 <label>5. Vrsta oznake</label>
                                 <select name="oznaka" class="form-control">
-                                    <option value="">------</option>
-                                    <option value="otvoreni prsten">otvoreni prsten</option>
-                                    <option value="zatvoreni prsten">zatvoreni prsten</option>
-                                    <option value="mikročip">mikročip</option>
-                                    <option value="odašiljač">odašiljač</option>
-                                    <option value="krilna markica">krilna markica</option>
-                                    <option value="ušna markica">ušna markica</option>
-                                    <option value="neoznačena">neoznačena</option>
-                                    <option value="ostalo">ostalo</option>
+                                    <option selected disabled>------</option>
+                                    @foreach ($markTypes as $markType)
+                                    <option value="{{ $markType->id }}">{{ $markType->name }} ({{ $markType->desc }})</option>
+                                    @endforeach
+                                    
                                 </select>
                             </div>
 
                             <div class="form-group">
                                 <label>6. Veličina</label>
-                                <select class="form-control" name="animal_size_attributes_id" id="">
-                                    <option value="">Odaberi</option>
+                                <select class="form-control" name="animal_size_attributes_id" id="animalSize">
+                                    
                                     {{-- @foreach ($size->sizeAttributes as $siz)
                                         @if ($animalItem->animal_size_attributes_id == $siz->id)
                                             <option selected value="{{$siz->id}}">{{ $siz->name }}</option>
@@ -302,14 +295,14 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
+                      {{--       <div class="form-group">
                                 <label>Način držanja - solitarno/grupa</label>
                                 <select class="form-control hib_est" name="hib_est">
                                     <option value="">------</option>
                                     <option value="da">Solitarno</option>
                                     <option value="ne">Grupa</option>
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="form-group">
                                 <label>Način držanja: Hibernacija/estivacija</label>
                                 <select class="form-control hib_est" name="hib_est">
@@ -373,7 +366,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Opis</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="5"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Upload <strong>(JPG, PNG)</strong></label>
@@ -507,6 +500,18 @@
                     $("#ostalo").show();
                 }
             });
+
+            //getAnimal size based on animal
+            $("#animalSelect").change(function(){
+            $.ajax({
+                url: "{{ route('animals.get_by_size') }}?animal_id=" + $(this).val(),
+                method: 'GET',
+                success: function(data) {
+                    console.log(data);
+                    $('#animalSize').html(data.html);
+                }
+            });
+        });
 
             // HIBERNACIJA
             $("#hib_est_from_to").hide();

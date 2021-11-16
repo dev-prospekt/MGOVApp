@@ -119,6 +119,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('createAnimalSystemCat', 'Shelter\ShelterController@createAnimalSystemCat')->name('createAnimalSystemCat');
 
+    Route::get('size/get_by_animal', 'Animal\AnimalController@getBySize')->name('animals.get_by_size');
+
     // Update AnimalItem Date, Price
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
 

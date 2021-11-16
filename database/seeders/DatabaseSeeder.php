@@ -3,6 +3,7 @@
 use Illuminate\Database\Seeder;
 use Database\Seeders\ShelterSeeder;
 use Database\Seeders\AnimalCodeSeeder;
+use Database\Seeders\AnimalMarkTypeSeeder;
 use Database\Seeders\AnimalSizeSeeder;
 use Database\Seeders\AnimalTypeSeeder;
 use Database\Seeders\ShelterTypeSeeder;
@@ -35,5 +36,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AnimalSizeSeeder::class);
         $this->call(AnimalSizeAttributeSeeder::class);
         $this->call(ShelterEquipmentTypeSeeder::class);
+        $this->call(AnimalMarkTypeSeeder::class);
     }
 }
