@@ -19,6 +19,7 @@ use App\Models\Animal\AnimalMarkType;
 use App\Http\Requests\AnimalPostRequest;
 use Database\Seeders\AnimalMarkTypeSeeder;
 use App\Models\Animal\AnimalSystemCategory;
+use BayAreaWebPro\MultiStepForms\MultiStepForm as Form;
 
 class AnimalController extends Controller
 {
@@ -63,7 +64,7 @@ class AnimalController extends Controller
         return view('animal.animal.create', [
             'typeArray' => $type,
             'founder' => $founder,
-            'markTypes' => $markTypes
+            'markTypes' => $markTypes,
         ]);
     }
 
@@ -161,7 +162,7 @@ class AnimalController extends Controller
             // new items in request
             $animalItem->animal_gender = $request->animal_gender;
             $animalItem->animal_dob = $request->animal_dob;
-            $animalItem->oznaka = $request->oznaka;
+            $animalItem->animal_mark_id = $request->animal_mark;
 
 
             $animalItem->date_found = Carbon::createFromFormat('m/d/Y', $request->date_found)->format('d.m.Y');

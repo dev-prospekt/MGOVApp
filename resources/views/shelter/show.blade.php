@@ -41,7 +41,7 @@
           <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
            <div><h6 class="card-title">Podaci oporavilišta</h6> </div> 
-           <a href="{{ route('shelter.edit', $shelter->id) }}" class="btn btn-primary btn-icon-text" type="button" class="btn btn-primary btn-icon-text">
+           <a href="{{ route('shelter.edit', $shelter->id) }}" class="btn btn-primary btn-icon-text" type="button">
             Izmjeni podatke
              <i class="btn-icon-append" data-feather="box"></i>
            </a>
@@ -155,10 +155,9 @@
                     <th>Šifra</th>
                     <th>Naziv jedinke</th>
                     <th>Latinski naziv</th>
-                    <th>Oznaka</th>
+                    <th>Oznaka vrste</th>
                     <th>Tip jedinke</th>
-                    <th>Pronađeno</th>
-                    <th>Dolazak životinje</th>
+                    <th>Zaprimljeno</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -173,18 +172,25 @@
                       <td>{{ $item->latin_name }}</td>
                       <td>
                         @foreach ($item->animalCodes as $code)
-                          <span class="badge badge-danger">{{ $code->name }}</span>
+    
+                          <button type="button" class="btn {{ $code->name == "PZ" ? 'btn-danger' : btn-info }}" data-toggle="tooltip" data-placement="bottom" title="{{ $code->desc}}">
+                            {{ $code->name}}
+                          </button>
                         @endforeach
                       </td>
                       <td>
                         @foreach ($item->animalType as $res)
-                        <span class="badge badge-warning">{{ $res->type_code }}</span>
+                        <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="{{ $res->type_name}}">
+                          {{ $res->type_code }}
+                        </button>
+                       
                         @endforeach
                       </td>
                       <td>{{ $item->animalItems->first()->date_found ?? '' }}</td>
                       <td>
-                        <a class="btn btn-info" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelter_code}}">
-                          Info
+                        <a class="btn btn-primary btn-icon-text" type="button" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelter_code}}">
+                          Pregled
+                          <i class="btn-icon-append" data-feather="clipboard"></i>
                         </a>
                       </td>
                     </tr>

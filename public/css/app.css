@@ -25316,4 +25316,16 @@ hr {
   background-color: #070d19;
 }
 
+.separator {
+  height: 1px;
+  background: #262f43;
+  width: 100%;
+  margin: 30px 0;
+}
+
+.bordered-group {
+  padding: 15px;
+  border: 1px solid #262f43;
+}
+
 /*# sourceMappingURL=app.css.map*/

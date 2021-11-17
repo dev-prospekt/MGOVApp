@@ -18,4 +18,8 @@ class AnimalMark extends Model implements HasMedia
     {
         return $this->belongsTo(AnimalMarkType::class, 'animal_marks_type_id');
     }
+    public function animalItem()
+    {
+        return $this->hasMany(AnimalItem::class);
+    }
 }
