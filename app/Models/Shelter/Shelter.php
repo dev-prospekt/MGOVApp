@@ -3,6 +3,7 @@
 namespace App\Models\Shelter;
 
 use App\Models\User;
+use App\Models\FounderData;
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalItem;
 use Illuminate\Database\Eloquent\Model;
@@ -64,5 +65,10 @@ class Shelter extends Model
     public function getRegisterDateAttribute($value)
     {
         return \Carbon\Carbon::parse($value)->format('m/d/Y');
+    }
+
+    public function founder()
+    {
+        return $this->hasMany(FounderData::class);
     }
 }

@@ -43,8 +43,8 @@ class AnimalController extends Controller
     public function create()
     {
         // auth()->user()->shelter->id
-        $founder = FounderData::all();
         $shelter = Shelter::find(auth()->user()->shelter->id);
+        $founder = $shelter->founder;
         $sysCats = $shelter->animalSystemCategory;
         $shelterType = $shelter->shelterTypes;
         $markTypes = AnimalMarkType::all();
@@ -65,6 +65,7 @@ class AnimalController extends Controller
             'typeArray' => $type,
             'founder' => $founder,
             'markTypes' => $markTypes,
+            'shelter' => $shelter
         ]);
     }
 

@@ -124,7 +124,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
 
     // Founder
-    Route::resource('founder', FounderDataController::class);
+    Route::resource('shelters.founder', FounderDataController::class);
+    Route::get('founder-dt', 'FounderDataController@indexDataTables')->name('founder:dt');
+    Route::get('founder/fileDelete/{file}', 'FounderDataController@fileDelete')->name('founder.fileDelete');
 
     Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
     Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');

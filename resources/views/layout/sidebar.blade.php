@@ -109,6 +109,10 @@
             </li>
 
             <li class="nav-item">
+              <a href="{{ route('shelters.founder.index', auth()->user()->shelter->id) }}" class="nav-link">Founder</a>
+            </li>
+
+            <li class="nav-item">
               <a href="{{ url('/shelter_staff') }}" class="nav-link">Osoblje oporavilišta</a>
             </li>
 

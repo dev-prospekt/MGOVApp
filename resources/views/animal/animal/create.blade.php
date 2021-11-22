@@ -10,7 +10,7 @@
 <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-3 mb-md-0">Dodavanje jedinku/e u oporavilište</h5>
     <div>
-        <a type="button" class="btn btn-warning btn-icon-text" href="/shelter/{{ auth()->user()->shelter->id }}">
+        <a type="button" class="btn btn-warning btn-icon-text" href="/shelter/{{ $shelter->id }}">
            
             Povratak na popis
             <i class="btn-icon-append" data-feather="clipboard"></i>
@@ -41,7 +41,7 @@
                             <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
                             @endif
 
-                        <form action="{{ route('founder.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('shelters.founder.store', $shelter->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
 
@@ -480,7 +480,6 @@
             }
 
             $("#founder_documents").fileinput({
-                required: true,
                 language: "cr",
                 maxFileCount: 2,
                 showPreview: false,
