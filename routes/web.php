@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 /*
@@ -14,6 +13,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FounderDataController;
 use App\Http\Controllers\Shelter\ShelterController;
+
 use App\Http\Controllers\Animal\AnimalSizeController;
 use App\Http\Controllers\Animal\AnimalImportController;
 use App\Http\Controllers\Animal\AnimalCategoryController;
@@ -55,7 +55,19 @@ Route::group(['middleware' => ['auth']], function () {
     // delete shelter Accomodation images
     Route::get('accomodation/thumb/{thumb}', 'Shelter\ShelterAccomodationController@deleteImage')->name('accomodation.thumbDelete');
 
+    Route::resource('shelters.nutritions', Shelter\ShelterNutritionController::class)->parameters([
+        'nutritions' => 'shelter_nutrition'
+    ]);
+
+    Route::resource('shelters.equipments', Shelter\ShelterEquipmentController::class)->parameters([
+        'equipments' => 'shelter_equipment'
+    ]);
+    // delete shelter equipment images
+    Route::get('equipment/thumb/{thumb}', 'Shelter\ShelterEquipmentController@deleteImage')->name('equipment.thumbDelete');
+
     Route::get('shelter/{shelterId}/animal/{animalId}', [ShelterController::class, 'animalItems']);
+    // get all shelter staff
+    Route::get('shelter/{shelter}/shelter_staff', [ShelterController::class, 'getShelterStaff'])->name('shelter.shelter_staff');
 
     /*
     |--------------------------------------------------------------------------
@@ -107,11 +119,13 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('createAnimalSystemCat', 'Shelter\ShelterController@createAnimalSystemCat')->name('createAnimalSystemCat');
 
+    Route::get('size/get_by_animal', 'Animal\AnimalController@getBySize')->name('animals.get_by_size');
+
     // Update AnimalItem Date, Price
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
 
     Route::post('founder', [FounderDataController::class, 'store'])->name('founder_data.store');
-    
+
     Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
     Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');
     Route::post('animal_item/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');

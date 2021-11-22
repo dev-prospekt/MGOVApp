@@ -34,9 +34,8 @@
                             @endif
                         @endforeach
                             > 
-                        {{ $itemCode->name }} - {{ $itemCode->desc }}
-                        </option>
-                         
+                            {{ $itemCode->name }} - {{ $itemCode->desc }}
+                          </option>                       
                         @endforeach  
                     </select>
                   </div>

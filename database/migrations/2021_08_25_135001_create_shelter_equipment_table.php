@@ -15,12 +15,10 @@ class CreateShelterEquipmentTable extends Migration
     {
         Schema::create('shelter_equipment', function (Blueprint $table) {
             $table->id();
-
-            $table->text('description');
-            $table->text('transport');
-            $table->string('image');
-
+            $table->string('equipment_title');
+            $table->longText('equipment_desc');
             $table->foreignId('shelter_id')->constrained('shelters');
+            $table->foreignId('shelter_equipment_type_id')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateShelterEquipmentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shelter_unit_equipment');
+        Schema::dropIfExists('shelter_equipment');
     }
 }

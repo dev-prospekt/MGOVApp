@@ -11,17 +11,20 @@
 <ul class="nav shelter-nav">
 
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelter.show', [ $shelter->id]) }}">Podaci o korisnicima</a>
+    <a class="nav-link" href="{{ route('shelter.show', $shelter->id) }}">Oporavilište</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('shelter.shelter_staff', $shelter->id) }}">Odgovorne osobe</a>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link active" href="#">Nastambe oporavilišta</a>
+    <a class="nav-link active" href="{{ route('shelters.accomodations.index', $shelter->id) }}">Smještajne jedinice</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Oprema, prehrana</a>
+    <a class="nav-link" href="{{ route('shelters.nutritions.index', $shelter->id) }}">Hranjenje životinja</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Korisnici aplikacije</a>
+    <a class="nav-link " href="{{ route('shelters.equipments.index', $shelter->id) }}">Oprema, prijevoz životinja</a>
   </li>
 </ul>
 
@@ -68,12 +71,12 @@
                 <td>{{ $shelterItem->dimensions }}</td>
                 <td>
                   <div class="d-flex align-items-center">
-                    <a href="{{ route('shelters.accomodations.show', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-info mr-2">
+                    <a href="{{ route('shelters.accomodations.show', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-primary mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Pregled
                     </a>
                 
-                    <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-primary mr-2">
+                    <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-warning mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Uredi
                     </a>
@@ -106,185 +109,42 @@
 <script src="{{ asset('assets/js/tinymce.js') }}"></script>
 <script>
  $(function() {
+    // Delete accomodation
+    $('body').on('click', '.delete-accomodation', function() {
 
-  //CREATE
-      $("button#createAccomodation").on('click', function(e){
-            e.preventDefault();
-            var shelter_id = $(this).attr("data-shelter-id");
-            $.ajax({
-                url: "/shelters/"+shelter_id+"/accomodations/create",
-                method: 'GET',
-                success: function(result) {
-                    $(".modal").show();
-                    $(".modal").html(result['html']);
-                    // file input plugin
-                    $(".modal").find('#storeAccomodation #accomodationPhotosCreate').fileinput({
-                        language: "cr",
-                        showPreview: false,
-                        showUpload: false,
-                        allowedFileExtensions: ['jpg', 'png']
-                    });
-                    // tinyMCE editor
-                    tinymce.init({
-                    selector: 'textarea#accomodationDesc',
-                    height: 400,
-                    menubar: false,
-                    plugins: [
-                      'advlist autolink lists link charmap print preview anchor',
-                      'searchreplace visualblocks',
-                      'table paste help wordcount'
-                    ],
-                    toolbar: 'undo redo | formatselect | ' +
-                    'bold italic backcolor | alignleft aligncenter ' +
-                    'alignright alignjustify | bullist numlist outdent indent | ' +
-                    'removeformat',
-                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px; color:#fff; }'
-                    });
-                    $('.modal').find("#storeAccomodation").on('submit', function(e){
-                        e.preventDefault();
-                        var formData = this;
-                
-                        $.ajax({
-                            url: "/shelters/"+shelter_id+"/accomodations",
-                            method: 'POST',
-                            data: new FormData(formData),
-                            processData: false,
-                            dataType: 'json',
-                            contentType: false,
-                            success: function(result) {
-                                if(result.errors) {
-                                    $('.alert-danger').html('');
-                                    $.each(result.errors, function(key, value) {
-                                        $('.alert-danger').show();
-                                        $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
-                                    });
-                                } 
-                                else {
-                                    $('.alert-danger').hide();
-                                    $('.alert-success').show();
-                                    setInterval(function(){
-                                        $('.alert-success').hide();
-                                        $('.modal').modal('hide');
-                                        location.reload();
-                                    }, 2000);
-                                }
-                            }
-                        });
-                    });
-                }
-            });
-        });
+      var accomodation_id = $(this).data('accomodation-id');
+      var shelter_id = $(this).data('shelter-id');
 
-        //Edit
-        $('button.edit-accomodation').on('click', function(e){
-          e.preventDefault();
-          var shelter_id = $(this).attr("data-shelter-id");
-          var accomodation_id = $(this).attr("data-accomodation-id");
-            $.ajax({
-                url: "/shelters/"+shelter_id+"/accomodations/"+accomodation_id,
-                method: 'GET',
-                success: function(result) {
-                    $(".modal").show();
-                    $(".modal").html(result['html']);
-                    $(".modal").find('#updateAccomodationPhotos').fileinput({
-                        language: "cr",
-                        showPreview: false,
-                        showUpload: false,
-                        allowedFileExtensions: ["jpg", "png"],
-                    });
-                    
-                    $('.modal').find("#updateAccomodation").on('submit', function(e){
-                        e.preventDefault();
+      Swal.fire({
+          title: "Brisanje?",
+          text: "Potvrdite ako ste sigurni za brisanje!",
+          type: "warning",
+          showCancelButton: !0,
+          confirmButtonText: "Da, brisanje!",
+          cancelButtonText: "Ne, odustani!",
+          reverseButtons: !0
+      }).then(function (e) {
 
-                        var formUpdateData = this; 
-
-                        var alertDanger = $('#dangerAccomodationUpdate');
-                        var alertSuccess = $('#successAccomodationUpdate');
-                        
-                        $.ajaxSetup({
-                          headers: {
-                              'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                          }
-                      });
-      
-                        $.ajax({
-                            url: "/shelters/"+shelter_id+"/accomodations/"+accomodation_id,
-                            type:'POST',
-                            data: new FormData(formUpdateData),
-                            processData: false,
-                            dataType: 'json',
-                            contentType: false,
-                            success: function(result) {
-                          
-                            if(result.errors) {
-                                alertDanger.html('');
-                                
-                                $.each(result.errors, function(key, value) {
-                                    alertDanger.show();
-                                    alertDanger.append('<strong><li>'+value+'</li></strong>');
-                                });
-                            } else {
-                            
-                                alertDanger.hide();
-                                alertSuccess.show();
-                
-                                setInterval(function(){
-                                        $('.alert-success').hide();
-                                        $('.modal').modal('hide');
-                                        location.reload();
-                                    }, 2000);
-                            }
-                        }
-                        });
-
-                    });
-                  }
-              });
-          });
-
-
-          // Delete accomodation
-          $('body').on('click', '.delete-accomodation', function() {
-
-           var accomodation_id = $(this).data('accomodation-id');
-           var shelter_id = $(this).data('shelter-id');
-
-            Swal.fire({
-                title: "Brisanje?",
-                text: "Potvrdite ako ste sigurni za brisanje!",
-                type: "warning",
-                showCancelButton: !0,
-                confirmButtonText: "Da, brisanje!",
-                cancelButtonText: "Ne, odustani!",
-                reverseButtons: !0
-            }).then(function (e) {
-
-            if (e.value === true) {
-                            
-                $.ajax({
-                    type: 'DELETE',
-                    url: "/shelters/" + shelter_id + "/accomodations/"+ accomodation_id,
-                    data: {_token: '{{csrf_token()}}'},
-                    dataType: 'JSON',
-                    success: function (results) {
-                        location.reload();
-                    }
-                });
-
-              } else {
-                e.dismiss;
+      if (e.value === true) {
+                      
+          $.ajax({
+              type: 'DELETE',
+              url: "/shelters/" + shelter_id + "/accomodations/"+ accomodation_id,
+              data: {_token: '{{csrf_token()}}'},
+              dataType: 'JSON',
+              success: function (results) {
+                  location.reload();
               }
-
-              }, function (dismiss) {
-              return false;
-              })
           });
 
- // Close Modal
- $(".modal").on('click', '.modal-close', function(){
-            $(".modal").hide();
-        });
+        } else {
+          e.dismiss;
+        }
 
+        }, function (dismiss) {
+        return false;
+        })
+    });
 
 });
 </script>

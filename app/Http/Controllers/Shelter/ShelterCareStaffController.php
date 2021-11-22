@@ -17,12 +17,20 @@ class ShelterCareStaffController extends Controller
             'staff_care_name' => 'required',
             'staff_care_oib' => 'required',
             'staff_care_address' => 'required',
-            'staff_care_address_place' => 'required',
             'staff_care_phone' => 'required',
             'staff_care_phone_cell' => 'required',
             'staff_care_email' => 'required',
             'staff_care_education' => 'required',
             'staff_contract_file' => 'required',
+        ], [
+            'staff_care_name.required' => 'Ime i prezime je obvezan podatak',
+            'staff_care_oib.required' => 'OIB obvezan podatak',
+            'staff_care_address.required' => 'Adresa prebivališta je obvezan podatak',
+            'staff_care_phone.required' => 'Kontakt telefon je obvezan podatak',
+            'staff_care_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
+            'staff_care_email.required' => 'Email adresa je obvezan podatak',
+            'staff_care_education.required' => 'Stručna sprema i struka je obvezan podatak',
+            'staff_contract_file.required' => 'Kopija ugovora o radu je obvezan podatak',
         ]);
 
         if ($validator->fails()) {
@@ -69,7 +77,6 @@ class ShelterCareStaffController extends Controller
             'staff_care_name' => 'required',
             'staff_care_oib' => 'required',
             'staff_care_address' => 'required',
-            'staff_care_address_place' => 'required',
             'staff_care_phone' => 'required',
             'staff_care_phone_cell' => 'required',
             'staff_care_email' => 'required',
@@ -90,6 +97,14 @@ class ShelterCareStaffController extends Controller
             'phone_cell' => $request->staff_care_phone_cell,
             'email' => $request->staff_care_email,
             'education' => $request->staff_care_education,
+        ], [
+            'staff_care_name.required' => 'Ime i prezime je obvezan podatak',
+            'staff_care_oib.required' => 'OIB obvezan podatak',
+            'staff_care_address.required' => 'Adresa prebivališta je obvezan podatak',
+            'staff_care_phone.required' => 'Kontakt telefon je obvezan podatak',
+            'staff_care_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
+            'staff_care_email.required' => 'Email adresa je obvezan podatak',
+
         ]);
 
         $shelterStaff = ShelterStaff::careStaff($request->shelter_id)->last();

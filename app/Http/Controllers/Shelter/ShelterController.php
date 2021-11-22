@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Shelter;
 
-use App\Models\User;
+use Carbon\Carbon;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
@@ -31,7 +32,7 @@ class ShelterController extends Controller
     {
         $shelters = Shelter::all();
 
-        return view('shelter.shelter.index', [
+        return view('shelter.index', [
             'shelters' => $shelters
         ]);
     }
@@ -50,11 +51,11 @@ class ShelterController extends Controller
         $shelter = Shelter::with('shelterTypes')->findOrFail($shelterID->id);
 
         $type = array('shelterType' => $shelter->shelterTypes);
-        foreach($shelter->shelterTypes as $item){
+        foreach ($shelter->shelterTypes as $item) {
             $type['type'] = $item->animalSystemCategory;
         }
 
-        return view("shelter.shelter.create", [
+        return view("shelter.create", [
             'shelterType' => $shelterType,
             'type' => $type,
         ]);
@@ -63,7 +64,7 @@ class ShelterController extends Controller
     public function createAnimalSystemCat(Request $request)
     {
         //dd($request);
-        
+
         $shelter = Shelter::find($request->shelter_id);
         $shelter->animalSystemCategory()->attach($request->animal_system_category_id, [
             'shelter_id' => $shelter->id
@@ -87,9 +88,9 @@ class ShelterController extends Controller
         ]);
 
         return redirect()->route("shelter.create")
-                ->with('msg', 'Uspješno dodano.')
-                ->with('active', 'Možete izabrati životinje.')
-                ->with('shelter_id', $shelter->id);
+            ->with('msg', 'Uspješno dodano.')
+            ->with('active', 'Možete izabrati životinje.')
+            ->with('shelter_id', $shelter->id);
     }
 
     /**
@@ -102,36 +103,7 @@ class ShelterController extends Controller
     {
         $shelter = Shelter::with('users')->findOrFail($id);
 
-        /*Shelter staff type users*/
-        $shelterLegalStaff = ShelterStaff::legalStaff($id)->last();
-        $fileLegal = $shelterLegalStaff ? $shelterLegalStaff->getMedia('legal-docs')->first() : '';
-
-        $shelterCareStaff = ShelterStaff::careStaff($id)->last();
-
-        $fileContract = $shelterCareStaff ? $shelterCareStaff->getMedia('contract-docs')->first() : '';
-        $fileCertificate = $shelterCareStaff ? $shelterCareStaff->getMedia('certificate-docs')->first() : '';
-
-        $shelterVetStaff = ShelterStaff::vetStaff($id)->last();
-
-        $fileVetContract = $shelterVetStaff ? $shelterVetStaff->getMedia('contract-docs')->first() : '';
-        $fileVetDiploma = $shelterVetStaff ? $shelterVetStaff->getMedia('vet-docs')->first() : '';
-        $fileVetAmbulance = $shelterVetStaff ? $shelterVetStaff->getMedia('ambulance-docs')->first() : '';
-
-        $shelterPersonelStaff = ShelterStaff::personelStaff($id)->all();
-
-        return view('shelter.shelter.show', [
-            'shelter' => $shelter,
-            'shelterLegalStaff' => $shelterLegalStaff,
-            'fileLegal' => $fileLegal,
-            'shelterCareStaff' => $shelterCareStaff,
-            'fileContract' => $fileContract,
-            'fileCertificate' => $fileCertificate,
-            'shelterVetStaff' => $shelterVetStaff,
-            'fileVetContract' => $fileVetContract,
-            'fileVetDiploma' => $fileVetDiploma,
-            'fileVetAmbulance' => $fileVetAmbulance,
-            'shelterPersonelStaff' => $shelterPersonelStaff
-        ]);
+        return view('shelter.show', ['shelter' => $shelter]);
     }
 
     /**
@@ -142,10 +114,12 @@ class ShelterController extends Controller
      */
     public function edit(Shelter $shelter)
     {
-        $shelterType = ShelterType::all();
+        $shelterTypes = ShelterType::all();
+        $selectedShelterTypes = $shelter->shelterTypes()->get();
 
-        return view('shelter.shelter.edit', [
-            'shelterType' => $shelterType,
+        return view('shelter.edit', [
+            'shelterTypes' => $shelterTypes,
+            'selectedShelterTypes' => $selectedShelterTypes,
             'shelter' => $shelter
         ]);
     }
@@ -159,14 +133,17 @@ class ShelterController extends Controller
      */
     public function update(Request $request, $id)
     {
+
         $shelter = Shelter::findOrFail($id);
         $shelter->name = $request->name;
         $shelter->shelter_code = $request->shelter_code;
         $shelter->email = $request->email;
         $shelter->address = $request->address;
+        $shelter->address_place = $request->address_place;
         $shelter->oib = $request->oib;
         $shelter->place_zip = $request->place_zip;
         $shelter->bank_name = $request->bank_name;
+        $shelter->register_date =  Carbon::createFromFormat('m/d/Y', $request->register_date)->format('Y-m-d');
         $shelter->telephone = $request->telephone;
         $shelter->mobile = $request->mobile;
         $shelter->fax = $request->fax;
@@ -178,7 +155,7 @@ class ShelterController extends Controller
             'shelter_id' => $shelter->id
         ]);
 
-        return redirect()->route("shelter.index")->with('msg', 'Uspješno ažurirano.');
+        return redirect()->route("shelter.show", $shelter->id)->with('msg', 'Uspješno ažurirano.');
     }
 
     /**
@@ -201,11 +178,11 @@ class ShelterController extends Controller
     public function animalItems($shelterId, $code)
     {
         $animalItem = Shelter::with('animals')
-                    ->findOrFail($shelterId)
-                    ->animalItems()->with('animalSizeAttributes')
-                    ->where('shelter_code', $code)
-                    ->where('status', 1)
-                    ->get();
+            ->findOrFail($shelterId)
+            ->animalItems()->with('animalSizeAttributes')
+            ->where('shelter_code', $code)
+            ->where('status', 1)
+            ->get();
 
         $shelters = Shelter::all();
 
@@ -227,16 +204,50 @@ class ShelterController extends Controller
                 
                     <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-primary mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
-                        Edit
+                        Uredi
                     </a>
 
                     <a href="javascript:void(0)" id="shelterClick" class="btn btn-xs btn-danger" >
                         <i class="mdi mdi-delete"></i>
                         <input type="hidden" id="shelter_id" value="' . $shelter->id . '" />
-                        Delete
+                        Brisanje
                     </a>
                 </div>
                 ';
             })->make();
+    }
+
+    public function getShelterStaff(Shelter $shelter)
+    {
+        /*Shelter staff type users*/
+        $shelterLegalStaff = ShelterStaff::legalStaff($shelter->id)->last();
+        $fileLegal = $shelterLegalStaff ? $shelterLegalStaff->getMedia('legal-docs')->first() : '';
+
+        $shelterCareStaff = ShelterStaff::careStaff($shelter->id)->last();
+
+        $fileContract = $shelterCareStaff ? $shelterCareStaff->getMedia('contract-docs')->first() : '';
+        $fileCertificate = $shelterCareStaff ? $shelterCareStaff->getMedia('certificate-docs')->first() : '';
+
+        $shelterVetStaff = ShelterStaff::vetStaff($shelter->id)->last();
+
+        $fileVetContract = $shelterVetStaff ? $shelterVetStaff->getMedia('contract-docs')->first() : '';
+        $fileVetDiploma = $shelterVetStaff ? $shelterVetStaff->getMedia('vet-docs')->first() : '';
+        $fileVetAmbulance = $shelterVetStaff ? $shelterVetStaff->getMedia('ambulance-docs')->first() : '';
+
+        $shelterPersonelStaff = ShelterStaff::personelStaff($shelter->id)->all();
+
+        return view('shelter.shelter_staff', [
+            'shelter' => $shelter,
+            'shelterLegalStaff' => $shelterLegalStaff,
+            'fileLegal' => $fileLegal,
+            'shelterCareStaff' => $shelterCareStaff,
+            'fileContract' => $fileContract,
+            'fileCertificate' => $fileCertificate,
+            'shelterVetStaff' => $shelterVetStaff,
+            'fileVetContract' => $fileVetContract,
+            'fileVetDiploma' => $fileVetDiploma,
+            'fileVetAmbulance' => $fileVetAmbulance,
+            'shelterPersonelStaff' => $shelterPersonelStaff
+        ]);
     }
 }

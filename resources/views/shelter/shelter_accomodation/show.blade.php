@@ -4,6 +4,7 @@
   <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
   
   <link href="{{ asset('assets/plugins/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -11,17 +12,20 @@
 <ul class="nav shelter-nav">
 
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelter.show', [ $shelter->id]) }}">Podaci o korisnicima</a>
+    <a class="nav-link" href="{{ route('shelter.show', $shelter->id) }}">Oporavilište</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('shelter.shelter_staff', $shelter->id) }}">Odgovorne osobe</a>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link active" href="#">Nastambe oporavilišta</a>
+    <a class="nav-link active" href="{{ route('shelters.accomodations.index', $shelter->id) }}">Smještajne jedinice</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Oprema, prehrana</a>
+    <a class="nav-link" href="{{ route('shelters.nutritions.index', $shelter->id) }}">Hranjenje životinja</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Korisnici aplikacije</a>
+    <a class="nav-link " href="{{ route('shelters.equipments.index', $shelter->id) }}">Oprema, prijevoz životinja</a>
   </li>
 </ul>
 
@@ -96,7 +100,7 @@
                 <div class="row">
                   @foreach ($shelterAccomodationItem->media as $thumbnail) 
                   <div class="col-md-2 col-sm-2">
-                    <a href="{{ $thumbnail->getUrl() }}">
+                    <a href="{{ $thumbnail->getUrl() }}" data-lightbox="accomodation">
                     <figure>
                       <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
                     </figure>
@@ -115,7 +119,6 @@
 </div>
 @endif
 
-<div class="modal"></div>
 @endsection
 
 @push('plugin-scripts')
@@ -123,6 +126,7 @@
   <script src="{{ asset('assets/plugins/tinymce/tinymce.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script> 
+  <script src="{{ asset('assets/plugins/lightbox2/lightbox.min.js') }}"></script> 
 @endpush
 
 @push('custom-scripts')
@@ -167,13 +171,6 @@
               return false;
               })
           });
-
- // Close Modal
- $(".modal").on('click', '.modal-close', function(){
-            $(".modal").hide();
-        });
-
-
 });
 </script>
 @endpush

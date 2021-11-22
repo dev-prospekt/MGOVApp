@@ -5,6 +5,7 @@ namespace App\Models\Animal;
 use App\Models\Shelter\ShelterType;
 use App\Models\Shelter\ShelterUnit;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Shelter\ShelterNutrition;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AnimalSystemCategory extends Model

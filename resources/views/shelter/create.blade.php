@@ -14,7 +14,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" id="profile-line-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-        Životinje
+        Jedinke
         </a>
     </li>
 </ul>
@@ -137,13 +137,13 @@
         
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                    <label class="control-label">Datum ovlaštenja oporavilišta</label>
-                                    <div class="input-group date datepicker" id="datePickerExample">
-                                        <input type="text" class="form-control" name="register_date"><span class="input-group-addon"><i data-feather="calendar"></i></span>
-                                        @error('register_date')
-                                        <div class="text-danger">{{$errors->first('register_date') }} </div>
-                                        @enderror
-                                    </div>
+                                        <label class="control-label">Datum ovlaštenja oporavilišta</label>
+                                        <div class="input-group date datepicker" id="datePickerExample">
+                                            <input type="text" class="form-control" name="register_date"><span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                            @error('register_date')
+                                            <div class="text-danger">{{$errors->first('register_date') }} </div>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div><!-- Col -->
                         

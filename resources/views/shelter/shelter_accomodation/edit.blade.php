@@ -9,17 +9,20 @@
 <ul class="nav shelter-nav">
 
   <li class="nav-item">
-    <a class="nav-link" href="{{ route('shelter.show', [ $shelter->id]) }}">Podaci o korisnicima</a>
+    <a class="nav-link" href="{{ route('shelter.show', $shelter->id) }}">Oporavilište</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="{{ route('shelter.shelter_staff', $shelter->id) }}">Odgovorne osobe</a>
   </li>
 
   <li class="nav-item">
-    <a class="nav-link active" href="#">Nastambe oporavilišta</a>
+    <a class="nav-link active" href="{{ route('shelters.accomodations.index', $shelter->id) }}">Smještajne jedinice</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Oprema, prehrana</a>
+    <a class="nav-link" href="{{ route('shelters.nutritions.index', $shelter->id) }}">Hranjenje životinja</a>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Korisnici aplikacije</a>
+    <a class="nav-link " href="{{ route('shelters.equipments.index', $shelter->id) }}">Oprema, prijevoz životinja</a>
   </li>
 </ul>
 
@@ -27,7 +30,7 @@
   <h5 class="mb-3 mb-md-0">Smještajna jedinica</h5>
   <div>      
     <a id="createAccomodation" href="{{ route('shelters.accomodations.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
-      Dodaj smještajne jedinice
+      Dodaj smještajnu jedinicu
       <i class="btn-icon-append" data-feather="user-plus"></i>
     </a>  
     <a id="createAccomodation" href="{{ route('shelters.accomodations.index', $shelter->id) }}" type="button" class="btn btn-warning btn-icon-text">
@@ -181,7 +184,7 @@
   
                   setInterval(function(){
                       window.location=result.redirectTo;
-                      }, 2000);
+                      }, 1000);
               }
             }   
             
@@ -194,7 +197,6 @@
       url = $(this).attr('data-href');
       Swal.fire({
           title: 'Jeste li sigurni?',
-          text: "Želite obrisati oporavilište i više neće biti dostupno!",
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
