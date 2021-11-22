@@ -15,18 +15,20 @@
     </a>
 </div>
 
-<div class="card mt-3">
-    <div class="card-body">
-        <form action="{{ route('shelters.founder.update', [auth()->user()->shelter->id, $founder->id]) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
 
-            @if($msg = Session::get('msg_update'))
-            <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-            @endif
+<form action="{{ route('shelters.founder.update', [auth()->user()->shelter->id, $founder->id]) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    @method('PUT')
 
-            <div class="row">
-                <div class="col-md-6">
+    @if($msg = Session::get('msg_update'))
+    <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+    @endif
+
+    <div class="row">
+        
+        <div class="col-md-8">
+            <div class="card mt-3">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
@@ -110,10 +112,14 @@
                 
                     <button type="submit" class="btn btn-primary mr-2">Ažuriraj</button>
                 </div>
-                
-                <div class="col-md-6">
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mt-3">
+                <div class="card-body">
                     <p>Dokumenti</p>
-
+        
                     @foreach ($mediaFiles as $file)
                         <div class="mb-3">
                             <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
@@ -126,11 +132,11 @@
                         </div>
                     @endforeach
                 </div>
-
             </div>
-        </form>
+        </div>
+
     </div>
-</div>
+</form>
 
 @endsection
 

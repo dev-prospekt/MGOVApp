@@ -76,7 +76,7 @@ class FounderDataController extends Controller
 
     public function indexDataTables()
     {
-        $founders = FounderData::all();
+        $founders = FounderData::where('shelter_id', auth()->user()->shelter->id)->get();
 
         return Datatables::of($founders)
             ->addColumn('action', function ($founder) {

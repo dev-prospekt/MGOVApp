@@ -14,9 +14,9 @@
 </div>
 
 <div class="row mt-3">
-    <div class="card">
-        <div class="card-body">
-            <div class="col-md-12">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body">
                 <form action="{{ route('shelters.founder.store', auth()->user()->shelter->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')

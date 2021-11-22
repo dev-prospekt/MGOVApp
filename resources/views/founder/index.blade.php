@@ -14,7 +14,7 @@
                 
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <h6 class="card-title">Founders</h6>
+                        <h6 class="card-title">Nalaznici</h6>
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
@@ -35,23 +35,24 @@
                 @endif
 
                 <div class="table-responsive-sm">
-                <table class="table" id="founder-table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>IME</th>
-                            <th>PREZIME</th>
-                            <th>EMAIL</th>
-                            <th>ADRESA</th>
-                            <th>KONTAKT</th>
-                            <th>SERVICE</th>
-                            <th>ACTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                    <table class="table" id="founder-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>IME</th>
+                                <th>PREZIME</th>
+                                <th>EMAIL</th>
+                                <th>ADRESA</th>
+                                <th>KONTAKT</th>
+                                <th>SLUŽBA</th>
+                                <th>OSTALO</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -83,6 +84,7 @@
                 { data: 'address', name: 'address'},
                 { data: 'contact', name: 'contact'},
                 { data: 'service', name: 'service'},
+                { data: 'others', name: 'others'},
                 { data: 'action', name: 'action'},
             ],
             language: {

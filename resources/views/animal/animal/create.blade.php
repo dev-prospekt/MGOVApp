@@ -3,6 +3,7 @@
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
+  <link href="{{ asset('assets/plugins/datatables-net/dataTables.bootstrap4.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -16,7 +17,7 @@
             <i class="btn-icon-append" data-feather="clipboard"></i>
         </a>
     </div>
-  </div>
+</div>
 
 <ul class="nav nav-tabs nav-tabs-line mt-2" id="lineTab" role="tablist">
     <li class="nav-item">
@@ -33,13 +34,13 @@
 
 <div class="tab-content " id="lineTabContent">
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-line-tab">
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body">
-                            @if($msg = Session::get('founder'))
-                            <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                            @endif
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        @if($msg = Session::get('founder'))
+                        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                        @endif
 
                         <form action="{{ route('shelters.founder.store', $shelter->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
@@ -125,13 +126,46 @@
 
                             <button type="submit" class="btn btn-primary mr-2">Dodaj nalaznika</button>
                         </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row align-items-start mt-4 mb-4">
+                            <div class="col-md-12">
+                                <p class="text-muted tx-13 mb-3 mb-md-0"> 
+                                    <span class="text-danger">NAPOMENA:</span> 
+                                    Ako nalaznik nije na popisu, dodajte ga prije nego krenete ispunjavati formu za životinju
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive-sm">
+                            <table class="table" id="founder-table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>IME</th>
+                                        <th>PREZIME</th>
+                                        <th>KONTAKT</th>
+                                        <th>SLUŽBA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+        
+                                </tbody>
+                            </table>
+                        </div>
 
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-line-tab">
         <div class="row align-items-start mt-4 mb-4">
             <div class="col-md-12">
@@ -460,6 +494,8 @@
 @push('plugin-scripts')
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script>
 @endpush
 
@@ -576,6 +612,22 @@
                 }
                 else {
                     $("#hib_est_from_to").show();
+                }
+            });
+
+            $('#founder-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{!! route('founder:dt') !!}',
+                columns: [
+                    { data: 'id', name: 'id'},
+                    { data: 'name', name: 'name'},
+                    { data: 'lastname', name: 'lastname'},
+                    { data: 'contact', name: 'contact'},
+                    { data: 'service', name: 'service'},
+                ],
+                language: {
+                    url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
                 }
             });
         });

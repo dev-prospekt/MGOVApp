@@ -109,7 +109,7 @@
             </li>
 
             <li class="nav-item">
-              <a href="{{ route('shelters.founder.index', auth()->user()->shelter->id) }}" class="nav-link">Founder</a>
+              <a href="{{ route('shelters.founder.index', auth()->user()->shelter->id) }}" class="nav-link">Nalaznici</a>
             </li>
 
             <li class="nav-item">
