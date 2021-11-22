@@ -75,16 +75,16 @@ class AnimalItemController extends Controller
             $diff_in_days = $to->diffInDays($from);
         }
 
-        $totalPriceStand = (isset($animalItems->shelterAnimalPrice->stand_care)) ? $animalItems->shelterAnimalPrice->stand_care : '';
-        $totalPriceHibern = (isset($animalItems->shelterAnimalPrice->hibern)) ? $animalItems->shelterAnimalPrice->hibern : '';
-        $totalPriceFullCare = (isset($animalItems->shelterAnimalPrice->full_care)) ? $animalItems->shelterAnimalPrice->full_care : '';
-        
+        $totalPriceStand = (isset($animalItems->shelterAnimalPrice->stand_care)) ? $animalItems->shelterAnimalPrice->stand_care : 0;
+        $totalPriceHibern = (isset($animalItems->shelterAnimalPrice->hibern)) ? $animalItems->shelterAnimalPrice->hibern : 0;
+        $totalPriceFullCare = (isset($animalItems->shelterAnimalPrice->full_care)) ? $animalItems->shelterAnimalPrice->full_care : 0;
+
         $totalPriceAnimal = 0;
         $arrayPrice = [$totalPriceStand, $totalPriceHibern, $totalPriceFullCare];
         foreach ($arrayPrice as $key => $value) {
-            $totalPriceAnimal += (float)$value;
+            $totalPriceAnimal += $value;
         }
-        $totalPriceAnimal = number_format((float)$totalPriceAnimal, 2, '.', '');
+        $totalPriceAnimal = number_format($totalPriceAnimal, 2, '.', '');
 
         // Media
         $animalItemsMedia = $animalItems->getMedia('media');

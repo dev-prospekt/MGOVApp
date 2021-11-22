@@ -70,6 +70,8 @@ class AnimalController extends Controller
      */
     public function store(AnimalPostRequest $request)
     {
+        dd($request);
+        
         $animals = new Animal;
         $count = $request->quantity;
 
@@ -148,6 +150,7 @@ class AnimalController extends Controller
             }
 
             $animalItem->reason = $request->reason;
+            $animalItem->reason_desc = $request->reason_desc;
             $animalItem->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment;
             $animalItem->status = 1;
             $animalItem->status_receiving = $request->status_receiving;

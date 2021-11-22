@@ -278,7 +278,10 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>Upload <strong>(PDF)</strong></label>
+                                        <textarea class="form-control" name="reason_desc" id="" cols="20" rows="10" placeholder="Dodatni opis"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Upload</label>
                                         <input type="file" id="reason_file" name="reason_file[]" multiple />
                                         <div id="error_reason_file"></div>
                                     </div>
@@ -299,7 +302,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>Upload <strong>(JPG, PNG)</strong></label>
+                                        <label>Upload</label>
                                         <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
                                         <div id="error_status_receiving_file"></div>
                                     </div>
@@ -320,7 +323,7 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>Upload <strong>(JPG, PNG)</strong></label>
+                                        <label>Upload</label>
                                         <input type="file" id="status_found_file" name="status_found_file[]" multiple />
                                         <div id="error_status_found_file"></div>
                                     </div>
@@ -392,7 +395,7 @@
                 maxFileCount: 2,
                 showPreview: false,
                 showUpload: false,
-                allowedFileExtensions: ["pdf"],
+                allowedFileExtensions: ["png", "jpg"],
                 elErrorContainer: '#error_reason_file',
                 msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
             });

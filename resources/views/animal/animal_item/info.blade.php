@@ -78,6 +78,12 @@
                     </div>
                     <div class="col-md-6 grid-margin">
                         <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Razlog zaprimanja životinje u oporavilište: </label>
+                            <p class="text-muted">{{ $animalItems->reason ?? '' }}</p>
+                            <span>Dodatni opis razloga:</span>
+                            <p class="text-muted">{{ $animalItems->reason_desc ?? '' }}</p>
+                        </div>
+                        <div class="mt-3">
                             <label class="tx-11 font-weight-bold mb-0 text-uppercase">Veličina: </label>
                             <p class="text-muted">{{ $animalItems->animalSizeAttributes->name ?? '' }}</p>
                         </div>
@@ -106,7 +112,7 @@
                                     {{ $totalPriceStand }} kn
                                 </p>
                             </div>
-                            
+
                             @if ($totalPriceFullCare > 0)
                                 <div class="mt-3">
                                     <label class="tx-11 font-weight-bold mb-0 text-uppercase">Cijena proširene skrbi</label>
@@ -115,21 +121,22 @@
                                     </p>
                                 </div>
                             @endif
+                            
                             @if ($totalPriceHibern > 0)
                                 <div class="mt-3">
-                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Cijena hibernacije</label>
+                                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Cijena s hibernacijom</label>
                                     <p class="text-muted">
                                         {{ $totalPriceHibern }} kn
                                     </p>
                                 </div>
                             @endif
 
-                            <div class="mt-3">
+                            {{-- <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupna cijena</label>
                                 <p class="text-muted">
                                     {{ $totalPriceAnimal }} kn
                                 </p>
-                            </div>
+                            </div> --}}
 
                         @endif
                     </div>
@@ -223,9 +230,9 @@
 
                 <div class="d-flex align-items-center flex-wrap">
                 @foreach ($mediaStanjeZaprimanja as $fi)
-                    <p class="m-2">
+                    <a href="{{ $fi->getUrl() }}" class="m-2">
                         <img src="{{ $fi->getUrl('thumb') }}" alt="{{ $fi->name }}">
-                    </p>
+                    </a>
                 @endforeach
                 </div>
 
@@ -233,9 +240,9 @@
                     
                 <div class="d-flex align-items-center flex-wrap">
                 @foreach ($mediaStanjePronadena as $fi)
-                    <p class="m-2">
+                    <a href="{{ $fi->getUrl() }}" class="m-2">
                         <img src="{{ $fi->getUrl('thumb') }}" alt="{{ $fi->name }}">
-                    </p>
+                    </a>
                 @endforeach
                 </div>
             </div>
