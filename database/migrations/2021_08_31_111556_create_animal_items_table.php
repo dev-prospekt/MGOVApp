@@ -19,17 +19,27 @@ class CreateAnimalItemsTable extends Migration
             $table->foreignId('animal_id')->constrained('animals');
             $table->foreignId('shelter_id')->constrained('shelters');
             $table->foreignId('animal_file_id');
-            $table->foreignId('animal_mark_id');
             $table->foreignId('founder_id');
+            $table->string('founder_note');
             $table->foreignId('animal_size_attributes_id');
             $table->string('status');
+
+            $table->foreignId('animal_mark_id');
+            $table->string('animal_mark_note');
+
             $table->string('status_receiving');
+            $table->string('status_receiving_desc');
+
             $table->string('status_found');
+            $table->string('status_found_desc');
+
+            $table->string('reason');
+            $table->string('reason_desc');
+
+            $table->string('animal_found_note');
 
             $table->string('animal_gender');
             $table->string('animal_dob');
-            $table->string('reason');
-            $table->string('reason_desc');
             $table->tinyInteger('solitary_or_group');
             $table->string('location');
             $table->string('shelter_code');

@@ -76,7 +76,7 @@ class AnimalController extends Controller
      */
     public function store(AnimalPostRequest $request)
     {
-        dd($request);
+        //dd($request);
         
         $animals = new Animal;
         $count = $request->quantity;
@@ -102,7 +102,6 @@ class AnimalController extends Controller
             'animal_id' => $animal_id,
             'shelter_code' => Carbon::now()->format('Y') . '' . $request->shelter_code . '-' . $increment,
             'quantity' => $request->quantity,
-            'description' => $request->description,
         ]);
 
         // Pivot id (animal_shelter)
@@ -154,17 +153,24 @@ class AnimalController extends Controller
             }
 
             $animalItem->reason = $request->reason;
+            $animalItem->reason_desc = $request->reason_desc;
             $animalItem->shelter_code = Carbon::now()->format('Y') . '' . $request->shelter_code . '-' . $increment;
             $animalItem->status = 1;
             $animalItem->status_receiving = $request->status_receiving;
+            $animalItem->status_receiving_desc = $request->status_receiving_desc;
             $animalItem->status_found = $request->status_found;
+            $animalItem->status_found_desc = $request->status_found_desc;
             $animalItem->founder_id = $request->founder_id;
+            $animalItem->founder_note = $request->founder_note;
             $animalItem->location = $request->location;
 
             // new items in request
             $animalItem->animal_gender = $request->animal_gender;
             $animalItem->animal_dob = $request->animal_dob;
             $animalItem->animal_mark_id = $request->animal_mark;
+            $animalItem->animal_mark_note = $request->animal_mark_note;
+            $animalItem->animal_found_note = $request->animal_found_note;
+            $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
 
 
             $animalItem->date_found = Carbon::createFromFormat('m/d/Y', $request->date_found)->format('d.m.Y');

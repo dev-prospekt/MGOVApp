@@ -71,18 +71,6 @@
     <div class="col-md-4">
         <div class="card grid-margin">
             <div class="card-body">
-                <div class="card-title">
-                    <h6>Dodatni opisni podaci oporavilišta o preuzimanju</h6>
-                </div>
-
-                <hr>
-
-                <p>{{ $animalItem->first()->animal->shelters->first()->pivot->description }}</p>
-            </div>
-        </div>
-
-        <div class="card grid-margin">
-            <div class="card-body">
                 <div class="row">
                     <div class="col-md-6 grid-margin">
                         <div class="mt-3">

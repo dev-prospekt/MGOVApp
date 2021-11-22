@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\FounderDataController;
 use App\Http\Controllers\Shelter\ShelterController;
 
 use App\Http\Controllers\Animal\AnimalSizeController;
@@ -124,7 +123,8 @@ Route::group(['middleware' => ['auth']], function () {
     // Update AnimalItem Date, Price
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
 
-    Route::post('founder', [FounderDataController::class, 'store'])->name('founder_data.store');
+    // Founder
+    Route::resource('founder', FounderDataController::class);
 
     Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
     Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');

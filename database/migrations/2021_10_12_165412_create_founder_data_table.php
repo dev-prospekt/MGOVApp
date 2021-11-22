@@ -16,6 +16,8 @@ class CreateFounderDataTable extends Migration
         Schema::create('founder_data', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('shelter_id');
+
             $table->string('name');
             $table->string('lastname');
             $table->string('address');

@@ -10,6 +10,7 @@ class FounderDataController extends Controller
     public function store(Request $request)
     {   
         $founder = new FounderData;
+        $founder->name = auth()->user()->shelter->id;
         $founder->name = $request->name;
         $founder->lastname = $request->lastname;
         $founder->address = $request->address;

@@ -41,7 +41,7 @@
                             <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
                             @endif
 
-                        <form action="{{ route('founder_data.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('founder.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('POST')
 
@@ -301,7 +301,7 @@
                                 <div class="form-group">
                                     <label>Okolnosti i način pronalaska životinje</label>
                                     <div class="form-group">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="animal_found_note" rows="5"></textarea>
                                     </div>              
                                 </div> 
                             </div>                 
@@ -378,7 +378,7 @@
                        
                                 <div class="form-group">
                                     <label>Opis</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="5"></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="status_receiving_desc" rows="5"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Upload <strong>(JPG, PNG)</strong></label>
@@ -403,7 +403,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Opis</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="status_found_desc" rows="5"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Upload <strong>(JPG, PNG)</strong></label>
@@ -429,7 +429,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Opis</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="reason_desc" rows="5"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Upload <strong>(PDF)</strong></label>
@@ -440,9 +440,7 @@
                         </div>
       
                     </div>
-
-                 
-                                      
+        
                     <div class="row mt-3">
                         <div class="col-md-12">
                             <button type="submit" class="btn btn-warning btn-md mr-2">Spremite podatke</button>
@@ -560,14 +558,14 @@
 
             //getAnimal size based on animal
             $("#animalSelect").change(function(){
-            $.ajax({
-                url: "{{ route('animals.get_by_size') }}?animal_id=" + $(this).val(),
-                method: 'GET',
-                success: function(data) {
-                    $('#animalSize').html(data.html);
-                }
+                $.ajax({
+                    url: "{{ route('animals.get_by_size') }}?animal_id=" + $(this).val(),
+                    method: 'GET',
+                    success: function(data) {
+                        $('#animalSize').html(data.html);
+                    }
+                });
             });
-        });
 
             // HIBERNACIJA
             $("#hib_est_from_to").hide();

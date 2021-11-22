@@ -37,7 +37,7 @@ class Shelter extends Model
         return $this->belongsToMany(Animal::class)
             ->with('animalCodes', 'animalItems')
             ->where('quantity', '>', 0)
-            ->withPivot('quantity', 'shelter_code', 'description', 'id')
+            ->withPivot('quantity', 'shelter_code', 'id')
             ->withTimestamps();
     }
 

@@ -131,13 +131,6 @@
                                 </div>
                             @endif
 
-                            {{-- <div class="mt-3">
-                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupna cijena</label>
-                                <p class="text-muted">
-                                    {{ $totalPriceAnimal }} kn
-                                </p>
-                            </div> --}}
-
                         @endif
                     </div>
                 </div>
