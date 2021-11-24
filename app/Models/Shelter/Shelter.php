@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\FounderData;
 use App\Models\Animal\Animal;
 use App\Models\Animal\AnimalItem;
+use App\Models\Animal\AnimalGroup;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Animal\AnimalSystemCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,8 +16,6 @@ class Shelter extends Model
     use HasFactory;
 
     protected $guarded = ['id'];
-
-
 
     public function shelterTypes()
     {
@@ -33,18 +32,9 @@ class Shelter extends Model
         return $this->hasMany(User::class)->with('roles');
     }
 
-    public function animals()
+    public function animalGroups()
     {
-        return $this->belongsToMany(Animal::class)
-            ->with('animalCodes', 'animalItems')
-            ->where('quantity', '>', 0)
-            ->withPivot('quantity', 'shelter_code', 'id')
-            ->withTimestamps();
-    }
-
-    public function animalItems()
-    {
-        return $this->hasMany(AnimalItem::class);
+        return $this->belongsToMany(AnimalGroup::class);
     }
 
     public function shelterStaff()

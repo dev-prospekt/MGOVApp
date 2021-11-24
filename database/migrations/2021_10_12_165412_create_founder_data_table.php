@@ -17,6 +17,7 @@ class CreateFounderDataTable extends Migration
             $table->id();
 
             $table->foreignId('shelter_id');
+            $table->foreignId('shelter_type_id');
 
             $table->string('name');
             $table->string('lastname');
