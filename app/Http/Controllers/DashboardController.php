@@ -17,11 +17,11 @@ class DashboardController extends Controller
             ->get();
 
         // Ukupni broj zivotinja
-        $countAnimal = Shelter::with('animalItems')
-            ->whereHas('animalItems', function ($q) {
+        $countAnimal = Shelter::with('animalGroups')
+            ->whereHas('animalGroups', function ($q) {
                 $q->where('shelter_id', auth()->user()->shelter->id);
             })->first();
-        
+
         return view('dashboard', compact('shelters', 'countAnimal'));
     }
 }
