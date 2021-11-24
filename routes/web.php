@@ -112,11 +112,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animal_invazive_import', [AnimalImportController::class, 'animalInvaziveImport'])->name('animal_invazive_import');
     Route::post('animal_seized_import', [AnimalImportController::class, 'animalSeizedImport'])->name('animal_seized_import');
 
-
-    // Custom
-    Route::get('shelter-dt', 'Shelter\ShelterController@indexDataTables')->name('shelter:dt');
-    Route::get('shelters/{shelter}/shelter-animal-dt', 'Shelter\ShelterController@dataTableAnimals')->name('shelter_animal:dt');
-
     Route::post('createAnimalSystemCat', 'Shelter\ShelterController@createAnimalSystemCat')->name('createAnimalSystemCat');
 
     Route::get('size/get_by_animal', 'Animal\AnimalController@getBySize')->name('animals.get_by_size');

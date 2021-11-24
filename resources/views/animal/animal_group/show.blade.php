@@ -8,6 +8,17 @@
 
 @section('content')
 
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <div>
+            <a href="/shelter/{{ $animal_items->first()->shelter_id }}" class="btn btn-primary">
+                <i data-feather="left" data-toggle="tooltip" title="Connect"></i>
+                Natrag
+            </a>
+        </div>
+    </ol>
+</nav>
+
 <div class="row">
     <div class="col-lg-8 col-xl-8 grid-margin">
         <div class="card">

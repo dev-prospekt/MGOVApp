@@ -65,7 +65,8 @@ class AnimalGroupController extends Controller
         }
 
         return view('animal.animal_group.show', [
-            'animal_group' => $animal_group
+            'animal_group' => $animal_group,
+            'animal_items' => $animal_items
         ]);
     }
 

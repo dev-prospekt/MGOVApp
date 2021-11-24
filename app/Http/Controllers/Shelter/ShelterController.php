@@ -28,9 +28,35 @@ class ShelterController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $shelters = Shelter::all();
+
+        if($request->ajax())
+        {
+            return Datatables::of($shelters)
+            ->addColumn('action', function ($shelter) {
+                return '
+                <div class="d-flex align-items-center">
+                    <a href="shelter/' . $shelter->id . '" class="btn btn-xs btn-info mr-2">
+                        <i class="mdi mdi-tooltip-edit"></i> 
+                        Info
+                    </a>
+                
+                    <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-primary mr-2">
+                        <i class="mdi mdi-tooltip-edit"></i> 
+                        Uredi
+                    </a>
+
+                    <a href="javascript:void(0)" id="shelterClick" class="btn btn-xs btn-danger" >
+                        <i class="mdi mdi-delete"></i>
+                        <input type="hidden" id="shelter_id" value="' . $shelter->id . '" />
+                        Brisanje
+                    </a>
+                </div>
+                ';
+            })->make();
+        }
 
         return view('shelter.index', [
             'shelters' => $shelters
@@ -222,34 +248,6 @@ class ShelterController extends Controller
         $shelters = Shelter::all();
 
         return view('animal.animal_item.show', compact('animalItem', 'shelters'));
-    }
-
-    public function indexDataTables()
-    {
-        $shelters = Shelter::all();
-
-        return Datatables::of($shelters)
-            ->addColumn('action', function ($shelter) {
-                return '
-                <div class="d-flex align-items-center">
-                    <a href="shelter/' . $shelter->id . '" class="btn btn-xs btn-info mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
-                        Info
-                    </a>
-                
-                    <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-primary mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
-                        Uredi
-                    </a>
-
-                    <a href="javascript:void(0)" id="shelterClick" class="btn btn-xs btn-danger" >
-                        <i class="mdi mdi-delete"></i>
-                        <input type="hidden" id="shelter_id" value="' . $shelter->id . '" />
-                        Brisanje
-                    </a>
-                </div>
-                ';
-            })->make();
     }
 
     public function getShelterStaff(Shelter $shelter)
