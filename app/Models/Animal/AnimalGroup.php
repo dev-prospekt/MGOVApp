@@ -26,4 +26,9 @@ class AnimalGroup extends Model
     {
         return $this->hasMany(AnimalItem::class);
     }
+
+    public function animalGroupLogs()
+    {
+        return $this->hasMany(AnimalGroupLog::class);
+    }
 }

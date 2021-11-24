@@ -12,6 +12,7 @@ use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalData;
 use App\Models\Animal\AnimalFile;
 use App\Models\Animal\AnimalItem;
+use App\Models\Animal\AnimalGroup;
 use App\Models\ShelterAnimalPrice;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -59,13 +60,9 @@ class AnimalItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
-        $animalItems = AnimalItem::find($id);
-        $mediaFiles = $animalItems->animalFile->getMedia('media');
-        $mediaStanjeZaprimanja = $animalItems->animalFile->getMedia('status_receiving_file');
-        $mediaStanjePronadena = $animalItems->animalFile->getMedia('status_found_file');
-        $mediaReasonFile = $animalItems->animalFile->getMedia('reason_file');
+        $animalItems = AnimalItem::find($animalItem->id);
 
         // Day and Price
         if (!empty($animalItems->dateRange->end_date)) {
@@ -78,16 +75,8 @@ class AnimalItemController extends Controller
         $totalPriceHibern = (isset($animalItems->shelterAnimalPrice->hibern)) ? $animalItems->shelterAnimalPrice->hibern : 0;
         $totalPriceFullCare = (isset($animalItems->shelterAnimalPrice->full_care)) ? $animalItems->shelterAnimalPrice->full_care : 0;
 
-        // Media
-        $animalItemsMedia = $animalItems->getMedia('media');
-
-        return view('animal.animal_item.info', [
+        return view('animal.animal_item.show', [
             'animalItems' => $animalItems,
-            'animalItemsMedia' => $animalItemsMedia,
-            'mediaStanjeZaprimanja' => $mediaStanjeZaprimanja,
-            'mediaStanjePronadena' => $mediaStanjePronadena,
-            'mediaReasonFile' => $mediaReasonFile,
-            'mediaFiles' => $mediaFiles,
             'diff_in_days' => (isset($diff_in_days) ? $diff_in_days : 0),
             'totalPriceStand' => (isset($totalPriceStand) ? $totalPriceStand : 0),
             'totalPriceHibern' => (isset($totalPriceHibern) ? $totalPriceHibern : 0),

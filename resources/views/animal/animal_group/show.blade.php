@@ -18,7 +18,7 @@
                 <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
                 @endif
 
-                <div class="table-responsive">
+                <div class="table-responsive-sm">
                 <table class="table" id="animal-table">
                     <thead>
                         <tr>
@@ -31,6 +31,33 @@
                     <tbody>
                     </tbody>
                 </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card grid-margin">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 grid-margin">
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv: </label>
+                            <p class="text-muted">{{ $animal_items->first()->animal->name }}</p>
+                        </div>
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv: </label>
+                            <p class="text-muted">{{ $animal_items->first()->animal->latin_name }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 grid-margin">
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupni broj:</label>
+                            <p class="text-muted">
+                                {{ $animal_items->count() }}
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -59,10 +86,12 @@ $(function() {
             { data: 'id', name: 'id'},
             { data: 'name', name: 'name'},
             { data: 'latin_name', name: 'latin_name'},
+            { data: 'action', name: 'action'},
         ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
-        }
+        },
+        pageLength: 5
     });
 });
 </script>

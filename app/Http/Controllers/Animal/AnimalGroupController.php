@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Animal;
 
-use Yajra\Datatables\Datatables;
 use Illuminate\Http\Request;
+use App\Models\Shelter\Shelter;
+use Yajra\Datatables\Datatables;
 use App\Models\Animal\AnimalGroup;
 use App\Http\Controllers\Controller;
 
@@ -46,9 +47,9 @@ class AnimalGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id)
+    public function show(Request $request, Shelter $shelter, AnimalGroup $animalGroup)
     {
-        $animal_group = AnimalGroup::with('animalItems', 'shelters')->find($id);
+        $animal_group = AnimalGroup::with('animalItems', 'shelters')->find($animalGroup->id);
         $animal_items = $animal_group->animalItems;
 
         if($request->ajax())
@@ -61,11 +62,24 @@ class AnimalGroupController extends Controller
             ->addColumn('latin_name', function ($animal_items) {
                 return $animal_items->animal->latin_name;
             })
+            ->addColumn('action', function ($animal_items) {
+                $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+                
+                return '
+                <div class="d-flex align-items-center">
+                    <a href="'.$url.'" class="btn btn-xs btn-info mr-2">
+                        <i class="mdi mdi-tooltip-edit"></i> 
+                        Info
+                    </a>
+                </div>
+                ';
+            })
             ->make();
         }
 
         return view('animal.animal_group.show', [
-            'animal_group' => $animal_group
+            'animal_group' => $animal_group,
+            'animal_items' => $animal_items
         ]);
     }
 

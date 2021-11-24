@@ -89,7 +89,7 @@
         var table = $('#shelterDataTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{!! route('shelter:dt') !!}',
+            ajax: '{!! route('shelter.index') !!}',
             columns: [
                 { data: 'id', name: 'id'},
                 { data: 'name', name: 'name'},

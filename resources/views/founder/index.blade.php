@@ -18,7 +18,7 @@
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
-                        <a href="{{ route('shelters.founder.create', auth()->user()->shelter->id) }}" class="create btn btn-primary">Dodaj</a>
+                        <a href="{{ route('shelters.founders.create', auth()->user()->shelter->id) }}" class="create btn btn-primary">Dodaj</a>
                     </div>
                 </div>
 

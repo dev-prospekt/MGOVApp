@@ -56,4 +56,9 @@ class AnimalItem extends Model implements HasMedia
     {
         return $this->hasOne(ShelterAnimalPrice::class);
     }
+
+    public function animalItemLogs()
+    {
+        return $this->hasMany(AnimalItemLog::class);
+    }
 }
