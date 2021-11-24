@@ -177,12 +177,21 @@ class ShelterController extends Controller
 
     public function animalItems($shelterId, $code)
     {
+
         $animalItem = Shelter::with('animals')
             ->findOrFail($shelterId)
-            ->animalItems()->with('animalSizeAttributes')
+            ->animalItems()
             ->where('shelter_code', $code)
             ->where('status', 1)
             ->get();
+
+        /*     $items = Shelter::findOrFail($shelterId)->with('animalItems')
+            ->whereHas('animalItems', function ($q) use ($code) {
+                $q->where('shelter_code', $code);
+                $q->where('status', 1);
+            })
+
+            ->get(); */
 
         $shelters = Shelter::all();
 
@@ -199,10 +208,10 @@ class ShelterController extends Controller
                 <div class="d-flex align-items-center">
                     <a href="shelter/' . $shelter->id . '" class="btn btn-xs btn-info mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
-                        Info
+                        Pregled
                     </a>
                 
-                    <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-primary mr-2">
+                    <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-warning mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Uredi
                     </a>

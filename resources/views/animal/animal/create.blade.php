@@ -34,7 +34,7 @@
 <div class="tab-content " id="lineTabContent">
     <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-line-tab">
                 <div class="row mt-4">
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="card">
                             <div class="card-body">
                             @if($msg = Session::get('founder'))
@@ -122,8 +122,8 @@
                                     </div>
                                 </div>
                             </div>
-
                             <button type="submit" class="btn btn-primary mr-2">Dodaj nalaznika</button>
+                            
                         </form>
 
                     </div>
@@ -247,10 +247,10 @@
                                             <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
                                         @endif --}}
                                         <option value="">Odaberi</option>
-                                        <option value="ADL">ADL (adultna)</option>
-                                        <option value="JUV">JUV (juvenilna)</option>
-                                        <option value="SA">SA (subadultna)</option>
-                                        <option value="N">N (neodređeno)</option>
+                                        <option value="ADL(adultna)">ADL (adultna)</option>
+                                        <option value="JUV(juvenilna)">JUV (juvenilna)</option>
+                                        <option value="SA(subadultna)">SA (subadultna)</option>
+                                        <option value="N(neodređeno)">N (neodređeno)</option>
                                     </select>
                                     @error('animal_dob')
                                         <div class="text-danger">{{$errors->first('animal_dob') }} </div>
@@ -260,10 +260,10 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Način držanja - solitarno/grupa</label>
-                                    <select class="form-control" name="">
+                                    <select class="form-control" name="animal_keep_type">
                                         <option value="">------</option>
-                                        <option value="da">Solitarno</option>
-                                        <option value="ne">Grupa</option>
+                                        <option value="Solitarno">Solitarno</option>
+                                        <option value="Grupa">Grupa</option>
                                     </select>
                                 </div> 
                     
@@ -301,7 +301,7 @@
                                 <div class="form-group">
                                     <label>Okolnosti i način pronalaska životinje</label>
                                     <div class="form-group">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5" name="animal_found_note"></textarea>
                                     </div>              
                                 </div> 
                             </div>                 
@@ -345,7 +345,7 @@
 
                                 <div class="form-group">
                                     <label>Naziv oznake</label>
-                                    <input type="text" name="animal_mark_note" class="form-control">
+                                    <input type="text" name="animal_mark_name" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label>Upload <strong>(JPG, PNG)</strong></label>
@@ -378,7 +378,7 @@
                        
                                 <div class="form-group">
                                     <label>Opis</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="description" rows="5"></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name="receiving_note" rows="5"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Upload <strong>(JPG, PNG)</strong></label>
@@ -403,7 +403,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Opis</label>
-                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" name ="found_note" rows="5"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Upload <strong>(JPG, PNG)</strong></label>
@@ -412,12 +412,11 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="col-md-4">
                             <div class="bordered-group">
                                 <div class="form-group">
                                     <label>Razlog zaprimanja životinje u oporavilište</label>
-                                    <select name="reason" class="form-control">
+                                    <select name="status_reason" class="form-control">
                                         <option value="">----</option>
                                         <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
                                         <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
@@ -429,7 +428,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Opis</label>
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                                <textarea class="form-control" id="exampleFormControlTextarea1" name="reason_note" rows="5"></textarea>
                                 </div>
                                 <div class="form-group">
                                     <label>Upload <strong>(PDF)</strong></label>
@@ -437,23 +436,16 @@
                                     <div id="error_reason_file"></div>
                                 </div>
                             </div>
-                        </div>
-      
-                    </div>
-
-                 
-                                      
+                        </div>    
+                    </div>                                
                     <div class="row mt-3">
-                        <div class="col-md-12">
+                        <div class="col-md-12 d-flex justify-content-end">
                             <button type="submit" class="btn btn-warning btn-md mr-2">Spremite podatke</button>
                         </div>
-                    </div>
-                
+                    </div>              
                 </form>
             </div>
         </div>
-        
-
     </div>
 </div>
 
@@ -507,7 +499,7 @@
                 maxFileCount: 2,
                 showPreview: false,
                 showUpload: false,
-                allowedFileExtensions: ["pdf"],
+                allowedFileExtensions: ['pdf', 'doc', 'docx', 'jpg', 'png'],
                 elErrorContainer: '#error_reason_file',
                 msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
             });

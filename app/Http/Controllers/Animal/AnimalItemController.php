@@ -51,7 +51,6 @@ class AnimalItemController extends Controller
      */
     public function store(Request $request)
     {
-        
     }
 
     /**
@@ -69,7 +68,7 @@ class AnimalItemController extends Controller
         $mediaReasonFile = $animalItems->animalFile->getMedia('reason_file');
 
         // Day and Price
-        if(!empty($animalItems->dateRange->end_date)){
+        if (!empty($animalItems->dateRange->end_date)) {
             $from = Carbon::createFromFormat('d.m.Y', $animalItems->dateRange->start_date);
             $to = (isset($animalItems->dateRange->end_date)) ? Carbon::createFromFormat('d.m.Y', $animalItems->dateRange->end_date) : '';
             $diff_in_days = $to->diffInDays($from);
@@ -78,7 +77,7 @@ class AnimalItemController extends Controller
         $totalPriceStand = (isset($animalItems->shelterAnimalPrice->stand_care)) ? $animalItems->shelterAnimalPrice->stand_care : '';
         $totalPriceHibern = (isset($animalItems->shelterAnimalPrice->hibern)) ? $animalItems->shelterAnimalPrice->hibern : '';
         $totalPriceFullCare = (isset($animalItems->shelterAnimalPrice->full_care)) ? $animalItems->shelterAnimalPrice->full_care : '';
-        
+
         $totalPriceAnimal = 0;
         $arrayPrice = [$totalPriceStand, $totalPriceHibern, $totalPriceFullCare];
         foreach ($arrayPrice as $key => $value) {
@@ -111,7 +110,7 @@ class AnimalItemController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
         $animalItem = AnimalItem::findOrFail($id);
         $mediaItems = $animalItem->getMedia('media');
         $size = $animalItem->animal->animalSize;
@@ -133,7 +132,7 @@ class AnimalItemController extends Controller
             'dateRange' => $dateRange,
             'totalDays' => $totalDays,
             'dateFullCare_total' => $dateFullCare_total
-        ]); 
+        ]);
     }
 
     /**
@@ -171,13 +170,13 @@ class AnimalItemController extends Controller
         $animalItemFile = AnimalItem::find($request->animal_item_id);
 
         // Update
-        if($request->filenames){
+        if ($request->filenames) {
             foreach ($request->filenames as $key) {
                 $animalItemFile->addMedia($key)->toMediaCollection('media');
             }
         }
 
-        return redirect('/animal_item/'.$request->animal_item_id.'/edit')->with('msg', 'Uspješno dodan dokument');
+        return redirect('/animal_item/' . $request->animal_item_id . '/edit')->with('msg', 'Uspješno dodan dokument');
     }
 
     public function deleteFile($file)
@@ -199,13 +198,12 @@ class AnimalItemController extends Controller
     {
         //Increment ID
         $incrementId = DB::table('animal_shelter')->orderBy('id', 'DESC')->first();
-        if(empty($incrementId->id)){
+        if (empty($incrementId->id)) {
             $increment = 1;
-        }
-        else {
+        } else {
             $increment = $incrementId->id + 1;
         }
-        
+
         // Promjena statusa kod trenutne životinje
         $animalItem = AnimalItem::findOrFail($id);
         $animalItem->status = 0;
@@ -215,50 +213,49 @@ class AnimalItemController extends Controller
         $shelterID = $animalItem->shelter_id;
 
         $shelter = Shelter::find($request->shelter_id);
-        
+
         // Umanjenje količine za 1
         $shelter->animals()
-        ->newPivotStatement()
-        ->where('animal_id', '=', $request->animal_id)
-        ->where('shelter_code', '=', $request->shelter_code)
-        ->decrement('quantity', 1);
+            ->newPivotStatement()
+            ->where('animal_id', '=', $request->animal_id)
+            ->where('shelter_code', '=', $request->shelter_code)
+            ->decrement('quantity', 1);
 
         // COPY DESC AND CREATED
         $lastShelter = $shelter->animals()
-        ->newPivotStatement()
-        ->where('animal_id', '=', $request->animal_id)
-        ->where('shelter_code', '=', $request->shelter_code)->get();
+            ->newPivotStatement()
+            ->where('animal_id', '=', $request->animal_id)
+            ->where('shelter_code', '=', $request->shelter_code)->get();
 
         // Dodavanje životinje u novi šelter sa novom šifrom
         $shelter->animals()->attach($id, [
             'animal_id' => $request->animal_id,
             'shelter_id' => $request->shelter_id,
             'quantity' => 1,
-            'shelter_code' => Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment,
-            'description' => $lastShelter->first()->description,
+            'shelter_code' => Carbon::now()->format('Y') . '' . $shelter->shelter_code . '-' . $increment,
         ]);
 
         // Kopija životinje u novi šelter
         $copy = $animalItem->replicate();
         $copy->status = 1;
         $copy->shelter_id = $request->shelter_id;
-        $copy->shelter_code = Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment;
+        $copy->shelter_code = Carbon::now()->format('Y') . '' . $shelter->shelter_code . '-' . $increment;
         $copy->save();
-        
-        return redirect('/shelter/'.$shelterID)->with('msg', 'Uspješno premješteno u oporavilište '.$shelter->name.'');
+
+        return redirect('/shelter/' . $shelterID)->with('msg', 'Uspješno premješteno u oporavilište ' . $shelter->name . '');
     }
 
     public function generatePDF($id)
     {
         $animalItems = AnimalItem::with('animal', 'shelter', 'animalSizeAttributes')->find($id);
         $animalFiles = AnimalFile::where('shelter_code', $animalItems->shelter_code)->get();
-        
-        $mediaFiles = $animalFiles->each(function($item, $key){
+
+        $mediaFiles = $animalFiles->each(function ($item, $key) {
             $item->getMedia('media');
         });
-        
+
         $pdf = PDF::loadView('myPDF', compact('animalItems', 'mediaFiles'));
-    
+
         return $pdf->stream('my.pdf');
     }
 }

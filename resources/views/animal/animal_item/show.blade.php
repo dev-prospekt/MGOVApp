@@ -7,22 +7,21 @@
 
 @section('content')
 
-<nav class="page-breadcrumb">
-    <ol class="breadcrumb">
-        <div>
-            <a href="/shelter/{{ $animalItem->first()->shelter_id }}" class="btn btn-primary">
-                <i data-feather="left" data-toggle="tooltip" title="Connect"></i>
-                Natrag
-            </a>
-        </div>
-    </ol>
-</nav>
+<div class="d-flex align-items-center justify-content-between">
+    <div> <h5 class="mb-3 mb-md-0">{{ $animalItem->first()->shelter->name }}</h5></div>
+    <div>      
+      <a href="{{ $animalItem->first()->shelter->id }}" type="button" class="btn btn-primary btn-icon-text">
+          Povratak na popis
+          <i class="btn-icon-append" data-feather="clipboard"></i>
+        </a>                      
+    </div>
+  </div>
 
-<div class="row">
-    <div class="col-lg-8 col-xl-8 grid-margin">
+<div class="row mt-4">
+    <div class="col-md-12 grid-margin">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-0">Podatci</h6>
+                <h6 class="card-title mb-0">Podaci o zaprimanju</h6>
 
                 @if($msg = Session::get('msg'))
                 <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
@@ -33,83 +32,163 @@
                     <thead>
                     <tr>
                         <th>#</th>
-                        <th>KATEGORIJA</th>
+                        <th>Naziv vrste</th>
+                        <th>Latinski naziv</th>
                         <th>SPOL</th>
                         <th>VELIČINA</th>
-                        <th></th>
+                        <th>Dob jedinke</th>
+                        <th>Solitarno/grupa</th>                             
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach ($animalItem as $anim)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $anim->animal->animalCategory->latin_name }}</td>
-                                <td>{{ $anim->animal_gender }}</td>
-                                <td>{{ $anim->animalSizeAttributes->name ?? '' }}</td>
-                                <td>
-                                    <a href="{{ route('animal_item.show', $anim) }}" class="btn btn-info">
-                                        Info
-                                    </a>
-                                    <a href="{{ route('animal_item.edit', $anim) }}" class="btn btn-info">
-                                        Uredi
-                                    </a>
-                                    <button type="button" class="btn btn-primary premjesti" data-id="{{$anim->id}}">
-                                        Premjesti
-                                    </button>
-                                    <a target="_blank" href="/generate-pdf/{{ $anim->id }}" class="btn btn-secondary">
-                                        Izvjestaj
-                                    </a>
-                                </td>
-                            </tr>
-                        @endforeach
+                            @foreach ($animalItem as $anim)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $anim->animal->name  }}</td>
+                                    <td>{{ $anim->animal->latin_name  }}</td>
+                                    <td>{{ $anim->animal_gender }}</td>
+                                    <td>{{ $anim->animal->animalSize->sizeAttributes->first()->name }}</td>
+                                    <td>{{ $anim->animal_dob }}</td>
+                                    <td>{{ $anim->animal_keep_type }}</td>
+                                
+                                    
+                                    <td>
+                                        <a href="{{ route('animal_item.show', $anim) }}" class="btn btn-warning btn-sm">
+                                            Pregled
+                                        </a>
+                                        <a href="{{ route('animal_item.edit', $anim) }}" class="btn btn-info btn-sm">
+                                            Uredi
+                                        </a>
+                                        <button type="button" class="btn btn-primary premjesti btn-sm" data-id="{{$anim->id}}">
+                                            Premjesti
+                                        </button>
+                                       
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                 </table>
                 </div>
             </div>
         </div>
+            
+    </div>
+</div> <!-- row -->
+
+<div class="row">
+    <div class="col-md-8 grid-margin">
+        <div class="card">
+            <div class="card-body">
+              <div class="row inbox-wrapper">
+            
+                <div class="col-lg-12 email-content">
+                  <div class="email-inbox-header">
+                    <div class="row justify-content-between">           
+                        <div class="email-title mb-2 mb-md-0"><span class="icon"><i data-feather="book"></i></span> Postupak postupanja u oporavilištu</div>  
+                        <div>
+                        <a type="button" class="btn btn-primary btn-sm btn-icon-text" data-toggle="modal" 
+                            data-target="#createCareStaffModal">
+                              
+                              
+                              Dodaj zapis
+                              <i class="btn-icon-append" data-feather="book"></i>
+                            </a> 
+                        </div>
+                     
+                    </div>
+                  </div>
+                  <div class="separator--small"></div>
+             
+                  <div class="email-list">      
+                    <div class="email-list-item">
+               
+                      <a href="{{ url('/email/read') }}" class="email-list-detail">
+                        <div>
+                          <span class="from">Primjer naziva za dnevnik unosa u oporavilište</span>
+                          <p class="msg">Predmet vezan za dnevnik unosa </p>
+                        </div>
+                        <div class="justify-content-between"> 
+                        <span class="date">
+                          
+                          23.11. 2021.
+                        </span>
+                        <a class="btn btn-warning btn-xs mt-1">
+                            pregled
+                         </a> 
+                        </div>
+                      </a>
+                    </div>
+                    <div class="email-list-item">
+              
+                      <a href="{{ url('/email/read') }}" class="email-list-detail">
+                        <div>
+                          <span class="from">Primjer naziva za dnevnik unosa u oporavilište</span>
+                          <p class="msg">Predmet vezan za dnevnik unosa </p>
+                        </div>
+                        <div class="justify-content-between"> 
+                            <span class="date">
+                           
+                              23.11. 2021.
+                            </span>
+                            <a class="btn btn-warning btn-xs mt-1">
+                                pregled
+                             </a> 
+                        </div>
+                      </a>
+                    </div>
+                    <div class="email-list-item">
+                
+                      <a href="{{ url('/email/read') }}" class="email-list-detail">
+                        <div>
+                          <span class="from">Primjer naziva za dnevnik unosa u oporavilište</span>
+                          <p class="msg">Predmet vezan za dnevnik unosa </p>
+                        </div>
+                        <div class="justify-content-between"> 
+                            <span class="date">
+                              23.11. 2021.
+                            </span>
+                            <a class="btn btn-warning btn-xs mt-1">
+                                pregled
+                             </a> 
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        
     </div>
 
-    <div class="col-md-4">
-        <div class="card grid-margin">
+    <div class="col-md-4 grid-margin">
+        <div class="card rounded grid-margin">
             <div class="card-body">
-                <div class="card-title">
-                    <h6>Dodatni opisni podaci oporavilišta o preuzimanju</h6>
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                    <h6 class="card-title mb-0">Dokumenti</h6>
                 </div>
 
-                <hr>
-
-                <p>{{ $animalItem->first()->animal->shelters->first()->pivot->description }}</p>
             </div>
         </div>
 
-        <div class="card grid-margin">
+        <div class="card rounded grid-margin">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 grid-margin">
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv: </label>
-                            <p class="text-muted">{{ $animalItem->first()->animal->name }}</p>
-                        </div>
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv: </label>
-                            <p class="text-muted">{{ $animalItem->first()->animal->latin_name }}</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 grid-margin">
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupni broj:</label>
-                            <p class="text-muted">
-                                @if ($animalItem->first()->status == 1)
-                                    {{ $animalItem->count() }}
-                                @endif
-                            </p>
-                        </div>
-                    </div>
+                <p>Stanje u trenutku zaprimanja u oporavilište</p>
+
+                <div class="d-flex align-items-center flex-wrap">
+               
                 </div>
+
+                <p>Stanje u kojem je zaplijena pronađena</p>            
+                    <div class="d-flex align-items-center flex-wrap">
+                    </div>
             </div>
         </div>
     </div>
 
 </div> <!-- row -->
+
 
 <!-- Modal -->
 <button type="button" id="openModal" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter">
@@ -165,7 +244,7 @@
 @endpush
 
 @push('custom-scripts')
-    <script src="{{ asset('assets/js/dashboard.js') }}"></script>
+    
 
     <script>
         $(function() {

@@ -41,7 +41,7 @@
           <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
            <div><h6 class="card-title">Podaci oporavilišta</h6> </div> 
-           <a href="{{ route('shelter.edit', $shelter->id) }}" class="btn btn-primary btn-icon-text" type="button">
+           <a href="{{ route('shelter.edit', $shelter->id) }}" class="btn btn-primary btn-sm btn-icon-text" type="button">
             Izmjeni podatke
              <i class="btn-icon-append" data-feather="box"></i>
            </a>
@@ -136,7 +136,7 @@
             <div class="d-flex align-items-center justify-content-between">
               <div><h6 class="card-title">Jedinke u oporavilištu</h6> </div>
               <div class="grid-margin">
-                <a href="{{ route('animal.create') }}" type="button" class="btn btn-primary btn-icon-text">
+                <a href="{{ route('animal.create') }}" type="button" class="btn btn-primary btn-icon-text btn-sm">
                   Dodaj jedinku
                   <i class="btn-icon-append" data-feather="activity"></i>
                 </a>
@@ -151,7 +151,7 @@
                 <thead>          
                   <tr>
                     <th>#</th>
-                    <th>Ukupno</th>
+                    <th>Broj jedinki</th>
                     <th>Šifra</th>
                     <th>Naziv jedinke</th>
                     <th>Latinski naziv</th>
@@ -188,7 +188,7 @@
                       </td>
                       <td>{{ $item->animalItems->first()->date_found ?? '' }}</td>
                       <td>
-                        <a class="btn btn-primary btn-icon-text" type="button" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelter_code}}">
+                        <a class="btn btn-info btn-icon-text btn-sm" type="button" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelter_code}}">
                           Pregled
                           <i class="btn-icon-append" data-feather="clipboard"></i>
                         </a>
@@ -204,9 +204,6 @@
         </div>
       </div>
     </div>
-
-   
-
 @endsection
 
 
