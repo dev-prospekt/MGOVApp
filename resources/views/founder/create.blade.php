@@ -7,7 +7,7 @@
 @section('content')
 
 <div>
-    <a type="button" class="btn btn-warning btn-icon-text" href="{{ route('shelters.founder.index', auth()->user()->shelter->id) }}">
+    <a type="button" class="btn btn-warning btn-icon-text" href="{{ route('shelters.founders.index', auth()->user()->shelter->id) }}">
         Povratak na popis
         <i class="btn-icon-append" data-feather="clipboard"></i>
     </a>
@@ -17,7 +17,7 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('shelters.founder.store', auth()->user()->shelter->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('shelters.founders.store', auth()->user()->shelter->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
 
@@ -91,6 +91,21 @@
                                 <label>Email adresa</label>
                                 <input type="text" name="email" class="form-control" >
                             </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select name="shelter_type" id="">
+                                    @foreach ($type as $ty)
+                                        <option value="{{ $ty->id }}">{{ $ty->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            
                         </div>
                     </div>
                     <div class="row">

@@ -1,9 +1,10 @@
 <div class="card">
     <div class="card-body">
         
-        <form action="{{ route('shelterAnimal.seizedStore') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('shelterAnimal.protectedStore') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
+
             <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
             <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
 
@@ -97,59 +98,82 @@
                     </div>
                 </div>
             </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>4. Dob jedinke</label>
-                            <select class="form-control" name="animal_age" id="">
-                            {{--  @if ($animalItem->animal_dob)
-                                    <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
-                                @endif --}}
-                                <option value="">Odaberi</option>
-                                <option value="ADL">ADL (adultna)</option>
-                                <option value="JUV">JUV (juvenilna)</option>
-                                <option value="SA">SA (subadultna)</option>
-                                <option value="N">N (neodređeno)</option>
-                            </select>
-                            @error('animal_age')
-                                <div class="text-danger">{{$errors->first('animal_age') }} </div>
-                            @enderror
-                        </div>    
-                    </div>  
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Način držanja - solitarno/grupa</label>
-                            <select class="form-control" name="solitary_or_group">
-                                <option value="">------</option>
-                                <option value="da">Solitarno</option>
-                                <option value="ne">Grupa</option>
-                            </select>
-                        </div> 
-            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>4. Dob jedinke</label>
+                        <select class="form-control" name="animal_age" id="">
+                        {{--  @if ($animalItem->animal_dob)
+                                <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
+                            @endif --}}
+                            <option value="">Odaberi</option>
+                            <option value="ADL">ADL (adultna)</option>
+                            <option value="JUV">JUV (juvenilna)</option>
+                            <option value="SA">SA (subadultna)</option>
+                            <option value="N">N (neodređeno)</option>
+                        </select>
+                        @error('animal_age')
+                            <div class="text-danger">{{$errors->first('animal_age') }} </div>
+                        @enderror
+                    </div>    
+                </div>  
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Način držanja - solitarno/grupa</label>
+                        <select class="form-control" name="solitary_or_group">
+                            <option value="">------</option>
+                            <option value="da">Solitarno</option>
+                            <option value="ne">Grupa</option>
+                        </select>
+                    </div> 
+        
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Način držanja: Hibernacija/estivacija</label>
+                        <select class="form-control hib_est" name="hib_est">
+                            <option value="">------</option>
+                            <option value="da">Da</option>
+                            <option value="ne">Ne</option>
+                        </select>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Način držanja: Hibernacija/estivacija</label>
-                            <select class="form-control hib_est" name="hib_est">
-                                <option value="">------</option>
-                                <option value="da">Da</option>
-                                <option value="ne">Ne</option>
-                            </select>
-                        </div>
-                
-                        <div class="form-group" id="hib_est_from_to">
-                            <label>Hibernacija/estivacija</label>
-                            <div class="input-group" id="daterangepicker">
-                                <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="hibern_start" class="form-control">
-                                    <span class="input-group-addon">
-                                    <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
+                    <div class="form-group" id="hib_est_from_to">
+                        <label>Hibernacija/estivacija</label>
+                        <div class="input-group" id="daterangepicker">
+                            <div class="input-group date datepicker" id="datePickerExample">
+                                <input type="text" name="hibern_start" class="form-control">
+                                <span class="input-group-addon">
+                                <i data-feather="calendar"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Datum zaplijene životinje</label>
+                        <div class="input-group date datepicker" id="datePickerExample">
+                            <input type="text" name="date_seized_animal" class="form-control">
+                            <span class="input-group-addon">
+                            <i data-feather="calendar"></i>
+                            </span>
+                        </div>
+                    </div>    
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Mjesto zapljene</label>
+                        <input type="text" class="form-control" name="place_seized">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    
+                </div>
+            </div>
+
             <div class="row">
                 <div class="separator"></div>
             </div>
@@ -234,7 +258,7 @@
             
                         <div class="form-group">
                             <label>Opis</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" name="status_receiving_desc" rows="5"></textarea>
+                            <textarea class="form-control" name="status_receiving_desc" rows="5"></textarea>
                         </div>
                         <div class="form-group">
                             <label>Upload <strong>(JPG, PNG)</strong></label>
@@ -243,54 +267,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="bordered-group">
-                        <div class="form-group">
-                            <label>Stanje u kojem je životinja pronađena</label>
-                            <select name="status_found" class="form-control">
-                                <option value="">----</option>
-                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                                <option value="otrovana">otrovana</option>
-                                <option value="bolesna">bolesna</option>
-                                <option value="uginula">uginula</option>
-                                <option value="ostalo">ostalo</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Opis</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" name="status_found_desc" rows="5"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Upload <strong>(JPG, PNG)</strong></label>
-                            <input type="file" id="status_found_file" name="status_found_file[]" multiple />
-                            <div id="error_status_found_file"></div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-md-4">
                     <div class="bordered-group">
-                        <div class="form-group">
-                            <label>Razlog zaprimanja životinje u oporavilište</label>
-                            <select name="reason" class="form-control">
-                                <option value="">----</option>
-                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                                <option value="otrovana">otrovana</option>
-                                <option value="bolesna">bolesna</option>
-                                <option value="uginula">uginula</option>
-                                <option value="ostalo">ostalo</option>
-                            </select>
-                        </div>
+                        <p>Vrsta i broj dokumenta temeljem koga je izvršena zapljena</p>
                         <div class="form-group">
                             <label>Opis</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" name="reason_desc" rows="5"></textarea>
+                            <textarea class="form-control" name="status_receiving_desc" rows="5"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Upload <strong>(PDF)</strong></label>
-                            <input type="file" id="reason_file" name="reason_file[]" multiple />
-                            <div id="error_reason_file"></div>
+                            <label>Upload <strong>(JPG, PNG)</strong></label>
+                            <input type="file" id="vrsta_broj_dokumenta" name="vrsta_broj_dokumenta[]" multiple />
+                            <div id="error_vrsta_broj_dokumenta"></div>
                         </div>
                     </div>
                 </div>

@@ -6,6 +6,7 @@ use App\Models\FounderData;
 use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
+use App\Models\Shelter\ShelterType;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class FounderDataController extends Controller
@@ -15,18 +16,25 @@ class FounderDataController extends Controller
     {
         $founders = FounderData::all();
 
-        return view('founder.index', compact('founders'));
+        return view('founder.index', [
+            'founders' => $founders,
+        ]);
     }
 
     public function create()
     {
-        return view('founder.create');
+        $type = ShelterType::where('code', '!=', 'OSZV')->get();
+
+        return view('founder.create', [
+            'type' => $type
+        ]);
     }
 
     public function store(Request $request)
     {   
         $founder = new FounderData;
         $founder->shelter_id = auth()->user()->shelter->id;
+        $founder->shelter_type_id = $request->shelter_type;
         $founder->name = $request->name;
         $founder->lastname = $request->lastname;
         $founder->address = $request->address;
