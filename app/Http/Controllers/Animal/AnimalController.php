@@ -43,8 +43,8 @@ class AnimalController extends Controller
     public function create()
     {
         // auth()->user()->shelter->id
-        $founder = FounderData::all();
         $shelter = Shelter::find(auth()->user()->shelter->id);
+        $founder = $shelter->founder;
         $sysCats = $shelter->animalSystemCategory;
         $shelterType = $shelter->shelterTypes;
         $markTypes = AnimalMarkType::all();
@@ -65,6 +65,8 @@ class AnimalController extends Controller
             'typeArray' => $type,
             'founder' => $founder,
             'markTypes' => $markTypes,
+            'shelter' => $shelter,
+            'shelterType' => $shelterType
         ]);
     }
 
@@ -76,116 +78,6 @@ class AnimalController extends Controller
      */
     public function store(AnimalPostRequest $request)
     {
-        $animals = new Animal;
-        $count = $request->quantity;
-
-        // Increment ID
-        $incrementId = DB::table('animal_shelter')->orderBy('id', 'DESC')->first();
-        if (empty($incrementId->id)) {
-            $increment = 1;
-        } else {
-            $increment = $incrementId->id + 1;
-        }
-
-        // Animal ID
-        foreach ($request->animal_id as $key) {
-            if (!empty($key)) {
-                $animal_id = $key;
-            }
-        }
-
-        // Pivot table
-        $animals->shelters()->attach($animal_id, [
-            'shelter_id' => $request->shelter_id,
-            'animal_id' => $animal_id,
-            'shelter_code' => Carbon::now()->format('Y') . '' . $request->shelter_code . '-' . $increment,
-            'quantity' => $request->quantity,
-        ]);
-
-        // Pivot id (animal_shelter)
-        $pivot_id = Animal::find($animal_id)->shelters()->orderBy('pivot_id', 'desc')->first();
-
-        // Create AnimalFile
-        $animalFiles = new AnimalFile;
-        $animalFiles->animal_shelter_id = $pivot_id->pivot->id; // ID pivot table animal_shelter
-        $animalFiles->shelter_code = Carbon::now()->format('Y') . '' . $request->shelter_code . '-' . $increment; // shelter_code
-        $animalFiles->save();
-
-        // Save documents
-        if ($request->documents) {
-            $animalFiles->addMultipleMediaFromRequest(['documents'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('media');
-                });
-        }
-        if ($request->status_receiving_file) {
-            $animalFiles->addMultipleMediaFromRequest(['status_receiving_file'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('status_receiving_file');
-                });
-        }
-        if ($request->status_found_file) {
-            $animalFiles->addMultipleMediaFromRequest(['status_found_file'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('status_found_file');
-                });
-        }
-        if ($request->reason_file) {
-            $animalFiles->addMultipleMediaFromRequest(['reason_file'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('reason_file');
-                });
-        }
-
-        // Create AnimalItem
-        for ($i = 0; $i < $count; $i++) {
-            $animalItem = new AnimalItem;
-            $animalItem->animal_id = $animal_id;
-            $animalItem->shelter_id = $request->shelter_id;
-            $animalItem->animal_file_id = $animalFiles->id;
-
-            if ($count != 1) {
-                $animalItem->solitary_or_group = 1;
-            } else {
-                $animalItem->solitary_or_group = 0;
-            }
-
-
-            $animalItem->shelter_code = Carbon::now()->format('Y') . '' . $request->shelter_code . '-' . $increment;
-            $animalItem->status = 1;
-            $animalItem->status_receiving = $request->status_receiving;
-            $animalItem->receiving_note = $request->receiving_note;
-            $animalItem->status_found = $request->status_found;
-            $animalItem->found_note = $request->found_note;
-            $animalItem->founder_id = $request->founder_id;
-            $animalItem->founder_note = $request->founder_note;
-            $animalItem->location = $request->location;
-            $animalItem->animal_gender = $request->animal_gender;
-            $animalItem->animal_dob = $request->animal_dob;
-            $animalItem->animal_mark_id = $request->animal_mark;
-            $animalItem->animal_mark_name = $request->animal_mark_name;
-            $animalItem->animal_found_note = $request->animal_found_note;
-            $animalItem->status_reason = $request->status_reason;
-            $animalItem->reason_note = $request->reason_note;
-            $animalItem->animal_keep_type = $request->animal_keep_type;
-
-
-            $animalItem->date_found = $request->date_found;
-            $animalItem->save();
-
-            // Date Range
-            if (!empty($request->start_date)) {
-                $date_range = new DateRange;
-                $date_range->animal_item_id = $animalItem->id;
-                $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
-                if ($request->hib_est == 'da') {
-                    $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start)->format('d.m.Y');
-                }
-                $date_range->save();
-            }
-        }
-
-        return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
 
     /**

@@ -34,148 +34,80 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
-                            <form action="{{ route("animal_item.update", $animalItem->id) }}" method="POST">
-                                @csrf
-                                @method('PATCH')
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label>Veličina</label>
-                                        <select class="form-control" name="animal_size_attributes_id" id="">
-                                            <option value="">Odaberi</option>
-                                            @foreach ($size->sizeAttributes as $siz)
-                                                @if ($animalItem->animal_size_attributes_id == $siz->id)
-                                                    <option selected value="{{$siz->id}}">{{ $siz->name }}</option>
-                                                @else
-                                                    <option value="{{ $siz->id }}">{{ $siz->name }}</option>
-                                                @endif
-                                            @endforeach
-                                        </select>
-                                        @error('animal_size_attributes_id')
-                                            <div class="text-danger">{{$errors->first('animal_size_attributes_id') }} </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Dob jedinke</label>
-                                        <select class="form-control" name="animal_dob" id="">
-                                            @if ($animalItem->animal_dob)
-                                                <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
-                                            @endif
-                                            <option value="">Odaberi</option>
-                                            <option value="ADL">ADL (adultna)</option>
-                                            <option value="JUV">JUV (juvenilna)</option>
-                                            <option value="SA">SA (subadultna)</option>
-                                        </select>
-                                        @error('animal_dob')
-                                            <div class="text-danger">{{$errors->first('animal_dob') }} </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Spol</label>
-                                        <select class="form-control" name="animal_gender" id="">
-                                            @if ($animalItem->animal_dob)
-                                                <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
-                                            @endif
-                                            <option value="">Odaberi</option>
-                                            <option value="muzjak">M (mužjak)</option>
-                                            <option value="zenka">Ž/F (ženka)</option>
-                                            <option value="nije moguce odrediti">N (nije moguće odrediti)</option>
-                                        </select>
-                                        @error('animal_gender')
-                                            <div class="text-danger">{{$errors->first('animal_gender') }} </div>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Lokacija</label>
-                                        <input type="text" class="form-control" name="location" value="{{ $animalItem->location }}" required>
-                                        @error('location')
-                                            <div class="text-danger">{{$errors->first('location') }} </div>
-                                        @enderror
-                                    </div>
-                        
-                                    <button type="submit" class="btn btn-primary mr-2">Ažuriraj</button>
-                                </div>
-                            </form>
-                        </div>
-
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <form action="/animalItem/update/{{$animalItem->id}}" method="POST">
                                 @csrf
                                 @method('POST')
 
-                                <div class="col-md-12">
-                                    <div class="form-group" id="hib_est_from_to">
-                                        <label>Hibernacija/estivacija</label>
-                                        <div class="d-flex">
-                                            <div class="input-group date datepicker" id="datePickerExample">
-                                                <input type="text" name="hib_est_from" class="form-control hib_est_from" value="{{ $animalItem->dateRange->hibern_start }}">
-                                                <span class="input-group-addon">
-                                                    <i data-feather="calendar"></i>
-                                                </span>
-                                            </div>
-                                            <div class="input-group date datepicker" id="datePickerExample">
-                                                <input type="text" name="hib_est_to" class="form-control hib_est_to" value="{{ $animalItem->dateRange->hibern_end }}">
-                                                <span class="input-group-addon">
-                                                    <i data-feather="calendar"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-    
-                                    <div class="form-group" id="period">
-                                        <label>Razdoblje provođenja proširene skrbi <strong>(ostalo {{ $totalDays }} dana)</strong></label>
-                                        @if ($totalDays != 0)
-                                        <div class="d-flex">
-                                            <div class="input-group date datepicker" id="datePickerExample">
-                                                <input type="text" name="full_care_start" class="form-control full_care_start">
-                                                <span class="input-group-addon">
-                                                    <i data-feather="calendar"></i>
-                                                </span>
-                                            </div>
-                                            <div class="input-group date datepicker" id="datePickerExample">
-                                                <input type="text" name="full_care_end" class="form-control full_care_end">
-                                                <span class="input-group-addon">
-                                                    <i data-feather="calendar"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        @endif
-                                    </div>
-    
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="card-title">
-                                                <span>Datum početka skrbi <strong>{{ $dateRange->start_date }}</strong></span>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Datum prestanka skrbi o životinji</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group" id="hib_est_from_to">
+                                            <label>Hibernacija/estivacija</label>
+                                            <div class="d-flex">
                                                 <div class="input-group date datepicker" id="datePickerExample">
-                                                    <input type="text" name="end_date" class="form-control end_date" value="{{ $dateRange->end_date }}">
+                                                    <input type="text" name="hib_est_from" class="form-control hib_est_from" value="{{ $animalItem->dateRange->hibern_start }}">
+                                                    <span class="input-group-addon">
+                                                        <i data-feather="calendar"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="input-group date datepicker" id="datePickerExample">
+                                                    <input type="text" name="hib_est_to" class="form-control hib_est_to" value="{{ $animalItem->dateRange->hibern_end }}">
                                                     <span class="input-group-addon">
                                                         <i data-feather="calendar"></i>
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label>Razlog prestanka skrbi o životinji</label>
-                                                <div class="input-group">
-                                                    <input type="text" name="reason_date_end" class="form-control" value="{{ $dateRange->reason_date_end }}">
+                                        </div>
+        
+                                        <div class="form-group" id="period">
+                                            <label>Razdoblje provođenja proširene skrbi <strong>(ostalo {{ $totalDays }} dana)</strong></label>
+                                            @if ($totalDays != 0)
+                                            <div class="d-flex">
+                                                <div class="input-group date datepicker" id="datePickerExample">
+                                                    <input type="text" name="full_care_start" class="form-control full_care_start">
+                                                    <span class="input-group-addon">
+                                                        <i data-feather="calendar"></i>
+                                                    </span>
+                                                </div>
+                                                <div class="input-group date datepicker" id="datePickerExample">
+                                                    <input type="text" name="full_care_end" class="form-control full_care_end">
+                                                    <span class="input-group-addon">
+                                                        <i data-feather="calendar"></i>
+                                                    </span>
                                                 </div>
                                             </div>
+                                            @endif
                                         </div>
                                     </div>
+    
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Datum prestanka skrbi o životinji (<strong>Datum početka skrbi {{ $dateRange->start_date }}</strong>)</label>
+                                            <div class="input-group date datepicker" id="datePickerExample">
+                                                <input type="text" name="end_date" class="form-control end_date" value="{{ $dateRange->end_date }}">
+                                                <span class="input-group-addon">
+                                                    <i data-feather="calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Razlog prestanka skrbi o životinji</label>
+                                            <div class="input-group">
+                                                <input type="text" name="reason_date_end" class="form-control" value="{{ $dateRange->reason_date_end }}">
+                                            </div>
+                                        </div> 
+                                    </div>       
+                                </div> 
 
-                                    <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>
-                                </div>
+                                <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>
                             </form>
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 stretch-card">
             <div class="card">
                 <div class="card-body">
                     <div class="mb-2">
@@ -221,6 +153,74 @@
             </div>
         </div>
 
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <form action="{{ route("animal_item.update", $animalItem->id) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Veličina</label>
+                                <select class="form-control" name="animal_size_attributes_id" id="">
+                                    <option value="">Odaberi</option>
+                                    @foreach ($size->sizeAttributes as $siz)
+                                        @if ($animalItem->animal_size_attributes_id == $siz->id)
+                                            <option selected value="{{$siz->id}}">{{ $siz->name }}</option>
+                                        @else
+                                            <option value="{{ $siz->id }}">{{ $siz->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                @error('animal_size_attributes_id')
+                                    <div class="text-danger">{{$errors->first('animal_size_attributes_id') }} </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Dob jedinke</label>
+                                <select class="form-control" name="animal_dob" id="">
+                                    @if ($animalItem->animal_dob)
+                                        <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
+                                    @endif
+                                    <option value="">Odaberi</option>
+                                    <option value="ADL">ADL (adultna)</option>
+                                    <option value="JUV">JUV (juvenilna)</option>
+                                    <option value="SA">SA (subadultna)</option>
+                                </select>
+                                @error('animal_dob')
+                                    <div class="text-danger">{{$errors->first('animal_dob') }} </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                <label>Spol</label>
+                                <select class="form-control" name="animal_gender" id="">
+                                    @if ($animalItem->animal_dob)
+                                        <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
+                                    @endif
+                                    <option value="">Odaberi</option>
+                                    <option value="muzjak">M (mužjak)</option>
+                                    <option value="zenka">Ž/F (ženka)</option>
+                                    <option value="nije moguce odrediti">N (nije moguće odrediti)</option>
+                                </select>
+                                @error('animal_gender')
+                                    <div class="text-danger">{{$errors->first('animal_gender') }} </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+
+                        </div>
+
+                        <button type="submit" class="btn btn-primary mr-2">Ažuriraj</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 
 @endsection

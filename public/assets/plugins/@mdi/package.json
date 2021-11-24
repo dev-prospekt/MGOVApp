@@ -2,7 +2,7 @@
   "_args": [
     [
       "@mdi/font@5.8.55",
-      "C:\\Users\\AlenBarac\\laragon\\www\\MGOVApp"
+      "C:\\laragon\\www\\MGOVApp"
     ]
   ],
   "_from": "@mdi/font@5.8.55",
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/@mdi/font/-/font-5.8.55.tgz",
   "_spec": "5.8.55",
-  "_where": "C:\\Users\\AlenBarac\\laragon\\www\\MGOVApp",
+  "_where": "C:\\laragon\\www\\MGOVApp",
   "author": {
     "name": "Austin Andrews",
     "url": "http://twitter.com/templarian"

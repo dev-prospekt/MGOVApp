@@ -79,6 +79,7 @@
     <div class="col-md-8 grid-margin">
         <div class="card">
             <div class="card-body">
+<<<<<<< HEAD
               <div class="row inbox-wrapper">
             
                 <div class="col-lg-12 email-content">
@@ -178,6 +179,29 @@
 
                 <div class="d-flex align-items-center flex-wrap">
                
+=======
+                <div class="row">
+                    <div class="col-md-6 grid-margin">
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv: </label>
+                            <p class="text-muted">{{ $animalItem->first()->animal->name }}</p>
+                        </div>
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv: </label>
+                            <p class="text-muted">{{ $animalItem->first()->animal->latin_name }}</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 grid-margin">
+                        <div class="mt-3">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupni broj:</label>
+                            <p class="text-muted">
+                                @if ($animalItem->first()->status == 1)
+                                    {{ $animalItem->count() }}
+                                @endif
+                            </p>
+                        </div>
+                    </div>
+>>>>>>> ed592d19fc38995472efbdbce8811b4a321a5415
                 </div>
 
                 <p>Stanje u kojem je zaplijena pronađena</p>            

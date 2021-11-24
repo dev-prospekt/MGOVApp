@@ -7,6 +7,7 @@ use App\Models\DateFullCare;
 use App\Models\Shelter\Shelter;
 
 use Spatie\MediaLibrary\HasMedia;
+use App\Models\Animal\AnimalGroup;
 use App\Models\ShelterAnimalPrice;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -21,9 +22,9 @@ class AnimalItem extends Model implements HasMedia
         return $this->belongsTo(Animal::class)->with('animalSize', 'animalCategory');
     }
 
-    public function animalFile()
+    public function animalGroup()
     {
-        return $this->belongsTo(AnimalFile::class);
+        return $this->belongsTo(AnimalGroup::class);
     }
 
     public function shelter()

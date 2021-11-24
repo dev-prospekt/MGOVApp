@@ -91,7 +91,6 @@ mix.copyDirectory('node_modules/feather-icons/dist', 'public/assets/plugins/feat
   .copyDirectory('node_modules/moment/min/moment.min.js', 'public/assets/plugins/moment/moment.min.js')
   .copyDirectory('node_modules/bootstrap-fileinput/js/fileinput.min.js', 'public/assets/plugins/bootstrap-fileinput')
   .copyDirectory('node_modules/bootstrap-fileinput/js/locales/cr.js', 'public/assets/plugins/bootstrap-fileinput/lang')
-  .copyDirectory('node_modules/lightbox2/dist/js/lightbox.min.js', 'public/assets/plugins/lightbox2')
   
 
   

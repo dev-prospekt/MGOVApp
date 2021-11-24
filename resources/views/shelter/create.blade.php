@@ -216,9 +216,9 @@
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div>
-                                            @foreach ($type['shelterType'] as $res)
+                                            {{-- @foreach ($type['shelterType'] as $res)
                                                 <p>- {{ $res->name }}</p>
-                                            @endforeach
+                                            @endforeach --}}
                                         </div>
 
                                         <input type="hidden" name="shelter_id" value="{{Session::get('shelter_id')}}">

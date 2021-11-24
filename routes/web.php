@@ -11,16 +11,13 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\FounderDataController;
 use App\Http\Controllers\Shelter\ShelterController;
-
 use App\Http\Controllers\Animal\AnimalSizeController;
 use App\Http\Controllers\Animal\AnimalImportController;
 use App\Http\Controllers\Animal\AnimalCategoryController;
 use App\Http\Controllers\Animal\AnimalSeizedTypeController;
 use App\Http\Controllers\Animal\AnimalInvaziveTypeController;
 use App\Http\Controllers\Animal\AnimalProtectedTypeController;
-
 
 Auth::routes();
 
@@ -47,6 +44,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('animal_size', Animal\AnimalSizeController::class);
     Route::get('get_animal_size', [AnimalSizeController::class, 'getSizes'])->name('get_animal_size');
     Route::resource('animal_order', Animal\AnimalOrderController::class);
+
+    Route::resource('shelters.animal_groups', Animal\AnimalGroupController::class);
 
     Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->parameters([
         'accomodations' => 'shelter_accomodation'
@@ -116,6 +115,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Custom
     Route::get('shelter-dt', 'Shelter\ShelterController@indexDataTables')->name('shelter:dt');
+    Route::get('shelters/{shelter}/shelter-animal-dt', 'Shelter\ShelterController@dataTableAnimals')->name('shelter_animal:dt');
 
     Route::post('createAnimalSystemCat', 'Shelter\ShelterController@createAnimalSystemCat')->name('createAnimalSystemCat');
 
@@ -124,7 +124,20 @@ Route::group(['middleware' => ['auth']], function () {
     // Update AnimalItem Date, Price
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
 
-    Route::post('founder', [FounderDataController::class, 'store'])->name('founder_data.store');
+    // Founder
+    Route::resource('shelters.founder', FounderDataController::class);
+    Route::get('founder-dt', 'FounderDataController@indexDataTables')->name('founder:dt');
+    Route::get('founder/fileDelete/{file}', 'FounderDataController@fileDelete')->name('founder.fileDelete');
+
+    // Animal create START
+    Route::get('shelters/{shelter}/animal/create', 'Animal\AnimalShelterCreateController@createView')->name('shelterAnimal.create');
+    Route::post('animals/getfounders', 'Animal\AnimalShelterCreateController@getFounder')->name('shelterAnimal.getfounder');
+    Route::post('animals/getForms', 'Animal\AnimalShelterCreateController@getForm')->name('shelterAnimal.getForm');
+
+    Route::post('animals/protected_store', 'Animal\AnimalShelterCreateController@protectedStore')->name('shelterAnimal.protectedStore');
+    Route::post('animals/invasive_store', 'Animal\AnimalShelterCreateController@invasiveStore')->name('shelterAnimal.invasiveStore');
+    Route::post('animals/seized_store', 'Animal\AnimalShelterCreateController@seizedStore')->name('shelterAnimal.seizedStore');
+    // Animal create END
 
     Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
     Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');

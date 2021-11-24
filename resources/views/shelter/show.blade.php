@@ -1,6 +1,8 @@
 @extends('layout.master')
+
 @push('plugin-styles')
   <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/datatables-net/dataTables.bootstrap4.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -40,12 +42,15 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
-           <div><h6 class="card-title">Podaci oporavilišta</h6> </div> 
-           <a href="{{ route('shelter.edit', $shelter->id) }}" class="btn btn-primary btn-sm btn-icon-text" type="button">
-            Izmjeni podatke
-             <i class="btn-icon-append" data-feather="box"></i>
-           </a>
-            </div>       
+              <div><h6 class="card-title">Podaci oporavilišta</h6> </div> 
+              <a href="{{ route('shelter.edit', $shelter->id) }}" class="btn btn-primary btn-icon-text" type="button">
+                Izmjeni podatke
+                <i class="btn-icon-append" data-feather="box"></i>
+              </a>
+            </div> 
+            @if($msg = Session::get('update_shelter'))
+            <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+            @endif      
               <div class="row">
                 <div class="col-md-4 grid-margin">    
                     <div class="mt-2">
@@ -136,7 +141,7 @@
             <div class="d-flex align-items-center justify-content-between">
               <div><h6 class="card-title">Jedinke u oporavilištu</h6> </div>
               <div class="grid-margin">
-                <a href="{{ route('animal.create') }}" type="button" class="btn btn-primary btn-icon-text btn-sm">
+                <a href="{{ route('shelterAnimal.create', [$shelter->id]) }}" type="button" class="btn btn-primary btn-icon-text">
                   Dodaj jedinku
                   <i class="btn-icon-append" data-feather="activity"></i>
                 </a>
@@ -151,51 +156,14 @@
                 <thead>          
                   <tr>
                     <th>#</th>
-                    <th>Broj jedinki</th>
-                    <th>Šifra</th>
-                    <th>Naziv jedinke</th>
+                    <th>Naziv</th>
                     <th>Latinski naziv</th>
-                    <th>Oznaka vrste</th>
-                    <th>Tip jedinke</th>
-                    <th>Zaprimljeno</th>
+                    <th>Ukupno</th>
+                    <th>Šifra</th>
                     <th></th>
                   </tr>
                 </thead>
                 <tbody>
-    
-                  @foreach ($shelter->animals as $item)
-                    <tr>
-                      <td>{{ $loop->iteration }}</td>
-                      <td><span class="badge badge-secondary">{{ $item->pivot->quantity }}</span></td>
-                      <td>{{ $item->pivot->shelter_code }}</td>
-                      <td>{{ $item->name }}</td>
-                      <td>{{ $item->latin_name }}</td>
-                      <td>
-                        @foreach ($item->animalCodes as $code)
-    
-                          <button type="button" class="btn {{ $code->name == "PZ" ? 'btn-danger' : btn-info }}" data-toggle="tooltip" data-placement="bottom" title="{{ $code->desc}}">
-                            {{ $code->name}}
-                          </button>
-                        @endforeach
-                      </td>
-                      <td>
-                        @foreach ($item->animalType as $res)
-                        <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="{{ $res->type_name}}">
-                          {{ $res->type_code }}
-                        </button>
-                       
-                        @endforeach
-                      </td>
-                      <td>{{ $item->animalItems->first()->date_found ?? '' }}</td>
-                      <td>
-                        <a class="btn btn-info btn-icon-text btn-sm" type="button" href="/shelter/{{$item->pivot->shelter_id}}/animal/{{$item->pivot->shelter_code}}">
-                          Pregled
-                          <i class="btn-icon-append" data-feather="clipboard"></i>
-                        </a>
-                      </td>
-                    </tr>
-                  @endforeach
-    
                 </tbody>                
               </table>
             </div>
@@ -206,7 +174,30 @@
     </div>
 @endsection
 
+@push('plugin-scripts')
+  <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
+  <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
+@endpush
 
 @push('custom-scripts')
- 
+<script>
+$(function() {
+  var table = $('#shelterAnimalTable').DataTable({
+      processing: true,
+      serverSide: true,
+      ajax: '{!! route('shelter.show', [$shelter->id]) !!}',
+      columns: [
+          { data: 'id', name: 'id'},
+          { data: 'name', name: 'name'},
+          { data: 'latin_name', name: 'latin_name'},
+          { data: 'quantity', name: 'quantity'},
+          { data: 'shelter_code', name: 'shelter_code'},
+          { data: 'action', name: 'action'},
+      ],
+      language: {
+          url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
+      }
+  });
+});
+</script>
 @endpush
