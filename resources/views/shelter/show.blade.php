@@ -151,14 +151,14 @@
             <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
             @endif
     
-            <div class="table-responsive">
+            <div class="table-responsive-sm">
               <table id="shelterAnimalTable" class="table">
                 <thead>          
                   <tr>
                     <th>#</th>
+                    <th>Ukupno</th>
                     <th>Naziv</th>
                     <th>Latinski naziv</th>
-                    <th>Ukupno</th>
                     <th>Šifra</th>
                     <th></th>
                   </tr>
@@ -188,9 +188,9 @@ $(function() {
       ajax: '{!! route('shelter.show', [$shelter->id]) !!}',
       columns: [
           { data: 'id', name: 'id'},
+          { data: 'quantity', name: 'quantity'},
           { data: 'name', name: 'name'},
           { data: 'latin_name', name: 'latin_name'},
-          { data: 'quantity', name: 'quantity'},
           { data: 'shelter_code', name: 'shelter_code'},
           { data: 'action', name: 'action'},
       ],
