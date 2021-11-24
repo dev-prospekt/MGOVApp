@@ -44,6 +44,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('animal_size', Animal\AnimalSizeController::class);
     Route::get('get_animal_size', [AnimalSizeController::class, 'getSizes'])->name('get_animal_size');
     Route::resource('animal_order', Animal\AnimalOrderController::class);
+    Route::resource('shelters.animal_groups.animal_items', Animal\AnimalItemController::class);
+    Route::resource('animal_groups.animal_logs', Animal\AnimalGroupLogController::class);
+    Route::resource('animal_items.animal_logs', Animal\AnimalItemLogController::class);
 
     Route::resource('shelters.animal_groups', Animal\AnimalGroupController::class);
 
@@ -120,7 +123,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
 
     // Founder
-    Route::resource('shelters.founder', FounderDataController::class);
+    Route::resource('shelters.founders', FounderDataController::class);
     Route::get('founder-dt', 'FounderDataController@indexDataTables')->name('founder:dt');
     Route::get('founder/fileDelete/{file}', 'FounderDataController@fileDelete')->name('founder.fileDelete');
 
