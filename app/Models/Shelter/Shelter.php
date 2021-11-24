@@ -34,7 +34,7 @@ class Shelter extends Model
 
     public function animalGroups()
     {
-        return $this->belongsToMany(AnimalGroup::class);
+        return $this->belongsToMany(AnimalGroup::class)->with('animal');
     }
 
     public function shelterStaff()

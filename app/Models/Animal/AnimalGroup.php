@@ -17,7 +17,7 @@ class AnimalGroup extends Model
         return $this->belongsToMany(Shelter::class)->where('active_group', 1);
     }
 
-    public function animals()
+    public function animal()
     {
         return $this->belongsTo(Animal::class);
     }

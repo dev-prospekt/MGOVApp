@@ -156,6 +156,8 @@
                 <thead>          
                   <tr>
                     <th>#</th>
+                    <th>Naziv</th>
+                    <th>Latinski naziv</th>
                     <th>Ukupno</th>
                     <th>Šifra</th>
                     <th></th>
@@ -183,9 +185,11 @@ $(function() {
   var table = $('#shelterAnimalTable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: '{!! route('shelter_animal:dt', [$shelter->id]) !!}',
+      ajax: '{!! route('shelter.show', [$shelter->id]) !!}',
       columns: [
           { data: 'id', name: 'id'},
+          { data: 'name', name: 'name'},
+          { data: 'latin_name', name: 'latin_name'},
           { data: 'quantity', name: 'quantity'},
           { data: 'shelter_code', name: 'shelter_code'},
           { data: 'action', name: 'action'},

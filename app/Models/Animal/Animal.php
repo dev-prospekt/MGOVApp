@@ -14,7 +14,6 @@ class Animal extends Model
     protected $casts = ['id' => 'integer', 'animal_system_category_id' => 'integer', 'animal_size_id' => 'integer'];
     protected $fillable = ['animal_category_id', 'animal_size_id', 'name', 'latin_name'];
 
-
     public function animalCategory()
     {
         return $this->belongsTo(AnimalCategory::class)->with('animalSystemCategory');

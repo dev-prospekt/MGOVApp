@@ -100,11 +100,45 @@ class ShelterController extends Controller
      * @param  \App\Models\Shelter  $shelter
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $shelter = Shelter::with('users')->findOrFail($id);
+        $shelters = Shelter::with('users', 'animalGroups')->findOrFail($id);
+        $animal_groups = $shelters->animalGroups;
 
-        return view('shelter.show', ['shelter' => $shelter]);
+        if($request->ajax())
+        {
+            return Datatables::of($animal_groups)
+            ->addIndexColumn()
+            ->addColumn('name', function ($animal_groups) {
+                return $animal_groups->animal->name;
+            })
+            ->addColumn('latin_name', function ($animal_groups) {
+                return $animal_groups->animal->latin_name;
+            })
+            ->addColumn('action', function ($animal_group) {
+                return '
+                <div class="d-flex align-items-center">
+                    <a href="/shelters/'. $animal_group->pivot->shelter_id .'/animal_groups/'.$animal_group->id.'" class="btn btn-xs btn-info mr-2">
+                        <i class="mdi mdi-tooltip-edit"></i> 
+                        Info
+                    </a>
+                
+                    <a href="animal_group/' . $animal_group->id . '/edit" class="btn btn-xs btn-primary mr-2">
+                        <i class="mdi mdi-tooltip-edit"></i> 
+                        Uredi
+                    </a>
+
+                    <a href="javascript:void(0)" id="animal_groupClick" class="btn btn-xs btn-danger" >
+                        <i class="mdi mdi-delete"></i>
+                        <input type="hidden" id="animal_group_id" value="' . $animal_group->id . '" />
+                        Brisanje
+                    </a>
+                </div>
+                ';
+            })->make();
+        }
+
+        return view('shelter.show', ['shelter' => $shelters]);
     }
 
     /**
@@ -250,34 +284,5 @@ class ShelterController extends Controller
             'fileVetAmbulance' => $fileVetAmbulance,
             'shelterPersonelStaff' => $shelterPersonelStaff
         ]);
-    }
-
-    public function dataTableAnimals(Shelter $shelter)
-    {
-        $shelters = Shelter::findOrFail($shelter->id);
-        $animal_groups = $shelter->animalGroups;
-        
-        return Datatables::of($animal_groups)
-        ->addColumn('action', function ($animal_group) {
-            return '
-            <div class="d-flex align-items-center">
-                <a href="/shelters/'. $animal_group->pivot->shelter_id .'/animal_groups/'.$animal_group->id.'" class="btn btn-xs btn-info mr-2">
-                    <i class="mdi mdi-tooltip-edit"></i> 
-                    Info
-                </a>
-            
-                <a href="animal_group/' . $animal_group->id . '/edit" class="btn btn-xs btn-primary mr-2">
-                    <i class="mdi mdi-tooltip-edit"></i> 
-                    Uredi
-                </a>
-
-                <a href="javascript:void(0)" id="animal_groupClick" class="btn btn-xs btn-danger" >
-                    <i class="mdi mdi-delete"></i>
-                    <input type="hidden" id="animal_group_id" value="' . $animal_group->id . '" />
-                    Brisanje
-                </a>
-            </div>
-            ';
-        })->make();
     }
 }
