@@ -75,7 +75,7 @@
         var table = $('#founder-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{!! route('founder:dt') !!}',
+            ajax: '{!! route('shelters.founders.index', 'auth()->user()->shelter->id' ) !!}',
             columns: [
                 { data: 'id', name: 'id'},
                 { data: 'name', name: 'name'},
@@ -96,7 +96,7 @@
         $('#founder-table').on('click', '.trash', function(e){
             e.preventDefault();
 
-            id = $(this).attr('data-href');
+            url = $(this).attr('data-href');
 
             Swal.fire({
                 title: 'Jeste li sigurni?',
@@ -110,7 +110,7 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: 'DELETE',
-                        url: "founder/"+ id,
+                        url: url,
                         data: {_token: '{{csrf_token()}}'},
                         success: function (results) {
                             table.ajax.reload();

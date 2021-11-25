@@ -13,7 +13,7 @@ class FounderData extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    public function shelters()
+    public function shelter()
     {
         return $this->belongsTo(Shelter::class);
     }

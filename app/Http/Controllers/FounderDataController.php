@@ -12,9 +12,33 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class FounderDataController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
         $founders = FounderData::all();
+
+        if($request->ajax()){
+            $founders = FounderData::with('shelter')->where('shelter_id', auth()->user()->shelter->id)->get();
+
+            return Datatables::of($founders)
+                ->addColumn('action', function ($founder) {
+                    $deleteUrl = route('shelters.founders.destroy', [$founder->shelter->id, $founder->id]);
+                    $editUrl = route('shelters.founders.edit', [$founder->shelter->id, $founder->id]);
+
+                    return '
+                    <div class="d-flex align-items-center">
+                        <a href="javascript:void()" class="trash btn btn-xs btn-danger mr-2" data-href="'. $deleteUrl .'">
+                            <i class="mdi mdi-tooltip-trash"></i> 
+                            Delete
+                        </a>
+
+                        <a href="'.$editUrl.'" class="edit btn btn-xs btn-info mr-2">
+                            <i class="mdi mdi-tooltip-edit"></i> 
+                            Edit
+                        </a>
+                    </div>
+                    ';
+                })->make(true);
+        }
 
         return view('founder.index', [
             'founders' => $founders,
@@ -58,18 +82,27 @@ class FounderDataController extends Controller
     public function edit(Shelter $shelter, FounderData $founder)
     {
         $mediaFiles = $founder->getMedia('founder_documents');
+        $type = ShelterType::where('code', '!=', 'OSZV')->get();
 
         return view('founder.edit', [
             'founder' => $founder, 
-            'mediaFiles' => $mediaFiles
+            'mediaFiles' => $mediaFiles,
+            'type' => $type
         ]);
     }
 
     public function update(Request $request, Shelter $shelter, FounderData $founder)
     {
-        $founder->name = $request->name;
-        $founder->email = $request->email;
         $founder->shelter_id = auth()->user()->shelter->id;
+        $founder->shelter_type_id = $request->shelter_type_id;
+        $founder->name = $request->name;
+        $founder->lastname = $request->lastname;
+        $founder->address = $request->address;
+        $founder->country = $request->country;
+        $founder->contact = $request->contact;
+        $founder->email = $request->email;
+        $founder->service = $request->service;
+        $founder->others = $request->others;
         $founder->save();
 
         if($request->founder_documents){
@@ -80,28 +113,6 @@ class FounderDataController extends Controller
         }
 
         return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
-    }
-
-    public function indexDataTables()
-    {
-        $founders = FounderData::where('shelter_id', auth()->user()->shelter->id)->get();
-
-        return Datatables::of($founders)
-            ->addColumn('action', function ($founder) {
-            return '
-            <div class="d-flex align-items-center">
-                <a href="javascript:void()" class="trash btn btn-xs btn-danger mr-2" data-href="'. $founder->id .'">
-                    <i class="mdi mdi-tooltip-trash"></i> 
-                    Delete
-                </a>
-
-                <a href="founder/'.$founder->id.'/edit" class="edit btn btn-xs btn-info mr-2">
-                    <i class="mdi mdi-tooltip-edit"></i> 
-                    Edit
-                </a>
-            </div>
-            ';
-            })->make(true);
     }
 
     public function destroy(Shelter $shelter, FounderData $founder)
