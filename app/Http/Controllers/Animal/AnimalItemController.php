@@ -6,6 +6,7 @@ use PDF;
 use Carbon\Carbon;
 use App\Models\DateRange;
 use Illuminate\Support\Str;
+use App\Models\DateFullCare;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
@@ -168,62 +169,65 @@ class AnimalItemController extends Controller
         return response()->json(['msg' => 'success']);
     }
 
-    public function getId($id)
+    public function changeShelter(Request $request, AnimalItem $animalItem)
     {
-        $animalItems = AnimalItem::find($id);
+        $animal_items = AnimalItem::with('dateRange', 'dateFullCare', 'animalGroup')->find($animalItem->id);
+        $newShelter = Shelter::find($request->selectedShelter);
 
-        return response()->json($animalItems);
-    }
+        // Zadnji ID u grupi
+        $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
+        $increment = $incrementId->id + 1;
 
-    public function changeShelter(Request $request, $id)
-    {
-        //Increment ID
-        $incrementId = DB::table('animal_shelter')->orderBy('id', 'DESC')->first();
-        if (empty($incrementId->id)) {
-            $increment = 1;
-        } else {
-            $increment = $incrementId->id + 1;
-        }
+        // Promjena količine na trenutnoj grupi
+        $animal_group = AnimalGroup::find($animal_items->animalGroup->id);
+        $animal_group->decrement('quantity', 1);
+        $animal_group->save();
 
-        // Promjena statusa kod trenutne životinje
-        $animalItem = AnimalItem::findOrFail($id);
-        $animalItem->status = 0;
-        $animalItem->save();
+        // New group
+        $newAnimalGroup = new AnimalGroup;
+        $newAnimalGroup->animal_id = $animal_items->animal_id;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') .''. $newShelter->shelter_code .'/'. $increment;
+        $newAnimalGroup->quantity = 1;
+        $newAnimalGroup->save();
 
-        // ID od sheltera kojem je pripadala životinja
-        $shelterID = $animalItem->shelter_id;
-
-        $shelter = Shelter::find($request->shelter_id);
-
-        // Umanjenje količine za 1
-        $shelter->animals()
-            ->newPivotStatement()
-            ->where('animal_id', '=', $request->animal_id)
-            ->where('shelter_code', '=', $request->shelter_code)
-            ->decrement('quantity', 1);
-
-        // COPY DESC AND CREATED
-        $lastShelter = $shelter->animals()
-            ->newPivotStatement()
-            ->where('animal_id', '=', $request->animal_id)
-            ->where('shelter_code', '=', $request->shelter_code)->get();
-
-        // Dodavanje životinje u novi šelter sa novom šifrom
-        $shelter->animals()->attach($id, [
-            'animal_id' => $request->animal_id,
-            'shelter_id' => $request->shelter_id,
-            'quantity' => 1,
-            'shelter_code' => Carbon::now()->format('Y') . '' . $shelter->shelter_code . '-' . $increment,
+        // Pivot table
+        $newAnimalGroup->shelters()->attach($newAnimalGroup->id, [
+            'shelter_id' => $request->selectedShelter,
+            'active_group' => true,
         ]);
 
-        // Kopija životinje u novi šelter
-        $copy = $animalItem->replicate();
-        $copy->status = 1;
-        $copy->shelter_id = $request->shelter_id;
-        $copy->shelter_code = Carbon::now()->format('Y') . '' . $shelter->shelter_code . '-' . $increment;
-        $copy->save();
+        // Update status animalItem
+        $animal_items->in_shelter = false;
+        $animal_items->save();
 
-        return redirect('/shelter/' . $shelterID)->with('msg', 'Uspješno premješteno u oporavilište ' . $shelter->name . '');
+        // Copy Item
+        $newAnimalItem = $animal_items->replicate();
+        $newAnimalItem->animal_group_id = $newAnimalGroup->id;
+        $newAnimalItem->shelter_id = $newShelter->id;
+        $newAnimalItem->in_shelter = true;
+        $newAnimalItem->save();
+
+        // Date full care
+        $dateFullCare = DateFullCare::where('animal_item_id', $animal_items->id)->get();
+        if(!empty($dateFullCare)){
+            foreach ($dateFullCare as $item) {
+                $newDateRange = $item->replicate();
+                $newDateRange->animal_item_id = $newAnimalItem->id;
+                $newDateRange->save();
+            }
+        }
+
+        // Date Range
+        $dateRange = DateRange::find($animal_items->dateRange->id);
+        $newDateRange = $dateRange->replicate();
+        $newDateRange->animal_item_id = $newAnimalItem->id;
+        $newDateRange->save();
+
+        return response()->json([
+            'msg' => 'success', 
+            'back' => $request->currentShelter,
+            'newShelter' => $newShelter
+        ]);
     }
 
     public function generatePDF($id)

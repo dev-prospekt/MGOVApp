@@ -50,6 +50,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('shelters.animal_groups', Animal\AnimalGroupController::class);
 
+    // Change Shelter
+    Route::post('animal_group/{animalGroup}', 'Animal\AnimalGroupController@groupChangeShelter');
+    Route::post('animal_item/{animalItem}', 'Animal\AnimalItemController@changeShelter');
+    // Change Shelter
+
     Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->parameters([
         'accomodations' => 'shelter_accomodation'
     ]);
@@ -124,6 +129,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Founder
     Route::resource('shelters.founders', FounderDataController::class);
+    Route::get('/founder_modal', 'FounderDataController@modalCreateFounder');
+    Route::post('/founder_create', 'FounderDataController@createFounder');
     Route::get('founder/fileDelete/{file}', 'FounderDataController@fileDelete')->name('founder.fileDelete');
 
     // Animal create START
@@ -136,13 +143,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animals/seized_store', 'Animal\AnimalShelterCreateController@seizedStore')->name('shelterAnimal.seizedStore');
     // Animal create END
 
-    Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
-    Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');
     Route::post('animal_item/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');
     Route::get('animal_item/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
     Route::get('generate-pdf/{id}', 'Animal\AnimalItemController@generatePDF');
 
-    Route::get('users-dt', 'UserController@indexDataTables')->name('users:dt');
     Route::get("restore/{user_id}", 'UserController@restore');
     Route::get("/roleMapping", 'UserController@roleMapping');
     Route::post("/roleMappingAdd", 'UserController@roleMappingAdd');

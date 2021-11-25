@@ -17,8 +17,8 @@ class CreateDateFullCaresTable extends Migration
             $table->id();
 
             $table->foreignId('animal_item_id');
-            $table->string('start_date');
-            $table->string('end_date')->nullable();
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
             $table->string('days')->nullable();
 
             $table->timestamps();

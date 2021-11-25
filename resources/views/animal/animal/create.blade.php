@@ -11,11 +11,11 @@
 <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5>
     <div>
-        <a type="button" class="btn btn-primary btn-icon-text" href="/shelters/{{ $shelter->id }}/founders/create">      
-            Dodaj Nalaznika
-            <i class="btn-icon-append" data-feather="user-plus"></i>
+        <a type="button" class="createFounder btn btn-primary btn-icon-text" href="javascript:void()">
+            Dodaj nalaznika
+            <i class="btn-icon-append" data-feather="user"></i>
         </a>
-        <a type="button" class="btn btn-warning btn-icon-text" href="/shelter/{{ $shelter->id }}">      
+        <a type="button" class="btn btn-warning btn-icon-text" href="/shelter/{{ $shelter->id }}">
             Povratak na popis
             <i class="btn-icon-append" data-feather="clipboard"></i>
         </a>
@@ -51,7 +51,7 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="card-description">U slučaju da nalaznik već nije spremljen u sustav, <a href="/shelters/{{ $shelter->id }}/founders/create">dodajte novog nalaznika.</a></p>
+                        <p class="card-description">U slučaju da nalaznik već nije spremljen u sustav, <a class="createFounder" href="javascript:void()">dodajte novog nalaznika.</a></p>
                     </div>       
                 </div>
             </div>
@@ -62,6 +62,7 @@
 
 </div>
 
+<div class="modal bd-example-modal-xl"></div>
 
 @endsection
 
@@ -99,6 +100,60 @@
                 });
             });
 
+            // Create founder
+            $(".createFounder").click(function(e){
+                e.preventDefault();
+
+                $.ajax({
+                    url: "/founder_modal",
+                    method: 'GET',
+                    success: function(result) {
+                        $(".modal").show();
+                        $(".modal").html(result['html']);
+                        founderScript();
+
+                        $('.modal').find("#founder-form").on('submit', function(e){
+                            e.preventDefault();
+
+                            var formData = this;
+
+                            $.ajax({
+                                url: "/founder_create",
+                                method: 'POST',
+                                data: new FormData(formData),
+                                processData: false,
+                                dataType: 'json',
+                                contentType: false,
+                                success: function(result) {
+                                    if(result.errors) {
+                                        $('.alert-danger').html('');
+                                        $.each(result.errors, function(key, value) {
+                                            $('.alert-danger').show();
+                                            $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                        });
+                                    } 
+                                    else {
+                                        $('.alert-danger').hide();
+                                        $('.alert-success').show();
+
+                                        setInterval(function(){
+                                            $('.alert-success').hide();
+                                            $('.modal').modal('hide');
+                                            location.reload();
+                                        }, 2000);
+                                    }
+                                }
+                            });
+                        });
+                    }
+                });
+            });
+
+            // Close Modal
+            $(".modal").on('click', '.modal-close', function(){
+                $(".modal").hide();
+            });
+
             // Get Form
             $("#founder").change(function(){
                 if($(this).val() > 0){
@@ -122,6 +177,32 @@
                     });
                 }
             });
+
+            function founderScript()
+            {
+                $("#founder_documents").fileinput({
+                    language: "cr",
+                    maxFileCount: 2,
+                    showPreview: false,
+                    showUpload: false,
+                    allowedFileExtensions: ['pdf', 'doc', 'docx', 'jpg', 'png'],
+                    elErrorContainer: '#error_founder_documents',
+                    msgInvalidFileExtension: 'Nevažeći format "{name}". Podržani su: "{extensions}"',
+                });
+
+                // SLUZBA
+                $("#ostalo").hide();
+                $("#sluzba").change(function(){
+                    var id = $("#sluzba").val();
+
+                    if(id != 'ostalo-navesti:'){
+                        $("#ostalo").hide();
+                    }
+                    else {
+                        $("#ostalo").show();
+                    }
+                });
+            }
 
             function scripts()
             {

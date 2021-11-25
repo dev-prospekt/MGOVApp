@@ -8,6 +8,7 @@ use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
 use App\Models\Shelter\ShelterType;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Facades\Validator;
 
 class FounderDataController extends Controller
 {
@@ -47,7 +48,7 @@ class FounderDataController extends Controller
 
     public function create()
     {
-        $type = ShelterType::where('code', '!=', 'OSZV')->get();
+        $type = ShelterType::all();
 
         return view('founder.create', [
             'type' => $type
@@ -82,7 +83,7 @@ class FounderDataController extends Controller
     public function edit(Shelter $shelter, FounderData $founder)
     {
         $mediaFiles = $founder->getMedia('founder_documents');
-        $type = ShelterType::where('code', '!=', 'OSZV')->get();
+        $type = ShelterType::all();
 
         return view('founder.edit', [
             'founder' => $founder, 
@@ -129,5 +130,55 @@ class FounderDataController extends Controller
         $media->delete();
 
         return response()->json(['msg' => 'success']);
+    }
+
+    public function modalCreateFounder()
+    {
+        $type = ShelterType::all();
+
+        $returnHTML = view('founder.modalCreate', ['type'=> $type])->render();
+
+        return response()->json( array('success' => true, 'html' => $returnHTML) );
+    }
+
+    public function createFounder(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'service' => 'required',
+                'shelter_type' => 'required'
+            ],
+            [
+                'service.required' => 'Služba koja je izvršila zaplijenu je obvezno polje',
+                'shelter_type.required' => 'Type je obvezno polje',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
+        $founder = new FounderData;
+        $founder->shelter_id = auth()->user()->shelter->id;
+        $founder->shelter_type_id = $request->shelter_type;
+        $founder->name = $request->name;
+        $founder->lastname = $request->lastname;
+        $founder->address = $request->address;
+        $founder->country = $request->country;
+        $founder->contact = $request->contact;
+        $founder->email = $request->email;
+        $founder->service = $request->service;
+        $founder->others = $request->others;
+        $founder->save();
+
+        if($request->founder_documents){
+            $founder->addMultipleMediaFromRequest(['founder_documents'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('founder_documents');
+            });
+        }
+
+        return response()->json(['success' => 'Uspješno dodano.']);
     }
 }

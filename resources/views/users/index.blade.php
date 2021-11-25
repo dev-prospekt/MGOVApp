@@ -105,7 +105,7 @@
         var table = $('#users-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{!! route('users:dt') !!}',
+            ajax: '{!! route('user.index') !!}',
             columns: [
                 { data: 'id', name: 'id'},
                 { data: 'name', name: 'name'},
@@ -133,12 +133,7 @@
                         e.preventDefault();
 
                         var formData = this;
-                        
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
+
                         $.ajax({
                             url: "{{ route('user.store') }}",
                             method: 'POST',

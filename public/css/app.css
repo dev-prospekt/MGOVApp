@@ -84,6 +84,16 @@ body {
   background-color: #fff;
 }
 
+.modal {
+  background: #0006;
+}
+.modal .close {
+  color: #fff;
+}
+.modal .close:hover {
+  color: #fff;
+}
+
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
 }

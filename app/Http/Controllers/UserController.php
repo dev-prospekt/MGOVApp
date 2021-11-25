@@ -20,10 +20,38 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $users = User::all();
         $usersTrashed = User::onlyTrashed()->get();
+
+        if($request->ajax()){
+            $users = User::where('name', '!=', 'Admin User')
+                ->select('users.*')
+                ->with('shelter')
+                ->get();
+
+            return Datatables::of($users)
+                ->addColumn('shelter', function($user){
+                    return $user->shelter->name;
+                })
+                ->addColumn('action', function ($user) {
+                    return '
+                    <div class="d-flex align-items-center">
+                        <a href="javascript:void(0)" class="edit btn btn-xs btn-primary mr-2" data-id="'.$user->id.'">
+                            <i class="mdi mdi-tooltip-edit"></i> 
+                            Uredi
+                        </a>
+
+                        <a href="javascript:void(0)" id="bntDeleteUser" class="btn btn-xs btn-danger" >
+                            <i class="mdi mdi-delete"></i>
+                            <input type="hidden" id="userId" value="'.$user->id.'" />
+                            Obriši
+                        </a>
+                    </div>
+                    ';
+                })->make(true);
+        }
 
         return view("users.index", [
             'users' => $users,
@@ -175,35 +203,6 @@ class UserController extends Controller
         User::withTrashed()->find($user_id)->restore();
 
         return redirect()->route("user.index");
-    }
-
-    public function indexDataTables()
-    {
-        $users = User::where('name', '!=', 'Admin User')
-                ->select('users.*')
-                ->with('shelter')
-                ->get();
-
-        return Datatables::of($users)
-            ->addColumn('shelter', function($user){
-                return $user->shelter->name;
-            })
-            ->addColumn('action', function ($user) {
-                return '
-                <div class="d-flex align-items-center">
-                    <a href="javascript:void(0)" class="edit btn btn-xs btn-primary mr-2" data-id="'.$user->id.'">
-                        <i class="mdi mdi-tooltip-edit"></i> 
-                        Uredi
-                    </a>
-
-                    <a href="javascript:void(0)" id="bntDeleteUser" class="btn btn-xs btn-danger" >
-                        <i class="mdi mdi-delete"></i>
-                        <input type="hidden" id="userId" value="'.$user->id.'" />
-                        Obriši
-                    </a>
-                </div>
-                ';
-            })->make(true);
     }
 
     public function roleMapping()

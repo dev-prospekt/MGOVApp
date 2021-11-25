@@ -18,12 +18,12 @@ class CreateDateRangeTable extends Migration
             
             $table->foreignId('animal_item_id');
             
-            $table->string('start_date');
-            $table->string('end_date')->nullable();
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
             $table->string('reason_date_end')->nullable();
 
-            $table->string('hibern_start')->nullable();
-            $table->string('hibern_end')->nullable();
+            $table->date('hibern_start')->nullable();
+            $table->date('hibern_end')->nullable();
 
             $table->timestamps();
         });

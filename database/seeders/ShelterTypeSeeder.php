@@ -14,7 +14,6 @@ class ShelterTypeSeeder extends Seeder
      */
     public function run()
     {
-
         ShelterType::create([
             'name' => 'Zaplijenjene jedinke',
             'code' => 'ZJ'
