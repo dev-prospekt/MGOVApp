@@ -105,7 +105,7 @@
         var table = $('#users-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{!! route('users:dt') !!}',
+            ajax: '{!! route('user.index') !!}',
             columns: [
                 { data: 'id', name: 'id'},
                 { data: 'name', name: 'name'},

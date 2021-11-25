@@ -53,7 +53,8 @@ Route::group(['middleware' => ['auth']], function () {
     // Change Shelter
     Route::post('animal_group/{animalGroup}', 'Animal\AnimalGroupController@groupChangeShelter');
     Route::post('animal_item/{animalItem}', 'Animal\AnimalItemController@changeShelter');
-
+    // Change Shelter
+    
     Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->parameters([
         'accomodations' => 'shelter_accomodation'
     ]);
@@ -144,7 +145,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('animal_item/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
     Route::get('generate-pdf/{id}', 'Animal\AnimalItemController@generatePDF');
 
-    Route::get('users-dt', 'UserController@indexDataTables')->name('users:dt');
     Route::get("restore/{user_id}", 'UserController@restore');
     Route::get("/roleMapping", 'UserController@roleMapping');
     Route::post("/roleMappingAdd", 'UserController@roleMappingAdd');
