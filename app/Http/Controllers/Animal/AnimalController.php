@@ -43,31 +43,31 @@ class AnimalController extends Controller
     public function create()
     {
         // auth()->user()->shelter->id
-        $shelter = Shelter::find(auth()->user()->shelter->id);
-        $founder = $shelter->founder;
-        $sysCats = $shelter->animalSystemCategory;
-        $shelterType = $shelter->shelterTypes;
-        $markTypes = AnimalMarkType::all();
+        // $shelter = Shelter::find(auth()->user()->shelter->id);
+        // $founder = $shelter->founder;
+        // $sysCats = $shelter->animalSystemCategory;
+        // $shelterType = $shelter->shelterTypes;
+        // $markTypes = AnimalMarkType::all();
 
-        $pluckCat = $sysCats->pluck('id');
-        $pluckTyp = $shelterType->pluck('code');
+        // $pluckCat = $sysCats->pluck('id');
+        // $pluckTyp = $shelterType->pluck('code');
 
-        $type = Animal::whereHas('animalType', function ($q) use ($pluckTyp) {
-                $q->whereIn('type_code', $pluckTyp);
-            })
-            ->whereHas('animalCategory.animalSystemCategory', function ($q) use ($pluckCat) {
-                $q->whereIn('id', $pluckCat);
-            })
-            ->orderBy('name')
-            ->get();
+        // $type = Animal::whereHas('animalType', function ($q) use ($pluckTyp) {
+        //         $q->whereIn('type_code', $pluckTyp);
+        //     })
+        //     ->whereHas('animalCategory.animalSystemCategory', function ($q) use ($pluckCat) {
+        //         $q->whereIn('id', $pluckCat);
+        //     })
+        //     ->orderBy('name')
+        //     ->get();
 
-        return view('animal.animal.create', [
-            'typeArray' => $type,
-            'founder' => $founder,
-            'markTypes' => $markTypes,
-            'shelter' => $shelter,
-            'shelterType' => $shelterType
-        ]);
+        // return view('animal.animal.create', [
+        //     'typeArray' => $type,
+        //     'founder' => $founder,
+        //     'markTypes' => $markTypes,
+        //     'shelter' => $shelter,
+        //     'shelterType' => $shelterType
+        // ]);
     }
 
     /**

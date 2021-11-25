@@ -15,10 +15,6 @@ class ShelterTypeSeeder extends Seeder
     public function run()
     {
         ShelterType::create([
-            'name' => 'Oporavak strogo zaštićenih vrsta iz prirode RH',
-            'code' => 'OSZV'
-        ]);
-        ShelterType::create([
             'name' => 'Zaplijenjene jedinke',
             'code' => 'ZJ'
         ]);

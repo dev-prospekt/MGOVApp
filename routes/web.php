@@ -50,6 +50,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::resource('shelters.animal_groups', Animal\AnimalGroupController::class);
 
+    // Change Shelter
+    Route::post('animal_group/{animalGroup}', 'Animal\AnimalGroupController@groupChangeShelter');
+    Route::post('animal_item/{animalItem}', 'Animal\AnimalItemController@changeShelter');
+
     Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->parameters([
         'accomodations' => 'shelter_accomodation'
     ]);

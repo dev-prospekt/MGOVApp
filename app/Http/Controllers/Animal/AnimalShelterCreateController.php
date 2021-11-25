@@ -55,13 +55,13 @@ class AnimalShelterCreateController extends Controller
         if(isset($request)){
             if($request->type_id && $request->founder_id){
 
-                if($request->type_id == 4){
+                if($request->type_id == 3){
                     return $this->protectedCreate($request->type_id, $request->founder_id);
                 }
-                if($request->type_id == 3){
+                if($request->type_id == 2){
                     return $this->invasiveCreate($request->type_id, $request->founder_id);
                 }
-                if($request->type_id == 2){
+                if($request->type_id == 1){
                     return $this->seizedCreate($request->type_id, $request->founder_id);
                 }
 

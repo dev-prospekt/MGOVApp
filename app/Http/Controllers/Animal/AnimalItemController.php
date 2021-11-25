@@ -176,57 +176,39 @@ class AnimalItemController extends Controller
         return response()->json($animalItems);
     }
 
-    public function changeShelter(Request $request, $id)
+    public function changeShelter(Request $request, AnimalItem $animalItem)
     {
-        //Increment ID
-        $incrementId = DB::table('animal_shelter')->orderBy('id', 'DESC')->first();
-        if(empty($incrementId->id)){
-            $increment = 1;
-        }
-        else {
-            $increment = $incrementId->id + 1;
-        }
-        
-        // Promjena statusa kod trenutne životinje
-        $animalItem = AnimalItem::findOrFail($id);
-        $animalItem->status = 0;
-        $animalItem->save();
+        $animal_items = AnimalItem::find($animalItem->id);
+        $newShelter = Shelter::find($request->selectedShelter);
 
-        // ID od sheltera kojem je pripadala životinja
-        $shelterID = $animalItem->shelter_id;
+        // Zadnji ID u grupi
+        $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
+        $increment = $incrementId->id + 1;
 
-        $shelter = Shelter::find($request->shelter_id);
-        
-        // Umanjenje količine za 1
-        $shelter->animals()
-        ->newPivotStatement()
-        ->where('animal_id', '=', $request->animal_id)
-        ->where('shelter_code', '=', $request->shelter_code)
-        ->decrement('quantity', 1);
+        // New group
+        $newAnimalGroup = new AnimalGroup;
+        $newAnimalGroup->animal_id = $animal_items->animal_id;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') .''. $newShelter->shelter_code .'/'. $increment;
+        $newAnimalGroup->quantity = 1;
+        $newAnimalGroup->save();
 
-        // COPY DESC AND CREATED
-        $lastShelter = $shelter->animals()
-        ->newPivotStatement()
-        ->where('animal_id', '=', $request->animal_id)
-        ->where('shelter_code', '=', $request->shelter_code)->get();
-
-        // Dodavanje životinje u novi šelter sa novom šifrom
-        $shelter->animals()->attach($id, [
-            'animal_id' => $request->animal_id,
-            'shelter_id' => $request->shelter_id,
-            'quantity' => 1,
-            'shelter_code' => Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment,
-            'description' => $lastShelter->first()->description,
+        // Pivot table
+        $newAnimalGroup->shelters()->attach($newAnimalGroup->id, [
+            'shelter_id' => $request->selectedShelter,
+            'active_group' => true,
         ]);
 
-        // Kopija životinje u novi šelter
-        $copy = $animalItem->replicate();
-        $copy->status = 1;
-        $copy->shelter_id = $request->shelter_id;
-        $copy->shelter_code = Carbon::now()->format('Y') .''. $shelter->shelter_code .'-'. $increment;
-        $copy->save();
-        
-        return redirect('/shelter/'.$shelterID)->with('msg', 'Uspješno premješteno u oporavilište '.$shelter->name.'');
+        // Copy Item
+        $newAnimalItem = $animal_items->replicate();
+        $newAnimalItem->animal_group_id = $newAnimalGroup->id;
+        $newAnimalItem->shelter_id = $newShelter->id;
+        $newAnimalItem->save();
+
+        return response()->json([
+            'msg' => 'success', 
+            'back' => $request->currentShelter,
+            'newShelter' => $newShelter
+        ]);
     }
 
     public function generatePDF($id)

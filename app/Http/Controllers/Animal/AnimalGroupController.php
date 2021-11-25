@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Animal;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
+use App\Models\Animal\AnimalItem;
 use App\Models\Animal\AnimalGroup;
 use App\Http\Controllers\Controller;
 
@@ -51,6 +53,7 @@ class AnimalGroupController extends Controller
     {
         $animal_group = AnimalGroup::with('animalItems', 'shelters')->find($animalGroup->id);
         $animal_items = $animal_group->animalItems;
+        $shelters = Shelter::where('id', '!=', $shelter->id)->get();
 
         if($request->ajax())
         {
@@ -67,9 +70,12 @@ class AnimalGroupController extends Controller
                 
                 return '
                 <div class="d-flex align-items-center">
-                    <a href="'.$url.'" class="btn btn-xs btn-info mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
+                    <a href="'.$url.'" class="btn btn-xs btn-info btn-sm mr-2">
                         Info
+                    </a>
+
+                    <a href="javascript:void(0)" id="changeShelterItem" data-id="'.$animal_items->id.'" class="btn btn-xs btn-warning btn-sm mr-2">
+                        Premjesti
                     </a>
                 </div>
                 ';
@@ -79,7 +85,8 @@ class AnimalGroupController extends Controller
 
         return view('animal.animal_group.show', [
             'animal_group' => $animal_group,
-            'animal_items' => $animal_items
+            'animal_items' => $animal_items,
+            'shelters' => $shelters
         ]);
     }
 
@@ -115,5 +122,44 @@ class AnimalGroupController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function groupChangeShelter(Request $request, AnimalGroup $animalGroup)
+    {
+        $animal_group = AnimalGroup::find($animalGroup->id);
+        $newShelter = Shelter::find($request->selectedShelter);
+
+        // Promjena stanja na trenutnoj grupi
+        $animal_group->shelters()->updateExistingPivot($animal_group->id, array('active_group' => false), false);
+
+        // Zadnji ID u grupi
+        $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
+        $increment = $incrementId->id + 1;
+
+        // Duplicate Grupe sa novom šifrom oporavilišta
+        $newAnimalGroup = $animal_group->replicate();
+        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') .''. $newShelter->shelter_code .'/'. $increment;
+        $newAnimalGroup->save();
+
+        // Novi red u pivot tablici koji povezuje dupliciranu grupu i novo oporavilište
+        $newAnimalGroup->shelters()->attach($newAnimalGroup->id, [
+            'shelter_id' => $request->selectedShelter,
+            'active_group' => true,
+        ]);
+
+        // Animal Items - Dupliciranje i promjena Id Sheltera
+        $animalItems = AnimalItem::where('animal_group_id', $animal_group->id)->get();
+        foreach ($animalItems as $item) {
+            $newAnimalItems = $item->replicate();
+            $newAnimalItems->animal_group_id = $newAnimalGroup->id;
+            $newAnimalItems->shelter_id = $newShelter->id;
+            $newAnimalItems->save();
+        }
+
+        return response()->json([
+            'msg' => 'success', 
+            'back' => $request->currentShelter,
+            'newShelter' => $newShelter
+        ]);
     }
 }
