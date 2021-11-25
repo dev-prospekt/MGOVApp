@@ -181,6 +181,16 @@
                     msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
                 });
 
+                $("#vrsta_broj_dokumenta").fileinput({
+                    language: "cr",
+                    maxFileCount: 2,
+                    showPreview: false,
+                    showUpload: false,
+                    allowedFileExtensions: ["jpg", "png",],
+                    elErrorContainer: '#error_vrsta_broj_dokumenta',
+                    msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
+                });
+
                 $('[data-toggle="tooltip"]').tooltip(); 
 
                 // HIBERNACIJA

@@ -94,6 +94,21 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Type</label>
+                                <select name="shelter_type" id="">
+                                    @foreach ($type as $ty)
+                                        <option value="{{ $ty->id }}">{{ $ty->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label>Ako se radi o službenoj osobi, podaci o službi-naziv institucije</label>

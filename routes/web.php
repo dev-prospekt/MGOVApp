@@ -124,7 +124,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Founder
     Route::resource('shelters.founders', FounderDataController::class);
-    Route::get('founder-dt', 'FounderDataController@indexDataTables')->name('founder:dt');
     Route::get('founder/fileDelete/{file}', 'FounderDataController@fileDelete')->name('founder.fileDelete');
 
     // Animal create START

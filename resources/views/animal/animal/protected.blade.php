@@ -98,59 +98,77 @@
                     </div>
                 </div>
             </div>
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>4. Dob jedinke</label>
-                            <select class="form-control" name="animal_age" id="">
-                            {{--  @if ($animalItem->animal_dob)
-                                    <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
-                                @endif --}}
-                                <option value="">Odaberi</option>
-                                <option value="ADL">ADL (adultna)</option>
-                                <option value="JUV">JUV (juvenilna)</option>
-                                <option value="SA">SA (subadultna)</option>
-                                <option value="N">N (neodređeno)</option>
-                            </select>
-                            @error('animal_age')
-                                <div class="text-danger">{{$errors->first('animal_age') }} </div>
-                            @enderror
-                        </div>    
-                    </div>  
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Način držanja - solitarno/grupa</label>
-                            <select class="form-control" name="solitary_or_group">
-                                <option value="">------</option>
-                                <option value="da">Solitarno</option>
-                                <option value="ne">Grupa</option>
-                            </select>
-                        </div> 
-            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>4. Dob jedinke</label>
+                        <select class="form-control" name="animal_age" id="">
+                        {{--  @if ($animalItem->animal_dob)
+                                <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
+                            @endif --}}
+                            <option value="">Odaberi</option>
+                            <option value="ADL">ADL (adultna)</option>
+                            <option value="JUV">JUV (juvenilna)</option>
+                            <option value="SA">SA (subadultna)</option>
+                            <option value="N">N (neodređeno)</option>
+                        </select>
+                        @error('animal_age')
+                            <div class="text-danger">{{$errors->first('animal_age') }} </div>
+                        @enderror
+                    </div>    
+                </div>  
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Način držanja - solitarno/grupa</label>
+                        <select class="form-control" name="solitary_or_group">
+                            <option value="">------</option>
+                            <option value="da">Solitarno</option>
+                            <option value="ne">Grupa</option>
+                        </select>
+                    </div> 
+        
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Način držanja: Hibernacija/estivacija</label>
+                        <select class="form-control hib_est" name="hib_est">
+                            <option value="">------</option>
+                            <option value="da">Da</option>
+                            <option value="ne">Ne</option>
+                        </select>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Način držanja: Hibernacija/estivacija</label>
-                            <select class="form-control hib_est" name="hib_est">
-                                <option value="">------</option>
-                                <option value="da">Da</option>
-                                <option value="ne">Ne</option>
-                            </select>
-                        </div>
-                
-                        <div class="form-group" id="hib_est_from_to">
-                            <label>Hibernacija/estivacija</label>
-                            <div class="input-group" id="daterangepicker">
-                                <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="hibern_start" class="form-control">
-                                    <span class="input-group-addon">
-                                    <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Lokacija preuzimanja životinje</label>
+                        <select class="form-control" name="location_retrieval_animal" id="">
+                            <option value="">Odaberi</option>
+                            <option value="u_oporavilistu">U oporavilištu</option>
+                            <option value="izvan_oporavilista">Izvan oporavilišta</option>
+                            <option value="preuzeli_djelatnici_oporavilista">Preuzeli djelatnici oporavilišta</option>
+                            <option value="preuzela_druga_sluzba">Preuzela druga služba</option>
+                        </select>
+                    </div>    
+                </div>
+                <div class="col-md-4"></div>
+                <div class="col-md-4">
+                    <div class="form-group" id="hib_est_from_to">
+                        <label>Hibernacija/estivacija</label>
+                        <div class="input-group" id="daterangepicker">
+                            <div class="input-group date datepicker" id="datePickerExample">
+                                <input type="text" name="hibern_start" class="form-control">
+                                <span class="input-group-addon">
+                                <i data-feather="calendar"></i>
+                                </span>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
             <div class="row">
                 <div class="separator"></div>
             </div>
