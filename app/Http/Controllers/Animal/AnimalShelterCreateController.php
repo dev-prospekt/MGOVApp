@@ -52,19 +52,18 @@ class AnimalShelterCreateController extends Controller
     // Get Form
     public function getForm(Request $request)
     {
-        if(isset($request)){
-            if($request->type_id && $request->founder_id){
+        if (isset($request)) {
+            if ($request->type_id && $request->founder_id) {
 
-                if($request->type_id == 4){
+                if ($request->type_id == 3) {
                     return $this->protectedCreate($request->type_id, $request->founder_id);
                 }
-                if($request->type_id == 3){
+                if ($request->type_id == 2) {
                     return $this->invasiveCreate($request->type_id, $request->founder_id);
                 }
-                if($request->type_id == 2){
+                if ($request->type_id == 1) {
                     return $this->seizedCreate($request->type_id, $request->founder_id);
                 }
-
             }
         }
     }
@@ -86,7 +85,7 @@ class AnimalShelterCreateController extends Controller
         } else {
             $increment = $incrementId->id + 1;
         }
-        
+
         $animal_group = new AnimalGroup;
         $animal_group->animal_id = $request->animal_id;
         $animal_group->shelter_code = Carbon::now()->format('Y') . '' . $request->shelter_code . '/' . $increment;
@@ -125,6 +124,13 @@ class AnimalShelterCreateController extends Controller
                 });
         }
 
+        if ($request->animal_mark_photos) {
+            $animal_group->addMultipleMediaFromRequest(['animal_mark_photos'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('animal_mark_photos');
+                });
+        }
+
         // Create AnimalItem
         for ($i = 0; $i < $request->quantity; $i++) {
             $animalItem = new AnimalItem;
@@ -141,13 +147,15 @@ class AnimalShelterCreateController extends Controller
             $animalItem->status_receiving_desc = $request->status_receiving_desc;
             $animalItem->status_found = $request->status_found;
             $animalItem->status_found_desc = $request->status_found_desc;
-            $animalItem->status_reason = $request->reason;
+            $animalItem->status_reason = $request->status_reason;
             $animalItem->reason_desc = $request->reason_desc;
             $animalItem->animal_found_note = $request->animal_found_note;
-            $animalItem->animal_date_found = Carbon::createFromFormat('m/d/Y', $request->date_found)->format('d.m.Y');
+            $animalItem->animal_date_found =  $request->date_found;
             $animalItem->animal_gender = $request->animal_gender;
             $animalItem->animal_age = $request->animal_age;
             $animalItem->location = $request->location;
+            $animalItem->location_animal_takeover = $request->location_animal_takeover;
+            $animalItem->solitary_or_group = $request->solitary_or_group;
             $animalItem->shelter_code = $animal_group->shelter_code;
             $animalItem->save();
 
@@ -201,8 +209,8 @@ class AnimalShelterCreateController extends Controller
         $shelterTypeCode = [$shelterType->code];
 
         $animal = Animal::whereHas('animalType', function ($q) use ($shelterTypeCode) {
-                $q->whereIn('type_code', $shelterTypeCode);
-            })
+            $q->whereIn('type_code', $shelterTypeCode);
+        })
             ->whereHas('animalCategory.animalSystemCategory', function ($q) use ($pluckSystemCat) {
                 $q->whereIn('id', $pluckSystemCat);
             })
@@ -216,6 +224,6 @@ class AnimalShelterCreateController extends Controller
             'shelter' => $shelter,
             'shelterType' => $shelterType
         ])->render();
-        return response()->json( array('success' => true, 'html' => $returnHTML) );
+        return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 }

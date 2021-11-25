@@ -52,34 +52,34 @@ class AnimalGroupController extends Controller
         $animal_group = AnimalGroup::with('animalItems', 'shelters')->find($animalGroup->id);
         $animal_items = $animal_group->animalItems;
 
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             return DataTables::of($animal_items)
-            ->addIndexColumn()
-            ->addColumn('name', function ($animal_items) {
-                return $animal_items->animal->name;
-            })
-            ->addColumn('latin_name', function ($animal_items) {
-                return $animal_items->animal->latin_name;
-            })
-            ->addColumn('action', function ($animal_items) {
-                $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
-                
-                return '
+                ->addIndexColumn()
+                ->addColumn('name', function ($animal_items) {
+                    return $animal_items->animal->name;
+                })
+                ->addColumn('latin_name', function ($animal_items) {
+                    return $animal_items->animal->latin_name;
+                })
+                ->addColumn('action', function ($animal_items) {
+                    $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+
+                    return '
                 <div class="d-flex align-items-center">
-                    <a href="'.$url.'" class="btn btn-xs btn-info mr-2">
+                    <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Info
                     </a>
                 </div>
                 ';
-            })
-            ->make();
+                })
+                ->make();
         }
 
         return view('animal.animal_group.show', [
             'animal_group' => $animal_group,
-            'animal_items' => $animal_items
+            'animal_items' => $animal_items,
+            'shelter_id' => $shelter->id
         ]);
     }
 

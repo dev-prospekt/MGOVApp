@@ -44,6 +44,7 @@ class CreateAnimalItemsTable extends Migration
             $table->string('animal_age');
             $table->string('solitary_or_group');
             $table->string('location');
+            $table->string('location_animal_takeover');
             $table->string('shelter_code');
 
             $table->timestamps();

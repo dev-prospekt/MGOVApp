@@ -11,7 +11,7 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>1. Odabir životinjske vrste</label>
+                        <label>Odabir životinjske vrste</label>
                         <select name="animal_id" class="form-control" id="animalSelect">
                             <option value="">------</option>
                             @foreach ($animal as $item)
@@ -23,7 +23,7 @@
 
                 <div class="col-md-2">
                     <div class="form-group">
-                        <label>2. Količina (broj jedinki)</label>
+                        <label>Broj jedinki</label>
                         <input type="number" class="form-control" name="quantity">
                         @error('quantity')
                             <div class="text-danger">{{$errors->first('quantity') }} </div>
@@ -31,77 +31,41 @@
                     </div>
                 </div>
 
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>3. Spol</label>
-                    <select class="form-control" name="animal_gender" id="">
-                        {{-- @if ($animalItem->animal_dob)
-                            <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
-                        @endif --}}
-                        <option value="">Odaberi</option>
-                        <option value="muzjak">M (mužjak)</option>
-                        <option value="zenka">Ž/F (ženka)</option>
-                        <option value="nije moguce odrediti">N (nije moguće odrediti)</option>
-                    </select>
-                    @error('animal_gender')
-                        <div class="text-danger">{{$errors->first('animal_gender') }} </div>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label>6. Veličina</label>
-                    <select class="form-control" name="animal_size_attributes_id" id="animalSize">
-                    </select>
-                    @error('animal_size_attributes_id')
-                        <div class="text-danger">{{$errors->first('animal_size_attributes_id') }} </div>
-                    @enderror
-                </div>
-            </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-
+                <div class="col-md-3">
                     <div class="form-group">
-                        <label>9. Lokacija pronalaska</label>
-                        <input type="text" class="form-control" name="location">
-                        @error('location')
-                            <div class="text-danger">{{$errors->first('location') }} </div>
+                        <label>Spol</label>
+                        <select class="form-control" name="animal_gender" id="">
+                            {{-- @if ($animalItem->animal_dob)
+                                <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
+                            @endif --}}
+                            <option value="">Odaberi</option>
+                            <option value="muzjak">M (mužjak)</option>
+                            <option value="zenka">Ž/F (ženka)</option>
+                            <option value="nije moguce odrediti">N (nije moguće odrediti)</option>
+                        </select>
+                        @error('animal_gender')
+                            <div class="text-danger">{{$errors->first('animal_gender') }} </div>
                         @enderror
                     </div>
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
-                        <label>7. Datum pronalska</label>
-                        <div class="input-group date datepicker" id="datePickerExample">
-                            <input type="text" name="date_found" class="form-control">
-                            <span class="input-group-addon">
-                            <i data-feather="calendar"></i>
-                            </span>
-                        </div>
-                    </div>
-            
-                </div>
-
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>8. Datum zaprimanja u oporavilište</label>
-                        <div class="input-group date datepicker" id="datePickerExample">
-                            <input type="text" name="start_date" class="form-control">
-                            <span class="input-group-addon">
-                            <i data-feather="calendar"></i>
-                            </span>
-                        </div>
+                        <label>Veličina</label>
+                        <select class="form-control" name="animal_size_attributes_id" id="animalSize">
+                        </select>
+                        @error('animal_size_attributes_id')
+                            <div class="text-danger">{{$errors->first('animal_size_attributes_id') }} </div>
+                        @enderror
                     </div>
                 </div>
             </div>
+
             <div class="row">
+                
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label>4. Dob jedinke</label>
+                        <label>Dob jedinke</label>
                         <select class="form-control" name="animal_age" id="">
                         {{--  @if ($animalItem->animal_dob)
                                 <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
@@ -149,29 +113,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Datum zaplijene životinje</label>
-                        <div class="input-group date datepicker" id="datePickerExample">
-                            <input type="text" name="date_seized_animal" class="form-control">
-                            <span class="input-group-addon">
-                            <i data-feather="calendar"></i>
-                            </span>
-                        </div>
-                    </div>    
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Mjesto zapljene</label>
-                        <input type="text" class="form-control" name="place_seized">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    
-                </div>
+              
             </div>
 
             <div class="row">
@@ -182,18 +124,139 @@
                 <div class="col-md-4">
                     <div class="bordered-group">
                         <div class="form-group">
-                            <label>Okolnosti i način pronalaska životinje</label>
-                            <div class="form-group">
-                            <textarea class="form-control" id="exampleFormControlTextarea1" name="animal_found_note" rows="5"></textarea>
-                            </div>              
+                            <label>Mjesto zapljene</label>
+                            <select class="form-control" name="place_seized_select">
+                                <option value="">------</option>
+                                <option value="unutrašnjost RH">unutrašnjost RH</option>
+                                <option value="granični prijelaz">granični prijelaz</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>mjesto/granični prijelaz</label>
+                            <input type="text" class="form-control" name="place_seized">
+                        </div>
+    
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bordered-group">
+                        <div class="form-group">
+                            <label>Datum zaplijene životinje</label>
+                            <div class="input-group date datepicker" id="datePickerExample">
+                                <input type="text" name="date_seized_animal" class="form-control">
+                                <span class="input-group-addon">
+                                <i data-feather="calendar"></i>
+                                </span>
+                            </div>
                         </div> 
-                    </div>                 
+                        <div class="form-group">
+                            <label>Datum zaprimanja u oporavilište</label>
+                            <div class="input-group date datepicker" id="datePickerExample">
+                                <input type="text" name="start_date" class="form-control">
+                                <span class="input-group-addon">
+                                <i data-feather="calendar"></i>
+                                </span>
+                            </div>
+                        </div>              
+                    </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="bordered-group">
                         <div class="form-group">
-                            <label>10. Nalaznik</label>
+                            <label>Lokacija preuzimanja životinje</label>
+                            <select class="form-control" name="location_retrieval_animal" id="">
+                                <option value="">Odaberi</option>
+                                <option value="u_oporavilistu">U oporavilištu</option>
+                                <option value="izvan_oporavilista">Izvan oporavilišta</option>
+                                <option value="preuzeli_djelatnici_oporavilista">Preuzeli djelatnici oporavilišta</option>
+                                <option value="preuzela_druga_sluzba">Preuzela druga služba</option>
+                            </select>
+                        </div> 
+                    </div>
+                </div>          
+            </div>
+          
+
+            <div class="row">
+                <div class="separator"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+
+                    <div class="bordered-group">
+                        <div class="form-group">
+                            <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
+                            <select name="status_receiving" class="form-control">
+                                <option value="">----</option>
+                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
+                                <option value="otrovana">otrovana</option>
+                                <option value="bolesna">bolesna</option>
+                                <option value="uginula">uginula</option>
+                                <option value="ostalo">ostalo</option>
+                            </select>
+                        </div>
+            
+                        <div class="form-group">
+                            <label>Opis</label>
+                            <textarea class="form-control" name="status_receiving_desc" rows="4"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload (JPG, PNG)</label>
+                            <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
+                            <div id="error_status_receiving_file"></div>
+                        </div>
+                    </div>
+                      
+                </div>
+
+                <div class="col-md-4">
+                    <div class="bordered-group">
+                        <div class="form-group">
+                            <label>Vrsta oznake</label>
+                            <select name="animal_mark" class="form-control">
+                                <option selected disabled>------</option>
+                                @foreach ($markTypes as $markType)
+                                <option value="{{ $markType->id }}">{{ $markType->name }} ({{ $markType->desc }})</option>
+                                @endforeach              
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Naziv oznake</label>
+                            <input type="text" name="animal_mark_note" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Upload (JPG, PNG)</label>
+                            <input type="file" id="animal_mark_photos" name="animal_mark_photos[]" multiple />
+                            <div id="error_animal_mark_photos"></div>
+                        </div>
+                    </div>          
+                </div> 
+
+                <div class="col-md-4">     
+                    <div class="bordered-group">
+                        <div class="form-group">
+                            <label>Okolnosti i način pronalaska životinje</label>
+                            <div class="form-group">
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="animal_found_note" rows="13"></textarea>
+                            </div>              
+                        </div> 
+                    </div>
+                </div>                                  
+            </div>
+
+            <div class="row">
+                <div class="separator"></div>
+            </div>
+
+            <div class="row"> 
+                <div class="col-md-4">
+                    <div class="bordered-group">
+                        <div class="form-group">
+                            <label>Nalaznik / služba</label>
                             <select name="founder_id" class="form-control">
                                 <option selected value="{{$founder->id}}">
                                     {{$founder->name}} {{$founder->lastname}} 
@@ -211,83 +274,31 @@
                     </div>
                     </div>
                 </div>  
-                <div class="col-md-4">
-                    <div class="bordered-group">
-                        <div class="form-group">
-                            <label>5. Vrsta oznake</label>
-                            <select name="animal_mark" class="form-control">
-                                <option selected disabled>------</option>
-                                @foreach ($markTypes as $markType)
-                                <option value="{{ $markType->id }}">{{ $markType->name }} ({{ $markType->desc }})</option>
-                                @endforeach              
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Naziv oznake</label>
-                            <input type="text" name="animal_mark_note" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Upload <strong>(JPG, PNG)</strong></label>
-                            <input type="file" id="animal_mark_photos" name="animal_mark_photos[]" multiple />
-                            <div id="error_animal_mark_photos"></div>
-                        </div>
-                    </div>
-                </div>                                
-            </div>
-
-            <div class="row">
-                <div class="separator"></div>
-            </div>
-            
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="bordered-group">
-                        <div class="form-group">
-                            <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
-                            <select name="status_receiving" class="form-control">
-                                <option value="">----</option>
-                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                                <option value="otrovana">otrovana</option>
-                                <option value="bolesna">bolesna</option>
-                                <option value="uginula">uginula</option>
-                                <option value="ostalo">ostalo</option>
-                            </select>
-                        </div>
-            
-                        <div class="form-group">
-                            <label>Opis</label>
-                            <textarea class="form-control" name="status_receiving_desc" rows="5"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Upload <strong>(JPG, PNG)</strong></label>
-                            <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
-                            <div id="error_status_receiving_file"></div>
-                        </div>
-                    </div>
-                </div>
 
                 <div class="col-md-4">
-                    <div class="bordered-group">
-                        <p>Vrsta i broj dokumenta temeljem koga je izvršena zapljena</p>
+                    <div class="bordered-group">                     
                         <div class="form-group">
-                            <label>Opis</label>
-                            <textarea class="form-control" name="status_receiving_desc" rows="5"></textarea>
+                            <label>Vrsta i broj dokumenta temeljem koga je izvršena zapljena</label>
+                            <input type="text" class="form-control" name="seized_doc_type">
                         </div>
                         <div class="form-group">
-                            <label>Upload <strong>(JPG, PNG)</strong></label>
-                            <input type="file" id="vrsta_broj_dokumenta" name="vrsta_broj_dokumenta[]" multiple />
+                            <label>Upload (JPG, PNG)</label>
+                            <input type="file" id="vrsta_broj_dokumenta" name="seized_doc_type[]" multiple />
                             <div id="error_vrsta_broj_dokumenta"></div>
                         </div>
                     </div>
                 </div>
-
+                
             </div>
+
+         
+
 
             <div class="row mt-3">
                 <div class="col-md-12">
-                    <button type="submit" class="btn btn-warning btn-md mr-2">Spremite podatke</button>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-warning  mr-2">Spremite podatke</button>
+                    </div>
                 </div>
             </div>
         </form>

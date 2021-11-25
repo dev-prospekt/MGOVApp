@@ -8,7 +8,17 @@
 
 @section('content')
 
-<div class="row">
+<div class="d-flex align-items-center justify-content-between">
+    <h5 class="mb-3 mb-md-0">Popis jedinki unutar grupe</h5>
+    <div>
+        <a type="button" class="btn btn-warning btn-icon-text" href="/shelter/{{ $shelter_id }}">      
+            Povratak na popis
+            <i class="btn-icon-append" data-feather="clipboard"></i>
+        </a>
+    </div>
+</div>
+
+<div class="row mt-4">
     <div class="col-lg-8 col-xl-8 grid-margin">
         <div class="card">
             <div class="card-body">

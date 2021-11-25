@@ -9,10 +9,13 @@
 @section('content')
 
 <div class="d-flex align-items-center justify-content-between">
-    <h5 class="mb-3 mb-md-0">Dodavanje jedinku/e u oporavilište</h5>
+    <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5>
     <div>
-        <a type="button" class="btn btn-warning btn-icon-text" href="/shelter/{{ $shelter->id }}">
-           
+        <a type="button" class="btn btn-primary btn-icon-text" href="/shelters/{{ $shelter->id }}/founders/create">      
+            Dodaj Nalaznika
+            <i class="btn-icon-append" data-feather="user-plus"></i>
+        </a>
+        <a type="button" class="btn btn-warning btn-icon-text" href="/shelter/{{ $shelter->id }}">      
             Povratak na popis
             <i class="btn-icon-append" data-feather="clipboard"></i>
         </a>
@@ -22,35 +25,43 @@
 <hr>
 
 <div class="content">
-    <div class="" id="">
-
-        <div class="row mt-3">
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>Odabir</label>
-                    <select class="form-control" id="shelterType">
-                        <option value="">------</option>
-                        @foreach ($shelterType as $item)
-                            <option value="{{ $item->id }}">{{ $item->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="form-group">
-                    <label>Nalaznik</label>
-                    <select class="form-control" id="founder">
-                    </select>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="card-title"><h6>Dodavanje jedinke u oporavilište</h6></div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tip jedinke</label>
+                                    <select class="form-control" id="shelterType">
+                                        <option value="">------</option>
+                                        @foreach ($shelterType as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+            
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Nalaznik</label>
+                                    <select class="form-control" id="founder">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-description">U slučaju da nalaznik već nije spremljen u sustav, <a href="/shelters/{{ $shelter->id }}/founders/create">dodajte novog nalaznika.</a></p>
+                    </div>       
                 </div>
             </div>
         </div>
+       
 
-        <hr>
+        <div class="template mt-3"></div> 
 
-        <div class="template"></div>
-    </div>
 </div>
+
 
 @endsection
 
@@ -191,6 +202,16 @@
                     msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
                 });
 
+                $("#euthanasia_invoice").fileinput({
+                    language: "cr",
+                    maxFileCount: 2,
+                    showPreview: false,
+                    showUpload: false,
+                    allowedFileExtensions: ["jpg", "png", "pdf"],
+                    elErrorContainer: '#error_vrsta_broj_dokumenta',
+                    msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
+                });
+
                 $('[data-toggle="tooltip"]').tooltip(); 
 
                 // HIBERNACIJA
@@ -203,6 +224,19 @@
                     }
                     else {
                         $("#hib_est_from_to").show();
+                    }
+                });
+
+                // HIBERNACIJA
+                $("#euthanasia").hide();
+                $(".euthanasia_select").change(function(){
+                    var id = $(".euthanasia_select").val();
+
+                    if(id != 'da'){
+                        $("#euthanasia").hide();
+                    }
+                    else {
+                        $("#euthanasia").show();
                     }
                 });
 
