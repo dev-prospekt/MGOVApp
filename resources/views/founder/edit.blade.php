@@ -16,7 +16,7 @@
 </div>
 
 
-<form action="{{ route('shelters.founder.update', [auth()->user()->shelter->id, $founder->id]) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('shelters.founders.update', [auth()->user()->shelter->id, $founder->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 

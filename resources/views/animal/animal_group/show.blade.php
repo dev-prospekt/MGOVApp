@@ -12,7 +12,7 @@
     <div class="col-lg-8 col-xl-8 grid-margin">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title mb-0">Podatci</h6>
+               
 
                 @if($msg = Session::get('msg'))
                 <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
