@@ -140,8 +140,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animals/seized_store', 'Animal\AnimalShelterCreateController@seizedStore')->name('shelterAnimal.seizedStore');
     // Animal create END
 
-    Route::post('animal_item/changeShelter/{id}', 'Animal\AnimalItemController@changeShelter');
-    Route::get('animal_item/getId/{id}', 'Animal\AnimalItemController@getId');
     Route::post('animal_item/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');
     Route::get('animal_item/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
     Route::get('generate-pdf/{id}', 'Animal\AnimalItemController@generatePDF');

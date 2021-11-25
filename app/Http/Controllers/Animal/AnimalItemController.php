@@ -169,13 +169,6 @@ class AnimalItemController extends Controller
         return response()->json(['msg' => 'success']);
     }
 
-    public function getId($id)
-    {
-        $animalItems = AnimalItem::find($id);
-
-        return response()->json($animalItems);
-    }
-
     public function changeShelter(Request $request, AnimalItem $animalItem)
     {
         $animal_items = AnimalItem::find($animalItem->id);
