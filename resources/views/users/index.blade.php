@@ -133,12 +133,7 @@
                         e.preventDefault();
 
                         var formData = this;
-                        
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
+
                         $.ajax({
                             url: "{{ route('user.store') }}",
                             method: 'POST',

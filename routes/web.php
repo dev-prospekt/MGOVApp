@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animal_group/{animalGroup}', 'Animal\AnimalGroupController@groupChangeShelter');
     Route::post('animal_item/{animalItem}', 'Animal\AnimalItemController@changeShelter');
     // Change Shelter
-    
+
     Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->parameters([
         'accomodations' => 'shelter_accomodation'
     ]);
@@ -129,6 +129,8 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Founder
     Route::resource('shelters.founders', FounderDataController::class);
+    Route::get('/founder_modal', 'FounderDataController@modalCreateFounder');
+    Route::post('/founder_create', 'FounderDataController@createFounder');
     Route::get('founder/fileDelete/{file}', 'FounderDataController@fileDelete')->name('founder.fileDelete');
 
     // Animal create START

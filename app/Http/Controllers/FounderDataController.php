@@ -47,7 +47,7 @@ class FounderDataController extends Controller
 
     public function create()
     {
-        $type = ShelterType::where('code', '!=', 'OSZV')->get();
+        $type = ShelterType::all();
 
         return view('founder.create', [
             'type' => $type
@@ -82,7 +82,7 @@ class FounderDataController extends Controller
     public function edit(Shelter $shelter, FounderData $founder)
     {
         $mediaFiles = $founder->getMedia('founder_documents');
-        $type = ShelterType::where('code', '!=', 'OSZV')->get();
+        $type = ShelterType::all();
 
         return view('founder.edit', [
             'founder' => $founder, 
@@ -129,5 +129,39 @@ class FounderDataController extends Controller
         $media->delete();
 
         return response()->json(['msg' => 'success']);
+    }
+
+    public function modalCreateFounder()
+    {
+        $type = ShelterType::all();
+
+        $returnHTML = view('founder.modalCreate', ['type'=> $type])->render();
+
+        return response()->json( array('success' => true, 'html' => $returnHTML) );
+    }
+
+    public function createFounder(Request $request)
+    {
+        $founder = new FounderData;
+        $founder->shelter_id = auth()->user()->shelter->id;
+        $founder->shelter_type_id = $request->shelter_type;
+        $founder->name = $request->name;
+        $founder->lastname = $request->lastname;
+        $founder->address = $request->address;
+        $founder->country = $request->country;
+        $founder->contact = $request->contact;
+        $founder->email = $request->email;
+        $founder->service = $request->service;
+        $founder->others = $request->others;
+        $founder->save();
+
+        if($request->founder_documents){
+            $founder->addMultipleMediaFromRequest(['founder_documents'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('founder_documents');
+            });
+        }
+
+        return response()->json(['success' => 'Uspješno dodano.']);
     }
 }
