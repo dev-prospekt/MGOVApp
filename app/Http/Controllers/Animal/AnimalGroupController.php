@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Animal;
 
 use Carbon\Carbon;
+use App\Models\DateRange;
 use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
@@ -148,12 +149,18 @@ class AnimalGroupController extends Controller
         ]);
 
         // Animal Items - Dupliciranje i promjena Id Sheltera
-        $animalItems = AnimalItem::where('animal_group_id', $animal_group->id)->get();
+        $animalItems = AnimalItem::with('dateRange')->where('animal_group_id', $animal_group->id)->get();
         foreach ($animalItems as $item) {
             $newAnimalItems = $item->replicate();
             $newAnimalItems->animal_group_id = $newAnimalGroup->id;
             $newAnimalItems->shelter_id = $newShelter->id;
             $newAnimalItems->save();
+
+            // Date Range dulicate for new items
+            $dateRange = DateRange::find($item->dateRange->id);
+            $newDateRange = $dateRange->replicate();
+            $newDateRange->animal_item_id = $newAnimalItems->id;
+            $newDateRange->save();
         }
 
         return response()->json([

@@ -15,7 +15,7 @@
                 <div class="card-title d-flex align-items-center justify-content-between">
                     <h6 class="mb-0">Podatci</h6>
                     <div>
-                        <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm">Prebaci cijelu grupu</a>
+                        <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm">Premjesti cijelu grupu</a>
                     </div>
                 </div>
 

@@ -6,6 +6,7 @@ use PDF;
 use Carbon\Carbon;
 use App\Models\DateRange;
 use Illuminate\Support\Str;
+use App\Models\DateFullCare;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
@@ -171,12 +172,17 @@ class AnimalItemController extends Controller
 
     public function changeShelter(Request $request, AnimalItem $animalItem)
     {
-        $animal_items = AnimalItem::find($animalItem->id);
+        $animal_items = AnimalItem::with('dateRange', 'dateFullCare', 'animalGroup')->find($animalItem->id);
         $newShelter = Shelter::find($request->selectedShelter);
 
         // Zadnji ID u grupi
         $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
         $increment = $incrementId->id + 1;
+
+        // Promjena količine na trenutnoj grupi
+        $animal_group = AnimalGroup::find($animal_items->animalGroup->id);
+        $animal_group->decrement('quantity', 1);
+        $animal_group->save();
 
         // New group
         $newAnimalGroup = new AnimalGroup;
@@ -191,11 +197,32 @@ class AnimalItemController extends Controller
             'active_group' => true,
         ]);
 
+        // Update status animalItem
+        $animal_items->in_shelter = false;
+        $animal_items->save();
+
         // Copy Item
         $newAnimalItem = $animal_items->replicate();
         $newAnimalItem->animal_group_id = $newAnimalGroup->id;
         $newAnimalItem->shelter_id = $newShelter->id;
+        $newAnimalItem->in_shelter = true;
         $newAnimalItem->save();
+
+        // Date full care
+        $dateFullCare = DateFullCare::where('animal_item_id', $animal_items->id)->get();
+        if(!empty($dateFullCare)){
+            foreach ($dateFullCare as $item) {
+                $newDateRange = $item->replicate();
+                $newDateRange->animal_item_id = $newAnimalItem->id;
+                $newDateRange->save();
+            }
+        }
+
+        // Date Range
+        $dateRange = DateRange::find($animal_items->dateRange->id);
+        $newDateRange = $dateRange->replicate();
+        $newDateRange->animal_item_id = $newAnimalItem->id;
+        $newDateRange->save();
 
         return response()->json([
             'msg' => 'success', 

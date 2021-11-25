@@ -24,7 +24,7 @@ class AnimalGroup extends Model
 
     public function animalItems()
     {
-        return $this->hasMany(AnimalItem::class);
+        return $this->hasMany(AnimalItem::class)->where('in_shelter', 1);
     }
 
     public function animalGroupLogs()
