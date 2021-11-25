@@ -87,7 +87,10 @@ body {
 .modal {
   background: #0006;
 }
-.modal-close {
+.modal .close {
+  color: #fff;
+}
+.modal .close:hover {
   color: #fff;
 }
 

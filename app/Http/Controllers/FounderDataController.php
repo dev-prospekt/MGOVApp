@@ -8,6 +8,7 @@ use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
 use App\Models\Shelter\ShelterType;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use Illuminate\Support\Facades\Validator;
 
 class FounderDataController extends Controller
 {
@@ -142,6 +143,22 @@ class FounderDataController extends Controller
 
     public function createFounder(Request $request)
     {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'service' => 'required',
+                'shelter_type' => 'required'
+            ],
+            [
+                'service.required' => 'Služba koja je izvršila zaplijenu je obvezno polje',
+                'shelter_type.required' => 'Type je obvezno polje',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
         $founder = new FounderData;
         $founder->shelter_id = auth()->user()->shelter->id;
         $founder->shelter_type_id = $request->shelter_type;

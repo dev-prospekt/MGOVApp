@@ -19,7 +19,7 @@
                 </div>
     
                 <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                    <strong>Uspjeh!</strong> Korisnik je uspješno spremljen.
+                    <strong>Uspjeh!</strong> Nalaznik je uspješno spremljen.
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -101,6 +101,7 @@
                                 <div class="form-group">
                                     <label>Type</label>
                                     <select name="shelter_type" id="">
+                                        <option value="">---</option>
                                         @foreach ($type as $ty)
                                             <option value="{{ $ty->id }}">{{ $ty->name }}</option>
                                         @endforeach
