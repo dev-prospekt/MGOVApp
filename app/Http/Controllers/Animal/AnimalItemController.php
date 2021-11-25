@@ -53,7 +53,6 @@ class AnimalItemController extends Controller
      */
     public function store(Request $request)
     {
-        
     }
 
     /**
@@ -67,7 +66,7 @@ class AnimalItemController extends Controller
         $animalItems = AnimalItem::find($animalItem->id);
 
         // Day and Price
-        if(!empty($animalItems->dateRange->end_date)){
+        if (!empty($animalItems->dateRange->end_date)) {
             $from = Carbon::createFromFormat('d.m.Y', $animalItems->dateRange->start_date);
             $to = (isset($animalItems->dateRange->end_date)) ? Carbon::createFromFormat('d.m.Y', $animalItems->dateRange->end_date) : '';
             $diff_in_days = $to->diffInDays($from);
@@ -93,7 +92,7 @@ class AnimalItemController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
-    {   
+    {
         $animalItem = AnimalItem::findOrFail($id);
         $mediaItems = $animalItem->getMedia('media');
         $size = $animalItem->animal->animalSize;
@@ -115,7 +114,7 @@ class AnimalItemController extends Controller
             'dateRange' => $dateRange,
             'totalDays' => $totalDays,
             'dateFullCare_total' => $dateFullCare_total
-        ]); 
+        ]);
     }
 
     /**
@@ -153,13 +152,13 @@ class AnimalItemController extends Controller
         $animalItemFile = AnimalItem::find($request->animal_item_id);
 
         // Update
-        if($request->filenames){
+        if ($request->filenames) {
             foreach ($request->filenames as $key) {
                 $animalItemFile->addMedia($key)->toMediaCollection('media');
             }
         }
 
-        return redirect('/animal_item/'.$request->animal_item_id.'/edit')->with('msg', 'Uspješno dodan dokument');
+        return redirect('/animal_item/' . $request->animal_item_id . '/edit')->with('msg', 'Uspješno dodan dokument');
     }
 
     public function deleteFile($file)
@@ -235,13 +234,13 @@ class AnimalItemController extends Controller
     {
         $animalItems = AnimalItem::with('animal', 'shelter', 'animalSizeAttributes')->find($id);
         $animalFiles = AnimalFile::where('shelter_code', $animalItems->shelter_code)->get();
-        
-        $mediaFiles = $animalFiles->each(function($item, $key){
+
+        $mediaFiles = $animalFiles->each(function ($item, $key) {
             $item->getMedia('media');
         });
-        
+
         $pdf = PDF::loadView('myPDF', compact('animalItems', 'mediaFiles'));
-    
+
         return $pdf->stream('my.pdf');
     }
 }

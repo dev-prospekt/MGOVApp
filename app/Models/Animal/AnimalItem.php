@@ -17,6 +17,10 @@ class AnimalItem extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
+    protected $casts = [
+        'animal_date_found' => 'date',
+    ];
+
     public function animal()
     {
         return $this->belongsTo(Animal::class)->with('animalSize', 'animalCategory');

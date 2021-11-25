@@ -18,7 +18,10 @@
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
-                        <a href="{{ route("shelter.create") }}" class="btn btn-primary">Dodaj</a>
+                        <a type="button" href="{{ route("shelter.create") }}" class="btn btn-primary btn-primary btn-icon-text btn-sm">
+                            Dodaj oporavilište
+                            <i class="btn-icon-append" data-feather="codesandbox"></i>
+                        </a>
                     </div>
                 </div>
 

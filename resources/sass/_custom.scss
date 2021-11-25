@@ -104,8 +104,19 @@ hr {
   background: #262f43;
   width: 100%;
   margin: 30px 0;
+  &--small {
+    margin: 5px 0;
+    height: 1px;
+    background: #262f43;
+    width: 100%;
+  }
 }
 .bordered-group {
   padding: 15px;
   border: 1px solid #262f43;
+}
+
+.inbox-wrapper .email-content .email-list .email-list-item .email-list-detail .date {
+  color: #eef4ff;
+  font-size: 12px;
 }

@@ -32,11 +32,10 @@ class ShelterController extends Controller
     {
         $shelters = Shelter::all();
 
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             return Datatables::of($shelters)
-            ->addColumn('action', function ($shelter) {
-                return '
+                ->addColumn('action', function ($shelter) {
+                    return '
                 <div class="d-flex align-items-center">
                     <a href="shelter/' . $shelter->id . '" class="btn btn-xs btn-info mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
@@ -55,7 +54,7 @@ class ShelterController extends Controller
                     </a>
                 </div>
                 ';
-            })->make();
+                })->make();
         }
 
         return view('shelter.index', [
@@ -117,7 +116,6 @@ class ShelterController extends Controller
             ->with('msg', 'Uspješno dodano.')
             ->with('active', 'Možete izabrati životinje.')
             ->with('shelter_id', $shelter->id);
-            
     }
 
     /**
@@ -131,20 +129,19 @@ class ShelterController extends Controller
         $shelters = Shelter::with('users', 'animalGroups')->findOrFail($id);
         $animal_groups = $shelters->animalGroups;
 
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             return Datatables::of($animal_groups)
-            ->addIndexColumn()
-            ->addColumn('name', function ($animal_groups) {
-                return $animal_groups->animal->name;
-            })
-            ->addColumn('latin_name', function ($animal_groups) {
-                return $animal_groups->animal->latin_name;
-            })
-            ->addColumn('action', function ($animal_group) {
-                return '
+                ->addIndexColumn()
+                ->addColumn('name', function ($animal_groups) {
+                    return $animal_groups->animal->name;
+                })
+                ->addColumn('latin_name', function ($animal_groups) {
+                    return $animal_groups->animal->latin_name;
+                })
+                ->addColumn('action', function ($animal_group) {
+                    return '
                 <div class="d-flex align-items-center">
-                    <a href="/shelters/'. $animal_group->pivot->shelter_id .'/animal_groups/'.$animal_group->id.'" class="btn btn-xs btn-info mr-2">
+                    <a href="/shelters/' . $animal_group->pivot->shelter_id . '/animal_groups/' . $animal_group->id . '" class="btn btn-xs btn-info mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Info
                     </a>
@@ -161,7 +158,7 @@ class ShelterController extends Controller
                     </a>
                 </div>
                 ';
-            })->make();
+                })->make();
         }
 
         return view('shelter.show', ['shelter' => $shelters]);
@@ -238,12 +235,21 @@ class ShelterController extends Controller
 
     public function animalItems($shelterId, $code)
     {
+
         $animalItem = Shelter::with('animals')
             ->findOrFail($shelterId)
-            ->animalItems()->with('animalSizeAttributes')
+            ->animalItems()
             ->where('shelter_code', $code)
             ->where('status', 1)
             ->get();
+
+        /*     $items = Shelter::findOrFail($shelterId)->with('animalItems')
+            ->whereHas('animalItems', function ($q) use ($code) {
+                $q->where('shelter_code', $code);
+                $q->where('status', 1);
+            })
+
+            ->get(); */
 
         $shelters = Shelter::all();
 

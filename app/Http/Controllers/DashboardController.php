@@ -15,7 +15,7 @@ class DashboardController extends Controller
                 $q->where('email', auth()->user()->email);
             })
             ->get();
-        
+
         return view('dashboard', compact('shelters'));
     }
 }

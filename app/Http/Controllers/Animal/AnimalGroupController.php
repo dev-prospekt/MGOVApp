@@ -56,20 +56,19 @@ class AnimalGroupController extends Controller
         $animal_items = $animal_group->animalItems;
         $shelters = Shelter::where('id', '!=', $shelter->id)->get();
 
-        if($request->ajax())
-        {
+        if ($request->ajax()) {
             return DataTables::of($animal_items)
-            ->addIndexColumn()
-            ->addColumn('name', function ($animal_items) {
-                return $animal_items->animal->name;
-            })
-            ->addColumn('latin_name', function ($animal_items) {
-                return $animal_items->animal->latin_name;
-            })
-            ->addColumn('action', function ($animal_items) {
-                $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
-                
-                return '
+                ->addIndexColumn()
+                ->addColumn('name', function ($animal_items) {
+                    return $animal_items->animal->name;
+                })
+                ->addColumn('latin_name', function ($animal_items) {
+                    return $animal_items->animal->latin_name;
+                })
+                ->addColumn('action', function ($animal_items) {
+                    $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+
+                    return '
                 <div class="d-flex align-items-center">
                     <a href="'.$url.'" class="btn btn-xs btn-info btn-sm mr-2">
                         Info
@@ -80,8 +79,8 @@ class AnimalGroupController extends Controller
                     </a>
                 </div>
                 ';
-            })
-            ->make();
+                })
+                ->make();
         }
 
         return view('animal.animal_group.show', [

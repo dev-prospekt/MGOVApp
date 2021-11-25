@@ -78,7 +78,6 @@ class AnimalController extends Controller
      */
     public function store(AnimalPostRequest $request)
     {
-        
     }
 
     /**
