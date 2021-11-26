@@ -130,7 +130,7 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Eutanazija</label>
-                            <select class="form-control euthanasia_select" name="hib_est">
+                            <select class="form-control euthanasia_select" name="euthanasia">
                                 <option value="">------</option>
                                 <option value="da">Da</option>
                                 <option value="ne">Ne</option>

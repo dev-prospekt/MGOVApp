@@ -123,7 +123,6 @@ class AnimalShelterCreateController extends Controller
                     $fileAdder->toMediaCollection('reason_file');
                 });
         }
-
         if ($request->animal_mark_photos) {
             $animal_group->addMultipleMediaFromRequest(['animal_mark_photos'])
                 ->each(function ($fileAdder) {
@@ -163,9 +162,9 @@ class AnimalShelterCreateController extends Controller
             if (!empty($request->start_date)) {
                 $date_range = new DateRange;
                 $date_range->animal_item_id = $animalItem->id;
-                $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
+                $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date);
                 if ($request->hib_est == 'da') {
-                    $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start)->format('d.m.Y');
+                    $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start);
                 }
                 $date_range->save();
             }
@@ -182,7 +181,69 @@ class AnimalShelterCreateController extends Controller
 
     public function invasiveStore(Request $request)
     {
-        dump($request);
+        //dd($request);
+
+        // Increment ID
+        $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
+        if (empty($incrementId->id)) {
+            $increment = 1;
+        } else {
+            $increment = $incrementId->id + 1;
+        }
+
+        $animal_group = new AnimalGroup;
+        $animal_group->animal_id = $request->animal_id;
+        $animal_group->shelter_code = Carbon::now()->format('Y') . '' . $request->shelter_code . '/' . $increment;
+        $animal_group->quantity = $request->quantity;
+        $animal_group->save();
+
+        // Pivot table
+        $animal_group->shelters()->attach($animal_group->id, [
+            'shelter_id' => $request->shelter_id,
+            'active_group' => true,
+        ]);
+
+        if($request->euthanasia == 'da'){
+            if ($request->euthanasia_invoice) {
+                $animal_group->addMultipleMediaFromRequest(['euthanasia_invoice'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('euthanasia_invoice');
+                });
+            }
+        }
+
+        // Create AnimalItem
+        for ($i = 0; $i < $request->quantity; $i++) {
+            $animalItem = new AnimalItem;
+            $animalItem->shelter_id = $request->shelter_id;
+            $animalItem->animal_group_id = $animal_group->id;
+            $animalItem->shelter_code = $animal_group->shelter_code;
+            $animalItem->animal_id = $request->animal_id;
+
+            $animalItem->animal_gender = $request->animal_gender;
+            $animalItem->animal_age = $request->animal_age;
+            $animalItem->location = $request->location;
+            $animalItem->location_retrieval_animal = $request->location_retrieval_animal;
+            $animalItem->founder_id = $request->founder_id;
+            $animalItem->founder_note = $request->founder_note;
+
+            if($request->euthanasia == 'da'){
+                $animalItem->euthanasia_ammount = $request->euthanasia_ammount;
+            }
+
+            $animalItem->in_shelter = true;
+            $animalItem->save();
+
+            // Date Range
+            if (!empty($request->start_date)) {
+                $date_range = new DateRange;
+                $date_range->animal_item_id = $animalItem->id;
+                $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date);
+                $date_range->save();
+            }
+        }
+
+        return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
 
     // Zaplijena
@@ -193,7 +254,87 @@ class AnimalShelterCreateController extends Controller
 
     public function seizedStore(Request $request)
     {
-        dump($request);
+        //dd($request);
+
+        // Increment ID
+        $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
+        if (empty($incrementId->id)) {
+            $increment = 1;
+        } else {
+            $increment = $incrementId->id + 1;
+        }
+
+        $animal_group = new AnimalGroup;
+        $animal_group->animal_id = $request->animal_id;
+        $animal_group->shelter_code = Carbon::now()->format('Y') . '' . $request->shelter_code . '/' . $increment;
+        $animal_group->quantity = $request->quantity;
+        $animal_group->save();
+
+        // Pivot table
+        $animal_group->shelters()->attach($animal_group->id, [
+            'shelter_id' => $request->shelter_id,
+            'active_group' => true,
+        ]);
+
+        if ($request->status_receiving_file) {
+            $animal_group->addMultipleMediaFromRequest(['status_receiving_file'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('status_receiving_file');
+                });
+        }
+        if ($request->animal_mark_photos) {
+            $animal_group->addMultipleMediaFromRequest(['animal_mark_photos'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('animal_mark_photos');
+                });
+        }
+        if ($request->seized_doc_type_doc) {
+            $animal_group->addMultipleMediaFromRequest(['seized_doc_type'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('seized_doc_type');
+                });
+        }
+
+        // Create AnimalItem
+        for ($i = 0; $i < $request->quantity; $i++) {
+            $animalItem = new AnimalItem;
+
+            $animalItem->shelter_id = $request->shelter_id;
+            $animalItem->shelter_code = $animal_group->shelter_code;
+            $animalItem->animal_id = $request->animal_id;
+            $animalItem->animal_group_id = $animal_group->id;
+            $animalItem->animal_gender = $request->animal_gender;
+            $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
+            $animalItem->animal_age = $request->animal_age;
+            $animalItem->solitary_or_group = $request->solitary_or_group;
+            $animalItem->place_seized_select = $request->place_seized_select;
+            $animalItem->place_seized = $request->place_seized;
+            $animalItem->date_seized_animal = Carbon::createFromFormat('m/d/Y', $request->date_seized_animal);
+            $animalItem->location_retrieval_animal = $request->location_retrieval_animal;
+            $animalItem->status_receiving = $request->status_receiving;
+            $animalItem->status_receiving_desc = $request->status_receiving_desc;
+            $animalItem->animal_mark_id = $request->animal_mark;
+            $animalItem->animal_mark_note = $request->animal_mark_note;
+            $animalItem->animal_found_note = $request->animal_found_note;
+            $animalItem->founder_id = $request->founder_id;
+            $animalItem->founder_note = $request->founder_note;
+            $animalItem->seized_doc_type = $request->seized_doc_type;
+            $animalItem->in_shelter = true;
+            $animalItem->save();
+
+            // Date Range
+            if (!empty($request->start_date)) {
+                $date_range = new DateRange;
+                $date_range->animal_item_id = $animalItem->id;
+                $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date);
+                if ($request->hib_est == 'da') {
+                    $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start);
+                }
+                $date_range->save();
+            }
+        }
+
+        return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
 
     // View

@@ -84,16 +84,6 @@ body {
   background-color: #fff;
 }
 
-.modal {
-  background: #0006;
-}
-.modal .close {
-  color: #fff;
-}
-.modal .close:hover {
-  color: #fff;
-}
-
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
 }
@@ -25151,6 +25141,11 @@ hr {
 .inbox-wrapper .email-content .email-list .email-list-item .email-list-detail .date {
   color: #eef4ff;
   font-size: 12px;
+}
+
+/* Modal */
+.modal {
+  background-color: rgba(0, 0, 0, 0.473) !important;
 }
 
 /*# sourceMappingURL=app.css.map*/

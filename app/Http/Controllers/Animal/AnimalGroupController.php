@@ -54,7 +54,14 @@ class AnimalGroupController extends Controller
     {
         $animal_group = AnimalGroup::with('animalItems', 'shelters')->find($animalGroup->id);
         $animal_items = $animal_group->animalItems;
-        $shelters = Shelter::where('id', '!=', $shelter->id)->get();
+        
+        // Vraca oporaviliste samo koje ima isti type
+        $animalType = $animal_group->animal->animalType->first()->type_code;
+        $shelters = Shelter::where('id', '!=', $shelter->id)
+            ->whereHas('shelterTypes', function ($query) use ($animalType) {
+                $query->whereIn('code', [$animalType]);
+            })
+            ->get();
 
         if ($request->ajax()) {
             return DataTables::of($animal_items)

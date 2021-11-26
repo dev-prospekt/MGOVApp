@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         
-        <form action="{{ route('shelterAnimal.protectedStore') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('shelterAnimal.seizedStore') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
 
@@ -283,7 +283,7 @@
                         </div>
                         <div class="form-group">
                             <label>Upload (JPG, PNG)</label>
-                            <input type="file" id="vrsta_broj_dokumenta" name="seized_doc_type[]" multiple />
+                            <input type="file" id="vrsta_broj_dokumenta" name="seized_doc_type_doc[]" multiple />
                             <div id="error_vrsta_broj_dokumenta"></div>
                         </div>
                     </div>
