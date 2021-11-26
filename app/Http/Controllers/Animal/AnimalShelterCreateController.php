@@ -182,7 +182,63 @@ class AnimalShelterCreateController extends Controller
 
     public function invasiveStore(Request $request)
     {
-        dump($request);
+        // Increment ID
+        $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
+        if (empty($incrementId->id)) {
+            $increment = 1;
+        } else {
+            $increment = $incrementId->id + 1;
+        }
+
+        $animal_group = new AnimalGroup;
+        $animal_group->animal_id = $request->animal_id;
+        $animal_group->shelter_code = Carbon::now()->format('Y') . '' . $request->shelter_code . '/' . $increment;
+        $animal_group->quantity = $request->quantity;
+        $animal_group->save();
+
+        // Pivot table
+        $animal_group->shelters()->attach($animal_group->id, [
+            'shelter_id' => $request->shelter_id,
+            'active_group' => true,
+        ]);
+
+        // // Save documents  
+
+        if ($request->euthanasia_invoice) {
+            $animal_group->addMultipleMediaFromRequest(['euthanasia_invoice'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('euthanasia_invoice');
+                });
+        }
+
+        // Create AnimalItem
+        for ($i = 0; $i < $request->quantity; $i++) {
+            $animalItem = new AnimalItem;
+            $animalItem->animal_group_id = $animal_group->id;
+            $animalItem->animal_id = $request->animal_id;
+            $animalItem->shelter_id = $request->shelter_id;
+            $animalItem->founder_id = $request->founder_id;
+            $animalItem->founder_note = $request->founder_note;
+            $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
+            $animalItem->in_shelter = true;
+            $animalItem->animal_gender = $request->animal_gender;
+            $animalItem->animal_age = $request->animal_age;
+            $animalItem->euthanasia_ammount = $request->euthanasia_ammount;
+
+            $animalItem->location = $request->location;
+            $animalItem->shelter_code = $animal_group->shelter_code;
+            $animalItem->save();
+
+            // Date Range
+            if (!empty($request->start_date)) {
+                $date_range = new DateRange;
+                $date_range->animal_item_id = $animalItem->id;
+                $date_range->start_date = $request->start_date;
+                $date_range->save();
+            }
+        }
+
+        return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
 
     // Zaplijena
