@@ -55,13 +55,13 @@ class AnimalShelterCreateController extends Controller
         if (isset($request)) {
             if ($request->type_id && $request->founder_id) {
 
-                if($request->type_id == 3){
+                if ($request->type_id == 3) {
                     return $this->protectedCreate($request->type_id, $request->founder_id);
                 }
-                if($request->type_id == 2){
+                if ($request->type_id == 2) {
                     return $this->invasiveCreate($request->type_id, $request->founder_id);
                 }
-                if($request->type_id == 1){
+                if ($request->type_id == 1) {
                     return $this->seizedCreate($request->type_id, $request->founder_id);
                 }
             }
@@ -181,7 +181,7 @@ class AnimalShelterCreateController extends Controller
 
     public function invasiveStore(Request $request)
     {
-        //dd($request);
+        dd($request);
 
         // Increment ID
         $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
@@ -288,7 +288,7 @@ class AnimalShelterCreateController extends Controller
                     $fileAdder->toMediaCollection('animal_mark_photos');
                 });
         }
-        if ($request->seized_doc_type_doc) {
+        if ($request->seized_doc_type) {
             $animal_group->addMultipleMediaFromRequest(['seized_doc_type'])
                 ->each(function ($fileAdder) {
                     $fileAdder->toMediaCollection('seized_doc_type');
@@ -318,7 +318,7 @@ class AnimalShelterCreateController extends Controller
             $animalItem->animal_found_note = $request->animal_found_note;
             $animalItem->founder_id = $request->founder_id;
             $animalItem->founder_note = $request->founder_note;
-            $animalItem->seized_doc_type = $request->seized_doc_type;
+            $animalItem->seized_doc = $request->seized_doc;
             $animalItem->in_shelter = true;
             $animalItem->save();
 
@@ -333,7 +333,6 @@ class AnimalShelterCreateController extends Controller
                 $date_range->save();
             }
         }
-
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
 

@@ -217,6 +217,39 @@
                     $('div#datePickerExample').datepicker('setDate', today);
                 }
 
+                if($('div#datePickerHibernation').length) {
+                    var date = new Date();
+                    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                    $('div#datePickerHibernation').datepicker({
+                        format: "mm/dd/yyyy",
+                        todayHighlight: true,
+                        autoclose: true,
+                    });
+                    $('div#datePickerHibernation').datepicker('setDate', today);
+                }
+
+                if($('div#datePickerSeizedAnimal').length) {
+                    var date = new Date();
+                    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                    $('div#datePickerSeizedAnimal').datepicker({
+                        format: "mm/dd/yyyy",
+                        todayHighlight: true,
+                        autoclose: true,
+                    });
+                    $('div#datePickerSeizedAnimal').datepicker('setDate', today);
+                }
+
+                if($('div#datePickerShleterStart').length) {
+                    var date = new Date();
+                    var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+                    $('div#datePickerShleterStart').datepicker({
+                        format: "mm/dd/yyyy",
+                        todayHighlight: true,
+                        autoclose: true,
+                    });
+                    $('div#datePickerShleterStart').datepicker('setDate', today);
+                }
+
                 $("#founder_documents").fileinput({
                     language: "cr",
                     maxFileCount: 2,
@@ -278,7 +311,7 @@
                     maxFileCount: 2,
                     showPreview: false,
                     showUpload: false,
-                    allowedFileExtensions: ["jpg", "png",],
+                    allowedFileExtensions: ["jpg", "png", "pdf", "doc", "xls"],
                     elErrorContainer: '#error_vrsta_broj_dokumenta',
                     msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
                 });

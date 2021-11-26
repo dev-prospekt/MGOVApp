@@ -9,6 +9,13 @@ class DateRange extends Model
 {
     use HasFactory;
 
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'hibern_start' => 'date',
+        'hibern_end' => 'date',
+    ];
+
     public function animalItem()
     {
         return $this->belongsTo(AnimalItem::class);
