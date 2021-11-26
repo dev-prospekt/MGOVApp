@@ -18,7 +18,7 @@ class AnimalItemPriceController extends Controller
         // Date Range
         if(!empty($request->end_date)){
             $animalItem->dateRange()->update(['animal_item_id' => $id,
-                'end_date' => Carbon::createFromFormat('d.m.Y', $request->end_date)->format('d.m.Y'),
+                'end_date' => Carbon::createFromFormat('d.m.Y', $request->end_date),
                 'reason_date_end' => $request->reason_date_end,
             ]);
 
@@ -34,20 +34,20 @@ class AnimalItemPriceController extends Controller
         // Hibern
         if(!empty($request->hib_est_from)){
             $animalItem->dateRange()->update(['animal_item_id' => $id,
-                'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('d.m.Y', $request->hib_est_from)->format('d.m.Y') : null,
+                'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('d.m.Y', $request->hib_est_from) : null,
             ]);
 
             if(!empty($request->hib_est_to)){
                 $animalItem->dateRange()->update(['animal_item_id' => $id,
-                    'hibern_start' => Carbon::createFromFormat('d.m.Y', $request->hib_est_from)->format('d.m.Y'),
-                    'hibern_end' => Carbon::createFromFormat('d.m.Y', $request->hib_est_to)->format('d.m.Y'),
+                    'hibern_start' => Carbon::createFromFormat('d.m.Y', $request->hib_est_from),
+                    'hibern_end' => Carbon::createFromFormat('d.m.Y', $request->hib_est_to),
                 ]);
                 
                 if(!empty($diff_in_days)){
-                    $hib_from = Carbon::createFromFormat('d.m.Y', $request->hib_est_from)->format('d.m.Y');
-                    $hib_to = Carbon::createFromFormat('d.m.Y', $request->hib_est_to)->format('d.m.Y');
-                    $hib_from = Carbon::parse($hib_from);
-                    $hib_to = Carbon::parse($hib_to);
+                    $hib_from = Carbon::createFromFormat('d.m.Y', $request->hib_est_from);
+                    $hib_to = Carbon::createFromFormat('d.m.Y', $request->hib_est_to);
+                    // $hib_from = Carbon::parse($hib_from);
+                    // $hib_to = Carbon::parse($hib_to);
                     $hib_diff_days = $hib_to->diffInDays($hib_from);
 
                     $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);
@@ -79,8 +79,8 @@ class AnimalItemPriceController extends Controller
             }
 
             $animalItem->dateFullCare()->create(['animal_item_id' => $id,
-                'start_date' => Carbon::createFromFormat('d.m.Y', $request->full_care_start)->format('d.m.Y'),
-                'end_date' => Carbon::createFromFormat('d.m.Y', $request->full_care_end)->format('d.m.Y'),
+                'start_date' => Carbon::createFromFormat('d.m.Y', $request->full_care_start),
+                'end_date' => Carbon::createFromFormat('d.m.Y', $request->full_care_end),
                 'days' => $full_care_diff_in_days,
             ]);
 

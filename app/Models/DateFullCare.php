@@ -12,6 +12,11 @@ class DateFullCare extends Model
 
     protected $fillable = ['animal_item_id', 'start_date', 'end_date', 'days'];
 
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];
+
     public function animalItem()
     {
         return $this->belongsTo(AnimalItem::class);
