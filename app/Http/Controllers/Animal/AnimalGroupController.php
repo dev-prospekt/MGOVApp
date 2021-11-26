@@ -128,7 +128,10 @@ class AnimalGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $animalGroup = AnimalGroup::find($id);
+        $animalGroup->delete();
+
+        return response()->json(['msg'=>'success']);
     }
 
     public function groupChangeShelter(Request $request, AnimalGroup $animalGroup)

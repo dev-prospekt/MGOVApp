@@ -138,22 +138,23 @@ class ShelterController extends Controller
                 ->addColumn('latin_name', function ($animal_groups) {
                     return $animal_groups->animal->latin_name;
                 })
-                ->addColumn('action', function ($animal_group) {
+                ->addColumn('action', function ($animal_groups) {
+                    $deleteURL = route('shelters.animal_groups.destroy', [$animal_groups->pivot->shelter_id, $animal_groups->id]);
+
                     return '
                 <div class="d-flex align-items-center">
-                    <a href="/shelters/' . $animal_group->pivot->shelter_id . '/animal_groups/' . $animal_group->id . '" class="btn btn-xs btn-info mr-2">
+                    <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Info
                     </a>
                 
-                    <a href="animal_group/' . $animal_group->id . '/edit" class="btn btn-xs btn-primary mr-2">
+                    <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-xs btn-primary mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Uredi
                     </a>
 
-                    <a href="javascript:void(0)" id="animal_groupClick" class="btn btn-xs btn-danger" >
+                    <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-xs btn-danger" >
                         <i class="mdi mdi-delete"></i>
-                        <input type="hidden" id="animal_group_id" value="' . $animal_group->id . '" />
                         Brisanje
                     </a>
                 </div>

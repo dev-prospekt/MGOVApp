@@ -19,6 +19,7 @@ class CreateAnimalGroupsTable extends Migration
             $table->foreignId('animal_id');
             $table->string('shelter_code');
             $table->integer('quantity');
+            $table->softDeletes();
 
             $table->timestamps();
         });
