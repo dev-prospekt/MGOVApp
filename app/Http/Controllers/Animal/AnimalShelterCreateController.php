@@ -100,7 +100,7 @@ class AnimalShelterCreateController extends Controller
 
         // // Save documents
         if ($request->documents) {
-            $animal_group->addMultipleMediaFromRequest(['documents'])
+            $animal_group->quantity->addMultipleMediaFromRequest(['documents'])
                 ->each(function ($fileAdder) {
                     $fileAdder->toMediaCollection('media');
                 });

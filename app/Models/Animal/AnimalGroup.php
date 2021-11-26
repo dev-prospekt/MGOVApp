@@ -17,7 +17,7 @@ class AnimalGroup extends Model implements HasMedia
 
     public function shelters()
     {
-        return $this->belongsToMany(Shelter::class)->where('active_group', 1);
+        return $this->belongsToMany(Shelter::class)->withPivot('active_group')->where('active_group', 1);
     }
 
     public function animal()
