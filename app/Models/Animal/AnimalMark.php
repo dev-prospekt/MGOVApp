@@ -12,7 +12,7 @@ class AnimalMark extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = ['animal_item_id', 'animal_marks_type_id', 'name'];
+    protected $fillable = ['animal_marks_type_id', 'name'];
 
     public function animalMarkTypes()
     {

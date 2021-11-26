@@ -30,7 +30,7 @@ class AnimalImportController extends Controller
         ]);
 
         Excel::import(new AnimalOrdersImport, $request->file('animal_order_import')->store('temp'));
-        
+
         return redirect()->route('animal_import.index')->with('msg', 'Datoteka je uspješno učtana');
     }
 
@@ -58,7 +58,7 @@ class AnimalImportController extends Controller
 
 
         Excel::import(new AnimalProtectedImport(), $request->file('animal_sz_import')->store('temp'));
-        return redirect()->route('sz_animal_type', ['type' => 1])->with('msg', 'Datoteka je uspješno učtana');
+        return redirect()->route('animal_import.index')->with('msg', 'Datoteka je uspješno učtana');
     }
 
     public function animalInvaziveImport(Request $request)

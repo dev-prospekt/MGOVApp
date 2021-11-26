@@ -24,7 +24,7 @@ class CreateAnimalItemsTable extends Migration
             $table->foreignId('animal_size_attributes_id')->nullable();
             $table->boolean('in_shelter');
 
-            $table->foreignId('animal_mark_id')->nullable();
+            $table->foreignId('animal_mark_type_id');
             $table->string('animal_mark_note')->nullable();
 
             $table->string('status_receiving')->nullable();
