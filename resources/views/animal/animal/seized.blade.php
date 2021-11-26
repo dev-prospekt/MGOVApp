@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         
-        <form action="{{ route('shelterAnimal.protectedStore') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('shelterAnimal.seizedStore') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
 
@@ -104,7 +104,7 @@
                     <div class="form-group" id="hib_est_from_to">
                         <label>Hibernacija/estivacija</label>
                         <div class="input-group" id="daterangepicker">
-                            <div class="input-group date datepicker" id="datePickerExample">
+                            <div class="input-group date datepicker" id="datePickerHibernation">
                                 <input type="text" name="hibern_start" class="form-control">
                                 <span class="input-group-addon">
                                 <i data-feather="calendar"></i>
@@ -126,7 +126,7 @@
                         <div class="form-group">
                             <label>Mjesto zapljene</label>
                             <select class="form-control" name="place_seized_select">
-                                <option value="">------</option>
+                                <option value="" selected>------</option>
                                 <option value="unutrašnjost RH">unutrašnjost RH</option>
                                 <option value="granični prijelaz">granični prijelaz</option>
                             </select>
@@ -142,7 +142,7 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Datum zaplijene životinje</label>
-                            <div class="input-group date datepicker" id="datePickerExample">
+                            <div class="input-group date datepicker" id="datePickerSeizedAnimal">
                                 <input type="text" name="date_seized_animal" class="form-control">
                                 <span class="input-group-addon">
                                 <i data-feather="calendar"></i>
@@ -151,7 +151,7 @@
                         </div> 
                         <div class="form-group">
                             <label>Datum zaprimanja u oporavilište</label>
-                            <div class="input-group date datepicker" id="datePickerExample">
+                            <div class="input-group date datepicker" id="datePickerShleterStart">
                                 <input type="text" name="start_date" class="form-control">
                                 <span class="input-group-addon">
                                 <i data-feather="calendar"></i>
@@ -165,12 +165,12 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Lokacija preuzimanja životinje</label>
-                            <select class="form-control" name="location_retrieval_animal" id="">
+                            <select class="form-control" name="location_retrieval_animal">
                                 <option value="">Odaberi</option>
-                                <option value="u_oporavilistu">U oporavilištu</option>
-                                <option value="izvan_oporavilista">Izvan oporavilišta</option>
-                                <option value="preuzeli_djelatnici_oporavilista">Preuzeli djelatnici oporavilišta</option>
-                                <option value="preuzela_druga_sluzba">Preuzela druga služba</option>
+                                <option value="U oporavilištu">U oporavilištu</option>
+                                <option value="Izvan oporavilišta">Izvan oporavilišta</option>
+                                <option value="Preuzeli djelatnici oporavilišta">Preuzeli djelatnici oporavilišta</option>
+                                <option value="Preuzela druga služba">Preuzela druga služba</option>
                             </select>
                         </div> 
                     </div>
@@ -279,10 +279,10 @@
                     <div class="bordered-group">                     
                         <div class="form-group">
                             <label>Vrsta i broj dokumenta temeljem koga je izvršena zapljena</label>
-                            <input type="text" class="form-control" name="seized_doc_type">
+                            <input type="text" class="form-control" name="seized_doc">
                         </div>
                         <div class="form-group">
-                            <label>Upload (JPG, PNG)</label>
+                            <label>Upload</label>
                             <input type="file" id="vrsta_broj_dokumenta" name="seized_doc_type[]" multiple />
                             <div id="error_vrsta_broj_dokumenta"></div>
                         </div>

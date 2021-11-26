@@ -19,6 +19,7 @@ class AnimalItem extends Model implements HasMedia
 
     protected $casts = [
         'animal_date_found' => 'date',
+        'date_seized_animal' => 'date',
     ];
 
     public function animal()
