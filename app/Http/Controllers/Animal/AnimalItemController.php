@@ -207,6 +207,9 @@ class AnimalItemController extends Controller
         $newAnimalItem->in_shelter = true;
         $newAnimalItem->save();
 
+        // Copy Media
+        $this->copyMedia($animal_items, $newAnimalItem);
+
         // Date full care
         $dateFullCare = DateFullCare::where('animal_item_id', $animal_items->id)->get();
         if(!empty($dateFullCare)){
@@ -242,5 +245,51 @@ class AnimalItemController extends Controller
         $pdf = PDF::loadView('myPDF', compact('animalItems', 'mediaFiles'));
 
         return $pdf->stream('my.pdf');
+    }
+
+    // Copy Media
+    public function copyMedia($model, $newModel)
+    {
+        // documents
+        if($model->getMedia('documents')->first()){
+            $documents = $model->getMedia('documents')->first();
+            $copiedMediaItem = $documents->copy($newModel, 'documents');
+        }
+
+        // status_receiving_file
+        if($model->getMedia('status_receiving_file')->first()){
+            $status_receiving_file = $model->getMedia('status_receiving_file')->first();
+            $copiedMediaItem = $status_receiving_file->copy($newModel, 'status_receiving_file');
+        }
+
+        // status_found_file
+        if($model->getMedia('status_found_file')->first()){
+            $status_found_file = $model->getMedia('status_found_file')->first();
+            $copiedMediaItem = $status_found_file->copy($newModel, 'status_found_file');
+        }
+
+        // reason_file
+        if($model->getMedia('reason_file')->first()){
+            $reason_file = $model->getMedia('reason_file')->first();
+            $copiedMediaItem = $reason_file->copy($newModel, 'reason_file');
+        }
+
+        // animal_mark_photos
+        if($model->getMedia('animal_mark_photos')->first()){
+            $animal_mark_photos = $model->getMedia('animal_mark_photos')->first();
+            $copiedMediaItem = $animal_mark_photos->copy($newModel, 'animal_mark_photos');
+        }
+
+        // euthanasia_invoice
+        if($model->getMedia('euthanasia_invoice')->first()){
+            $euthanasia_invoice = $model->getMedia('euthanasia_invoice')->first();
+            $copiedMediaItem = $euthanasia_invoice->copy($newModel, 'euthanasia_invoice');
+        }
+
+        // seized_doc_type
+        if($model->getMedia('seized_doc_type')->first()){
+            $seized_doc_type = $model->getMedia('seized_doc_type')->first();
+            $copiedMediaItem = $seized_doc_type->copy($newModel, 'seized_doc_type');
+        }
     }
 }
