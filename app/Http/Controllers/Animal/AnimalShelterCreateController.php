@@ -203,7 +203,7 @@ class AnimalShelterCreateController extends Controller
             'active_group' => true,
         ]);
 
-        if($request->euthanasia == 'da'){
+        if($request->euthanasia_select == 'da'){
             if ($request->euthanasia_invoice) {
                 $animal_group->addMultipleMediaFromRequest(['euthanasia_invoice'])
                 ->each(function ($fileAdder) {
@@ -227,7 +227,7 @@ class AnimalShelterCreateController extends Controller
             $animalItem->founder_id = $request->founder_id;
             $animalItem->founder_note = $request->founder_note;
 
-            if($request->euthanasia == 'da'){
+            if($request->euthanasia_select == 'da'){
                 $animalItem->euthanasia_ammount = $request->euthanasia_ammount;
             }
 

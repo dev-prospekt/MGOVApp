@@ -54,6 +54,8 @@ class CreateAnimalItemsTable extends Migration
             $table->string('location_animal_takeover');
             $table->string('seized_doc');
 
+            $table->decimal('euthanasia_ammount')->nullable();
+
             $table->string('shelter_code');
 
             $table->timestamps();

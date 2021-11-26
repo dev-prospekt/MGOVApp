@@ -130,7 +130,7 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Eutanazija</label>
-                            <select class="form-control euthanasia_select" name="euthanasia">
+                            <select class="form-control euthanasia_select" name="euthanasia_select">
                                 <option value="">------</option>
                                 <option value="da">Da</option>
                                 <option value="ne">Ne</option>
@@ -139,7 +139,7 @@
                         <div class="form-group" id="euthanasia">
                             <label>Učitaj račun</label>
                             <input type="file" id="euthanasia_invoice" name="euthanasia_invoice[]" multiple />
-                            <div class="mb-2" id="error_status_receiving_file"></div>
+                            <div class="mb-2" id="error_euthanasia_invoice"></div>
                 
                             <label>Iznos</label>
                             <input type="text" class="form-control" name="euthanasia_ammount">
