@@ -33,7 +33,7 @@
     <ul class="nav nav-tabs nav-tabs-line" id="lineTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-          {{ $animalItem->animal->latin_name }}
+          {{ $animalItem->animal->name }} - {{ $animalItem->animal->latin_name }}
         </a>
       </li>
       <li class="nav-item">
@@ -71,8 +71,7 @@
                       <div class="row justify-content-between">           
                           <div class="email-title mb-2 mb-md-0"><span class="icon"><i data-feather="book"></i></span> Postupak postupanja u oporavilištu</div>  
                           <div>
-                          <a type="button" class="btn btn-primary btn-sm btn-icon-text" data-toggle="modal" 
-                              data-target="#createCareStaffModal">                
+                          <a href="{{ route('animal_items.animal_item_logs.create', $animalItem->id) }}" type="button" class="btn btn-primary btn-sm btn-icon-text">                
                                 Dodaj zapis
                                 <i class="btn-icon-append" data-feather="book"></i>
                               </a> 
@@ -209,8 +208,13 @@
                   <div class="row">
                     <div class="separator"></div>
                   </div> 
-                  <div class="row">       
-                    <div class="col-md-4 grid-margin">    
+                  <div class="row">                 
+            
+                    <div class="col-md-4 grid-margin">  
+                      
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Status jedinke:</label>
+                        <p class="text-muted">U oporavilištu</p>
+                      
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način Držanja:</label>
                         <p class="text-muted">{{ $animalItem->solitary_or_group ?? '' }}</p>
@@ -221,9 +225,20 @@
                       <p class="text-muted">{{ $animalItem->animalMarks->first()->animalMarkType->name }}</p>
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv oznake:</label>
-                        <p class="text-muted">{{ $animalItem->animalMarks->first()->animal_mark_note }}</p>
+                        <p class="text-muted">{{ $animalItem->animalMarks->last()->animal_mark_note }}</p>
                       </div>
                     </div> 
+                    <div class="col-md-4 grid-margin">
+                     {{--  @foreach ($animalItem->animalMarks->media as $thumbnail) 
+                      
+                        <a href="{{ $thumbnail->getUrl() }}" data-lightbox="equipment">
+                        <figure>
+                          <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
+                        </figure>
+                        </a>
+                       
+                      @endforeach --}}
+                    </div>
                   </div>     
               </div>
             </div>    
@@ -236,7 +251,7 @@
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <div class="row">
           <div class="col-md-6">
-            <div class="card rounded grid-margin mt-4">
+            <div class="card rounded grid-margin">
               <div class="card-body">
                   <div class="d-flex align-items-center justify-content-between mb-2">
                       <h6 class="card-title mb-0">Dokumenti</h6>
@@ -246,7 +261,7 @@
           </div>
           </div>
           <div class="col-md-6">
-            <div class="card rounded grid-margin mt-4">
+            <div class="card rounded grid-margin">
                 <div class="card-body">
                     <p>Stanje u trenutku zaprimanja u oporavilište</p>
         
@@ -264,7 +279,7 @@
         </div>
       </div>
     </div>
- @dump($animalItem)
+ {{-- @dump($animalItem->animalMarks->first()->media ) --}}
 <!-- Modal -->
 <button type="button" id="openModal" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter">
 </button>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Animal;
 
 use App\Http\Controllers\Controller;
+use App\Models\Animal\AnimalItem;
+use App\Models\Animal\AnimalItemLog;
 use Illuminate\Http\Request;
 
 class AnimalItemLogController extends Controller
@@ -12,7 +14,7 @@ class AnimalItemLogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(AnimalItem $animalItem)
     {
         //
     }
@@ -22,9 +24,9 @@ class AnimalItemLogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(AnimalItem $animalItem)
     {
-        //
+        return view('animal.animal_item_log.create', compact('animalItem'));
     }
 
     /**
@@ -33,7 +35,7 @@ class AnimalItemLogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, AnimalItem $animalItem)
     {
         //
     }
@@ -44,7 +46,7 @@ class AnimalItemLogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(AnimalItem $animalItem, AnimalItemLog $animalItemLog)
     {
         //
     }
@@ -55,7 +57,7 @@ class AnimalItemLogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(AnimalItem $animalItem, AnimalItemLog $animalItemLog)
     {
         //
     }
@@ -67,7 +69,7 @@ class AnimalItemLogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, AnimalItem $animalItem, AnimalItemLog $animalItemLog)
     {
         //
     }
@@ -78,7 +80,7 @@ class AnimalItemLogController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(AnimalItem $animalItem, AnimalItemLog $animalItemLog)
     {
         //
     }

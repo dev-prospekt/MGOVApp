@@ -139,6 +139,7 @@ class ShelterController extends Controller
                     return $animal_groups->animal->latin_name;
                 })
                 ->addColumn('action', function ($animal_group) {
+
                     return '
                 <div class="d-flex align-items-center">
                     <a href="/shelters/' . $animal_group->pivot->shelter_id . '/animal_groups/' . $animal_group->id . '" class="btn btn-xs btn-info mr-2">
