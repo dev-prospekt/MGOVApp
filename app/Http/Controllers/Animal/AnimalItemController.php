@@ -63,7 +63,7 @@ class AnimalItemController extends Controller
      */
     public function show(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
-        $animalItem = AnimalItem::with('animal', 'animalSizeAttributes', 'dateRange', 'animalMarkType', 'animalItemLogs', 'founder')->find($animalItem->id);
+        $animalItem = AnimalItem::with('animal', 'animalSizeAttributes', 'dateRange', 'animalMarks', 'animalItemLogs', 'founder')->find($animalItem->id);
 
         // Day and Price
         if (!empty($animalItem->dateRange->end_date)) {

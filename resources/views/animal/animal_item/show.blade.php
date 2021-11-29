@@ -218,7 +218,11 @@
                     </div> 
                     <div class="col-md-4 grid-margin">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Oznaka jedinke:</label>
-                      <p class="text-muted">Test Oznaka</p>
+                      <p class="text-muted">{{ $animalItem->animalMarks->first()->animalMarkType->name }}</p>
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv oznake:</label>
+                        <p class="text-muted">{{ $animalItem->animalMarks->first()->animal_mark_note }}</p>
+                      </div>
                     </div> 
                   </div>     
               </div>
@@ -260,7 +264,7 @@
         </div>
       </div>
     </div>
- 
+ @dump($animalItem)
 <!-- Modal -->
 <button type="button" id="openModal" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter">
 </button>

@@ -15,8 +15,9 @@ class CreateAnimalMarksTable extends Migration
     {
         Schema::create('animal_marks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('animal_mark_types_id')->nullable();
-            $table->string('name');
+            $table->foreignId('animal_mark_type_id')->nullable();
+            $table->foreignId('animal_item_id');
+            $table->string('animal_mark_note');
             $table->timestamps();
         });
     }
