@@ -281,23 +281,23 @@
     <script>
         $(function() {
             // Premjestaj
-            $(".premjesti").click(function(){
-                $("#openModal").trigger('click');
+            // $(".premjesti").click(function(){
+            //     $("#openModal").trigger('click');
 
-                id = $(this).attr("data-id");
+            //     id = $(this).attr("data-id");
 
-                $.get( "/animal_item/getId/" + id, function( data ) {
-                    console.log(data)
-                    $('#changeShelterForm').attr('action', '/animal_item/changeShelter/'+id);
-                    $('#animal_id').val(data.animal_id);
-                    $('#shelterCode').val(data.shelter_code);
-                });
+            //     $.get( "/animal_item/getId/" + id, function( data ) {
+            //         console.log(data)
+            //         $('#changeShelterForm').attr('action', '/animal_item/changeShelter/'+id);
+            //         $('#animal_id').val(data.animal_id);
+            //         $('#shelterCode').val(data.shelter_code);
+            //     });
                 
-            });
+            // });
 
-            $("#save").click(function(){
-                $("#changeShelterForm").submit();
-            });
+            // $("#save").click(function(){
+            //     $("#changeShelterForm").submit();
+            // });
         })
     </script>
 

@@ -67,8 +67,8 @@ class AnimalItemController extends Controller
 
         // Day and Price
         if (!empty($animalItems->dateRange->end_date)) {
-            $from = Carbon::createFromFormat('d.m.Y', $animalItems->dateRange->start_date);
-            $to = (isset($animalItems->dateRange->end_date)) ? Carbon::createFromFormat('d.m.Y', $animalItems->dateRange->end_date) : '';
+            $from = Carbon::parse($animalItems->dateRange->start_date);
+            $to = (isset($animalItems->dateRange->end_date)) ? Carbon::parse($animalItems->dateRange->end_date) : '';
             $diff_in_days = $to->diffInDays($from);
         }
 
@@ -170,7 +170,7 @@ class AnimalItemController extends Controller
 
     public function changeShelter(Request $request, AnimalItem $animalItem)
     {
-        $animal_items = AnimalItem::with('dateRange', 'dateFullCare', 'animalGroup')->find($animalItem->id);
+        $animal_items = AnimalItem::with('dateRange', 'dateFullCare', 'shelterAnimalPrice', 'animalGroup')->find($animalItem->id);
         $newShelter = Shelter::find($request->selectedShelter);
 
         // Zadnji ID u grupi
@@ -210,20 +210,32 @@ class AnimalItemController extends Controller
         $this->copyMedia($animal_items, $newAnimalItem);
 
         // Date full care
-        $dateFullCare = DateFullCare::where('animal_item_id', $animal_items->id)->get();
-        if(!empty($dateFullCare)){
-            foreach ($dateFullCare as $item) {
-                $newDateRange = $item->replicate();
-                $newDateRange->animal_item_id = $newAnimalItem->id;
-                $newDateRange->save();
+        if(!empty($animal_items->dateFullCare))
+        {
+            $dateFullCare = $animal_items->dateFullCare;
+            if(!empty($dateFullCare)){
+                foreach ($dateFullCare as $item) {
+                    $newDateRange = $item->replicate();
+                    $newDateRange->animal_item_id = $newAnimalItem->id;
+                    $newDateRange->save();
+                }
             }
         }
 
         // Date Range
-        $dateRange = DateRange::find($animal_items->dateRange->id);
+        $dateRange = $animal_items->dateRange;
         $newDateRange = $dateRange->replicate();
         $newDateRange->animal_item_id = $newAnimalItem->id;
         $newDateRange->save();
+
+        // Shelter Animal Price
+        if(!empty($animal_items->shelterAnimalPrice))
+        {
+            $animalPrice = $animal_items->shelterAnimalPrice;
+            $newAnimalPrice = $animalPrice->replicate();
+            $newAnimalPrice->animal_item_id = $newAnimalItem->id;
+            $newAnimalPrice->save();
+        }
 
         return response()->json([
             'msg' => 'success', 

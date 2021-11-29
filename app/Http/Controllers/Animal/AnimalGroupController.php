@@ -176,10 +176,32 @@ class AnimalGroupController extends Controller
             $newAnimalItems->save();
 
             // Date Range dulicate for new items
-            $dateRange = DateRange::find($item->dateRange->id);
+            $dateRange = $item->dateRange;
             $newDateRange = $dateRange->replicate();
             $newDateRange->animal_item_id = $newAnimalItems->id;
             $newDateRange->save();
+
+            // Date full care
+            if(!empty($item->dateFullCare))
+            {
+                $dateFullCare = $item->dateFullCare;
+                if(!empty($dateFullCare)){
+                    foreach ($dateFullCare as $item) {
+                        $newDateRange = $item->replicate();
+                        $newDateRange->animal_item_id = $newAnimalItems->id;
+                        $newDateRange->save();
+                    }
+                }
+            }
+
+            // Shelter Animal Price
+            if(!empty($item->shelterAnimalPrice))
+            {
+                $animalPrice = $item->shelterAnimalPrice;
+                $newAnimalPrice = $animalPrice->replicate();
+                $newAnimalPrice->animal_item_id = $newAnimalItems->id;
+                $newAnimalPrice->save();
+            }
         }
 
         return response()->json([
