@@ -12,14 +12,14 @@ class AnimalMark extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = ['animal_item_id', 'animal_marks_type_id', 'name'];
+    protected $fillable = ['animal_mark_type_id', 'animal_item_id', 'animal_mark_note'];
 
-    public function animalMarkTypes()
+    public function animalMarkType()
     {
-        return $this->belongsTo(AnimalMarkType::class, 'animal_marks_type_id');
+        return $this->belongsTo(AnimalMarkType::class, 'animal_mark_type_id');
     }
     public function animalItem()
     {
-        return $this->hasMany(AnimalItem::class);
+        return $this->belongsTo(AnimalItem::class, 'animal_item_id');
     }
 }

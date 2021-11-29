@@ -11,7 +11,7 @@ class AnimalMarkType extends Model
 
     protected $fillable = ['name', 'desc'];
 
-    public function animalMark()
+    public function animalMarks()
     {
         return $this->hasMany(AnimalMark::class);
     }

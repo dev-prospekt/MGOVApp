@@ -22,8 +22,8 @@ class ShelterSeeder extends Seeder
             'address_place' => 'Verudela bb',
             'place_zip' => 52100,
         ]);
-        $shelter1->shelterTypes()->attach([1, 4]);
-        $shelter1->animalSystemCategory()->attach([1,3]);
+        $shelter1->shelterTypes()->attach([1, 2, 3]);
+        $shelter1->animalSystemCategory()->attach([1, 3]);
 
         $shelter2 = Shelter::factory()->create([
             'name' => 'AWAP – Udruga za zaštitu divljih životinja',
@@ -33,7 +33,7 @@ class ShelterSeeder extends Seeder
             'place_zip' => 10000,
         ]);
         $shelter2->shelterTypes()->attach([1, 2]);
-        $shelter2->animalSystemCategory()->attach([3,4,5]);
+        $shelter2->animalSystemCategory()->attach([3, 4, 5]);
 
         $shelter3 = Shelter::factory()->create([
             'name' => 'Javna ustanova Nacionalni park Brijuni',
@@ -43,6 +43,6 @@ class ShelterSeeder extends Seeder
             'place_zip' => 52212,
         ]);
         $shelter3->shelterTypes()->attach(1);
-        $shelter3->animalSystemCategory()->attach([2,5]);
+        $shelter3->animalSystemCategory()->attach([2, 5]);
     }
 }

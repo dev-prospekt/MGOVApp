@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalItem;
+use App\Models\Animal\AnimalMark;
 use App\Models\Animal\AnimalGroup;
 use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
@@ -140,8 +141,8 @@ class AnimalShelterCreateController extends Controller
             $animalItem->founder_note = $request->founder_note;
             $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
             $animalItem->in_shelter = true;
-            $animalItem->animal_mark_id = $request->animal_mark;
-            $animalItem->animal_mark_note = $request->animal_mark_note;
+            //$animalItem->animal_mark_type_id = $request->animal_mark;
+
             $animalItem->status_receiving = $request->status_receiving;
             $animalItem->status_receiving_desc = $request->status_receiving_desc;
             $animalItem->status_found = $request->status_found;
@@ -157,6 +158,14 @@ class AnimalShelterCreateController extends Controller
             $animalItem->solitary_or_group = $request->solitary_or_group;
             $animalItem->shelter_code = $animal_group->shelter_code;
             $animalItem->save();
+
+            $animalMark = new AnimalMark;
+            $animalMark->animal_mark_note = $request->animal_mark_note;
+            $animalMark->animal_mark_type_id = $request->animal_mark;
+            $animalMark->animalItem()->associate($animalItem);
+            $animalMark->save();
+
+
 
             // Date Range
             if (!empty($request->start_date)) {

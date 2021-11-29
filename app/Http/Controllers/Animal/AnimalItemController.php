@@ -63,7 +63,7 @@ class AnimalItemController extends Controller
      */
     public function show(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
-        $animalItems = AnimalItem::find($animalItem->id);
+        $animalItem = AnimalItem::with('animal', 'animalSizeAttributes', 'dateRange', 'animalMarks', 'animalItemLogs', 'founder')->find($animalItem->id);
 
         // Day and Price
         if (!empty($animalItems->dateRange->end_date)) {
@@ -72,16 +72,13 @@ class AnimalItemController extends Controller
             $diff_in_days = $to->diffInDays($from);
         }
 
-        $totalPriceStand = (isset($animalItems->shelterAnimalPrice->stand_care)) ? $animalItems->shelterAnimalPrice->stand_care : 0;
-        $totalPriceHibern = (isset($animalItems->shelterAnimalPrice->hibern)) ? $animalItems->shelterAnimalPrice->hibern : 0;
-        $totalPriceFullCare = (isset($animalItems->shelterAnimalPrice->full_care)) ? $animalItems->shelterAnimalPrice->full_care : 0;
+        $totalPriceStand = (isset($animalItem->shelterAnimalPrice->stand_care)) ? $animalItem->shelterAnimalPrice->stand_care : 0;
+        $totalPriceHibern = (isset($animalItem->shelterAnimalPrice->hibern)) ? $animalItem->shelterAnimalPrice->hibern : 0;
+        $totalPriceFullCare = (isset($animalItem->shelterAnimalPrice->full_care)) ? $animalItem->shelterAnimalPrice->full_care : 0;
 
         return view('animal.animal_item.show', [
-            'animalItems' => $animalItems,
-            'diff_in_days' => (isset($diff_in_days) ? $diff_in_days : 0),
-            'totalPriceStand' => (isset($totalPriceStand) ? $totalPriceStand : 0),
-            'totalPriceHibern' => (isset($totalPriceHibern) ? $totalPriceHibern : 0),
-            'totalPriceFullCare' => (isset($totalPriceFullCare) ? $totalPriceFullCare : 0),
+            'animalItem' => $animalItem,
+
         ]);
     }
 
@@ -185,7 +182,7 @@ class AnimalItemController extends Controller
         // New group
         $newAnimalGroup = new AnimalGroup;
         $newAnimalGroup->animal_id = $animal_items->animal_id;
-        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') .''. $newShelter->shelter_code .'/'. $increment;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') . '' . $newShelter->shelter_code . '/' . $increment;
         $newAnimalGroup->quantity = 1;
         $newAnimalGroup->save();
 
@@ -238,7 +235,7 @@ class AnimalItemController extends Controller
         }
 
         return response()->json([
-            'msg' => 'success', 
+            'msg' => 'success',
             'back' => $request->currentShelter,
             'newShelter' => $newShelter
         ]);

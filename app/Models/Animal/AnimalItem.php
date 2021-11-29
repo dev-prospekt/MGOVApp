@@ -3,9 +3,10 @@
 namespace App\Models\Animal;
 
 use App\Models\DateRange;
+use App\Models\FounderData;
 use App\Models\DateFullCare;
-use App\Models\Shelter\Shelter;
 
+use App\Models\Shelter\Shelter;
 use Spatie\MediaLibrary\HasMedia;
 use App\Models\Animal\AnimalGroup;
 use App\Models\ShelterAnimalPrice;
@@ -52,9 +53,9 @@ class AnimalItem extends Model implements HasMedia
         return $this->hasMany(DateFullCare::class);
     }
 
-    public function animalMark()
+    public function animalMarks()
     {
-        return $this->belongsTo(AnimalMark::class)->with('animalMarkTypes');
+        return $this->hasMany(AnimalMark::class)->with('animalMarkType');
     }
 
     public function shelterAnimalPrice()
@@ -65,5 +66,10 @@ class AnimalItem extends Model implements HasMedia
     public function animalItemLogs()
     {
         return $this->hasMany(AnimalItemLog::class);
+    }
+
+    public function founder()
+    {
+        return $this->belongsTo(FounderData::class);
     }
 }
