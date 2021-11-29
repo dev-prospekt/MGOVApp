@@ -37,18 +37,15 @@ class ShelterController extends Controller
                 ->addColumn('action', function ($shelter) {
                     return '
                 <div class="d-flex align-items-center">
-                    <a href="shelter/' . $shelter->id . '" class="btn btn-xs btn-info mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
+                    <a href="shelter/' . $shelter->id . '" class="btn btn-sm btn-info mr-2"> 
                         Info
                     </a>
                 
-                    <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-primary mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
+                    <a href="shelter/' . $shelter->id . '/edit" class="btn btn-sm btn-primary mr-2"> 
                         Uredi
                     </a>
 
-                    <a href="javascript:void(0)" id="shelterClick" class="btn btn-xs btn-danger" >
-                        <i class="mdi mdi-delete"></i>
+                    <a href="javascript:void(0)" id="shelterClick" class="btn btn-sm btn-danger" >
                         <input type="hidden" id="shelter_id" value="' . $shelter->id . '" />
                         Brisanje
                     </a>
@@ -143,18 +140,15 @@ class ShelterController extends Controller
 
                     return '
                 <div class="d-flex align-items-center">
-                    <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
+                    <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-sm btn-info mr-2"> 
                         Info
                     </a>
                 
-                    <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-xs btn-primary mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
+                    <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-sm btn-primary mr-2"> 
                         Uredi
                     </a>
 
-                    <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-xs btn-danger" >
-                        <i class="mdi mdi-delete"></i>
+                    <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-sm btn-danger" >
                         Brisanje
                     </a>
                 </div>

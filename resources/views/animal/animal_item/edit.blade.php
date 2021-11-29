@@ -8,16 +8,6 @@
 @endpush
 
 @section('content')
-    <nav class="page-breadcrumb">
-        <ol class="breadcrumb">
-            <div>
-                <a href="/shelter/{{ $animalItem->shelter_id }}/animal/{{ $animalItem->shelter_code }}" class="btn btn-primary">
-                    <i data-feather="left" data-toggle="tooltip" title="Connect"></i>
-                    Natrag
-                </a>
-            </div>
-        </ol>
-    </nav>
 
     <div class="row">
         <div class="col-md-8 stretch-card">
@@ -164,6 +154,7 @@
                         @method('PATCH')
                         
                         <div class="col-md-4">
+                            @if ($size)
                             <div class="form-group">
                                 <label>Veličina</label>
                                 <select class="form-control" name="animal_size_attributes_id" id="">
@@ -180,6 +171,7 @@
                                     <div class="text-danger">{{$errors->first('animal_size_attributes_id') }} </div>
                                 @enderror
                             </div>
+                            @endif
                             <div class="form-group">
                                 <label>Dob jedinke</label>
                                 <select class="form-control" name="animal_dob" id="">
@@ -249,7 +241,7 @@
 
             if($('div#datePickerExample').length) {
                 $('div#datePickerExample input').datepicker({
-                    format: "dd.mm.yyyy",
+                    format: "mm/dd/yyyy",
                     todayHighlight: true,
                     autoclose: true,
                 });

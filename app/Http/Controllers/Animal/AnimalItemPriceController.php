@@ -14,17 +14,19 @@ class AnimalItemPriceController extends Controller
     public function updateDateAndPrice(Request $request, $id)
     {
         $animalItem = AnimalItem::findOrFail($id);
+
+        //dd($request);
         
         // Date Range
         if(!empty($request->end_date)){
             $animalItem->dateRange()->update(['animal_item_id' => $id,
-                'end_date' => Carbon::createFromFormat('d.m.Y', $request->end_date),
+                'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date),
                 'reason_date_end' => $request->reason_date_end,
             ]);
 
             // Standard
-            $from = Carbon::createFromFormat('d.m.Y', $animalItem->dateRange->start_date);
-            $to = (isset($animalItem->dateRange->end_date)) ? Carbon::createFromFormat('d.m.Y', $animalItem->dateRange->end_date) : '';
+            $from = Carbon::parse($animalItem->dateRange->start_date);
+            $to = (isset($animalItem->dateRange->end_date)) ? Carbon::parse($animalItem->dateRange->end_date) : '';
             $diff_in_days = $to->diffInDays($from);
 
             // Standardna cijena
@@ -34,20 +36,18 @@ class AnimalItemPriceController extends Controller
         // Hibern
         if(!empty($request->hib_est_from)){
             $animalItem->dateRange()->update(['animal_item_id' => $id,
-                'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('d.m.Y', $request->hib_est_from) : null,
+                'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('m/d/Y', $request->hib_est_from) : null,
             ]);
 
             if(!empty($request->hib_est_to)){
                 $animalItem->dateRange()->update(['animal_item_id' => $id,
-                    'hibern_start' => Carbon::createFromFormat('d.m.Y', $request->hib_est_from),
-                    'hibern_end' => Carbon::createFromFormat('d.m.Y', $request->hib_est_to),
+                    'hibern_start' => Carbon::createFromFormat('m/d/Y', $request->hib_est_from),
+                    'hibern_end' => Carbon::createFromFormat('m/d/Y', $request->hib_est_to),
                 ]);
                 
                 if(!empty($diff_in_days)){
-                    $hib_from = Carbon::createFromFormat('d.m.Y', $request->hib_est_from);
-                    $hib_to = Carbon::createFromFormat('d.m.Y', $request->hib_est_to);
-                    // $hib_from = Carbon::parse($hib_from);
-                    // $hib_to = Carbon::parse($hib_to);
+                    $hib_from = Carbon::createFromFormat('m/d/Y', $request->hib_est_from);
+                    $hib_to = Carbon::createFromFormat('m/d/Y', $request->hib_est_to);
                     $hib_diff_days = $hib_to->diffInDays($hib_from);
 
                     $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);
@@ -60,8 +60,8 @@ class AnimalItemPriceController extends Controller
 
         // Proširena skrb
         if(!empty($request->full_care_start)){
-            $full_care_from = Carbon::createFromFormat('d.m.Y', $request->full_care_start);
-            $full_care_to = (isset($request->full_care_end)) ? Carbon::createFromFormat('d.m.Y', $request->full_care_end) : '';
+            $full_care_from = Carbon::createFromFormat('m/d/Y', $request->full_care_start);
+            $full_care_to = (isset($request->full_care_end)) ? Carbon::createFromFormat('m/d/Y', $request->full_care_end) : '';
             $full_care_diff_in_days = $full_care_to->diffInDays($full_care_from);
 
             $fullCaretotaldays = 0;
@@ -79,8 +79,8 @@ class AnimalItemPriceController extends Controller
             }
 
             $animalItem->dateFullCare()->create(['animal_item_id' => $id,
-                'start_date' => Carbon::createFromFormat('d.m.Y', $request->full_care_start),
-                'end_date' => Carbon::createFromFormat('d.m.Y', $request->full_care_end),
+                'start_date' => Carbon::createFromFormat('m/d/Y', $request->full_care_start),
+                'end_date' => Carbon::createFromFormat('m/d/Y', $request->full_care_end),
                 'days' => $full_care_diff_in_days,
             ]);
 
@@ -112,19 +112,17 @@ class AnimalItemPriceController extends Controller
 
     public function getPrice($animalItem, $diff_in_days, $full_care = null)
     {
-        if($animalItem->solitary_or_group == 1){ // U grupi je
+        if($animalItem->animalGroup->quantity != 1){ // U grupi je
             $groupPrice = $animalItem->animalSizeAttributes->group_price;
             $totalPrice = ($diff_in_days * $groupPrice);
-            $totalPrice = $totalPrice;
         }
         else { // Nije u grupi
             $basePrice = $animalItem->animalSizeAttributes->base_price;
             $totalPrice = ($diff_in_days * $basePrice);
-            $totalPrice = $totalPrice;
         }
 
         // Juvenilne jedinke - Ako su gmazovi cijena nema razlike
-        if($animalItem->animal_dob == 'JUV'){
+        if($animalItem->animal_age == 'JUV'){
             if($animalItem->animal->animalCategory->animalSystemCategory != 'gmazovi'){
                 $percentGet = 30;
                 $percentDecimal = $percentGet / 100;

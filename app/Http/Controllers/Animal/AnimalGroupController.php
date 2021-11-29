@@ -75,19 +75,24 @@ class AnimalGroupController extends Controller
                     return $animal_items->animal->latin_name;
                 })
                 ->addColumn('action', function ($animal_items) {
-                    $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+                    $urlShow = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+                    $urlEdit = route('shelters.animal_groups.animal_items.edit', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
 
                     return '
-                <div class="d-flex align-items-center">
-                    <a href="'.$url.'" class="btn btn-xs btn-info btn-sm mr-2">
-                        Info
-                    </a>
+                    <div class="d-flex align-items-center">
+                        <a href="'.$urlShow.'" class="btn btn-xs btn-info btn-sm mr-2">
+                            Info
+                        </a>
 
-                    <a href="javascript:void(0)" id="changeShelterItem" data-id="'.$animal_items->id.'" class="btn btn-xs btn-warning btn-sm mr-2">
-                        Premjesti
-                    </a>
-                </div>
-                ';
+                        <a href="'.$urlEdit.'" class="btn btn-xs btn-primary btn-sm mr-2">
+                            Edit
+                        </a>
+
+                        <a href="javascript:void(0)" id="changeShelterItem" data-id="'.$animal_items->id.'" class="btn btn-xs btn-warning btn-sm mr-2">
+                            Premjesti
+                        </a>
+                    </div>
+                    ';
                 })
                 ->make();
         }

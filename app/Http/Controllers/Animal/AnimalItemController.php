@@ -91,9 +91,8 @@ class AnimalItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
-        $animalItem = AnimalItem::findOrFail($id);
         $mediaItems = $animalItem->getMedia('media');
         $size = $animalItem->animal->animalSize;
         $dateRange = $animalItem->dateRange;
