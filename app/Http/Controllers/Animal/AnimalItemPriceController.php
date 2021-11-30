@@ -155,7 +155,7 @@ class AnimalItemPriceController extends Controller
         }
 
         // solitary_or_group - kod svake akcije treba napraviti update cijene
-        if(!empty($request->solitary_or_group_end)){
+        if(!empty($request->solitary_or_group_end) || !empty($request->end_date)){
             $totalPriceSolitaryOrGroup = (isset($totalPriceSolitaryOrGroup)) ? $totalPriceSolitaryOrGroup : null;
             
             $this->updatePriceSolitaryOrGroup($animalItem->id, $totalPriceSolitaryOrGroup);
