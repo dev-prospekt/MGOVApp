@@ -138,21 +138,33 @@ class ShelterController extends Controller
                 ->addColumn('action', function ($animal_groups) {
                     $deleteURL = route('shelters.animal_groups.destroy', [$animal_groups->pivot->shelter_id, $animal_groups->id]);
 
-                    return '
-                <div class="d-flex align-items-center">
-                    <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-sm btn-info mr-2"> 
-                        Info
-                    </a>
-                
-                    <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-sm btn-primary mr-2"> 
-                        Uredi
-                    </a>
+                    if($animal_groups->quantity == 1){
+                        return '
+                        <div class="d-flex align-items-center">
+                            <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '/animal_items/'.$animal_groups->animalItems->first()->id.'" class="btn btn-sm btn-info mr-2"> 
+                                Info
+                            </a>
+                        </div>
+                        ';
+                    }
+                    else {
+                        return '
+                        <div class="d-flex align-items-center">
+                            <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-sm btn-info mr-2"> 
+                                Info
+                            </a>
+                        
+                            <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-sm btn-primary mr-2"> 
+                                Uredi
+                            </a>
 
-                    <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-sm btn-danger" >
-                        Brisanje
-                    </a>
-                </div>
-                ';
+                            <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-sm btn-danger" >
+                                Brisanje
+                            </a>
+                        </div>
+                        ';
+                    }
+
                 })->make();
         }
 
