@@ -45,7 +45,7 @@ class ShelterSeeder extends Seeder
             'place_zip' => 52212,
             'shelter_code' => 'NPB',
         ]);
-        $shelter3->shelterTypes()->attach(1,3);
+        $shelter3->shelterTypes()->attach([1,3]);
         $shelter3->animalSystemCategory()->attach([2, 5]);
     }
 }
