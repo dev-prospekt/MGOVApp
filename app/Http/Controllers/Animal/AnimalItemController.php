@@ -203,6 +203,22 @@ class AnimalItemController extends Controller
         $newAnimalItem->in_shelter = true;
         $newAnimalItem->save();
 
+        // Duplicate solitary group date
+        $animalItemsDateSolitaryGroup = $animal_items->dateSolitaryGroups;
+        foreach ($animalItemsDateSolitaryGroup as $value) {
+            $newDateSolitaryOrGroup = $value->replicate();
+            $newDateSolitaryOrGroup->animal_item_id = $newAnimalItem->id;
+            $newDateSolitaryOrGroup->save();
+        }
+
+        // Duplicate mark_type
+        $animalItemAnimalMark = $animal_items->animalMarks;
+        foreach ($animalItemAnimalMark as $value) {
+            $newAnimalMark = $value->replicate();
+            $newAnimalMark->animal_item_id = $newAnimalItem->id;
+            $newAnimalMark->save();
+        }
+
         // Copy Media
         $this->copyMedia($animal_items, $newAnimalItem);
 
