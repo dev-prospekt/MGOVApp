@@ -89,6 +89,25 @@
                                     </div>       
                                 </div> 
 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Promjena Solitarna ili Grupa</label>
+                                            <select class="form-control" name="solitary_or_group_type" id="">
+                                                <option value="">---</option>
+                                                <option value="Grupa">Grupa</option>
+                                                <option value="Solitarno">Solitarno</option>
+                                            </select>
+                                            <div class="input-group date datepicker" id="datePickerExample">
+                                                <input type="text" name="solitary_or_group_end" class="form-control end_date" >
+                                                <span class="input-group-addon">
+                                                    <i data-feather="calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+
                                 <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>
                             </form>
                         </div>

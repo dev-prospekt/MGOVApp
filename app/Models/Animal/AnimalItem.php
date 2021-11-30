@@ -5,6 +5,7 @@ namespace App\Models\Animal;
 use App\Models\DateRange;
 use App\Models\FounderData;
 use App\Models\DateFullCare;
+use App\Models\DateSolitaryGroup;
 
 use App\Models\Shelter\Shelter;
 use Spatie\MediaLibrary\HasMedia;
@@ -46,6 +47,11 @@ class AnimalItem extends Model implements HasMedia
     public function dateRange()
     {
         return $this->hasOne(DateRange::class);
+    }
+
+    public function dateSolitaryGroups()
+    {
+        return $this->hasMany(DateSolitaryGroup::class);
     }
 
     public function dateFullCare()

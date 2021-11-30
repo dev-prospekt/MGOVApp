@@ -99,38 +99,6 @@ class AnimalShelterCreateController extends Controller
             'active_group' => true,
         ]);
 
-        // // Save documents
-        if ($request->documents) {
-            $animal_group->quantity->addMultipleMediaFromRequest(['documents'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('media');
-                });
-        }
-        if ($request->status_receiving_file) {
-            $animal_group->addMultipleMediaFromRequest(['status_receiving_file'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('status_receiving_file');
-                });
-        }
-        if ($request->status_found_file) {
-            $animal_group->addMultipleMediaFromRequest(['status_found_file'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('status_found_file');
-                });
-        }
-        if ($request->reason_file) {
-            $animal_group->addMultipleMediaFromRequest(['reason_file'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('reason_file');
-                });
-        }
-        if ($request->animal_mark_photos) {
-            $animal_group->addMultipleMediaFromRequest(['animal_mark_photos'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('animal_mark_photos');
-                });
-        }
-
         // Create AnimalItem
         for ($i = 0; $i < $request->quantity; $i++) {
             $animalItem = new AnimalItem;
@@ -165,7 +133,7 @@ class AnimalShelterCreateController extends Controller
             $animalMark->animalItem()->associate($animalItem);
             $animalMark->save();
 
-
+            //dd($request->status_receiving_file);
 
             // Date Range
             if (!empty($request->start_date)) {
@@ -177,6 +145,14 @@ class AnimalShelterCreateController extends Controller
                 }
                 $date_range->save();
             }
+
+            // Solitary/Group
+            $animalItem->dateSolitaryGroups()->create([
+                'animal_item_id' => $animalItem->id,
+                'start_date' => Carbon::createFromFormat('m/d/Y', $request->start_date),
+                'solitary_or_group' => $animalItem->solitary_or_group,
+            ]);
+
         }
 
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
@@ -374,5 +350,40 @@ class AnimalShelterCreateController extends Controller
             'shelterType' => $shelterType
         ])->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
+    }
+
+    public function saveDocument($request, $animalItem)
+    {
+        // // Save documents
+        if ($request->documents) {
+            $animalItem->quantity->addMultipleMediaFromRequest(['documents'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('media');
+            });
+        }
+        if ($request->status_receiving_file) {
+            $animalItem->addMultipleMediaFromRequest(['status_receiving_file'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('status_receiving_file');
+                });
+        }
+        if ($request->status_found_file) {
+            $animalItem->addMultipleMediaFromRequest(['status_found_file'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('status_found_file');
+                });
+        }
+        if ($request->reason_file) {
+            $animalItem->addMultipleMediaFromRequest(['reason_file'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('reason_file');
+                });
+        }
+        if ($request->animal_mark_photos) {
+            $animalItem->addMultipleMediaFromRequest(['animal_mark_photos'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('animal_mark_photos');
+                });
+        }
     }
 }

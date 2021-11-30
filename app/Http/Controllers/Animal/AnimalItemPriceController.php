@@ -33,6 +33,44 @@ class AnimalItemPriceController extends Controller
             $totalPriceStand = $this->getPrice($animalItem, $diff_in_days);
         }
 
+        // Solitary or Group
+        if(!empty($request->solitary_or_group_end)){
+
+            // Ažuriranje zadnjeg record koji ima end_date null
+            $animalItem->dateSolitaryGroups()
+            ->where('end_date', '=', null)
+            ->update([
+                'animal_item_id' => $id,
+                'end_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
+            ]);
+
+            // Novi red i novi type
+            if(!empty($request->solitary_or_group_type)){
+                $animalItem->dateSolitaryGroups()
+                ->create([
+                    'animal_item_id' => $id,
+                    'start_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
+                    'solitary_or_group' => $request->solitary_or_group_type,
+                ]);
+            }
+
+            $allDateSolitaryOrGroup = $animalItem->dateSolitaryGroups
+                                        ->where('end_date', '!=', null)
+                                        ->where('solitary_or_group', '=', $animalItem->solitary_or_group);
+
+            $solitaryOrGroupDays = 0;
+            foreach ($allDateSolitaryOrGroup as $key) {
+                $from = Carbon::parse($key->start_date);
+                $to = (isset($key->end_date)) ? Carbon::parse($key->end_date) : '';
+                $solitaryOrGroupDiffDays = $to->diffInDays($from);
+
+                $solitaryOrGroupDays += $solitaryOrGroupDiffDays;
+            }
+
+            // Cijena ako je solitarna ili u grupi
+            $totalPriceSolitaryOrGroup = $this->getPrice($animalItem, $solitaryOrGroupDays);
+        }
+
         // Hibern
         if(!empty($request->hib_est_from)){
             $animalItem->dateRange()->update(['animal_item_id' => $id,
@@ -99,12 +137,28 @@ class AnimalItemPriceController extends Controller
             $totalPriceFullCare = $this->getPrice($animalItem, $fullCaretotaldays, 'fullCare');
         }
 
-        // Create or Update Price
+        // kod svake akcije treba napraviti update cijene
+        if(!empty($request->solitary_or_group_end)){
+            $totalPriceSolitaryOrGroup = (isset($totalPriceSolitaryOrGroup)) ? $totalPriceSolitaryOrGroup : null;
+            
+            $this->updatePriceSolitaryOrGroup($animalItem->id, $totalPriceSolitaryOrGroup);
+
+            // Nakon što je poslano sve za izracun cijene
+            // ažuriramo animalItem - Grupa ili Solitarno
+            // Provjera je li postoji type
+            if(!empty($request->solitary_or_group_type)){
+                $animalItem->solitary_or_group = $request->solitary_or_group_type;
+                $animalItem->save();
+            }
+        }
+
+        // Update svih cijena nakon zavrsetka skrbi
         if(!empty($request->end_date)){
             $totalPriceHibern = (isset($totalPriceHibern)) ? $totalPriceHibern : null;
             $totalPriceFullCare = (isset($totalPriceFullCare)) ? $totalPriceFullCare : null;
+            $totalPriceSolitaryOrGroup = (isset($totalPriceSolitaryOrGroup)) ? $totalPriceSolitaryOrGroup : null;
 
-            $this->updatePrice($animalItem->id, $totalPriceStand, $totalPriceHibern, $totalPriceFullCare);
+            $this->updatePrice($animalItem->id, $totalPriceStand, $totalPriceHibern, $totalPriceFullCare, $totalPriceSolitaryOrGroup);
         }
 
         return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
@@ -112,7 +166,7 @@ class AnimalItemPriceController extends Controller
 
     public function getPrice($animalItem, $diff_in_days, $full_care = null)
     {
-        if($animalItem->animalGroup->quantity != 1){ // U grupi je
+        if($animalItem->solitary_or_group == 'Grupa'){ // U grupi je
             $groupPrice = $animalItem->animalSizeAttributes->group_price;
             $totalPrice = ($diff_in_days * $groupPrice);
         }
@@ -142,10 +196,47 @@ class AnimalItemPriceController extends Controller
         return $totalPrice;
     }
 
-    public function updatePrice($animalId, $standPrice, $hibernPrice, $fullCarePrice)
+    public function updatePriceSolitaryOrGroup($animalId, $totalPriceSolitaryOrGroup)
+    {
+        $shelterAnimalPrice = ShelterAnimalPrice::where('animal_item_id', $animalId)->first();
+        $animalItem = AnimalItem::find($animalId);
+
+        if($animalItem->solitary_or_group == 'Grupa'){
+            if(!empty($shelterAnimalPrice)){
+                $animalItem->shelterAnimalPrice()->update([
+                    'animal_item_id' => $animalId,
+                    'group_price' => $totalPriceSolitaryOrGroup
+                ]);
+            }
+            else {
+                $animalItem->shelterAnimalPrice()->create([
+                    'animal_item_id' => $animalId,
+                    'group_price' => $totalPriceSolitaryOrGroup
+                ]);
+            }
+        }
+        else {
+            if(!empty($shelterAnimalPrice)){
+                $animalItem->shelterAnimalPrice()->update([
+                    'animal_item_id' => $animalId,
+                    'solitary_price' => $totalPriceSolitaryOrGroup
+                ]);
+            }
+            else {
+                $animalItem->shelterAnimalPrice()->create([
+                    'animal_item_id' => $animalId,
+                    'solitary_price' => $totalPriceSolitaryOrGroup
+                ]);
+            }
+        }
+
+    }
+
+    public function updatePrice($animalId, $standPrice, $hibernPrice, $fullCarePrice, $totalPriceSolitaryOrGroup = null)
     {
         // Create or Update Price
         $shelterAnimalPrice = ShelterAnimalPrice::where('animal_item_id', $animalId)->first();
+
         if(!empty($shelterAnimalPrice)){
             $shelterAnimalPrice->update([
                 "hibern" => $hibernPrice,
