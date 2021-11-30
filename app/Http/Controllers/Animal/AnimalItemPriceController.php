@@ -36,7 +36,7 @@ class AnimalItemPriceController extends Controller
         // Solitary or Group
         if(!empty($request->solitary_or_group_end)){
 
-            // Ažuriranje zadnjeg record koji ima end_date null
+            // Ažuriranje zadnjeg recorda koji ima end_date null
             $animalItem->dateSolitaryGroups()
             ->where('end_date', '=', null)
             ->update([
@@ -59,7 +59,7 @@ class AnimalItemPriceController extends Controller
                                         ->where('solitary_or_group', '=', $animalItem->solitary_or_group);
 
             $solitaryOrGroupDays = 0;
-            foreach ($allDateSolitaryOrGroup as $key) {
+            foreach ($allDateSolitaryOrGroup as $key) { // Izvlacenje svih dana za type u kojem je animalItem trenutno
                 $from = Carbon::parse($key->start_date);
                 $to = (isset($key->end_date)) ? Carbon::parse($key->end_date) : '';
                 $solitaryOrGroupDiffDays = $to->diffInDays($from);
@@ -137,7 +137,7 @@ class AnimalItemPriceController extends Controller
             $totalPriceFullCare = $this->getPrice($animalItem, $fullCaretotaldays, 'fullCare');
         }
 
-        // kod svake akcije treba napraviti update cijene
+        // solitary_or_group - kod svake akcije treba napraviti update cijene
         if(!empty($request->solitary_or_group_end)){
             $totalPriceSolitaryOrGroup = (isset($totalPriceSolitaryOrGroup)) ? $totalPriceSolitaryOrGroup : null;
             
@@ -145,8 +145,7 @@ class AnimalItemPriceController extends Controller
 
             // Nakon što je poslano sve za izracun cijene
             // ažuriramo animalItem - Grupa ili Solitarno
-            // Provjera je li postoji type
-            if(!empty($request->solitary_or_group_type)){
+            if(!empty($request->solitary_or_group_type)){ // Provjera je li postoji type
                 $animalItem->solitary_or_group = $request->solitary_or_group_type;
                 $animalItem->save();
             }
