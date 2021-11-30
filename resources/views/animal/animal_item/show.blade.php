@@ -81,60 +81,26 @@
                     </div>
                     <div class="separator--small"></div>
                
-                    <div class="email-list">      
+                    <div class="email-list"> 
+                       @foreach ($animalItem->animalItemLogs as $itemlLog)
                       <div class="email-list-item">
                  
-                        <a href="{{ url('/email/read') }}" class="email-list-detail">
+                        <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="email-list-detail">
                           <div>
-                            <span class="from">Primjer naziva za dnevnik unosa u oporavilište</span>
-                            <p class="msg">Predmet vezan za dnevnik unosa </p>
+                            <span class="from">{{  $itemlLog->log_subject }}</span>
+                            <p class="msg">{{ $itemlLog->logType->type_name }} </p>
                           </div>
                           <div class="justify-content-between"> 
-                          <span class="date">
-                            
-                            23.11. 2021.
+                          <span class="date">                        
+                            {{ $itemlLog->created_at->format('d.m.Y.') }}
                           </span>
-                          <a class="btn btn-warning btn-xs mt-1">
+                          <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="btn btn-warning btn-xs mt-1">
                               pregled
                            </a> 
                           </div>
                         </a>
                       </div>
-                      <div class="email-list-item">
-                
-                        <a href="{{ url('/email/read') }}" class="email-list-detail">
-                          <div>
-                            <span class="from">Primjer naziva za dnevnik unosa u oporavilište</span>
-                            <p class="msg">Predmet vezan za dnevnik unosa </p>
-                          </div>
-                          <div class="justify-content-between"> 
-                              <span class="date">
-                             
-                                23.11. 2021.
-                              </span>
-                              <a class="btn btn-warning btn-xs mt-1">
-                                  pregled
-                               </a> 
-                          </div>
-                        </a>
-                      </div>
-                      <div class="email-list-item">
-                  
-                        <a href="{{ url('/email/read') }}" class="email-list-detail">
-                          <div>
-                            <span class="from">Primjer naziva za dnevnik unosa u oporavilište</span>
-                            <p class="msg">Predmet vezan za dnevnik unosa </p>
-                          </div>
-                          <div class="justify-content-between"> 
-                              <span class="date">
-                                23.11. 2021.
-                              </span>
-                              <a class="btn btn-warning btn-xs mt-1">
-                                  pregled
-                               </a> 
-                          </div>
-                        </a>
-                      </div>
+                      @endforeach             
                     </div>
                   </div>
                 </div>
@@ -279,7 +245,7 @@
         </div>
       </div>
     </div>
- {{-- @dump($animalItem->animalMarks->first()->media ) --}}
+ 
 <!-- Modal -->
 <button type="button" id="openModal" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter">
 </button>

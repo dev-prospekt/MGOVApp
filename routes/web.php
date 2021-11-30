@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // delete shelter Accomodation images
     Route::get('accomodation/thumb/{thumb}', 'Shelter\ShelterAccomodationController@deleteImage')->name('accomodation.thumbDelete');
+    Route::get('animal_item_log/thumb/{thumb}', 'Animal\AnimalItemLogController@deleteImage')->name('animal_item_log.thumbDelete');
 
     Route::resource('shelters.nutritions', Shelter\ShelterNutritionController::class)->parameters([
         'nutritions' => 'shelter_nutrition'

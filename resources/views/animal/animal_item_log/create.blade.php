@@ -30,7 +30,7 @@
             </button>
           </div>
         @endif</div>
-      <div class="col-md-7">
+      <div class="col-md-6">
         <div class="card">
             <div class="card-body">
               <h5 class="card-heading mb-4">Kreiraj zapis postupanja jedinke</h5>
@@ -42,7 +42,7 @@
                             </button>
                           </div>
                           <div id="successLogStore" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                            <strong>Uspjeh!</strong> Smještajna jedinica uspješno spremljena.
+                            <strong>Uspjeh!</strong> Zapis postupanja uspješno spremljen.
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -51,76 +51,76 @@
                         <div class="form-group">
                             <label class="control-label">Odabir akcije postupanja</label>
                             
-                            <select class="js-example-basic w-100" name="item_log_type">
+                            <select class="js-example-basic w-100" name="log_type">
                                 <option selected disabled>---</option>
-                                {{-- @foreach ($accomodation_types as $accomodationType)
-                                    <option value="{{ $accomodationType['id'] }}">{{ $accomodationType['name'] }}</option>
-                                @endforeach --}}
+                                @foreach ($logTypes as $logType)
+                                    <option value="{{ $logType['id'] }}">{{ $logType['type_name'] }}</option>
+                                @endforeach
                             </select>   
                         </div>
 
                         <div class="form-group">
                             <label>Predmet postupanja jedinke</label>
-                            <input type="text" class="form-control size" name="accomodation_name" id="accomodationSize" placeholder="Npr. Jedinka zaprimljena u oporavilište ..."> 
+                            <input type="text" class="form-control size" name="log_subject" id="logSubject" placeholder="Npr. Jedinka zaprimljena u oporavilište ..."> 
                         </div>
                                 
                         <div class="form-group">
                             <label for="exampleFormControlTextarea1">Opis postupanja u oporavilištu</label>
-                            <textarea class="form-control" id="logDesc" name="log_desc" rows="5"></textarea>                    
+                            <textarea class="form-control" id="logBody" name="log_body" rows="5"></textarea>                    
                         </div>  
                                         
                         <div class="form-group">
-                            <label>Popratna fotodokumentacija (jpg, png)</label>  
+                            <label>Popratna dokumentacija</label>  
                                 <input name="animal_log_photos[]" type="file" id="animalLogPhotos" multiple>
                                 <div id="errorAccomoadionPhotos"></div> 
                         </div>
-                        <button type="submit" class="btn btn-primary submit">Spremi nastambu</button>                                   
+                        <button type="submit" class="btn btn-primary submit">Spremi zapis</button>                                   
                     </form>
             </div>
         </div>
       </div>
 
-      <div class="col-md-5">
+      <div class="col-md-6">
         <div class="card">
             <div class="card-body">
                 <p class="card-description">Posljednje uneseno</p>
-                {{-- @if ($shelterAccomodationItems) --}}
-                    
-            
+                @if ($animalLogs)
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                       <thead>
                         <tr>                                 
                                  
-                          <th class="pt-0">Predmet postupanja jedinke</th>                    
-                          <th>Akcija postupanja</th>
+                          <th class="pt-0">Predmet postupanja</th>  
+                          <th>Akcija postupanja</th> 
+                          <th>Uneseno</th>                             
                           <th class="pt-0">Pregled/Uredi</th> 
                         </tr>
                       </thead>
                       <tbody>
-                       {{--  @foreach ($shelterAccomodationItems as $shelterItem) --}}
+                        @foreach ($animalLogs as $logItem)
                         <tr>                                        
-                          <td></td>                     
-                          <td></td>
+                          <td class="td-nowrapp" style="width: 40%;">{{ $logItem->log_subject }}</td>                     
+                          <td  class="td-nowrapp">{{ $logItem->logType->type_name }}</td>
+                          <td>{{ $logItem->created_at->format('d.m.Y.') }}</td>
                           <td>
                             <div class="d-flex align-items-center">
                               
-                              <a type="button" class="btn btn-primary btn-icon mr-2" href="#">
+                              <a type="button" class="btn btn-primary btn-icon mr-2" href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $logItem->id]) }}">
                                 <i data-feather="check-square"></i>                          
                               </a>                    
-                              <a href="#" type="button" class="btn btn-warning btn-icon">
+                              <a href="{{ route('animal_items.animal_item_logs.edit', [$animalItem->id, $logItem->id]) }}" type="button" class="btn btn-warning btn-icon">
                                 <i data-feather="box"></i>
                               </a>
                           </div>  
                           </td>
                         </tr>
-                       {{--  @endforeach --}}
+                        @endforeach
           
                       </tbody>
                     </table>
                   </div>
-                 {{--  @endif --}}
-           
+                  @endif
+                  
             </div>
         </div>
       </div>      
@@ -142,14 +142,14 @@ $(function() {
         language: "cr",
         showPreview: false,
         showUpload: false,
-        allowedFileExtensions: ["jpg", "png", "gif"],
+        allowedFileExtensions: ["jpg", "png", "gif", 'doc', 'pdf', 'xls'],
         elErrorContainer: '#errorAnimalLogPhotos',
         msgInvalidFileExtension: 'Nevažeća fotografija, Podržani su "{extensions}" formati.'
 
     });
 
     tinymce.init({
-            selector: 'textarea#logDesc',
+            selector: 'textarea#logBody',
             height: 350,
             menubar: false,
             plugins: [
@@ -170,9 +170,9 @@ $(function() {
             e.preventDefault();
       
             var formData = new FormData(document.getElementById("storeAnimalLog"));;
-            var accomodation_desc = tinyMCE.get('logDesc').getContent();
+            var log_body = tinyMCE.get('logBody').getContent();
 
-            formData.append('log_desc', accomodation_desc);
+            formData.append('log_body', log_body);
                  
             var alertDanger = $('#dangerLogStore');
             var alertSuccess = $('#successLogStore');
