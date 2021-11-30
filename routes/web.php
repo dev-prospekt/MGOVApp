@@ -46,7 +46,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('animal_order', Animal\AnimalOrderController::class);
     Route::resource('shelters.animal_groups.animal_items', Animal\AnimalItemController::class);
     Route::resource('animal_groups.animal_logs', Animal\AnimalGroupLogController::class);
-    Route::resource('animal_items.animal_logs', Animal\AnimalItemLogController::class);
+    Route::resource('animal_items.animal_item_logs', Animal\AnimalItemLogController::class);
 
     Route::resource('shelters.animal_groups', Animal\AnimalGroupController::class);
 
@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // delete shelter Accomodation images
     Route::get('accomodation/thumb/{thumb}', 'Shelter\ShelterAccomodationController@deleteImage')->name('accomodation.thumbDelete');
+    Route::get('animal_item_log/thumb/{thumb}', 'Animal\AnimalItemLogController@deleteImage')->name('animal_item_log.thumbDelete');
 
     Route::resource('shelters.nutritions', Shelter\ShelterNutritionController::class)->parameters([
         'nutritions' => 'shelter_nutrition'

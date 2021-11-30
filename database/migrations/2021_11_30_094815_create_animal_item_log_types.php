@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnimalItemLogsTable extends Migration
+class CreateAnimalItemLogTypes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateAnimalItemLogsTable extends Migration
      */
     public function up()
     {
-        Schema::create('animal_item_logs', function (Blueprint $table) {
+        Schema::create('animal_item_log_types', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('animal_item_id');
-            $table->foreignId('animal_item_log_type_id');
-            $table->string('log_subject');
-            $table->string('log_body');
-
+            $table->string('type_name');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ class CreateAnimalItemLogsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('animal_item_logs');
+        Schema::dropIfExists('animal_item_log_types');
     }
 }
