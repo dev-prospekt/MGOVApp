@@ -80,15 +80,15 @@ class AnimalGroupController extends Controller
 
                     return '
                     <div class="d-flex align-items-center">
-                        <a href="' . $url . '" class="btn btn-xs btn-info btn-sm mr-2">
+                        <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
                             Info
                         </a>
 
-                        <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary btn-sm mr-2">
+                        <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
                             Dupliciraj
                         </a>
 
-                        <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning btn-sm mr-2">
+                        <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
                             Premjesti
                         </a>
                     </div>
