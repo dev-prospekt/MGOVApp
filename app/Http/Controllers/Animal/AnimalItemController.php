@@ -166,6 +166,26 @@ class AnimalItemController extends Controller
         return response()->json(['msg' => 'success']);
     }
 
+    public function cloneAnimalItem($animal_item_id)
+    {
+        $item = AnimalItem::findOrFail($animal_item_id);
+        $newItem = $item->duplicate();
+        $newItem->save();
+
+        $item->media->each(function (Media $media) use ($newItem) {
+            if ($media->collection_name == 'reason_file') {
+                $newItem->addMedia($media->getPath())
+                    ->toMediaCollection('reason_file');
+            } 
+            elseif ($media->collection_name == 'animal_mark_photos') {
+                $newItem->addMedia($media->getPath())
+                    ->toMediaCollection('animal_mark_photos');
+            }
+        });
+
+        return redirect()->back();
+    }
+
     public function changeShelter(Request $request, AnimalItem $animalItem)
     {
         $animal_items = AnimalItem::with('dateRange', 'dateFullCare', 'shelterAnimalPrice', 'animalGroup')->find($animalItem->id);
@@ -284,45 +304,60 @@ class AnimalItemController extends Controller
     public function copyMedia($model, $newModel)
     {
         // documents
-        if($model->getMedia('documents')->first()){
-            $documents = $model->getMedia('documents')->first();
-            $copiedMediaItem = $documents->copy($newModel, 'documents');
+        if($model->getMedia('documents')){
+            $documents = $model->getMedia('documents');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'documents');
+            }
         }
-
+        // media
+        if($model->getMedia('media')){
+            $documents = $model->getMedia('media');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'media');
+            }
+        }
         // status_receiving_file
-        if($model->getMedia('status_receiving_file')->first()){
-            $status_receiving_file = $model->getMedia('status_receiving_file')->first();
-            $copiedMediaItem = $status_receiving_file->copy($newModel, 'status_receiving_file');
+        if($model->getMedia('status_receiving_file')){
+            $documents = $model->getMedia('status_receiving_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'status_receiving_file');
+            }
         }
-
         // status_found_file
-        if($model->getMedia('status_found_file')->first()){
-            $status_found_file = $model->getMedia('status_found_file')->first();
-            $copiedMediaItem = $status_found_file->copy($newModel, 'status_found_file');
+        if($model->getMedia('status_found_file')){
+            $documents = $model->getMedia('status_found_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'status_found_file');
+            }
         }
-
         // reason_file
-        if($model->getMedia('reason_file')->first()){
-            $reason_file = $model->getMedia('reason_file')->first();
-            $copiedMediaItem = $reason_file->copy($newModel, 'reason_file');
+        if($model->getMedia('reason_file')){
+            $documents = $model->getMedia('reason_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'reason_file');
+            }
         }
-
         // animal_mark_photos
-        if($model->getMedia('animal_mark_photos')->first()){
-            $animal_mark_photos = $model->getMedia('animal_mark_photos')->first();
-            $copiedMediaItem = $animal_mark_photos->copy($newModel, 'animal_mark_photos');
+        if($model->getMedia('animal_mark_photos')){
+            $documents = $model->getMedia('animal_mark_photos');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'animal_mark_photos');
+            }
         }
-
         // euthanasia_invoice
-        if($model->getMedia('euthanasia_invoice')->first()){
-            $euthanasia_invoice = $model->getMedia('euthanasia_invoice')->first();
-            $copiedMediaItem = $euthanasia_invoice->copy($newModel, 'euthanasia_invoice');
+        if($model->getMedia('euthanasia_invoice')){
+            $documents = $model->getMedia('euthanasia_invoice');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'euthanasia_invoice');
+            }
         }
-
         // seized_doc_type
-        if($model->getMedia('seized_doc_type')->first()){
-            $seized_doc_type = $model->getMedia('seized_doc_type')->first();
-            $copiedMediaItem = $seized_doc_type->copy($newModel, 'seized_doc_type');
+        if($model->getMedia('seized_doc_type')){
+            $documents = $model->getMedia('seized_doc_type');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'seized_doc_type');
+            }
         }
     }
 }

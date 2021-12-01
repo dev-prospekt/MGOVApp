@@ -45,7 +45,9 @@ class EuthanasiaController extends Controller
         $euthanasia->price = $request->price;
         $euthanasia->save();
 
-        $euthanasia->addMedia($request->euthanasia_file)->toMediaCollection('euthanasia_file');
+        if(!empty($request->euthanasia_file)){
+            $euthanasia->addMedia($request->euthanasia_file)->toMediaCollection('euthanasia_file');
+        }
 
         return redirect()->back()->with('euthanasiaMsg', 'Uspješno dodano');
     }

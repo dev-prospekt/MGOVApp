@@ -55,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animal_group/{animalGroup}', 'Animal\AnimalGroupController@groupChangeShelter');
     Route::post('animal_item/{animalItem}', 'Animal\AnimalItemController@changeShelter');
     //Clone testing
-    Route::get('animal_item/clone/{animalItem}', 'Animal\AnimalShelterCreateController@cloneAnimalItem')->name('animal_item.clone');
+    Route::get('animal_item/clone/{animalItem}', 'Animal\AnimalItemController@cloneAnimalItem')->name('animal_item.clone');
     // Change Shelter
 
     Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->parameters([
@@ -147,8 +147,8 @@ Route::group(['middleware' => ['auth']], function () {
     // Update AnimalItem Date, Price
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
     
-    Route::post('animal_item/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');
-    Route::get('animal_item/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
+    Route::post('animalItem/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');
+    Route::get('animalItem/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
     Route::get('generate-pdf/{id}', 'Animal\AnimalItemController@generatePDF');
 
     Route::get("restore/{user_id}", 'UserController@restore');

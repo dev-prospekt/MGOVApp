@@ -87,9 +87,9 @@
                   @foreach ($animalItemLog->media as $thumbnail) 
                   <div class="col-md-2 col-sm-2">
                     <a href="{{ $thumbnail->getUrl() }}" data-lightbox="accomodation">
-                    <figure>
-                      <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
-                    </figure>
+                      <figure>
+                        <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
+                      </figure>
                     </a>
                   </div>                  
                   @endforeach

@@ -34,7 +34,7 @@ class AnimalItemPriceController extends Controller
         }
 
         // Solitary or Group
-        if(!empty($request->solitary_or_group_end) || !empty($request->end_date)){
+        if(!empty($request->solitary_or_group_end) || !empty($request->end_date) || !empty($request->solitary_or_group_type)){
 
             // Ako je poslan datum za kraj skrbi, ažurirat cemo samo zadnji record
             // Zadnji record, polje end_date je uvijek null pa cemo ga azuirati i dobiti ukupni broj dana
@@ -45,6 +45,17 @@ class AnimalItemPriceController extends Controller
                 ->update([
                     'animal_item_id' => $id,
                     'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date),
+                ]);
+            }
+
+            // Ako se posalje samo type (Solitarna, Grupa)
+            // Ažuriramo podatak
+            if(!empty($request->solitary_or_group_type)){
+                $animalItem->dateSolitaryGroups()
+                ->where('end_date', '=', null)
+                ->update([
+                    'animal_item_id' => $id,
+                    'solitary_or_group' => $request->solitary_or_group_type,
                 ]);
             }
 

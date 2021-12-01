@@ -25,7 +25,7 @@ class AnimalItem extends Model implements HasMedia
         'date_seized_animal' => 'date',
     ];
 
-    protected $cloneable_relations = ['animalMarks', 'animalItemLogs', 'dateRange'];
+    protected $cloneable_relations = ['animalMarks', 'animalItemLogs', 'dateRange', 'dateSolitaryGroups', 'dateFullCare', 'euthanasia'];
 
     public function animal()
     {

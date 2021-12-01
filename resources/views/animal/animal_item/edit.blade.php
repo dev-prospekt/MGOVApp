@@ -233,58 +233,6 @@
             </div>
         </div>
     </div>
-
-    <div class="row mt-3">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body">
-
-                    <div class="card-title">
-                        <h6>Eutanazija</h6>
-                    </div>
-
-                    @if($msg = Session::get('euthanasiaMsg'))
-                    <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                    @endif
-
-                    <form action="{{ route('animal_items.euthanasia.store', [$animalItem]) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Veterinar</label>
-                                    <select class="form-control" name="staff" id="">
-                                        <option value="">Odaberi</option>
-                                        @foreach ($animalItem->shelter->shelterStaff as $staff)
-                                            <option value="{{ $staff->id }}">{{ $staff->name }} ({{ $staff->shelterStaffType->name }})</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>Cijena</label>
-                                    <input type="number" class="form-control" name="price">
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Račun</label>
-                                    <input type="file" id="euthanasia_file" name="euthanasia_file" />
-                                    <div id="error_euthanasia_file"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div>
-                            <button type="submit" class="btn btn-primary mr-2">Spremi</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
 @endsection
 
 @push('plugin-scripts')
