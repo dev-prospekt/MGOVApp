@@ -67,14 +67,19 @@ class AnimalGroupController extends Controller
                 })
                 ->addColumn('action', function ($animal_items) {
                     $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+                    $cloneUrl = route('animal_item.clone', [$animal_items->id]);
 
                     return '
                 <div class="d-flex align-items-center">
-                    <a href="'.$url.'" class="btn btn-xs btn-info btn-sm mr-2">
+                    <a href="' . $url . '" class="btn btn-xs btn-info btn-sm mr-2">
                         Info
                     </a>
 
-                    <a href="javascript:void(0)" id="changeShelterItem" data-id="'.$animal_items->id.'" class="btn btn-xs btn-warning btn-sm mr-2">
+                    <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary btn-sm mr-2">
+                        Dupliciraj
+                    </a>
+
+                    <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning btn-sm mr-2">
                         Premjesti
                     </a>
                 </div>
@@ -138,7 +143,7 @@ class AnimalGroupController extends Controller
 
         // Duplicate Grupe sa novom šifrom oporavilišta
         $newAnimalGroup = $animal_group->replicate();
-        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') .''. $newShelter->shelter_code .'/'. $increment;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') . '' . $newShelter->shelter_code . '/' . $increment;
         $newAnimalGroup->save();
 
         // Novi red u pivot tablici koji povezuje dupliciranu grupu i novo oporavilište
@@ -163,7 +168,7 @@ class AnimalGroupController extends Controller
         }
 
         return response()->json([
-            'msg' => 'success', 
+            'msg' => 'success',
             'back' => $request->currentShelter,
             'newShelter' => $newShelter
         ]);

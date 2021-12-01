@@ -14,6 +14,7 @@ use App\Models\Animal\AnimalGroup;
 use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalMarkType;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class AnimalShelterCreateController extends Controller
 {
@@ -118,69 +119,109 @@ class AnimalShelterCreateController extends Controller
                     $fileAdder->toMediaCollection('status_found_file');
                 });
         }
-        if ($request->reason_file) {
+        /*  if ($request->reason_file) {
             $animal_group->addMultipleMediaFromRequest(['reason_file'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('reason_file');
+                });
+        } */
+
+        /* if ($request->animal_mark_photos) {
+            $animal_group->addMultipleMediaFromRequest(['animal_mark_photos'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('animal_mark_photos');
+                });
+        } */
+
+        // Create AnimalItem
+        /*  for ($i = 0; $i < $request->quantity; $i++) { */
+        $animalItem = new AnimalItem;
+        $animalItem->animal_group_id = $animal_group->id;
+        $animalItem->animal_id = $request->animal_id;
+        $animalItem->shelter_id = $request->shelter_id;
+        $animalItem->founder_id = $request->founder_id;
+        $animalItem->founder_note = $request->founder_note;
+        $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
+        $animalItem->in_shelter = true;
+        //$animalItem->animal_mark_type_id = $request->animal_mark;
+
+        $animalItem->status_receiving = $request->status_receiving;
+        $animalItem->status_receiving_desc = $request->status_receiving_desc;
+        $animalItem->status_found = $request->status_found;
+        $animalItem->status_found_desc = $request->status_found_desc;
+        $animalItem->status_reason = $request->status_reason;
+        $animalItem->reason_desc = $request->reason_desc;
+        $animalItem->animal_found_note = $request->animal_found_note;
+        $animalItem->animal_date_found =  $request->date_found;
+        $animalItem->animal_gender = $request->animal_gender;
+        $animalItem->animal_age = $request->animal_age;
+        $animalItem->location = $request->location;
+        $animalItem->location_animal_takeover = $request->location_animal_takeover;
+        $animalItem->solitary_or_group = $request->solitary_or_group;
+        $animalItem->shelter_code = $animal_group->shelter_code;
+        $animalItem->save();
+
+        $animalMark = new AnimalMark;
+        $animalMark->animal_mark_note = $request->animal_mark_note;
+        $animalMark->animal_mark_type_id = $request->animal_mark;
+        $animalMark->animalItem()->associate($animalItem);
+        $animalMark->save();
+
+        if ($request->reason_file) {
+            $animalItem->addMultipleMediaFromRequest(['reason_file'])
                 ->each(function ($fileAdder) {
                     $fileAdder->toMediaCollection('reason_file');
                 });
         }
 
         if ($request->animal_mark_photos) {
-            $animal_group->addMultipleMediaFromRequest(['animal_mark_photos'])
+            $animalItem->addMultipleMediaFromRequest(['animal_mark_photos'])
                 ->each(function ($fileAdder) {
                     $fileAdder->toMediaCollection('animal_mark_photos');
                 });
         }
 
-        // Create AnimalItem
-        for ($i = 0; $i < $request->quantity; $i++) {
-            $animalItem = new AnimalItem;
-            $animalItem->animal_group_id = $animal_group->id;
-            $animalItem->animal_id = $request->animal_id;
-            $animalItem->shelter_id = $request->shelter_id;
-            $animalItem->founder_id = $request->founder_id;
-            $animalItem->founder_note = $request->founder_note;
-            $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
-            $animalItem->in_shelter = true;
-            //$animalItem->animal_mark_type_id = $request->animal_mark;
-
-            $animalItem->status_receiving = $request->status_receiving;
-            $animalItem->status_receiving_desc = $request->status_receiving_desc;
-            $animalItem->status_found = $request->status_found;
-            $animalItem->status_found_desc = $request->status_found_desc;
-            $animalItem->status_reason = $request->status_reason;
-            $animalItem->reason_desc = $request->reason_desc;
-            $animalItem->animal_found_note = $request->animal_found_note;
-            $animalItem->animal_date_found =  $request->date_found;
-            $animalItem->animal_gender = $request->animal_gender;
-            $animalItem->animal_age = $request->animal_age;
-            $animalItem->location = $request->location;
-            $animalItem->location_animal_takeover = $request->location_animal_takeover;
-            $animalItem->solitary_or_group = $request->solitary_or_group;
-            $animalItem->shelter_code = $animal_group->shelter_code;
-            $animalItem->save();
-
-            $animalMark = new AnimalMark;
-            $animalMark->animal_mark_note = $request->animal_mark_note;
-            $animalMark->animal_mark_type_id = $request->animal_mark;
-            $animalMark->animalItem()->associate($animalItem);
-            $animalMark->save();
-
-
-
-            // Date Range
-            if (!empty($request->start_date)) {
-                $date_range = new DateRange;
-                $date_range->animal_item_id = $animalItem->id;
-                $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
-                if ($request->hib_est == 'da') {
-                    $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start)->format('d.m.Y');
-                }
-                $date_range->save();
+        // Date Range
+        if (!empty($request->start_date)) {
+            $date_range = new DateRange;
+            $date_range->animal_item_id = $animalItem->id;
+            $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
+            if ($request->hib_est == 'da') {
+                $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start)->format('d.m.Y');
             }
+            $date_range->save();
         }
+        // }
+        /*  for ($i = 0; $i < $request->quantity - 1; $i++) {
+            $newItems = $animalItem->duplicate();
+            $newItems->save();
+        } */
 
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
+    }
+
+    public function cloneAnimalItem($animal_item_id)
+    {
+        $item = AnimalItem::findOrFail($animal_item_id);
+        $newItem = $item->duplicate();
+        $newItem->save();
+
+        $item->media->each(function (Media $media) use ($newItem) {
+            if ($media->collection_name == 'reason_file') {
+                $newItem->addMedia($media->getPath())
+                    ->toMediaCollection('reason_file');
+            } elseif ($media->collection_name == 'animal_mark_photos') {
+                $newItem->addMedia($media->getPath())
+                    ->toMediaCollection('animal_mark_photos');
+            }
+        });
+
+        /*  $item->media->each(function (Media $media) use ($newItem) {
+            $newItem->addMedia($media->getPath())
+                ->toMediaCollection('reason_file');
+        }); */
+
+        return redirect()->back();
     }
 
     // Invazivne

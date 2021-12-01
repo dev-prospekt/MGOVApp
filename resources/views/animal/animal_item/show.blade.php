@@ -193,7 +193,7 @@
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv oznake:</label>
                         <p class="text-muted">{{ $animalItem->animalMarks->last()->animal_mark_note }}</p>
                       </div>
-                    </div> 
+                    </div>  
                     <div class="col-md-4 grid-margin">
                      {{--  @foreach ($animalItem->animalMarks->media as $thumbnail) 
                       

@@ -28,10 +28,11 @@ class AnimalItemLogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function create(AnimalItem $animalItem)
     {
         $logTypes = AnimalItemLogType::all();
-        $animalLogs = AnimalItemLog::with('logType')->latest()->get();
+        $animalLogs = $animalItem->animalItemLogs;
 
         return view('animal.animal_item_log.create', compact('animalItem', 'logTypes', 'animalLogs'));
     }
