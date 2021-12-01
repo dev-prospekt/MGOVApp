@@ -14,7 +14,6 @@ class AnimalItemPriceController extends Controller
     public function updateDateAndPrice(Request $request, $id)
     {
         $animalItem = AnimalItem::findOrFail($id);
-
         //dd($request);
         
         // Date Range

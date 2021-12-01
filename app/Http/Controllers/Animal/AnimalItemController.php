@@ -203,7 +203,7 @@ class AnimalItemController extends Controller
         // New group
         $newAnimalGroup = new AnimalGroup;
         $newAnimalGroup->animal_id = $animal_items->animal_id;
-        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') . '' . $newShelter->shelter_code . '/' . $increment;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('y') . '' . $newShelter->shelter_code . '/' . $increment;
         $newAnimalGroup->quantity = 1;
         $newAnimalGroup->save();
 

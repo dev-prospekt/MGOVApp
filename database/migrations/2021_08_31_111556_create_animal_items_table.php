@@ -48,7 +48,7 @@ class CreateAnimalItemsTable extends Migration
             $table->string('seized_doc_type');
             $table->string('animal_gender');
             $table->string('animal_age');
-            $table->string('solitary_or_group');
+            $table->string('solitary_or_group')->nullable();
             $table->string('location');
             $table->string('location_retrieval_animal');
             $table->string('location_animal_takeover');

@@ -19,16 +19,6 @@
                     </div>
                 </div>
 
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <label>Količina (broj jedinki)</label>
-                        <input type="number" class="form-control" name="quantity">
-                        @error('quantity')
-                            <div class="text-danger">{{$errors->first('quantity') }} </div>
-                        @enderror
-                    </div>
-                </div>
-
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Spol</label>

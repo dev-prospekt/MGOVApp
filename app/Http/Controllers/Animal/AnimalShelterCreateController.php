@@ -88,9 +88,15 @@ class AnimalShelterCreateController extends Controller
             $increment = $incrementId->id + 1;
         }
 
+        // ANimalType
+        $animalType = Animal::find($request->animal_id);
+        $animalTypeCode = $animalType->animalType->first()->type_code;
+
+        // Shelter Code: 21AW/SZ-0001
+
         $animal_group = new AnimalGroup;
         $animal_group->animal_id = $request->animal_id;
-        $animal_group->shelter_code = Carbon::now()->format('Y') . '' . $request->shelter_code . '/' . $increment;
+        $animal_group->shelter_code = Carbon::now()->format('y') . '' . $request->shelter_code . '/' . $animalTypeCode . '-'. $increment;
         $animal_group->quantity = 0;
         $animal_group->save();
 
@@ -126,9 +132,9 @@ class AnimalShelterCreateController extends Controller
         if (!empty($request->start_date)) {
             $date_range = new DateRange;
             $date_range->animal_item_id = $animalItem->id;
-            $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
+            $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date);
             if ($request->hib_est == 'da') {
-                $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start)->format('d.m.Y');
+                $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start);
             }
             $date_range->save();
         }
@@ -163,8 +169,8 @@ class AnimalShelterCreateController extends Controller
 
         $animal_group = new AnimalGroup;
         $animal_group->animal_id = $request->animal_id;
-        $animal_group->shelter_code = Carbon::now()->format('Y') . '' . $request->shelter_code . '/' . $increment;
-        $animal_group->quantity = $request->quantity;
+        $animal_group->shelter_code = Carbon::now()->format('y') . '' . $request->shelter_code . '/' . $increment;
+        $animal_group->quantity = 0;
         $animal_group->save();
 
         // Pivot table
@@ -234,8 +240,8 @@ class AnimalShelterCreateController extends Controller
 
         $animal_group = new AnimalGroup;
         $animal_group->animal_id = $request->animal_id;
-        $animal_group->shelter_code = Carbon::now()->format('Y') . '' . $request->shelter_code . '/' . $increment;
-        $animal_group->quantity = $request->quantity;
+        $animal_group->shelter_code = Carbon::now()->format('y') . '' . $request->shelter_code . '/' . $increment;
+        $animal_group->quantity = 0;
         $animal_group->save();
 
         // Pivot table
@@ -325,6 +331,16 @@ class AnimalShelterCreateController extends Controller
 
     public function createDocuments($request, $animalItem)
     {
+        if ($request->euthanasia_select == 'da'){
+            if(!empty($request->euthanasia_invoice))
+            {
+                $animalItem->addMultipleMediaFromRequest(['euthanasia_invoice'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('euthanasia_file');
+                });
+            }
+        }
+
         if ($request->reason_file) {
             $animalItem->addMultipleMediaFromRequest(['reason_file'])
             ->each(function ($fileAdder) {
