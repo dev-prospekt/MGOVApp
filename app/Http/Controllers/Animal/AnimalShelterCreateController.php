@@ -88,7 +88,7 @@ class AnimalShelterCreateController extends Controller
             $increment = $incrementId->id + 1;
         }
 
-        // ANimalType
+        // AnimalType
         $animalType = Animal::find($request->animal_id);
         $animalTypeCode = $animalType->animalType->first()->type_code;
 
@@ -167,9 +167,15 @@ class AnimalShelterCreateController extends Controller
             $increment = $incrementId->id + 1;
         }
 
+        // AnimalType
+        $animalType = Animal::find($request->animal_id);
+        $animalTypeCode = $animalType->animalType->first()->type_code;
+
+        // Shelter Code: 21AW/SZ-0001
+
         $animal_group = new AnimalGroup;
         $animal_group->animal_id = $request->animal_id;
-        $animal_group->shelter_code = Carbon::now()->format('y') . '' . $request->shelter_code . '/' . $increment;
+        $animal_group->shelter_code = Carbon::now()->format('y') . '' . $request->shelter_code . '/' . $animalTypeCode . '-'. $increment;
         $animal_group->quantity = 0;
         $animal_group->save();
 
@@ -210,13 +216,6 @@ class AnimalShelterCreateController extends Controller
             $date_range->save();
         }
 
-        // Solitary/Group
-        $animalItem->dateSolitaryGroups()->create([
-            'animal_item_id' => $animalItem->id,
-            'start_date' => Carbon::createFromFormat('m/d/Y', $request->start_date),
-            'solitary_or_group' => $animalItem->solitary_or_group,
-        ]);
-
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
 
@@ -238,9 +237,15 @@ class AnimalShelterCreateController extends Controller
             $increment = $incrementId->id + 1;
         }
 
+        // AnimalType
+        $animalType = Animal::find($request->animal_id);
+        $animalTypeCode = $animalType->animalType->first()->type_code;
+
+        // Shelter Code: 21AW/SZ-0001
+
         $animal_group = new AnimalGroup;
         $animal_group->animal_id = $request->animal_id;
-        $animal_group->shelter_code = Carbon::now()->format('y') . '' . $request->shelter_code . '/' . $increment;
+        $animal_group->shelter_code = Carbon::now()->format('y') . '' . $request->shelter_code . '/' . $animalTypeCode . '-'. $increment;
         $animal_group->quantity = 0;
         $animal_group->save();
 
@@ -289,11 +294,13 @@ class AnimalShelterCreateController extends Controller
         }
 
         // Solitary/Group
-        $animalItem->dateSolitaryGroups()->create([
-            'animal_item_id' => $animalItem->id,
-            'start_date' => Carbon::createFromFormat('m/d/Y', $request->start_date),
-            'solitary_or_group' => $animalItem->solitary_or_group,
-        ]);
+        if(!empty($animalItem->solitary_or_group)){
+            $animalItem->dateSolitaryGroups()->create([
+                'animal_item_id' => $animalItem->id,
+                'start_date' => Carbon::createFromFormat('m/d/Y', $request->start_date),
+                'solitary_or_group' => $animalItem->solitary_or_group,
+            ]);
+        }
 
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }

@@ -156,7 +156,6 @@
                 <thead>          
                   <tr>
                     <th>#</th>
-                    <th>Ukupno</th>
                     <th>Naziv</th>
                     <th>Latinski naziv</th>
                     <th>Šifra</th>
@@ -189,7 +188,6 @@ $(function() {
       ajax: '{!! route('shelter.show', [$shelter->id]) !!}',
       columns: [
           { data: 'id', name: 'id'},
-          { data: 'quantity', name: 'quantity'},
           { data: 'name', name: 'name'},
           { data: 'latin_name', name: 'latin_name'},
           { data: 'shelter_code', name: 'shelter_code'},
