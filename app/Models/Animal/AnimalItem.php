@@ -18,11 +18,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class AnimalItem extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
+    use \Bkwld\Cloner\Cloneable;
 
     protected $casts = [
         'animal_date_found' => 'date',
         'date_seized_animal' => 'date',
     ];
+
+    protected $cloneable_relations = ['animalMarks', 'animalItemLogs', 'dateRange'];
 
     public function animal()
     {

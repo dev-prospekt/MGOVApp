@@ -75,20 +75,20 @@ class AnimalGroupController extends Controller
                     return $animal_items->animal->latin_name;
                 })
                 ->addColumn('action', function ($animal_items) {
-                    $urlShow = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
-                    $urlEdit = route('shelters.animal_groups.animal_items.edit', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+                    $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+                    $cloneUrl = route('animal_item.clone', [$animal_items->id]);
 
                     return '
                     <div class="d-flex align-items-center">
-                        <a href="'.$urlShow.'" class="btn btn-xs btn-info btn-sm mr-2">
+                        <a href="' . $url . '" class="btn btn-xs btn-info btn-sm mr-2">
                             Info
                         </a>
 
-                        <a href="'.$urlEdit.'" class="btn btn-xs btn-primary btn-sm mr-2">
-                            Edit
+                        <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary btn-sm mr-2">
+                            Dupliciraj
                         </a>
 
-                        <a href="javascript:void(0)" id="changeShelterItem" data-id="'.$animal_items->id.'" class="btn btn-xs btn-warning btn-sm mr-2">
+                        <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning btn-sm mr-2">
                             Premjesti
                         </a>
                     </div>
@@ -155,7 +155,7 @@ class AnimalGroupController extends Controller
 
         // Duplicate Grupe sa novom šifrom oporavilišta
         $newAnimalGroup = $animal_group->replicate();
-        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') .''. $newShelter->shelter_code .'/'. $increment;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') . '' . $newShelter->shelter_code . '/' . $increment;
         $newAnimalGroup->save();
 
         // Copy Media
@@ -205,7 +205,7 @@ class AnimalGroupController extends Controller
         }
 
         return response()->json([
-            'msg' => 'success', 
+            'msg' => 'success',
             'back' => $request->currentShelter,
             'newShelter' => $newShelter
         ]);
