@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('animal_items.animal_item_logs', Animal\AnimalItemLogController::class);
 
     Route::resource('shelters.animal_groups', Animal\AnimalGroupController::class);
+    Route::resource('animal_items.euthanasia', Animal\EuthanasiaController::class);
 
     // Change Shelter
     Route::post('animal_group/{animalGroup}', 'Animal\AnimalGroupController@groupChangeShelter');

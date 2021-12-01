@@ -90,7 +90,8 @@ class AnimalItemController extends Controller
      */
     public function edit(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
-        $mediaItems = $animalItem->getMedia('media');
+        $mediaItems = $animalItem->getMedia('status_receiving_file');
+
         $size = $animalItem->animal->animalSize;
         $dateRange = $animalItem->dateRange;
 
@@ -211,12 +212,20 @@ class AnimalItemController extends Controller
             $newDateSolitaryOrGroup->save();
         }
 
-        // Duplicate mark_type
+        // Copy mark_type
         $animalItemAnimalMark = $animal_items->animalMarks;
         foreach ($animalItemAnimalMark as $value) {
             $newAnimalMark = $value->replicate();
             $newAnimalMark->animal_item_id = $newAnimalItem->id;
             $newAnimalMark->save();
+        }
+
+        // Copy ItemLog
+        $allAnimalItemLog = $animal_items->animalItemLogs;
+        foreach ($allAnimalItemLog as $value) {
+            $newAnimalItemLog = $value->replicate();
+            $newAnimalItemLog->animal_item_id = $newAnimalItem->id;
+            $newAnimalItemLog->save();
         }
 
         // Copy Media

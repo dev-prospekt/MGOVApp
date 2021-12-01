@@ -52,4 +52,14 @@ class ShelterStaff extends Model implements HasMedia
                 return $item->shelter_staff_type_id == 4;
             });
     }
+
+    public function euthanasia()
+    {
+        return $this->hasOne(Euthanasia::class);
+    }
+
+    public function shelterStaffType()
+    {
+        return $this->belongsTo(ShelterStaffType::class);
+    }
 }

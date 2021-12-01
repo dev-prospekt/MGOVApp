@@ -197,7 +197,7 @@
                         </div>
                         <div class="form-group">
                             <label>Upload <strong>(JPG, PNG)</strong></label>
-                            <input type="file" id="animal_mark_photos" name="animal_mark_photos[]" multiple />
+                            <input type="file" id="animal_mark_photos" name="animal_mark_photos" multiple />
                             <div id="error_animal_mark_photos"></div>
                         </div>
                     </div>

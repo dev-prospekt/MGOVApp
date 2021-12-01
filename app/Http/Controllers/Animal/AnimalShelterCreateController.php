@@ -109,7 +109,6 @@ class AnimalShelterCreateController extends Controller
             $animalItem->founder_note = $request->founder_note;
             $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
             $animalItem->in_shelter = true;
-            //$animalItem->animal_mark_type_id = $request->animal_mark;
 
             $animalItem->status_receiving = $request->status_receiving;
             $animalItem->status_receiving_desc = $request->status_receiving_desc;
@@ -132,8 +131,6 @@ class AnimalShelterCreateController extends Controller
             $animalMark->animal_mark_type_id = $request->animal_mark;
             $animalMark->animalItem()->associate($animalItem);
             $animalMark->save();
-
-            //dd($request->status_receiving_file);
 
             // Date Range
             if (!empty($request->start_date)) {
@@ -187,15 +184,6 @@ class AnimalShelterCreateController extends Controller
             'shelter_id' => $request->shelter_id,
             'active_group' => true,
         ]);
-
-        if($request->euthanasia_select == 'da'){
-            if ($request->euthanasia_invoice) {
-                $animal_group->addMultipleMediaFromRequest(['euthanasia_invoice'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('euthanasia_invoice');
-                });
-            }
-        }
 
         // Create AnimalItem
         for ($i = 0; $i < $request->quantity; $i++) {
@@ -260,25 +248,6 @@ class AnimalShelterCreateController extends Controller
             'shelter_id' => $request->shelter_id,
             'active_group' => true,
         ]);
-
-        if ($request->status_receiving_file) {
-            $animal_group->addMultipleMediaFromRequest(['status_receiving_file'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('status_receiving_file');
-                });
-        }
-        if ($request->animal_mark_photos) {
-            $animal_group->addMultipleMediaFromRequest(['animal_mark_photos'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('animal_mark_photos');
-                });
-        }
-        if ($request->seized_doc_type) {
-            $animal_group->addMultipleMediaFromRequest(['seized_doc_type'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('seized_doc_type');
-                });
-        }
 
         // Create AnimalItem
         for ($i = 0; $i < $request->quantity; $i++) {
@@ -350,40 +319,5 @@ class AnimalShelterCreateController extends Controller
             'shelterType' => $shelterType
         ])->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
-    }
-
-    public function saveDocument($request, $animalItem)
-    {
-        // // Save documents
-        if ($request->documents) {
-            $animalItem->quantity->addMultipleMediaFromRequest(['documents'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('media');
-            });
-        }
-        if ($request->status_receiving_file) {
-            $animalItem->addMultipleMediaFromRequest(['status_receiving_file'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('status_receiving_file');
-                });
-        }
-        if ($request->status_found_file) {
-            $animalItem->addMultipleMediaFromRequest(['status_found_file'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('status_found_file');
-                });
-        }
-        if ($request->reason_file) {
-            $animalItem->addMultipleMediaFromRequest(['reason_file'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('reason_file');
-                });
-        }
-        if ($request->animal_mark_photos) {
-            $animalItem->addMultipleMediaFromRequest(['animal_mark_photos'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('animal_mark_photos');
-                });
-        }
     }
 }
