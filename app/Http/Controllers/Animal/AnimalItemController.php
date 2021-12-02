@@ -187,16 +187,16 @@ class AnimalItemController extends Controller
         // Media AnimalItemLogs
         $animalItemLog = $item->animalItemLogs;
         $newAnimalItemLog = $newItem->animalItemLogs;
-        if(!empty($animalItemLog)){
-            foreach ($animalItemLog as $item) {
-                $item->media->each(function (Media $media) use ($newAnimalItemLog) {
-                    if($media->collection_name == 'log-docs'){
-                        foreach ($newAnimalItemLog as $key) {
-                            $key->addMedia($media->getPath())
-                            ->toMediaCollection('log-docs');
+        if(!empty($animalItemLog)){ // Provjera je li postoji animalItemLog
+            foreach ($animalItemLog as $itemLog) { // U petlji izvlacimo sve logove
+                if($itemLog->getMedia('log-docs')){ // ZA svaki log porvjeravamo je li postoji media kojoj je collection name log-docs
+                    $documents = $itemLog->getMedia('log-docs');
+                    foreach ($documents as $doc) { // Izvlacimo sve slike, dokumente za taj log
+                        foreach ($newAnimalItemLog as $key) { // Svi novi animalItemLog-ovi
+                            $copiedMediaItem = $doc->copy($key, 'log-docs'); // Spremanje medije za svaki novi animalItemLog
                         }
                     }
-                });
+                }
             }
         }
 
