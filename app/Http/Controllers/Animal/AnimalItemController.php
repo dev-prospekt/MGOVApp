@@ -171,34 +171,28 @@ class AnimalItemController extends Controller
         $item = AnimalItem::findOrFail($animal_item_id);
         $newItem = $item->duplicate();
         $newItem->save();
-
-        // Media AnimalItem Euthanasia
-        $euthanasia = $item->euthanasia;
-        $newEuthanasiaFile = $newItem->euthanasia;
-        if(!empty($euthanasia)){
-            $euthanasia->media->each(function (Media $media) use ($newEuthanasiaFile) {
-                if($media->collection_name == 'euthanasia_file'){
-                    $newEuthanasiaFile->addMedia($media->getPath())
-                    ->toMediaCollection('euthanasia_file');
-                }
-            });
-        }
         
         // Media AnimalItemLogs
         $animalItemLog = $item->animalItemLogs;
         $newAnimalItemLog = $newItem->animalItemLogs;
-        if(!empty($animalItemLog)){ // Provjera je li postoji animalItemLog
-            foreach ($animalItemLog as $itemLog) { // U petlji izvlacimo sve logove
-                if($itemLog->getMedia('log-docs')){ // ZA svaki log porvjeravamo je li postoji media kojoj je collection name log-docs
+
+        // Ovaj dio koda ne radi kako treba
+        // 3.12.2021 cu rijesiti pa ako povuces s gita da znas
+        if(!empty($animalItemLog)){
+            foreach ($animalItemLog as $itemLog) {
+                $this->copyMedia($itemLog, $newItem);
+                if($itemLog->getMedia('log-docs')){
                     $documents = $itemLog->getMedia('log-docs');
-                    foreach ($documents as $doc) { // Izvlacimo sve slike, dokumente za taj log
-                        foreach ($newAnimalItemLog as $key) { // Svi novi animalItemLog-ovi
-                            $copiedMediaItem = $doc->copy($key, 'log-docs'); // Spremanje medije za svaki novi animalItemLog
+                    foreach ($documents as $doc) {
+                        foreach ($newAnimalItemLog as $key) {
+                            $copiedMediaItem = $doc->copy($key, 'log-docs');
                         }
                     }
                 }
             }
         }
+        // Ovaj dio koda ne radi kako treba
+    
 
         // Copy Media
         $this->copyMedia($item, $newItem);
@@ -220,10 +214,14 @@ class AnimalItemController extends Controller
         $animal_group->decrement('quantity', 1);
         $animal_group->save();
 
+        // AnimalType
+        $animalType = Animal::find($animal_items->animal_id);
+        $animalTypeCode = $animalType->animalType->first()->type_code;
+
         // New group
         $newAnimalGroup = new AnimalGroup;
         $newAnimalGroup->animal_id = $animal_items->animal_id;
-        $newAnimalGroup->shelter_code = Carbon::now()->format('y') . '' . $newShelter->shelter_code . '/' . $increment;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('y') . '' . $newShelter->shelter_code . '/' . $animalTypeCode . '-'. $increment;
         $newAnimalGroup->quantity = 1;
         $newAnimalGroup->save();
 
@@ -381,6 +379,13 @@ class AnimalItemController extends Controller
             $documents = $model->getMedia('euthanasia_invoice');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'euthanasia_invoice');
+            }
+        }
+        // euthanasia_file
+        if($model->getMedia('euthanasia_file')){
+            $documents = $model->getMedia('euthanasia_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'euthanasia_file');
             }
         }
         // seized_doc_type
