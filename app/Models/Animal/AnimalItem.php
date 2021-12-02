@@ -5,7 +5,6 @@ namespace App\Models\Animal;
 use App\Models\DateRange;
 use App\Models\FounderData;
 use App\Models\DateFullCare;
-
 use App\Models\Shelter\Shelter;
 use Spatie\MediaLibrary\HasMedia;
 use App\Models\Animal\AnimalGroup;
@@ -19,12 +18,15 @@ class AnimalItem extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
     use \Bkwld\Cloner\Cloneable;
 
+    /* protected $cloneable_file_attributes = ['media']; */
+
     protected $casts = [
         'animal_date_found' => 'date',
         'date_seized_animal' => 'date',
     ];
 
     protected $cloneable_relations = ['animalMarks', 'animalItemLogs', 'dateRange'];
+
 
     public function animal()
     {

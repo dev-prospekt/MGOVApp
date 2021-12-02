@@ -191,11 +191,7 @@ class AnimalShelterCreateController extends Controller
             }
             $date_range->save();
         }
-        // }
-        /*  for ($i = 0; $i < $request->quantity - 1; $i++) {
-            $newItems = $animalItem->duplicate();
-            $newItems->save();
-        } */
+
 
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
@@ -215,11 +211,6 @@ class AnimalShelterCreateController extends Controller
                     ->toMediaCollection('animal_mark_photos');
             }
         });
-
-        /*  $item->media->each(function (Media $media) use ($newItem) {
-            $newItem->addMedia($media->getPath())
-                ->toMediaCollection('reason_file');
-        }); */
 
         return redirect()->back();
     }

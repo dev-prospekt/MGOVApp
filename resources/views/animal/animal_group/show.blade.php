@@ -51,6 +51,8 @@
         </div>
     </div>
 
+    @dump($animal_items)
+
     <div class="col-md-4">
         <div class="card grid-margin">
             <div class="card-body">
