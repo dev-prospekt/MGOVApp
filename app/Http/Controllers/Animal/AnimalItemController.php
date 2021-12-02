@@ -176,7 +176,7 @@ class AnimalItemController extends Controller
         $animalItemLog = $item->animalItemLogs;
         $newAnimalItemLog = $newItem->animalItemLogs;
 
-        // Ovaj dio koda ne radi kako treba
+        // Ovaj dio koda ne radi kako treba 👇
         // 3.12.2021 cu rijesiti pa ako povuces s gita da znas
         if(!empty($animalItemLog)){
             foreach ($animalItemLog as $itemLog) {
@@ -191,7 +191,7 @@ class AnimalItemController extends Controller
                 }
             }
         }
-        // Ovaj dio koda ne radi kako treba
+        // Ovaj dio koda ne radi kako treba 👆
     
 
         // Copy Media
