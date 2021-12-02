@@ -156,7 +156,6 @@
                 <thead>          
                   <tr>
                     <th>#</th>
-                    <th>Ukupno</th>
                     <th>Naziv</th>
                     <th>Latinski naziv</th>
                     <th>Šifra</th>
@@ -177,6 +176,7 @@
 @push('plugin-scripts')
   <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
+  <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
@@ -188,7 +188,6 @@ $(function() {
       ajax: '{!! route('shelter.show', [$shelter->id]) !!}',
       columns: [
           { data: 'id', name: 'id'},
-          { data: 'quantity', name: 'quantity'},
           { data: 'name', name: 'name'},
           { data: 'latin_name', name: 'latin_name'},
           { data: 'shelter_code', name: 'shelter_code'},
@@ -197,6 +196,44 @@ $(function() {
       language: {
           url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
       }
+  });
+
+  // Delete AnimalGroup
+  $('#shelterAnimalTable').on('click', '#animal_group_delete', function(){
+    var url = $(this).attr('data-href');
+
+    Swal.fire({
+        title: 'Jeste li sigurni?',
+        text: "Obrisat će se grupa ali možete je i dalje vidjeti!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Da, obriši!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: url,
+                method: 'DELETE',
+                success: function(result) {
+                    if(result.msg == 'success'){
+                        Swal.fire(
+                            'Odlično!',
+                            'Uspješno obrisano!',
+                            'success'
+                        ).then((result) => {
+                            table.ajax.reload();
+                        });
+                    }
+                }
+            }); 
+        }
+    });
   });
 });
 </script>

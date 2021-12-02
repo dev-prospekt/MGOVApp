@@ -66,9 +66,9 @@ class AnimalItemController extends Controller
         $animalItem = AnimalItem::with('animal', 'animalSizeAttributes', 'dateRange', 'animalMarks', 'animalItemLogs', 'founder')->find($animalItem->id);
 
         // Day and Price
-        if (!empty($animalItem->dateRange->end_date)) {
-            $from = Carbon::createFromFormat('d.m.Y', $animalItem->dateRange->start_date);
-            $to = (isset($animalItem->dateRange->end_date)) ? Carbon::createFromFormat('d.m.Y', $animalItem->dateRange->end_date) : '';
+        if (!empty($animalItems->dateRange->end_date)) {
+            $from = Carbon::parse($animalItems->dateRange->start_date);
+            $to = (isset($animalItems->dateRange->end_date)) ? Carbon::parse($animalItems->dateRange->end_date) : '';
             $diff_in_days = $to->diffInDays($from);
         }
 
@@ -88,10 +88,10 @@ class AnimalItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
-        $animalItem = AnimalItem::findOrFail($id);
-        $mediaItems = $animalItem->getMedia('media');
+        $mediaItems = $animalItem->getMedia('status_receiving_file');
+
         $size = $animalItem->animal->animalSize;
         $dateRange = $animalItem->dateRange;
 
@@ -139,9 +139,9 @@ class AnimalItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(AnimalItem $animalItem)
     {
-        //
+        
     }
 
     public function file(AnimalItemFilePostRequest $request)
@@ -166,9 +166,29 @@ class AnimalItemController extends Controller
         return response()->json(['msg' => 'success']);
     }
 
+    public function cloneAnimalItem($animal_item_id)
+    {
+        $item = AnimalItem::findOrFail($animal_item_id);
+        $newItem = $item->duplicate();
+        $newItem->save();
+
+        $item->media->each(function (Media $media) use ($newItem) {
+            if ($media->collection_name == 'reason_file') {
+                $newItem->addMedia($media->getPath())
+                    ->toMediaCollection('reason_file');
+            } 
+            elseif ($media->collection_name == 'animal_mark_photos') {
+                $newItem->addMedia($media->getPath())
+                    ->toMediaCollection('animal_mark_photos');
+            }
+        });
+
+        return redirect()->back();
+    }
+
     public function changeShelter(Request $request, AnimalItem $animalItem)
     {
-        $animal_items = AnimalItem::with('dateRange', 'dateFullCare', 'animalGroup')->find($animalItem->id);
+        $animal_items = AnimalItem::with('dateRange', 'dateFullCare', 'shelterAnimalPrice', 'animalGroup')->find($animalItem->id);
         $newShelter = Shelter::find($request->selectedShelter);
 
         // Zadnji ID u grupi
@@ -183,7 +203,7 @@ class AnimalItemController extends Controller
         // New group
         $newAnimalGroup = new AnimalGroup;
         $newAnimalGroup->animal_id = $animal_items->animal_id;
-        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') . '' . $newShelter->shelter_code . '/' . $increment;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('y') . '' . $newShelter->shelter_code . '/' . $increment;
         $newAnimalGroup->quantity = 1;
         $newAnimalGroup->save();
 
@@ -204,21 +224,60 @@ class AnimalItemController extends Controller
         $newAnimalItem->in_shelter = true;
         $newAnimalItem->save();
 
+        // Duplicate solitary group date
+        $animalItemsDateSolitaryGroup = $animal_items->dateSolitaryGroups;
+        foreach ($animalItemsDateSolitaryGroup as $value) {
+            $newDateSolitaryOrGroup = $value->replicate();
+            $newDateSolitaryOrGroup->animal_item_id = $newAnimalItem->id;
+            $newDateSolitaryOrGroup->save();
+        }
+
+        // Copy mark_type
+        $animalItemAnimalMark = $animal_items->animalMarks;
+        foreach ($animalItemAnimalMark as $value) {
+            $newAnimalMark = $value->replicate();
+            $newAnimalMark->animal_item_id = $newAnimalItem->id;
+            $newAnimalMark->save();
+        }
+
+        // Copy ItemLog
+        $allAnimalItemLog = $animal_items->animalItemLogs;
+        foreach ($allAnimalItemLog as $value) {
+            $newAnimalItemLog = $value->replicate();
+            $newAnimalItemLog->animal_item_id = $newAnimalItem->id;
+            $newAnimalItemLog->save();
+        }
+
+        // Copy Media
+        $this->copyMedia($animal_items, $newAnimalItem);
+
         // Date full care
-        $dateFullCare = DateFullCare::where('animal_item_id', $animal_items->id)->get();
-        if (!empty($dateFullCare)) {
-            foreach ($dateFullCare as $item) {
-                $newDateRange = $item->replicate();
-                $newDateRange->animal_item_id = $newAnimalItem->id;
-                $newDateRange->save();
+        if(!empty($animal_items->dateFullCare))
+        {
+            $dateFullCare = $animal_items->dateFullCare;
+            if(!empty($dateFullCare)){
+                foreach ($dateFullCare as $item) {
+                    $newDateRange = $item->replicate();
+                    $newDateRange->animal_item_id = $newAnimalItem->id;
+                    $newDateRange->save();
+                }
             }
         }
 
         // Date Range
-        $dateRange = DateRange::find($animal_items->dateRange->id);
+        $dateRange = $animal_items->dateRange;
         $newDateRange = $dateRange->replicate();
         $newDateRange->animal_item_id = $newAnimalItem->id;
         $newDateRange->save();
+
+        // Shelter Animal Price
+        if(!empty($animal_items->shelterAnimalPrice))
+        {
+            $animalPrice = $animal_items->shelterAnimalPrice;
+            $newAnimalPrice = $animalPrice->replicate();
+            $newAnimalPrice->animal_item_id = $newAnimalItem->id;
+            $newAnimalPrice->save();
+        }
 
         return response()->json([
             'msg' => 'success',
@@ -239,5 +298,66 @@ class AnimalItemController extends Controller
         $pdf = PDF::loadView('myPDF', compact('animalItems', 'mediaFiles'));
 
         return $pdf->stream('my.pdf');
+    }
+
+    // Copy Media
+    public function copyMedia($model, $newModel)
+    {
+        // documents
+        if($model->getMedia('documents')){
+            $documents = $model->getMedia('documents');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'documents');
+            }
+        }
+        // media
+        if($model->getMedia('media')){
+            $documents = $model->getMedia('media');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'media');
+            }
+        }
+        // status_receiving_file
+        if($model->getMedia('status_receiving_file')){
+            $documents = $model->getMedia('status_receiving_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'status_receiving_file');
+            }
+        }
+        // status_found_file
+        if($model->getMedia('status_found_file')){
+            $documents = $model->getMedia('status_found_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'status_found_file');
+            }
+        }
+        // reason_file
+        if($model->getMedia('reason_file')){
+            $documents = $model->getMedia('reason_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'reason_file');
+            }
+        }
+        // animal_mark_photos
+        if($model->getMedia('animal_mark_photos')){
+            $documents = $model->getMedia('animal_mark_photos');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'animal_mark_photos');
+            }
+        }
+        // euthanasia_invoice
+        if($model->getMedia('euthanasia_invoice')){
+            $documents = $model->getMedia('euthanasia_invoice');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'euthanasia_invoice');
+            }
+        }
+        // seized_doc_type
+        if($model->getMedia('seized_doc_type')){
+            $documents = $model->getMedia('seized_doc_type');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'seized_doc_type');
+            }
+        }
     }
 }

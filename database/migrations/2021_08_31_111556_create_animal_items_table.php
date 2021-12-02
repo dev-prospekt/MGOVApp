@@ -39,19 +39,20 @@ class CreateAnimalItemsTable extends Migration
             $table->string('animal_found_note');
 
             $table->date('animal_date_found');
+            $table->date('date_seized_animal');
 
+            $table->bigInteger('euthanasia_ammount');
+
+            $table->string('place_seized');
+            $table->string('place_seized_select');
+            $table->string('seized_doc_type');
             $table->string('animal_gender');
             $table->string('animal_age');
-            $table->string('solitary_or_group');
+            $table->string('solitary_or_group')->nullable();
             $table->string('location');
+            $table->string('location_retrieval_animal');
             $table->string('location_animal_takeover');
             $table->string('seized_doc');
-            $table->string('place_seized_select');
-            $table->string('place_seized');
-            $table->date('date_seized_animal');
-            $table->string('location_retrieval_animal');
-
-            $table->decimal('euthanasia_ammount')->nullable();
 
             $table->string('shelter_code');
 

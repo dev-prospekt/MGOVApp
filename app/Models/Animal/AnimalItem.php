@@ -5,6 +5,8 @@ namespace App\Models\Animal;
 use App\Models\DateRange;
 use App\Models\FounderData;
 use App\Models\DateFullCare;
+use App\Models\DateSolitaryGroup;
+
 use App\Models\Shelter\Shelter;
 use Spatie\MediaLibrary\HasMedia;
 use App\Models\Animal\AnimalGroup;
@@ -25,7 +27,7 @@ class AnimalItem extends Model implements HasMedia
         'date_seized_animal' => 'date',
     ];
 
-    protected $cloneable_relations = ['animalMarks', 'animalItemLogs', 'dateRange'];
+    protected $cloneable_relations = ['animalMarks', 'animalItemLogs', 'dateRange', 'dateSolitaryGroups', 'dateFullCare', 'euthanasia'];
 
 
     public function animal()
@@ -53,6 +55,11 @@ class AnimalItem extends Model implements HasMedia
         return $this->hasOne(DateRange::class);
     }
 
+    public function dateSolitaryGroups()
+    {
+        return $this->hasMany(DateSolitaryGroup::class);
+    }
+
     public function dateFullCare()
     {
         return $this->hasMany(DateFullCare::class);
@@ -76,5 +83,10 @@ class AnimalItem extends Model implements HasMedia
     public function founder()
     {
         return $this->belongsTo(FounderData::class);
+    }
+
+    public function euthanasia()
+    {
+        return $this->hasOne(Euthanasia::class);
     }
 }

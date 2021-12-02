@@ -21,6 +21,7 @@ class ShelterSeeder extends Seeder
             'address' => 'Verudela bb, HR-52100 Pula',
             'address_place' => 'Verudela bb',
             'place_zip' => 52100,
+            'shelter_code' => 'AP',
         ]);
         $shelter1->shelterTypes()->attach([1, 2, 3]);
         $shelter1->animalSystemCategory()->attach([1, 3]);
@@ -31,6 +32,7 @@ class ShelterSeeder extends Seeder
             'address_place' => 'Siget 6',
             'oib' => 28856251627,
             'place_zip' => 10000,
+            'shelter_code' => 'AW',
         ]);
         $shelter2->shelterTypes()->attach([1, 2]);
         $shelter2->animalSystemCategory()->attach([3, 4, 5]);
@@ -41,8 +43,9 @@ class ShelterSeeder extends Seeder
             'address_place' => 'Brionska 10',
             'oib' => 79193158584,
             'place_zip' => 52212,
+            'shelter_code' => 'NP',
         ]);
-        $shelter3->shelterTypes()->attach(1);
+        $shelter3->shelterTypes()->attach([1,3]);
         $shelter3->animalSystemCategory()->attach([2, 5]);
     }
 }

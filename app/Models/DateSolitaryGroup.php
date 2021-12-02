@@ -2,16 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Animal\AnimalItem;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class DateFullCare extends Model
+class DateSolitaryGroup extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['animal_item_id', 'start_date', 'end_date', 'days'];
-
+    protected $fillable = ['animal_item_id', 'solitary_or_group', 'start_date'];
     protected $casts = [
         'start_date' => 'date',
         'end_date' => 'date',

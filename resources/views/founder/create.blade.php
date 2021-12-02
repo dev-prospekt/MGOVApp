@@ -98,6 +98,7 @@
                             <div class="form-group">
                                 <label>Type</label>
                                 <select name="shelter_type" id="">
+                                    <option value="">----</option>
                                     @foreach ($type as $ty)
                                         <option value="{{ $ty->id }}">{{ $ty->name }}</option>
                                     @endforeach

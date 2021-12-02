@@ -49,12 +49,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('animal_items.animal_item_logs', Animal\AnimalItemLogController::class);
 
     Route::resource('shelters.animal_groups', Animal\AnimalGroupController::class);
+    Route::resource('animal_items.euthanasia', Animal\EuthanasiaController::class);
 
     // Change Shelter
     Route::post('animal_group/{animalGroup}', 'Animal\AnimalGroupController@groupChangeShelter');
     Route::post('animal_item/{animalItem}', 'Animal\AnimalItemController@changeShelter');
     //Clone testing
-    Route::get('animal_item/clone/{animalItem}', 'Animal\AnimalShelterCreateController@cloneAnimalItem')->name('animal_item.clone');
+    Route::get('animal_item/clone/{animalItem}', 'Animal\AnimalItemController@cloneAnimalItem')->name('animal_item.clone');
     // Change Shelter
 
     Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->parameters([
@@ -127,9 +128,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('size/get_by_animal', 'Animal\AnimalController@getBySize')->name('animals.get_by_size');
 
-    // Update AnimalItem Date, Price
-    Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
-
     // Founder
     Route::resource('shelters.founders', FounderDataController::class);
     Route::get('/founder_modal', 'FounderDataController@modalCreateFounder');
@@ -146,8 +144,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animals/seized_store', 'Animal\AnimalShelterCreateController@seizedStore')->name('shelterAnimal.seizedStore');
     // Animal create END
 
-    Route::post('animal_item/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');
-    Route::get('animal_item/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
+    // Update AnimalItem Date, Price
+    Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
+    
+    Route::post('animalItem/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');
+    Route::get('animalItem/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
     Route::get('generate-pdf/{id}', 'Animal\AnimalItemController@generatePDF');
 
     Route::get("restore/{user_id}", 'UserController@restore');

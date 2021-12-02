@@ -25144,4 +25144,9 @@ hr {
   font-size: 12px;
 }
 
+/* Modal */
+.modal {
+  background-color: rgba(0, 0, 0, 0.473) !important;
+}
+
 /*# sourceMappingURL=app.css.map*/

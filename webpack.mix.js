@@ -92,7 +92,10 @@ mix.copyDirectory('node_modules/feather-icons/dist', 'public/assets/plugins/feat
   .copyDirectory('node_modules/bootstrap-fileinput/js/fileinput.min.js', 'public/assets/plugins/bootstrap-fileinput')
   .copyDirectory('node_modules/bootstrap-fileinput/js/locales/cr.js', 'public/assets/plugins/bootstrap-fileinput/lang')
   .copyDirectory('node_modules/lightbox2/dist/js/lightbox.min.js', 'public/assets/plugins/lightbox2')
+<<<<<<< HEAD
+=======
   
+>>>>>>> f2536f81daea831a05a991b7f725a34a90f88476
 
   
 

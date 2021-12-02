@@ -10,6 +10,8 @@ use Yajra\Datatables\Datatables;
 use App\Models\Animal\AnimalItem;
 use App\Models\Animal\AnimalGroup;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class AnimalGroupController extends Controller
 {
@@ -54,7 +56,14 @@ class AnimalGroupController extends Controller
     {
         $animal_group = AnimalGroup::with('animalItems', 'shelters')->find($animalGroup->id);
         $animal_items = $animal_group->animalItems;
-        $shelters = Shelter::where('id', '!=', $shelter->id)->get();
+        
+        // Vraca oporaviliste samo koje ima isti type
+        $animalType = $animal_group->animal->animalType->first()->type_code;
+        $shelters = Shelter::where('id', '!=', $shelter->id)
+            ->whereHas('shelterTypes', function ($query) use ($animalType) {
+                $query->whereIn('code', [$animalType]);
+            })
+            ->get();
 
         if ($request->ajax()) {
             return DataTables::of($animal_items)
@@ -70,20 +79,20 @@ class AnimalGroupController extends Controller
                     $cloneUrl = route('animal_item.clone', [$animal_items->id]);
 
                     return '
-                <div class="d-flex align-items-center">
-                    <a href="' . $url . '" class="btn btn-xs btn-info btn-sm mr-2">
-                        Info
-                    </a>
+                    <div class="d-flex align-items-center">
+                        <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
+                            Info
+                        </a>
 
-                    <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary btn-sm mr-2">
-                        Dupliciraj
-                    </a>
+                        <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
+                            Dupliciraj
+                        </a>
 
-                    <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning btn-sm mr-2">
-                        Premjesti
-                    </a>
-                </div>
-                ';
+                        <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
+                            Premjesti
+                        </a>
+                    </div>
+                    ';
                 })
                 ->make();
         }
@@ -126,7 +135,10 @@ class AnimalGroupController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $animalGroup = AnimalGroup::find($id);
+        $animalGroup->delete();
+
+        return response()->json(['msg'=>'success']);
     }
 
     public function groupChangeShelter(Request $request, AnimalGroup $animalGroup)
@@ -135,7 +147,7 @@ class AnimalGroupController extends Controller
         $newShelter = Shelter::find($request->selectedShelter);
 
         // Promjena stanja na trenutnoj grupi
-        $animal_group->shelters()->updateExistingPivot($animal_group->id, array('active_group' => false), false);
+        $updatePivot = $animal_group->shelters()->updateExistingPivot($request->currentShelter, array('active_group' => false));
 
         // Zadnji ID u grupi
         $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
@@ -143,8 +155,11 @@ class AnimalGroupController extends Controller
 
         // Duplicate Grupe sa novom šifrom oporavilišta
         $newAnimalGroup = $animal_group->replicate();
-        $newAnimalGroup->shelter_code = Carbon::now()->format('Y') . '' . $newShelter->shelter_code . '/' . $increment;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('y') . '' . $newShelter->shelter_code . '/' . $increment;
         $newAnimalGroup->save();
+
+        // Copy Media
+        $this->copyMedia($animal_group, $newAnimalGroup);
 
         // Novi red u pivot tablici koji povezuje dupliciranu grupu i novo oporavilište
         $newAnimalGroup->shelters()->attach($newAnimalGroup->id, [
@@ -161,10 +176,32 @@ class AnimalGroupController extends Controller
             $newAnimalItems->save();
 
             // Date Range dulicate for new items
-            $dateRange = DateRange::find($item->dateRange->id);
+            $dateRange = $item->dateRange;
             $newDateRange = $dateRange->replicate();
             $newDateRange->animal_item_id = $newAnimalItems->id;
             $newDateRange->save();
+
+            // Date full care
+            if(!empty($item->dateFullCare))
+            {
+                $dateFullCare = $item->dateFullCare;
+                if(!empty($dateFullCare)){
+                    foreach ($dateFullCare as $item) {
+                        $newDateRange = $item->replicate();
+                        $newDateRange->animal_item_id = $newAnimalItems->id;
+                        $newDateRange->save();
+                    }
+                }
+            }
+
+            // Shelter Animal Price
+            if(!empty($item->shelterAnimalPrice))
+            {
+                $animalPrice = $item->shelterAnimalPrice;
+                $newAnimalPrice = $animalPrice->replicate();
+                $newAnimalPrice->animal_item_id = $newAnimalItems->id;
+                $newAnimalPrice->save();
+            }
         }
 
         return response()->json([
@@ -172,5 +209,51 @@ class AnimalGroupController extends Controller
             'back' => $request->currentShelter,
             'newShelter' => $newShelter
         ]);
+    }
+
+    // Copy Media
+    public function copyMedia($model, $newModel)
+    {
+        // documents
+        if($model->getMedia('documents')->first()){
+            $documents = $model->getMedia('documents')->first();
+            $copiedMediaItem = $documents->copy($newModel, 'documents');
+        }
+
+        // status_receiving_file
+        if($model->getMedia('status_receiving_file')->first()){
+            $status_receiving_file = $model->getMedia('status_receiving_file')->first();
+            $copiedMediaItem = $status_receiving_file->copy($newModel, 'status_receiving_file');
+        }
+
+        // status_found_file
+        if($model->getMedia('status_found_file')->first()){
+            $status_found_file = $model->getMedia('status_found_file')->first();
+            $copiedMediaItem = $status_found_file->copy($newModel, 'status_found_file');
+        }
+
+        // reason_file
+        if($model->getMedia('reason_file')->first()){
+            $reason_file = $model->getMedia('reason_file')->first();
+            $copiedMediaItem = $reason_file->copy($newModel, 'reason_file');
+        }
+
+        // animal_mark_photos
+        if($model->getMedia('animal_mark_photos')->first()){
+            $animal_mark_photos = $model->getMedia('animal_mark_photos')->first();
+            $copiedMediaItem = $animal_mark_photos->copy($newModel, 'animal_mark_photos');
+        }
+
+        // euthanasia_invoice
+        if($model->getMedia('euthanasia_invoice')->first()){
+            $euthanasia_invoice = $model->getMedia('euthanasia_invoice')->first();
+            $copiedMediaItem = $euthanasia_invoice->copy($newModel, 'euthanasia_invoice');
+        }
+
+        // seized_doc_type
+        if($model->getMedia('seized_doc_type')->first()){
+            $seized_doc_type = $model->getMedia('seized_doc_type')->first();
+            $copiedMediaItem = $seized_doc_type->copy($newModel, 'seized_doc_type');
+        }
     }
 }

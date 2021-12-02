@@ -9,7 +9,7 @@ class ShelterAnimalPrice extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['animal_item_id', 'hibern', 'full_care','stand_care'];
+    protected $fillable = ['animal_item_id', 'hibern', 'full_care','stand_care', 'solitary_price', 'group_price'];
 
     public function animalItems()
     {

@@ -8,16 +8,6 @@
 @endpush
 
 @section('content')
-    <nav class="page-breadcrumb">
-        <ol class="breadcrumb">
-            <div>
-                <a href="/shelter/{{ $animalItem->shelter_id }}/animal/{{ $animalItem->shelter_code }}" class="btn btn-primary">
-                    <i data-feather="left" data-toggle="tooltip" title="Connect"></i>
-                    Natrag
-                </a>
-            </div>
-        </ol>
-    </nav>
 
     <div class="row">
         <div class="col-md-8 stretch-card">
@@ -99,6 +89,25 @@
                                     </div>       
                                 </div> 
 
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Promjena Solitarna ili Grupa</label>
+                                            <select class="form-control" name="solitary_or_group_type" id="">
+                                                <option value="">---</option>
+                                                <option value="Grupa">Grupa</option>
+                                                <option value="Solitarno">Solitarno</option>
+                                            </select>
+                                            <div class="input-group date datepicker" id="datePickerExample">
+                                                <input type="text" name="solitary_or_group_end" class="form-control end_date" >
+                                                <span class="input-group-addon">
+                                                    <i data-feather="calendar"></i>
+                                                </span>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                </div>
+
                                 <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>
                             </form>
                         </div>
@@ -164,6 +173,7 @@
                         @method('PATCH')
                         
                         <div class="col-md-4">
+                            @if ($size)
                             <div class="form-group">
                                 <label>Veličina</label>
                                 <select class="form-control" name="animal_size_attributes_id" id="">
@@ -180,6 +190,7 @@
                                     <div class="text-danger">{{$errors->first('animal_size_attributes_id') }} </div>
                                 @enderror
                             </div>
+                            @endif
                             <div class="form-group">
                                 <label>Dob jedinke</label>
                                 <select class="form-control" name="animal_dob" id="">
@@ -222,7 +233,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('plugin-scripts')
@@ -237,6 +247,17 @@
 
     <script>
         $(function() {
+            $("#euthanasia_file").fileinput({
+                language: "cr",
+                required: true,
+                showPreview: false,
+                showUpload: false,
+                showCancel: false,
+                allowedFileExtensions: ["pdf"],
+                elErrorContainer: '#error_euthanasia_file',
+                msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
+            });
+
             $("#file").fileinput({
                 language: "cr",
                 required: true,
@@ -249,7 +270,7 @@
 
             if($('div#datePickerExample').length) {
                 $('div#datePickerExample input').datepicker({
-                    format: "dd.mm.yyyy",
+                    format: "mm/dd/yyyy",
                     todayHighlight: true,
                     autoclose: true,
                 });

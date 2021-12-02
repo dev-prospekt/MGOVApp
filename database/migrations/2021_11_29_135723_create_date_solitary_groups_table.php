@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateShelterAnimalPricesTable extends Migration
+class CreateDateSolitaryGroupsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateShelterAnimalPricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('shelter_animal_prices', function (Blueprint $table) {
+        Schema::create('date_solitary_groups', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('animal_item_id');
-            $table->decimal('hibern')->nullable();
-            $table->decimal('full_care')->nullable();
-            $table->decimal('stand_care')->nullable();
-            $table->decimal('solitary_price')->nullable();
-            $table->decimal('group_price')->nullable();
+            
+            $table->date('start_date');
+            $table->date('end_date')->nullable();
+            $table->string('solitary_or_group');
 
             $table->timestamps();
         });
@@ -34,6 +33,6 @@ class CreateShelterAnimalPricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shelter_animal_prices');
+        Schema::dropIfExists('date_solitary_groups');
     }
 }

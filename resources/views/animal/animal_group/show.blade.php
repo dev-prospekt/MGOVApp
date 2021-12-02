@@ -155,8 +155,6 @@ $(function() {
         $("#openModal").trigger('click');
         id = $(this).attr("data-id");
 
-        console.log(id)
-
         $("#sendGroup").click(function(){
             $.ajaxSetup({
                 headers: {
