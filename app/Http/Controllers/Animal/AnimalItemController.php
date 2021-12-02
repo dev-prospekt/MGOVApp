@@ -172,15 +172,33 @@ class AnimalItemController extends Controller
         $newItem = $item->duplicate();
         $newItem->save();
 
+        // Media AnimalItem Euthanasia
         $euthanasia = $item->euthanasia;
         $newEuthanasiaFile = $newItem->euthanasia;
-
-        $euthanasia->media->each(function (Media $media) use ($newEuthanasiaFile) {
-            if($media->collection_name == 'euthanasia_file'){
-                $newEuthanasiaFile->addMedia($media->getPath())
-                ->toMediaCollection('euthanasia_file');
+        if(!empty($euthanasia)){
+            $euthanasia->media->each(function (Media $media) use ($newEuthanasiaFile) {
+                if($media->collection_name == 'euthanasia_file'){
+                    $newEuthanasiaFile->addMedia($media->getPath())
+                    ->toMediaCollection('euthanasia_file');
+                }
+            });
+        }
+        
+        // Media AnimalItemLogs
+        $animalItemLog = $item->animalItemLogs;
+        $newAnimalItemLog = $newItem->animalItemLogs;
+        if(!empty($animalItemLog)){
+            foreach ($animalItemLog as $item) {
+                $item->media->each(function (Media $media) use ($newAnimalItemLog) {
+                    if($media->collection_name == 'log-docs'){
+                        foreach ($newAnimalItemLog as $key) {
+                            $key->addMedia($media->getPath())
+                            ->toMediaCollection('log-docs');
+                        }
+                    }
+                });
             }
-        });
+        }
 
         $item->media->each(function (Media $media) use ($newItem) {
             if ($media->collection_name == 'reason_file') {
@@ -268,6 +286,9 @@ class AnimalItemController extends Controller
             $newAnimalItemLog = $value->replicate();
             $newAnimalItemLog->animal_item_id = $newAnimalItem->id;
             $newAnimalItemLog->save();
+
+            // Copy media Item Logs
+            $this->copyMedia($value, $newAnimalItemLog);
         }
 
         // Copy Media
@@ -325,6 +346,14 @@ class AnimalItemController extends Controller
     // Copy Media
     public function copyMedia($model, $newModel)
     {
+        // log-docs
+        if($model->getMedia('log-docs')){
+            $documents = $model->getMedia('log-docs');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'log-docs');
+            }
+        }
+
         // documents
         if($model->getMedia('documents')){
             $documents = $model->getMedia('documents');
