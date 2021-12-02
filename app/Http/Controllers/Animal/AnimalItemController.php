@@ -200,28 +200,8 @@ class AnimalItemController extends Controller
             }
         }
 
-        $item->media->each(function (Media $media) use ($newItem) {
-            if ($media->collection_name == 'reason_file') {
-                $newItem->addMedia($media->getPath())
-                ->toMediaCollection('reason_file');
-            } 
-            elseif ($media->collection_name == 'animal_mark_photos') {
-                $newItem->addMedia($media->getPath())
-                ->toMediaCollection('animal_mark_photos');
-            }
-            elseif ($media->collection_name == 'status_found_file') {
-                $newItem->addMedia($media->getPath())
-                ->toMediaCollection('status_found_file');
-            }
-            elseif ($media->collection_name == 'status_receiving_file') {
-                $newItem->addMedia($media->getPath())
-                ->toMediaCollection('status_receiving_file');
-            }
-            elseif ($media->collection_name == 'seized_doc_type') {
-                $newItem->addMedia($media->getPath())
-                ->toMediaCollection('seized_doc_type');
-            }
-        });
+        // Copy Media
+        $this->copyMedia($item, $newItem);
 
         return redirect()->back();
     }
