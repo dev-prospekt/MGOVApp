@@ -217,36 +217,7 @@
       </div>
 
       <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card rounded grid-margin">
-              <div class="card-body">
-                  <div class="d-flex align-items-center justify-content-between mb-2">
-                      <h6 class="card-title mb-0">Dokumentacija</h6>
-                  </div>
         
-              </div>
-          </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card rounded grid-margin">
-                <div class="card-body">
-                    <h6>Dokumenti</h6>
-        
-                    <div class="d-flex align-items-center flex-wrap mt-1 mb-3">
-                      
-                    </div>
-        
-                    <h6>Dokuemnti</h6>            
-                    <div class="d-flex align-items-center flex-wrap mt-1 mb-3">
-                      
-                    </div>
-
-                </div>
-            </div>
-          </div>
-          
-        </div>
       </div>
 
       <div class="tab-pane fade" id="euthanasion" role="tabpanel" aria-labelledby="euthanasion-tab">

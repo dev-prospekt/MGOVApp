@@ -21,17 +21,7 @@
                     </div>
                 </div>
 
-                {{-- <div class="col-md-2">
-                    <div class="form-group">
-                        <label>Količina (broj jedinki)</label>
-                        <input type="number" class="form-control" name="quantity">
-                        @error('quantity')
-                            <div class="text-danger">{{$errors->first('quantity') }} </div>
-                        @enderror
-                    </div>
-                </div> --}}
-
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label>Spol</label>
                     <select class="form-control" name="animal_gender" id="">
@@ -49,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="form-group">
                     <label>Veličina</label>
                     <select class="form-control" name="animal_size_attributes_id" id="animalSize">
@@ -178,6 +168,7 @@
             </div>
 
             <div class="row">
+
                 <div class="col-md-4">
                     <div class="bordered-group">
                         <div class="form-group">
@@ -211,6 +202,91 @@
                     </div>
                 </div>  
                                               
+            </div>
+
+            <div class="row">
+                <div class="separator"></div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="bordered-group">
+                        <div class="form-group">
+                            <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
+                            <select name="status_receiving" class="form-control">
+                                <option value="">----</option>
+                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
+                                <option value="otrovana">otrovana</option>
+                                <option value="bolesna">bolesna</option>
+                                <option value="uginula">uginula</option>
+                                <option value="ostalo">ostalo</option>
+                            </select>
+                        </div>
+            
+                        <div class="form-group">
+                            <label>Opis</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="status_receiving_desc" rows="5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload <strong>(JPG, PNG)</strong></label>
+                            <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
+                            <div id="error_status_receiving_file"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="bordered-group">
+                        <div class="form-group">
+                            <label>Stanje u kojem je životinja pronađena</label>
+                            <select name="status_found" class="form-control">
+                                <option value="">----</option>
+                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
+                                <option value="otrovana">otrovana</option>
+                                <option value="bolesna">bolesna</option>
+                                <option value="uginula">uginula</option>
+                                <option value="ostalo">ostalo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Opis</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="status_found_desc" rows="5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload <strong>(JPG, PNG)</strong></label>
+                            <input type="file" id="status_found_file" name="status_found_file[]" multiple />
+                            <div id="error_status_found_file"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="bordered-group">
+                        <div class="form-group">
+                            <label>Razlog zaprimanja životinje u oporavilište</label>
+                            <select name="status_reason" class="form-control">
+                                <option value="">----</option>
+                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
+                                <option value="otrovana">otrovana</option>
+                                <option value="bolesna">bolesna</option>
+                                <option value="uginula">uginula</option>
+                                <option value="ostalo">ostalo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Opis</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="reason_desc" rows="5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Upload <strong>(PDF)</strong></label>
+                            <input type="file" id="reason_file" name="reason_file[]" multiple />
+                            <div id="error_reason_file"></div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
             <div class="row mt-3">

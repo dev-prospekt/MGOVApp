@@ -76,8 +76,8 @@
                         <label>Način držanja - solitarno/grupa</label>
                         <select class="form-control" name="solitary_or_group">
                             <option value="">------</option>
-                            <option value="da">Solitarno</option>
-                            <option value="ne">Grupa</option>
+                            <option value="Solitarno">Solitarno</option>
+                            <option value="Grupa">Grupa</option>
                         </select>
                     </div> 
         
@@ -201,30 +201,6 @@
                     </div>
                       
                 </div>
-
-                <div class="col-md-4">
-                    <div class="bordered-group">
-                        <div class="form-group">
-                            <label>Vrsta oznake</label>
-                            <select name="animal_mark" class="form-control">
-                                <option selected disabled>------</option>
-                                @foreach ($markTypes as $markType)
-                                <option value="{{ $markType->id }}">{{ $markType->name }} ({{ $markType->desc }})</option>
-                                @endforeach              
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Naziv oznake</label>
-                            <input type="text" name="animal_mark_note" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Upload (JPG, PNG)</label>
-                            <input type="file" id="animal_mark_photos" name="animal_mark_photos[]" multiple />
-                            <div id="error_animal_mark_photos"></div>
-                        </div>
-                    </div>          
-                </div> 
 
                 <div class="col-md-4">     
                     <div class="bordered-group">
