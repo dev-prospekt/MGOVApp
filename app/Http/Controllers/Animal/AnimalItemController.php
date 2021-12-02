@@ -63,7 +63,8 @@ class AnimalItemController extends Controller
      */
     public function show(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
-        $animalItem = AnimalItem::with('animal', 'animalSizeAttributes', 'dateRange', 'animalMarks', 'animalItemLogs', 'founder')->find($animalItem->id);
+        $animalItem = AnimalItem::with('animal', 'animalSizeAttributes', 'dateRange', 'animalItemLogs', 'founder')->find($animalItem->id);
+
 
         // Day and Price
         if (!empty($animalItems->dateRange->end_date)) {
@@ -141,7 +142,6 @@ class AnimalItemController extends Controller
      */
     public function destroy(AnimalItem $animalItem)
     {
-        
     }
 
     public function file(AnimalItemFilePostRequest $request)
@@ -176,8 +176,7 @@ class AnimalItemController extends Controller
             if ($media->collection_name == 'reason_file') {
                 $newItem->addMedia($media->getPath())
                     ->toMediaCollection('reason_file');
-            } 
-            elseif ($media->collection_name == 'animal_mark_photos') {
+            } elseif ($media->collection_name == 'animal_mark_photos') {
                 $newItem->addMedia($media->getPath())
                     ->toMediaCollection('animal_mark_photos');
             }
@@ -252,10 +251,9 @@ class AnimalItemController extends Controller
         $this->copyMedia($animal_items, $newAnimalItem);
 
         // Date full care
-        if(!empty($animal_items->dateFullCare))
-        {
+        if (!empty($animal_items->dateFullCare)) {
             $dateFullCare = $animal_items->dateFullCare;
-            if(!empty($dateFullCare)){
+            if (!empty($dateFullCare)) {
                 foreach ($dateFullCare as $item) {
                     $newDateRange = $item->replicate();
                     $newDateRange->animal_item_id = $newAnimalItem->id;
@@ -271,8 +269,7 @@ class AnimalItemController extends Controller
         $newDateRange->save();
 
         // Shelter Animal Price
-        if(!empty($animal_items->shelterAnimalPrice))
-        {
+        if (!empty($animal_items->shelterAnimalPrice)) {
             $animalPrice = $animal_items->shelterAnimalPrice;
             $newAnimalPrice = $animalPrice->replicate();
             $newAnimalPrice->animal_item_id = $newAnimalItem->id;
@@ -304,56 +301,56 @@ class AnimalItemController extends Controller
     public function copyMedia($model, $newModel)
     {
         // documents
-        if($model->getMedia('documents')){
+        if ($model->getMedia('documents')) {
             $documents = $model->getMedia('documents');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'documents');
             }
         }
         // media
-        if($model->getMedia('media')){
+        if ($model->getMedia('media')) {
             $documents = $model->getMedia('media');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'media');
             }
         }
         // status_receiving_file
-        if($model->getMedia('status_receiving_file')){
+        if ($model->getMedia('status_receiving_file')) {
             $documents = $model->getMedia('status_receiving_file');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'status_receiving_file');
             }
         }
         // status_found_file
-        if($model->getMedia('status_found_file')){
+        if ($model->getMedia('status_found_file')) {
             $documents = $model->getMedia('status_found_file');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'status_found_file');
             }
         }
         // reason_file
-        if($model->getMedia('reason_file')){
+        if ($model->getMedia('reason_file')) {
             $documents = $model->getMedia('reason_file');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'reason_file');
             }
         }
         // animal_mark_photos
-        if($model->getMedia('animal_mark_photos')){
+        if ($model->getMedia('animal_mark_photos')) {
             $documents = $model->getMedia('animal_mark_photos');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'animal_mark_photos');
             }
         }
         // euthanasia_invoice
-        if($model->getMedia('euthanasia_invoice')){
+        if ($model->getMedia('euthanasia_invoice')) {
             $documents = $model->getMedia('euthanasia_invoice');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'euthanasia_invoice');
             }
         }
         // seized_doc_type
-        if($model->getMedia('seized_doc_type')){
+        if ($model->getMedia('seized_doc_type')) {
             $documents = $model->getMedia('seized_doc_type');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'seized_doc_type');

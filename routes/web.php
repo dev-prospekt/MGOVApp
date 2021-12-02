@@ -17,6 +17,7 @@ use App\Http\Controllers\Animal\AnimalImportController;
 use App\Http\Controllers\Animal\AnimalCategoryController;
 use App\Http\Controllers\Animal\AnimalSeizedTypeController;
 use App\Http\Controllers\Animal\AnimalInvaziveTypeController;
+use App\Http\Controllers\Animal\AnimalItemDocumentationController;
 use App\Http\Controllers\Animal\AnimalProtectedTypeController;
 
 Auth::routes();
@@ -47,6 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('shelters.animal_groups.animal_items', Animal\AnimalItemController::class);
     Route::resource('animal_groups.animal_logs', Animal\AnimalGroupLogController::class);
     Route::resource('animal_items.animal_item_logs', Animal\AnimalItemLogController::class);
+
 
     Route::resource('shelters.animal_groups', Animal\AnimalGroupController::class);
     Route::resource('animal_items.euthanasia', Animal\EuthanasiaController::class);
@@ -144,9 +146,13 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animals/seized_store', 'Animal\AnimalShelterCreateController@seizedStore')->name('shelterAnimal.seizedStore');
     // Animal create END
 
+    //AnimalItem Documentation
+    Route::get('/item_state_found', [AnimalItemDocumentationController::class, 'createStateFound']);
+    Route::post('/create_state_found/{animalItem}', 'Animal\AnimalItemDocumentation@storeStateFound');
+
     // Update AnimalItem Date, Price
     Route::post('animalItem/update/{id}', 'Animal\AnimalItemPriceController@updateDateAndPrice');
-    
+
     Route::post('animalItem/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');
     Route::get('animalItem/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
     Route::get('generate-pdf/{id}', 'Animal\AnimalItemController@generatePDF');

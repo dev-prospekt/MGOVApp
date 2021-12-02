@@ -27,7 +27,7 @@ class AnimalItem extends Model implements HasMedia
         'date_seized_animal' => 'date',
     ];
 
-    protected $cloneable_relations = ['animalMarks', 'animalItemLogs', 'dateRange', 'dateSolitaryGroups', 'dateFullCare', 'euthanasia'];
+    protected $cloneable_relations = ['animalItemLogs', 'dateRange', 'dateSolitaryGroups', 'dateFullCare', 'euthanasia'];
 
 
     public function animal()
@@ -65,10 +65,7 @@ class AnimalItem extends Model implements HasMedia
         return $this->hasMany(DateFullCare::class);
     }
 
-    public function animalMarks()
-    {
-        return $this->hasMany(AnimalMark::class)->with('animalMarkType');
-    }
+
 
     public function shelterAnimalPrice()
     {
