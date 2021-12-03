@@ -233,27 +233,76 @@ class AnimalGroupController extends Controller
     // Copy Media
     public function copyMedia($model, $newModel)
     {
-        $model->media->each(function (Media $media) use ($newModel) {
-            if ($media->collection_name == 'reason_file') {
-                $newModel->addMedia($media->getPath())
-                    ->toMediaCollection('reason_file');
-            } 
-            elseif ($media->collection_name == 'animal_mark_photos') {
-                $newModel->addMedia($media->getPath())
-                    ->toMediaCollection('animal_mark_photos');
+        // log-docs
+        if($model->getMedia('log-docs')){
+            $documents = $model->getMedia('log-docs');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'log-docs');
             }
-            elseif ($media->collection_name == 'status_found_file') {
-                $newModel->addMedia($media->getPath())
-                    ->toMediaCollection('status_found_file');
+        }
+
+        // documents
+        if($model->getMedia('documents')){
+            $documents = $model->getMedia('documents');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'documents');
             }
-            elseif ($media->collection_name == 'status_receiving_file') {
-                $newModel->addMedia($media->getPath())
-                    ->toMediaCollection('status_receiving_file');
+        }
+        // media
+        if($model->getMedia('media')){
+            $documents = $model->getMedia('media');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'media');
             }
-            elseif ($media->collection_name == 'seized_doc_type') {
-                $newModel->addMedia($media->getPath())
-                    ->toMediaCollection('seized_doc_type');
+        }
+        // status_receiving_file
+        if($model->getMedia('status_receiving_file')){
+            $documents = $model->getMedia('status_receiving_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'status_receiving_file');
             }
-        });
+        }
+        // status_found_file
+        if($model->getMedia('status_found_file')){
+            $documents = $model->getMedia('status_found_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'status_found_file');
+            }
+        }
+        // reason_file
+        if($model->getMedia('reason_file')){
+            $documents = $model->getMedia('reason_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'reason_file');
+            }
+        }
+        // animal_mark_photos
+        if($model->getMedia('animal_mark_photos')){
+            $documents = $model->getMedia('animal_mark_photos');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'animal_mark_photos');
+            }
+        }
+        // euthanasia_invoice
+        if($model->getMedia('euthanasia_invoice')){
+            $documents = $model->getMedia('euthanasia_invoice');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'euthanasia_invoice');
+            }
+        }
+        // euthanasia_file
+        if($model->getMedia('euthanasia_file')){
+            $documents = $model->getMedia('euthanasia_file');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'euthanasia_file');
+            }
+        }
+        // seized_doc_type
+        if($model->getMedia('seized_doc_type')){
+            $documents = $model->getMedia('seized_doc_type');
+            foreach ($documents as $item) {
+                $copiedMediaItem = $item->copy($newModel, 'seized_doc_type');
+            }
+        }
     }
 }
