@@ -197,6 +197,7 @@ class AnimalItemController extends Controller
         // Zadnji ID u grupi
         $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
         $increment = $incrementId->id + 1;
+        $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
         // Promjena količine na trenutnoj grupi
         $animal_group = AnimalGroup::find($animal_items->animalGroup->id);

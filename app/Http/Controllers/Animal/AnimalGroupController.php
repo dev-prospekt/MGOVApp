@@ -152,6 +152,7 @@ class AnimalGroupController extends Controller
         // Zadnji ID u grupi
         $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
         $increment = $incrementId->id + 1;
+        $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
         // Duplicate Grupe sa novom šifrom oporavilišta
         $newAnimalGroup = $animal_group->replicate();

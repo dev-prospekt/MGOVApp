@@ -87,6 +87,7 @@ class AnimalShelterCreateController extends Controller
         } else {
             $increment = $incrementId->id + 1;
         }
+        $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
         // AnimalType
         $animalType = Animal::find($request->animal_id);
@@ -172,6 +173,7 @@ class AnimalShelterCreateController extends Controller
         } else {
             $increment = $incrementId->id + 1;
         }
+        $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
         // AnimalType
         $animalType = Animal::find($request->animal_id);
@@ -242,6 +244,7 @@ class AnimalShelterCreateController extends Controller
         } else {
             $increment = $incrementId->id + 1;
         }
+        $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
         // AnimalType
         $animalType = Animal::find($request->animal_id);
