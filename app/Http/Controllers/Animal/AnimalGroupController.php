@@ -177,7 +177,6 @@ class AnimalGroupController extends Controller
             $newDateRange = $dateRange->replicate();
             $newDateRange->animal_item_id = $newAnimalItems->id;
             $newDateRange->save();
-
             // Date Solitary or Group
             if(!empty($item->dateSolitaryGroups)){
                 $dateSolitaryOrGroupRange = $item->dateSolitaryGroups;
@@ -189,7 +188,15 @@ class AnimalGroupController extends Controller
                     }
                 }
             }
-
+            // animalMarks
+            if(!empty($item->animalMarks))
+            {
+                foreach ($item->animalMarks as $item) {
+                    $newAnimalMarks = $item->replicate();
+                    $newAnimalMarks->animal_item_id = $newAnimalItems->id;
+                    $newAnimalMarks->save();
+                }
+            }
             // Date full care
             if(!empty($item->dateFullCare))
             {
@@ -202,14 +209,12 @@ class AnimalGroupController extends Controller
                     }
                 }
             }
-
             // Euthanasia
             if(!empty($item->euthanasia)){
                 $euthanasia = $item->euthanasia;
                 $newEuthanasia = $euthanasia->animal_item_id = $newAnimalItems->id;
                 $newEuthanasia->save();
             }
-
             // Shelter Animal Price
             if(!empty($item->shelterAnimalPrice))
             {
@@ -218,6 +223,16 @@ class AnimalGroupController extends Controller
                 $newAnimalPrice->animal_item_id = $newAnimalItems->id;
                 $newAnimalPrice->save();
             }
+            // Media AnimalItemLogs
+            $animalItemLog = $item->animalItemLogs;
+            foreach ($animalItemLog as $itemLog) {
+                $newAnimalItemLog = $itemLog->replicate();
+                $newAnimalItemLog->animal_item_id = $newAnimalItems->id;
+                $newAnimalItemLog->save();
+                
+                $this->copyMedia($itemLog, $newAnimalItemLog);
+            }
+            // Media AnimalItemLogs
 
             // Kopija dokumenata
             $this->copyMedia($item, $newAnimalItems);
