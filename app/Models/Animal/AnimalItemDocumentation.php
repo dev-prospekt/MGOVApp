@@ -12,10 +12,15 @@ class AnimalItemDocumentation extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
-    protected $fillable = ['state_recive', 'state_recive_desc', 'state_found', 'state_found_desc', 'state_reason', 'state_reason_desc'];
+    protected $fillable = ['animal_item_id', 'state_recive', 'state_recive_desc', 'state_found', 'state_found_desc', 'state_reason', 'state_reason_desc'];
 
     public function animalMarks()
     {
         return $this->hasMany(AnimalMark::class)->with('animalMarkType');
+    }
+
+    public function animalItem()
+    {
+        return $this->belongsTo(AnimalItem::class);
     }
 }

@@ -6,9 +6,9 @@
               <span aria-hidden="true">×</span>
           </button>
       </div>
-      <form action="" method="POST" id="storeStateFound" enctype="multipart/form-data">
+      <form action="" method="POST" id="updateStateFound" enctype="multipart/form-data">
           @csrf
-          @method('POST')         
+          @method('PATCH')         
           <div class="modal-body">
               <div id="dangerStateFound" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
                 <label>Opis</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" name="state_found_desc" rows="8"></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="state_found_desc" rows="8">{{ $itemDocumentation->state_found_desc }}</textarea>
             </div>
             <div class="form-group">
                 <label>Upload <strong>(JPG, PNG)</strong></label>

@@ -66,7 +66,6 @@ class AnimalItem extends Model implements HasMedia
     }
 
 
-
     public function shelterAnimalPrice()
     {
         return $this->hasOne(ShelterAnimalPrice::class);
@@ -85,5 +84,9 @@ class AnimalItem extends Model implements HasMedia
     public function euthanasia()
     {
         return $this->hasOne(Euthanasia::class);
+    }
+    public function animalDocumentation()
+    {
+        return $this->hasMany(AnimalItemDocumentation::class);
     }
 }

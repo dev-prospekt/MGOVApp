@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Animal;
 
 use Illuminate\Http\Request;
+use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalItem;
+use App\Models\Animal\AnimalGroup;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Animal\AnimalItemDocumentation;
@@ -11,64 +13,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class AnimalItemDocumentationController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(AnimalItem $animalItem)
+
+    public function index(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
-        //
+        return view('animal.animal_item_documentation.index', ['shelter' => $shelter, 'animalGroup' => $animalGroup, 'animalItem' => $animalItem]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-
-    public function create(AnimalItem $animalItem)
-    {
-
-        return view('animal.animal_item_documentation.create');
-    }
-
-    public function createStateFound()
-    {
-
-        $returnHTML = view('animal.animal_item_documentation.modal_create_state_found')->render();
-
-        return response()->json(array('success' => true, 'html' => $returnHTML));
-    }
-
-    public function storeStateFound(Request $request, AnimalItem $animalItem)
-    {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'state_found' => 'required',
-                'state_found_desc' => 'required'
-            ],
-            [
-                'state_found.required' => 'Obvezno polje',
-                'state_found_desc.required' => 'Obvezno polje',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
-        }
-
-        AnimalItemDocumentation::create([
-            'animal_item_id' => $animalItem->id,
-            'state_found' => $request->state_found,
-            'state_found_desc' => $request->state_found_desc
-        ]);
-
-        return response()->json(['success' => 'Uspješno dodano.']);
-    }
-
-
 
     /**
      * Display the specified resource.
@@ -76,30 +25,65 @@ class AnimalItemDocumentationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
+
+
+
+    public function createStateFound($id)
     {
-        return view('animal.animal_item_documentation.show');
+
+        $returnHTML = view('animal.animal_item_documentation.modal_create_state_found', ['item_id' => $id])->render();
+
+        return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
+    public function storeStateFound(Request $request)
     {
+
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'state_found' => 'required',
+                'state_found_desc' => 'required'
+            ],
+            [
+                'state_found.required' => 'Odaberite stanje jedinke',
+                'state_found_desc.required' => 'Dodajte opis',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()->all()]);
+        }
+
+
+        $itemDocumentation = AnimalItemDocumentation::create([
+            'animal_item_id' => $request->animal_item_id,
+            'state_found' => $request->state_found,
+            'state_found_desc' => $request->state_found_desc
+        ]);
+
+        if ($request->state_found_file) {
+            $itemDocumentation->addMultipleMediaFromRequest(['state_found_file'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('state_found_files');
+                });
+        }
+
+        return response()->json(['success' => 'Uspješno dodano.']);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
+    public function editStateFound($id)
     {
+        $returnHTML = view('animal.animal_item_documentation.modal_edit_state_found', ['item_id' => $id])->render();
+
+        return response()->json(array('success' => true, 'html' => $returnHTML));
+    }
+
+    public function deleteStateFound($id)
+    {
+        $itemDocumentation = AnimalItemDocumentation::find($id);
+        $itemDocumentation->delete();
+        return response()->json(['success' => 'Zapis postupanja uspješno izbrisan.']);
     }
 
     /**

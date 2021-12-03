@@ -26,369 +26,170 @@
         </a> 
     </div>
   </div>
+  <ul class="nav shelter-nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.show', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">{{ $animalItem->animal->name }} - {{ $animalItem->animal->latin_name }}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Dokumentacija</a>
+    </li>
 
+    <li class="nav-item">
+      <a class="nav-link" href="#">Eutanazija</a>
+    </li>
+  </ul>
 
-
-
-
-    <ul class="nav nav-tabs nav-tabs-line" id="lineTab" role="tablist">
-      <li class="nav-item">
-        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">
-          {{ $animalItem->animal->name }} - {{ $animalItem->animal->latin_name }}
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-          Dokumentacija
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-          Nalaznik
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-          Izračun skrbi
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="euthanasion-tab" data-toggle="tab" href="#euthanasion" role="tab" aria-controls="euthanasion" aria-selected="false">
-          Eutanazija
-        </a>
-      </li>
-    </ul>
-    <div class="tab-content" id="myTabContent">
-      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-        <div class="row mt-4">
-          <div class="col-md-5">
-            <div class="card">
-              <div class="card-body">
-                <div class="row inbox-wrapper">
-              
-                  <div class="col-lg-12 email-content">
-                    <div class="email-inbox-header">
-                      <div class="row justify-content-between">           
-                          <div class="email-title mb-2 mb-md-0"><span class="icon"><i data-feather="book"></i></span> Postupak postupanja u oporavilištu</div>  
-                          <div>
-                          <a href="{{ route('animal_items.animal_item_logs.create', $animalItem->id) }}" type="button" class="btn btn-primary btn-sm btn-icon-text">                
-                                Dodaj zapis
-                                <i class="btn-icon-append" data-feather="book"></i>
-                              </a> 
-                          </div>
-                       
-                      </div>
+  <div class="row mt-4">
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="row inbox-wrapper">
+        
+            <div class="col-lg-12 email-content">
+              <div class="email-inbox-header">
+                <div class="row justify-content-between">           
+                    <div class="email-title mb-2 mb-md-0"><span class="icon"><i data-feather="book"></i></span> Postupak postupanja u oporavilištu</div>  
+                    <div>
+                    <a href="{{ route('animal_items.animal_item_logs.create', $animalItem->id) }}" type="button" class="btn btn-primary btn-sm btn-icon-text">                
+                          Dodaj zapis
+                          <i class="btn-icon-append" data-feather="book"></i>
+                        </a> 
                     </div>
-                    <div class="separator--small"></div>
-               
-                    <div class="email-list"> 
-                       @foreach ($animalItem->animalItemLogs as $itemlLog)
-                      <div class="email-list-item">
                  
-                        <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="email-list-detail">
-                          <div>
-                            <span class="from">{{  $itemlLog->log_subject }}</span>
-                            <p class="msg">{{ $itemlLog->logType->type_name }} </p>
-                          </div>
-                          <div class="justify-content-between"> 
-                          <span class="date">                        
-                            {{ $itemlLog->created_at->format('d.m.Y.') }}
-                          </span>
-                          <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="btn btn-warning btn-xs mt-1">
-                              pregled
-                           </a> 
-                          </div>
-                        </a>
-                      </div>
-                      @endforeach             
-                    </div>
-                  </div>
                 </div>
-                
               </div>
-            </div>
-          </div>
-        
-          <div class="col-md-7 grid-margin">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div><h6 class="card-title">Podaci o zaprimanju</h6> </div> 
-                  <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-icon-text btn-sm" type="button">
-                    Izmjeni podatke
-                    <i class="btn-icon-append" data-feather="box"></i>
+              <div class="separator--small"></div>
+         
+              <div class="email-list"> 
+                 @foreach ($animalItem->animalItemLogs as $itemlLog)
+                <div class="email-list-item">
+           
+                  <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="email-list-detail">
+                    <div>
+                      <span class="from">{{  $itemlLog->log_subject }}</span>
+                      <p class="msg">{{ $itemlLog->logType->type_name }} </p>
+                    </div>
+                    <div class="justify-content-between"> 
+                    <span class="date">                        
+                      {{ $itemlLog->created_at->format('d.m.Y.') }}
+                    </span>
+                    <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="btn btn-warning btn-xs mt-1">
+                        pregled
+                     </a> 
+                    </div>
                   </a>
-                </div> 
-                @if($msg = Session::get('update_animal_item'))
-                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                @endif      
-                  <div class="row">
-                    <div class="col-md-4 grid-margin">    
-                        <div class="mt-2">
-                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv vrste: </label>
-                          <p class="text-muted">{{ $animalItem->animal->name }}</p>
-                        </div>
-                        <div class="mt-2">
-                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv:</label>
-                          <p class="text-muted">{{ $animalItem->animal->latin_name ?? ''  }}</p>
-                        </div>
-                        <div class="mt-2">
-                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum pronalaska:</label>
-                          <p class="text-muted">{{ $animalItem->animal_date_found ?? '' }}</p>
-                        </div>
-          
-                    </div> 
-        
-                    <div class="col-md-4 grid-margin">
-                      
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Lokacija pronalaska: </label>
-                        <p class="text-muted">{{ $animalItem->location ?? '' }}</p>
-                      </div>
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Nalaznik: </label>
-                        <p class="text-muted">{{ $animalItem->founder->name }} - {{ $animalItem->founder->service }}</p>
-                      </div>
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Napomena nalaznika: </label>
-                        <p class="text-muted">{{ $animalItem->founder_note }}</p>
-                      </div>
-                    </div>  
-                    
-                    <div class="col-md-4 grid-margin">    
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Spol:</label>
-                        <p class="text-muted">{{ $animalItem->animal_gender ?? '' }}</p>
-                      </div>
-      
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Veličina:</label>
-                        <p class="text-muted">{{ $animalItem->animalSizeAttributes->name ?? '' }}</p>
-                      </div>
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dob Jedinke:</label>
-                        <p class="text-muted">{{ $animalItem->animal_age ?? '' }}</p>
-                      </div>           
-                  </div>     
-                </div>   
-                  <div class="row">
-                    <div class="separator"></div>
-                  </div> 
-                  <div class="row">                 
-            
-                    <div class="col-md-4 grid-margin">  
-                      
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Status jedinke:</label>
-                        <p class="text-muted">U oporavilištu</p>
-                      
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način Držanja:</label>
-                        <p class="text-muted">{{ $animalItem->solitary_or_group ?? '' }}</p>
-                      </div>             
-                    </div> 
-                    <div class="col-md-4 grid-margin">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Oznaka jedinke:</label>
-                      {{-- <p class="text-muted">{{ $animalItem->animalMarks->first()->animalMarkType->name ?? '' }}</p> --}}
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv oznake:</label>
-                       {{--  <p class="text-muted">{{ $animalItem->animalMarks->last()->animal_mark_note ?? '' }}</p> --}}
-                      </div>
-                    </div>  
-                    <div class="col-md-4 grid-margin">
-                     {{--  @foreach ($animalItem->animalMarks->media as $thumbnail) 
-                      
-                        <a href="{{ $thumbnail->getUrl() }}" data-lightbox="equipment">
-                        <figure>
-                          <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
-                        </figure>
-                        </a>
-                       
-                      @endforeach --}}
-                    </div>
-                  </div>     
-              </div>
-            </div>    
-          </div>      
-        </div>
-      </div>
-
-      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row mt-4">
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div><h6 class="card-description">Okolnosti i način pronalaska</h6> </div> 
-                   <a href="#" class="btn btn-primary btn-icon btn-sm" type="button">
-                    <i class="btn-icon-append" data-feather="box"></i>
-                  </a> 
-                </div> 
-                @if($msg = Session::get('update_animal_item'))
-                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                @endif      
-                  <div class="row">
-                    <div class="col-md-12 grid-margin">    
-                        <div class="mt-2 bordered-group">
-                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
-                          <p class="text-muted">{{ $animalItem->animal_found_note }}</p>
-                        </div>
-                    </div>                   
-                </div>   
-              </div>
-            </div>
-          </div>  
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div><h6 class="card-description">Stanje u trenutku pronalaska</h6> </div> 
-                  <div>
-                    <button id="createStateFound" href="#" class="btn btn-primary btn-icon btn-sm" type="button" data-item-id={{ $animalItem->id }}>
-                      <i class="btn-icon-append" data-feather="database"></i>
-                    </button>
-                    <a href="#" class="btn btn-warning btn-icon btn-sm" type="button">
-                      <i class="btn-icon-append" data-feather="edit"></i>
-                    </a>
-                    <a href="#" class="btn btn-danger btn-icon btn-sm" type="button">
-                      <i class="btn-icon-append" data-feather="trash"></i>
-                    </a>
-                  </div>
-                </div> 
-                @if($msg = Session::get('update_animal_item'))
-                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                @endif      
-                  <div class="row">
-                    <div class="col-md-12 grid-margin">    
-                        <div class="mt-2 bordered-group">
-                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
-                          <p class="text-muted">{{ $animalItem->animal_found_note }}</p>
-                        </div>
-                    </div>                   
-                </div>   
-              </div>
-            </div>       
-          </div>
-
-          <div class="col-md-4">
-            <div class="card">
-              <div class="card-body">
-                <div class="d-flex align-items-center justify-content-between">
-                  <div><h6 class="card-description">Stanje u trenutku zaprimanja</h6> </div> 
-                  <div>
-                    <a href="#" class="btn btn-primary btn-icon btn-sm" type="button">
-                      <i class="btn-icon-append" data-feather="database"></i>
-                    </a>
-                    <a href="#" class="btn btn-warning btn-icon btn-sm" type="button">
-                      <i class="btn-icon-append" data-feather="edit"></i>
-                    </a>
-                    <a href="#" class="btn btn-danger btn-icon btn-sm" type="button">
-                      <i class="btn-icon-append" data-feather="trash"></i>
-                    </a>
-                  </div>
-                </div> 
-                @if($msg = Session::get('update_animal_item'))
-                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                @endif      
-                  <div class="row">
-                    <div class="col-md-12 grid-margin">    
-                        <div class="mt-2 bordered-group">
-                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
-                          <p class="text-muted">{{ $animalItem->animal_found_note }}</p>
-                        </div>
-                    </div>                   
-                </div>   
-              </div>
-            </div>
-          </div>  
-                                        
-        </div>
-      </div>
-
-      <div class="tab-pane fade" id="euthanasion" role="tabpanel" aria-labelledby="euthanasion-tab">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="card rounded grid-margin">
-              <div class="card-body">
-                  <div class="d-flex align-items-center justify-content-between mb-2">
-                      <h6 class="card-title mb-0">Eutanazija</h6>
-                  </div>
-
-                  @if ($animalItem->animal->animalType->first()->type_code == 'IJ')
-
-                  @endif
-
-                  @if($msg = Session::get('euthanasiaMsg'))
-                    <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                    @endif
-
-                  <form action="{{ route('animal_items.euthanasia.store', [$animalItem]) }}" method="POST" enctype="multipart/form-data">
-                      @csrf
-
-                      <div class="row">
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <label>Veterinar</label>
-                                  <select class="form-control" name="staff" id="">
-                                      <option value="">Odaberi</option>
-                                      @foreach ($animalItem->shelter->shelterStaff as $staff)
-                                          <option value="{{ $staff->id }}">{{ $staff->name }} ({{ $staff->shelterStaffType->name }})</option>
-                                      @endforeach
-                                  </select>
-                              </div>
-                              <div class="form-group">
-                                  <label>Cijena</label>
-                                  <input type="number" class="form-control" name="price">
-                              </div>
-                          </div>
-                          
-                          <div class="col-md-6">
-                              <div class="form-group">
-                                  <label>Račun</label>
-                                  <input type="file" id="euthanasia_file" name="euthanasia_file" />
-                                  <div id="error_euthanasia_file"></div>
-                              </div>
-                          </div>
-                      </div>
-
-                      <div>
-                          <button type="submit" class="btn btn-primary mr-2">Spremi</button>
-                      </div>
-                  </form>
-        
-              </div>
-          </div>
-          </div>
-          <div class="col-md-6">
-            <div class="card rounded grid-margin">
-                <div class="card-body">
-                    <h6>Veterinar koji je napravio eutanaziju</h6>
-        
-                    <div class="d-flex align-items-center flex-wrap mt-1 mb-3">
-                      <p>Ime: {{ $animalItem->euthanasia->shelterStaff->name ?? '' }} ({{ $animalItem->euthanasia->shelterStaff->shelterStaffType->name ?? '' }})</p>
-                    </div>
-        
-                    <h6>Cijena i računi:</h6>            
-                    <div class="d-flex align-items-center flex-wrap mt-1 mb-3">
-                      <span>Cijena: {{ $animalItem->euthanasia->price ?? '' }}</span>
-                    </div>
-
-                    <div class="d-flex align-items-center flex-wrap">
-                      <p>Račun:</p>
-
-                      @if(!empty($animalItem->euthanasia))
-                        @foreach ($animalItem->euthanasia->getMedia('euthanasia_file') as $item)
-                          <a target="_blank" href="{{ $item->getUrl() }}">{{ $item->name }}</a>
-                        @endforeach
-                      @endif
-                    </div>
                 </div>
+                @endforeach             
+              </div>
             </div>
           </div>
           
         </div>
       </div>
-
     </div>
+  
+    <div class="col-md-7 grid-margin">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between">
+            <div><h6 class="card-title">Podaci o zaprimanju</h6> </div> 
+            <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-icon-text btn-sm" type="button">
+              Izmjeni podatke
+              <i class="btn-icon-append" data-feather="box"></i>
+            </a>
+          </div> 
+          @if($msg = Session::get('update_animal_item'))
+          <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+          @endif      
+            <div class="row">
+              <div class="col-md-4 grid-margin">    
+                  <div class="mt-2">
+                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv vrste: </label>
+                    <p class="text-muted">{{ $animalItem->animal->name }}</p>
+                  </div>
+                  <div class="mt-2">
+                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv:</label>
+                    <p class="text-muted">{{ $animalItem->animal->latin_name ?? ''  }}</p>
+                  </div>
+                  <div class="mt-2">
+                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum pronalaska:</label>
+                    <p class="text-muted">{{ $animalItem->animal_date_found ?? '' }}</p>
+                  </div>
+    
+              </div> 
+  
+              <div class="col-md-4 grid-margin">
+                
+                <div class="mt-2">
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Lokacija pronalaska: </label>
+                  <p class="text-muted">{{ $animalItem->location ?? '' }}</p>
+                </div>
+                <div class="mt-2">
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Nalaznik: </label>
+                  <p class="text-muted">{{ $animalItem->founder->name }} - {{ $animalItem->founder->service }}</p>
+                </div>
+                <div class="mt-2">
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Napomena nalaznika: </label>
+                  <p class="text-muted">{{ $animalItem->founder_note }}</p>
+                </div>
+              </div>  
+              
+              <div class="col-md-4 grid-margin">    
+                <div class="mt-2">
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Spol:</label>
+                  <p class="text-muted">{{ $animalItem->animal_gender ?? '' }}</p>
+                </div>
+
+                <div class="mt-2">
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Veličina:</label>
+                  <p class="text-muted">{{ $animalItem->animalSizeAttributes->name ?? '' }}</p>
+                </div>
+                <div class="mt-2">
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dob Jedinke:</label>
+                  <p class="text-muted">{{ $animalItem->animal_age ?? '' }}</p>
+                </div>           
+            </div>     
+          </div>   
+            <div class="row">
+              <div class="separator"></div>
+            </div> 
+            <div class="row">                 
+      
+              <div class="col-md-4 grid-margin">  
+                
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Status jedinke:</label>
+                  <p class="text-muted">U oporavilištu</p>
+                
+                <div class="mt-2">
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način Držanja:</label>
+                  <p class="text-muted">{{ $animalItem->solitary_or_group ?? '' }}</p>
+                </div>             
+              </div> 
+              <div class="col-md-4 grid-margin">
+                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Oznaka jedinke:</label>
+                {{-- <p class="text-muted">{{ $animalItem->animalMarks->first()->animalMarkType->name ?? '' }}</p> --}}
+                <div class="mt-2">
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv oznake:</label>
+                 {{--  <p class="text-muted">{{ $animalItem->animalMarks->last()->animal_mark_note ?? '' }}</p> --}}
+                </div>
+              </div>  
+              <div class="col-md-4 grid-margin">
+               {{--  @foreach ($animalItem->animalMarks->media as $thumbnail) 
+                
+                  <a href="{{ $thumbnail->getUrl() }}" data-lightbox="equipment">
+                  <figure>
+                    <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
+                  </figure>
+                  </a>
+                 
+                @endforeach --}}
+              </div>
+            </div>     
+        </div>
+      </div>    
+    </div>      
+  </div>
+
  
 <!-- Modal -->
  {{-- <button type="button" id="openModal" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter">
@@ -434,106 +235,17 @@
     </div>
     </div>
 </div>
-</div>  --}}
-<div class="modal"></div>
+</div> --}}  
 
 @endsection
 
 @push('plugin-scripts')
   <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/lightbox2/lightbox.min.js') }}"></script> 
 @endpush
 
 @push('custom-scripts')
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script>
-
-  <script>
-    
-      $(function() {
-          // Create 
-          $("#createStateFound").click(function(e) {
-                e.preventDefault();
-                
-                $.ajax({
-                    url: "/item_state_found",
-                    method: 'GET',
-                    success: function(result) {
-                        $(".modal").show();
-                        $(".modal").html(result['html']);
-                        stateFoundScript()
-                        console.log(result);
-
-                        $('.modal').find("#storeStateFound").on('submit', function(e){
-                            e.preventDefault();
-
-                            var formData = this;
-                            var animal_item = $(this).data('item-id');
-
-                            $.ajax({
-                                url: "/create_state_found/"+animal_item,
-                                method: 'POST',
-                                data: new FormData(formData),
-                                processData: false,
-                                dataType: 'json',
-                                contentType: false,
-                                success: function(result) {
-                                    if(result.errors) {
-                                        $('.alert-danger').html('');
-                                        $.each(result.errors, function(key, value) {
-                                            $('.alert-danger').show();
-                                            $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
-                                        });
-                                    } 
-                                    else {
-                                        $('.alert-danger').hide();
-                                        $('.alert-success').show();
-
-                                        setInterval(function(){
-                                            $('.alert-success').hide();
-                                            $('.modal').modal('hide');
-                                            location.reload();
-                                        }, 2000);
-                                    }
-                                }
-                            });
-                        });
-                    }
-                });
-            });
-
-            // Close Modal
-            $(".modal").on('click', '.modal-close', function(){
-                $(".modal").hide();
-            });
-
-            function stateFoundScript() {
-              $("#stateFoundFile").fileinput({
-              language: "cr",
-              //required: true,
-              showPreview: false,
-              showUpload: false,
-              showCancel: false,
-              allowedFileExtensions: ["pdf", "jpg", "png"],
-              elErrorContainer: '#error_euthanasia_file',
-              msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
-               });
-            }
-
-
-        /*euthanasia js*/
-          $("#euthanasia_file").fileinput({
-              language: "cr",
-              //required: true,
-              showPreview: false,
-              showUpload: false,
-              showCancel: false,
-              allowedFileExtensions: ["pdf"],
-              elErrorContainer: '#error_euthanasia_file',
-              msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
-          });
-      })
-  </script>
-
-  <script src="{{ asset('assets/js/select2.js') }}"></script>
 @endpush
