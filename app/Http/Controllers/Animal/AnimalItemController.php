@@ -175,25 +175,19 @@ class AnimalItemController extends Controller
         // Media AnimalItemLogs
         $animalItemLog = $item->animalItemLogs;
         $newAnimalItemLog = $newItem->animalItemLogs;
-
-        // Ovaj dio koda ne radi kako treba 👇
-        // 3.12.2021 cu rijesiti pa ako povuces s gita da znas
-        if(!empty($animalItemLog)){
-            foreach ($animalItemLog as $itemLog) {
-                $this->copyMedia($itemLog, $newItem);
-                if($itemLog->getMedia('log-docs')){
-                    $documents = $itemLog->getMedia('log-docs');
+        foreach ($animalItemLog as $itemLog) {
+            if($itemLog->getMedia('log-docs')){
+                $documents = $itemLog->getMedia('log-docs');
+                foreach ($newAnimalItemLog as $newItemLog) {
                     foreach ($documents as $doc) {
-                        foreach ($newAnimalItemLog as $key) {
-                            $copiedMediaItem = $doc->copy($key, 'log-docs');
-                        }
+                        $doc->copy($newItemLog, 'log-docs');
                     }
+                    break;
                 }
             }
         }
-        // Ovaj dio koda ne radi kako treba 👆
+        // Media AnimalItemLogs
     
-
         // Copy Media
         $this->copyMedia($item, $newItem);
 
