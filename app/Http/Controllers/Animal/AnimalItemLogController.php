@@ -32,7 +32,7 @@ class AnimalItemLogController extends Controller
     public function create(AnimalItem $animalItem)
     {
         $logTypes = AnimalItemLogType::all();
-        $animalLogs = $animalItem->animalItemLogs;
+        $animalLogs = $animalItem->latestAnimalItemLogs;
 
         return view('animal.animal_item_log.create', compact('animalItem', 'logTypes', 'animalLogs'));
     }
