@@ -174,17 +174,12 @@ class AnimalItemController extends Controller
         
         // Media AnimalItemLogs
         $animalItemLog = $item->animalItemLogs;
-        $newAnimalItemLog = $newItem->animalItemLogs;
+
         foreach ($animalItemLog as $itemLog) {
-            if($itemLog->getMedia('log-docs')){
-                $documents = $itemLog->getMedia('log-docs');
-                foreach ($newAnimalItemLog as $newItemLog) {
-                    foreach ($documents as $doc) {
-                        $doc->copy($newItemLog, 'log-docs');
-                    }
-                    break;
-                }
-            }
+            $newAnimalItemLog = $itemLog->replicate();
+            $newAnimalItemLog->save();
+            
+            $this->copyMedia($itemLog, $newAnimalItemLog);
         }
         // Media AnimalItemLogs
     
