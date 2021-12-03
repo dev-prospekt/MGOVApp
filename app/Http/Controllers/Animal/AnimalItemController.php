@@ -174,9 +174,9 @@ class AnimalItemController extends Controller
         
         // Media AnimalItemLogs
         $animalItemLog = $item->animalItemLogs;
-
         foreach ($animalItemLog as $itemLog) {
             $newAnimalItemLog = $itemLog->replicate();
+            $newAnimalItemLog->animal_item_id = $newItem->id;
             $newAnimalItemLog->save();
             
             $this->copyMedia($itemLog, $newAnimalItemLog);
