@@ -182,6 +182,14 @@ class AnimalItemController extends Controller
             $this->copyMedia($itemLog, $newAnimalItemLog);
         }
         // Media AnimalItemLogs
+
+        // Media Euthanasia
+        if(!empty($newItem->euthanasia)){
+            $euthanasia = $item->euthanasia;
+            $newEuthanasia = $newItem->euthanasia;
+            $this->copyMedia($euthanasia, $newEuthanasia);
+        }
+        // Media Euthanasia
     
         // Copy Media
         $this->copyMedia($item, $newItem);
