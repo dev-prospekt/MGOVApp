@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Animal;
 use Carbon\Carbon;
 use App\Models\DateRange;
 use Illuminate\Http\Request;
+use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
 use App\Models\Animal\AnimalItem;
@@ -154,9 +155,13 @@ class AnimalGroupController extends Controller
         $increment = $incrementId->id + 1;
         $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
+        // AnimalType
+        $animalType = Animal::find($animal_group->animal_id);
+        $animalTypeCode = $animalType->animalType->first()->type_code;
+
         // Duplicate Grupe sa novom šifrom oporavilišta
         $newAnimalGroup = $animal_group->replicate();
-        $newAnimalGroup->shelter_code = Carbon::now()->format('y') . '' . $newShelter->shelter_code . '/' . $increment;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('y') . '' . $newShelter->shelter_code . '/' . $animalTypeCode . '-'. $increment;
         $newAnimalGroup->save();
 
         // Novi red u pivot tablici koji povezuje dupliciranu grupu i novo oporavilište
@@ -171,6 +176,7 @@ class AnimalGroupController extends Controller
             $newAnimalItems = $item->replicate();
             $newAnimalItems->animal_group_id = $newAnimalGroup->id;
             $newAnimalItems->shelter_id = $newShelter->id;
+            $newAnimalItems->shelter_code = $newAnimalGroup->shelter_code;
             $newAnimalItems->save();
 
             // Date Range dulicate for new items

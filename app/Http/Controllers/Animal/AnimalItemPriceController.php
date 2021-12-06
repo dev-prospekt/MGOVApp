@@ -99,7 +99,7 @@ class AnimalItemPriceController extends Controller
         }
 
         // Hibern
-        if(!empty($request->hib_est_from) || !empty($request->end_date)){
+        if(!empty($request->hib_est_from)){
             $animalItem->dateRange()->update(['animal_item_id' => $id,
                 'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('m/d/Y', $request->hib_est_from) : null,
             ]);
