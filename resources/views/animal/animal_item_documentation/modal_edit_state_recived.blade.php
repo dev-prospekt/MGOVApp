@@ -1,31 +1,33 @@
 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
   <div class="modal-content">
       <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalCenterTitle">Stanje jedinke u trenutku pronalaska</h5>
+          <h5 class="modal-title" id="exampleModalCenterTitle">Stanje jedinke u trenutku dolaska</h5>
           <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">×</span>
           </button>
       </div>
-      <form action="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.store', [$shelter, $animalGroup, $animalItem]) }}" method="POST" id="storeStateFound" enctype="multipart/form-data">
+      <form action="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.update', [$shelter, $animalGroup, $animalItem, $itemDocumentation]) }}" method="POST" id="updateStateFound" enctype="multipart/form-data">
           @csrf
-          @method('POST')         
+          @method('PUT')         
           <div class="modal-body">
-              <div id="dangerStateFound" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
+              <div id="dangerStateRecived" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>
-              <div id="successStateFound" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
+              <div id="successStateRecived" class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
                   <strong>Uspjeh!</strong> Uspješno spremljeno.
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>     
-             
+              
               <div class="form-group">
                 <label>Stanje u kojem je životinja pronađena</label>
-                <select name="state_found" class="form-control">
-                    <option value="">----</option>
+                {{ $itemDocumentation->state_recive ?? '' }}
+                <select name="edit_state_recived" class="form-control">
+
+                    <option selected disabled value="">----</option>
                     <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
                     <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
                     <option value="otrovana">otrovana</option>
@@ -36,12 +38,12 @@
             </div>
             <div class="form-group">
                 <label>Opis</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" name="state_found_desc" rows="8"></textarea>
+                <textarea class="form-control" id="exampleFormControlTextarea1" name="edit_state_recived_desc" rows="8">{{ $itemDocumentation->state_recive_desc ?? '' }}</textarea>
             </div>
             <div class="form-group">
                 <label>Upload <strong>(JPG, PNG)</strong></label>
-                <input type="file" id="stateFoundFile" name="state_found_file[]" multiple />
-                <div id="error_state_found_file"></div>
+                <input type="file" id="stateFoundFile" name="edit_state_recived_file[]" multiple />
+                <div id="error_edit_state_file"></div>
             </div>        
           </div>
           <div class="modal-footer">

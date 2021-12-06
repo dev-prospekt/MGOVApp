@@ -48,10 +48,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('shelters.animal_groups.animal_items', Animal\AnimalItemController::class);
     Route::resource('animal_groups.animal_logs', Animal\AnimalGroupLogController::class);
     Route::resource('animal_items.animal_item_logs', Animal\AnimalItemLogController::class);
-    Route::resource('shelters.animal_groups.animal_items.animal_item_documentations', Animal\AnimalItemDocumentationController::class)->only([
-        'index', 'show'
-    ]);;
-
+    Route::resource('shelters.animal_groups.animal_items.animal_item_documentations', Animal\AnimalItemDocumentationController::class);
 
     Route::resource('shelters.animal_groups', Animal\AnimalGroupController::class);
     Route::resource('animal_items.euthanasia', Animal\EuthanasiaController::class);
@@ -149,9 +146,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('animals/seized_store', 'Animal\AnimalShelterCreateController@seizedStore')->name('shelterAnimal.seizedStore');
     // Animal create END
 
-    //AnimalItem Documentation
-    Route::get('/item_state_found/{animalItem}', 'Animal\AnimalItemDocumentationController@createStateFound');
-    Route::post('/store_state_found', 'Animal\AnimalItemDocumentationController@storeStateFound');
     Route::delete('/delete_state_found/{animalItem}', 'Animal\AnimalItemDocumentationController@deleteStateFound');
 
     // Update AnimalItem Date, Price

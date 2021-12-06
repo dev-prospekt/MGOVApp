@@ -87,6 +87,6 @@ class AnimalItem extends Model implements HasMedia
     }
     public function animalDocumentation()
     {
-        return $this->hasMany(AnimalItemDocumentation::class);
+        return $this->hasOne(AnimalItemDocumentation::class);
     }
 }

@@ -173,59 +173,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-4">
-
-                    <div class="bordered-group">
-                        <div class="form-group">
-                            <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
-                            <select name="status_receiving" class="form-control">
-                                <option value="">----</option>
-                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                                <option value="otrovana">otrovana</option>
-                                <option value="bolesna">bolesna</option>
-                                <option value="uginula">uginula</option>
-                                <option value="ostalo">ostalo</option>
-                            </select>
-                        </div>
-            
-                        <div class="form-group">
-                            <label>Opis</label>
-                            <textarea class="form-control" name="status_receiving_desc" rows="4"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Upload (JPG, PNG)</label>
-                            <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
-                            <div id="error_status_receiving_file"></div>
-                        </div>
-                    </div>
-                      
-                </div>
-
-                <div class="col-md-4">
-                    <div class="bordered-group">
-                        <div class="form-group">
-                            <label>Vrsta oznake</label>
-                            <select name="animal_mark" class="form-control">
-                                <option selected disabled>------</option>
-                                @foreach ($markTypes as $markType)
-                                <option value="{{ $markType->id }}">{{ $markType->name }} ({{ $markType->desc }})</option>
-                                @endforeach              
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Naziv oznake</label>
-                            <input type="text" name="animal_mark_note" class="form-control">
-                        </div>
-                        <div class="form-group">
-                            <label>Upload (JPG, PNG)</label>
-                            <input type="file" id="animal_mark_photos" name="animal_mark_photos[]" multiple />
-                            <div id="error_animal_mark_photos"></div>
-                        </div>
-                    </div>          
-                </div> 
-
+         
                 <div class="col-md-4">     
                     <div class="bordered-group">
                         <div class="form-group">
@@ -235,14 +183,8 @@
                             </div>              
                         </div> 
                     </div>
-                </div>                                  
-            </div>
-
-            <div class="row">
-                <div class="separator"></div>
-            </div>
-
-            <div class="row"> 
+                </div>  
+                
                 <div class="col-md-4">
                     <div class="bordered-group">
                         <div class="form-group">
@@ -263,7 +205,7 @@
                         <input type="text" name="founder_note" class="form-control">
                     </div>
                     </div>
-                </div>  
+                </div>
 
                 <div class="col-md-4">
                     <div class="bordered-group">                     
@@ -278,12 +220,7 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
-
-         
-
-
             <div class="row mt-3">
                 <div class="col-md-12">
                     <div class="d-flex justify-content-end">

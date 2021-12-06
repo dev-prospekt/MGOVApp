@@ -6,9 +6,9 @@
               <span aria-hidden="true">×</span>
           </button>
       </div>
-      <form action="" method="POST" id="updateStateFound" enctype="multipart/form-data">
+      <form action="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.update', [$shelter, $animalGroup, $animalItem, $itemDocumentation]) }}" method="POST" id="updateStateFound" enctype="multipart/form-data">
           @csrf
-          @method('PATCH')         
+          @method('PUT')         
           <div class="modal-body">
               <div id="dangerStateFound" class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
                   <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -21,11 +21,13 @@
                       <span aria-hidden="true">&times;</span>
                   </button>
               </div>     
-              <input type="hidden" name="animal_item_id" value="{{ $item_id }}">
+              
               <div class="form-group">
                 <label>Stanje u kojem je životinja pronađena</label>
-                <select name="state_found" class="form-control">
-                    <option value="">----</option>
+                {{ $itemDocumentation->state_found }}
+                <select name="edit_state_found" class="form-control">
+
+                    <option value="{{ $itemDocumentation->state_found}}" {{ ( $itemDocumentation->state_found == $selectedState) ? 'selected' : '' }}>{{ $itemDocumentation->state_found  }}</option>
                     <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
                     <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
                     <option value="otrovana">otrovana</option>
@@ -40,8 +42,8 @@
             </div>
             <div class="form-group">
                 <label>Upload <strong>(JPG, PNG)</strong></label>
-                <input type="file" id="stateFoundFile" name="state_found_file[]" multiple />
-                <div id="error_state_found_file"></div>
+                <input type="file" id="stateFoundFile" name="edit_state_found_file[]" multiple />
+                <div id="error_edit_state_file"></div>
             </div>        
           </div>
           <div class="modal-footer">
