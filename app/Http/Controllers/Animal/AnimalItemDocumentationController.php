@@ -90,11 +90,15 @@ class AnimalItemDocumentationController extends Controller
     {
         $itemDocumentation = AnimalItemDocumentation::find($animalItemDocumentation->id);
         $markTypes = AnimalMarkType::all();
-        $selectedType = $animalItem->animalDocumentation->animalMark->animal_mark_type_id;
-        $selectedState = $itemDocumentation->state_found;
+        $selectedMark = $animalItemDocumentation->animalMark->animal_mark_documentation_id;
+        $animalDocType = AnimalItemDocumentationStateType::all();
+
+
         return view('animal.animal_item_documentation.edit', [
             'shelter' => $shelter, 'animalGroup' => $animalGroup, 'animalItem' => $animalItem,
-            'itemDocumentation' => $itemDocumentation, 'selectedState' => $selectedState, 'markTypes' => $markTypes, 'selectedType' => $selectedType
+            'itemDocumentation' => $itemDocumentation, 'markTypes' => $markTypes,
+            'animalDocType' => $animalDocType,
+            'selectedMark' => $selectedMark
         ]);
     }
 

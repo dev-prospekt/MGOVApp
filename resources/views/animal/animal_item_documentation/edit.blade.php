@@ -55,15 +55,12 @@
                   <div class="bordered-group">
                       <div class="form-group">
                           <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
-                          <select name="state_recive" class="form-control">
-                              <option value="">----</option>
-                              <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                              <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                              <option value="otrovana">otrovana</option>
-                              <option value="bolesna">bolesna</option>
-                              <option value="uginula">uginula</option>
-                              <option value="ostalo">ostalo</option>
-                          </select>
+                            <select name="state_recive" class="form-control">
+                              @foreach ($animalDocType as $docType)
+                                <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_recive) ? 'selected' : '' }}">{{ $docType->name }}</option>
+                              @endforeach 
+                            </select>
+                         
                           @error('state_recive')
                           <div class="text-danger">{{$errors->first('state_recive') }} </div>
                            @enderror
@@ -76,6 +73,32 @@
                           <div class="text-danger">{{$errors->first('state_recive_desc') }} </div>
                            @enderror
                       </div>
+
+                      <div class="email-attachments mb-2">
+                        <span class="title text-secondary">Fotodokumentacija: </span>
+                        <div class="latest-photos mt-3">
+                          
+                            @if ($animalItem->animalDocumentation->media)
+                            <div class="bordered-group mt-2">
+                              <div class="latest-photos d-flex">
+                                @foreach ($animalItem->animalDocumentation->getMedia('state_receive_file') as $media)
+                                  @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
+                                    <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                      <figure>
+                                        <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                      </figure>
+                                    </a>          
+                                  @else
+                                    <a href="{{ $item->getUrl() }}">{{ $media->name }}</a>                    
+                                  @endif     
+                                @endforeach
+                              </div>
+                            </div>
+                            @endif       
+                          
+                        </div>
+                      </div>
+
                       <div class="form-group">
                         <label>Učitaj dokument <span class="text-muted">(pdf,jpg,png,doc,docx)</span></label>
                           <input type="file" id="stateRecivedFile" name="state_receive_file[]" multiple />
@@ -88,13 +111,9 @@
                       <div class="form-group">
                           <label>Stanje u kojem je životinja pronađena</label>
                           <select name="state_found" class="form-control">
-                              <option value="">----</option>
-                              <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                              <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                              <option value="otrovana">otrovana</option>
-                              <option value="bolesna">bolesna</option>
-                              <option value="uginula">uginula</option>
-                              <option value="ostalo">ostalo</option>
+                            @foreach ($animalDocType as $docType)
+                              <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_found) ? 'selected' : '' }}">{{ $docType->name }}</option>
+                            @endforeach 
                           </select>
                       </div>
                       <div class="form-group">
@@ -119,13 +138,9 @@
                     <div class="form-group">
                         <label>Razlog zaprimanja životinje u oporavilište</label>
                         <select name="state_reason" class="form-control">
-                            <option value="">----</option>
-                            <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                            <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                            <option value="otrovana">otrovana</option>
-                            <option value="bolesna">bolesna</option>
-                            <option value="uginula">uginula</option>
-                            <option value="ostalo">ostalo</option>
+                          @foreach ($animalDocType as $docType)
+                            <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_reason) ? 'selected' : '' }}">{{ $docType->name }}</option>
+                          @endforeach 
                         </select>
                         @error('state_reason')
                         <div class="text-danger">{{$errors->first('state_reason') }} </div>
@@ -138,6 +153,30 @@
                         <div class="text-danger">{{$errors->first('state_reason_desc') }} </div>
                          @enderror
                     </div>
+                   
+                    @if ($itemDocumentation->getMedia('state_reason_file')->first())
+                    <div class="email-attachments mb-2">
+                      <span class="title text-secondary">Fotodokumentacija: </span>
+                     
+                          
+                          <div class="bordered-group mt-2">
+                            <div class="latest-photos d-flex">
+                              @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)
+                                @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
+                                  <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                    <figure>
+                                      <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                    </figure>
+                                  </a>          
+                                @else
+                                  <a href="{{ $item->getUrl() }}">{{ $media->name }}</a>                    
+                                @endif     
+                              @endforeach
+                            </div>
+                          </div>      
+                      
+                    </div>
+                    @endif 
                     <div class="form-group">
                       <label>Učitaj dokument <span class="text-muted">(pdf,jpg,png,doc,docx)</span></label>
                         <input type="file" id="stateReasonFile" name="state_reason_file[]" multiple />
@@ -151,9 +190,9 @@
                   <div class="form-group">
                       <label>Vrsta oznake</label>
                       <select name="animal_mark" class="form-control">
-                        @foreach ($markTypes as $markType)
-                          <option value="{{ $markType->id}}" {{ ( $markType->id == $selectedType) ? 'selected' : '' }}">{{ $markType->name }} ({{ $markType->desc }})</option>
-                        @endforeach            
+                         @foreach ($markTypes as $markType)
+                          <option value="{{ $markType->id}}" {{ ( $markType->id == $selectedMark) ? 'selected' : '' }}">{{ $markType->name }} ({{ $markType->desc }})</option>
+                          @endforeach           
                       </select>
                   </div>
 
