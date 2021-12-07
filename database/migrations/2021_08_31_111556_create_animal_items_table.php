@@ -24,20 +24,7 @@ class CreateAnimalItemsTable extends Migration
             $table->foreignId('animal_size_attributes_id')->nullable();
             $table->boolean('in_shelter');
 
-            // $table->foreignId('animal_mark_type_id');
-            //$table->string('animal_mark_note')->nullable();
-
-            $table->string('status_receiving')->nullable();
-            $table->string('status_receiving_desc')->nullable();
-
-            $table->string('status_found')->nullable();
-            $table->string('status_found_desc')->nullable();
-
-            $table->string('status_reason')->nullable();
-            $table->string('reason_desc')->nullable();
-
             $table->string('animal_found_note');
-
             $table->date('animal_date_found');
             $table->date('date_seized_animal');
 
@@ -50,8 +37,8 @@ class CreateAnimalItemsTable extends Migration
             $table->string('animal_age');
             $table->string('solitary_or_group')->nullable();
             $table->string('location');
-            $table->string('location_retrieval_animal');
-            $table->string('location_animal_takeover');
+            $table->string('location_retrieval_animal')->nullable();
+            $table->string('location_animal_takeover')->nullable();
             $table->string('seized_doc');
 
             $table->string('shelter_code');

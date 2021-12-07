@@ -125,3 +125,9 @@ hr {
 .modal {
   background-color: rgba(0, 0, 0, 0.473) !important;
 }
+
+.modal .modal-dialog .modal-header .close {
+  margin: 0;
+  padding: 0;
+  color: #fff;
+}

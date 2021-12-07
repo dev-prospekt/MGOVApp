@@ -20,6 +20,8 @@ class AnimalItem extends Model implements HasMedia
     use HasFactory, InteractsWithMedia;
     use \Bkwld\Cloner\Cloneable;
 
+    /* protected $cloneable_file_attributes = ['media']; */
+
     protected $casts = [
         'animal_date_found' => 'date',
         'date_seized_animal' => 'date',
@@ -62,10 +64,6 @@ class AnimalItem extends Model implements HasMedia
         return $this->hasMany(DateFullCare::class);
     }
 
-    public function animalMarks()
-    {
-        return $this->hasMany(AnimalMark::class)->with('animalMarkType');
-    }
 
     public function shelterAnimalPrice()
     {
@@ -90,5 +88,9 @@ class AnimalItem extends Model implements HasMedia
     public function euthanasia()
     {
         return $this->hasOne(Euthanasia::class);
+    }
+    public function animalDocumentation()
+    {
+        return $this->hasOne(AnimalItemDocumentation::class);
     }
 }

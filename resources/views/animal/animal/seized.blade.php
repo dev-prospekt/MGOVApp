@@ -211,14 +211,8 @@
                             </div>              
                         </div> 
                     </div>
-                </div>                                  
-            </div>
-
-            <div class="row">
-                <div class="separator"></div>
-            </div>
-
-            <div class="row"> 
+                </div>  
+                
                 <div class="col-md-4">
                     <div class="bordered-group">
                         <div class="form-group">
@@ -239,7 +233,7 @@
                         <input type="text" name="founder_note" class="form-control">
                     </div>
                     </div>
-                </div>  
+                </div>
 
                 <div class="col-md-4">
                     <div class="bordered-group">                     
@@ -254,12 +248,7 @@
                         </div>
                     </div>
                 </div>
-                
             </div>
-
-         
-
-
             <div class="row mt-3">
                 <div class="col-md-12">
                     <div class="d-flex justify-content-end">
