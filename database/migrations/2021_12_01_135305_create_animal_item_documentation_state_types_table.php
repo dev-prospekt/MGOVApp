@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAnimalMarksTable extends Migration
+class CreateAnimalItemDocumentationStateTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateAnimalMarksTable extends Migration
      */
     public function up()
     {
-        Schema::create('animal_marks', function (Blueprint $table) {
+        Schema::create('animal_item_documentation_state_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('animal_mark_type_id')->nullable();
-            $table->foreignId('animal_item_documentation_id')->nullable();
-            $table->string('animal_mark_note')->nullable();
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateAnimalMarksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('animal_marks');
+        Schema::dropIfExists('animal_item_documentation_state_types');
     }
 }

@@ -14,13 +14,25 @@ class AnimalItemDocumentation extends Model implements HasMedia
 
     protected $fillable = ['animal_item_id', 'state_recive', 'state_recive_desc', 'state_found', 'state_found_desc', 'state_reason', 'state_reason_desc'];
 
-    public function animalMarks()
+    public function animalMark()
     {
-        return $this->hasMany(AnimalMark::class)->with('animalMarkType');
+        return $this->hasOne(AnimalMark::class)->with('animalMarkType');
     }
 
     public function animalItem()
     {
         return $this->belongsTo(AnimalItem::class);
+    }
+    public function stateFound()
+    {
+        return $this->belongsTo(AnimalItemDocumentationStateType::class, 'state_found', 'id');
+    }
+    public function stateRecived()
+    {
+        return $this->belongsTo(AnimalItemDocumentationStateType::class, 'state_recive', 'id');
+    }
+    public function stateReason()
+    {
+        return $this->belongsTo(AnimalItemDocumentationStateType::class, 'state_reason', 'id');
     }
 }
