@@ -171,7 +171,7 @@ class AnimalGroupController extends Controller
         ]);
 
         // Animal Items - Dupliciranje i promjena Id Sheltera
-        $animalItems = AnimalItem::with('dateRange', 'animalDocumentation')->where('animal_group_id', $animal_group->id)->get();
+        $animalItems = AnimalItem::with('dateRange')->where('animal_group_id', $animal_group->id)->get();
         foreach ($animalItems as $item) {
             $newAnimalItems = $item->replicate();
             $newAnimalItems->animal_group_id = $newAnimalGroup->id;
