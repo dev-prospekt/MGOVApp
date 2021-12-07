@@ -192,7 +192,7 @@ class AnimalItemController extends Controller
         // Media Euthanasia
     
         // Copy Media
-        $this->copyMedia($item, $newItem);
+        $this->copyMedia($item->animalDocumentation, $newItem->animalDocumentation);
 
         return redirect()->back();
     }
@@ -242,33 +242,45 @@ class AnimalItemController extends Controller
 
         // Duplicate solitary group date
         $animalItemsDateSolitaryGroup = $animal_items->dateSolitaryGroups;
-        foreach ($animalItemsDateSolitaryGroup as $value) {
-            $newDateSolitaryOrGroup = $value->replicate();
-            $newDateSolitaryOrGroup->animal_item_id = $newAnimalItem->id;
-            $newDateSolitaryOrGroup->save();
+        if($animalItemsDateSolitaryGroup){
+            foreach ($animalItemsDateSolitaryGroup as $value) {
+                $newDateSolitaryOrGroup = $value->replicate();
+                $newDateSolitaryOrGroup->animal_item_id = $newAnimalItem->id;
+                $newDateSolitaryOrGroup->save();
+            }
         }
 
         // Copy mark_type
         $animalItemAnimalMark = $animal_items->animalMarks;
-        foreach ($animalItemAnimalMark as $value) {
-            $newAnimalMark = $value->replicate();
-            $newAnimalMark->animal_item_id = $newAnimalItem->id;
-            $newAnimalMark->save();
+        if($animalItemAnimalMark){
+            foreach ($animalItemAnimalMark as $value) {
+                $newAnimalMark = $value->replicate();
+                $newAnimalMark->animal_item_id = $newAnimalItem->id;
+                $newAnimalMark->save();
+            }
         }
 
         // Copy ItemLog
         $allAnimalItemLog = $animal_items->animalItemLogs;
-        foreach ($allAnimalItemLog as $value) {
-            $newAnimalItemLog = $value->replicate();
-            $newAnimalItemLog->animal_item_id = $newAnimalItem->id;
-            $newAnimalItemLog->save();
-
-            // Copy media Item Logs
-            $this->copyMedia($value, $newAnimalItemLog);
+        if($allAnimalItemLog){
+            foreach ($allAnimalItemLog as $value) {
+                $newAnimalItemLog = $value->replicate();
+                $newAnimalItemLog->animal_item_id = $newAnimalItem->id;
+                $newAnimalItemLog->save();
+    
+                // Copy media Item Logs
+                $this->copyMedia($value, $newAnimalItemLog);
+            }
         }
 
         // Copy Media
-        $this->copyMedia($animal_items, $newAnimalItem);
+        $animalItemDoc = $animal_items->animalDocumentation;
+        $newAnimalItemDoc = $animalItemDoc->replicate();
+        $newAnimalItemDoc->animal_item_id = $newAnimalItem->id;
+        $newAnimalItemDoc->save();
+
+        // Kopija dokumenata
+        $this->copyMedia($animalItemDoc, $newAnimalItemDoc);
 
         // Date full care
         if (!empty($animal_items->dateFullCare)) {

@@ -26,6 +26,8 @@ class CreateAnimalItemDocumentationsTable extends Migration
             $table->string('state_reason')->nullable();
             $table->text('state_reason_desc')->nullable();
 
+            $table->string('seized_doc')->nullable();
+
             $table->timestamps();
         });
     }

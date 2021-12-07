@@ -289,16 +289,24 @@ class AnimalShelterCreateController extends Controller
         $animalItem->place_seized = $request->place_seized;
         $animalItem->date_seized_animal = Carbon::createFromFormat('m/d/Y', $request->date_seized_animal);
         $animalItem->location_retrieval_animal = $request->location_retrieval_animal;
-        $animalItem->status_receiving = $request->status_receiving;
-        $animalItem->status_receiving_desc = $request->status_receiving_desc;
         $animalItem->animal_found_note = $request->animal_found_note;
         $animalItem->founder_id = $request->founder_id;
         $animalItem->founder_note = $request->founder_note;
-        $animalItem->seized_doc = $request->seized_doc;
         $animalItem->in_shelter = true;
         $animalItem->save();
 
-        $this->createDocuments($request, $animalItem);
+        // AnimalDocumentation
+        $animalDocumentation = $animalItem->animalDocumentation()->create(['animal_item_id' => $animalItem->id,
+            'state_recive' => $request->status_receiving,
+            'state_recive_desc' => $request->status_receiving_desc,
+            'state_found' => $request->status_found,
+            'state_found_desc' => $request->status_found_desc,
+            'state_reason' => $request->status_reason,
+            'state_reason_desc' => $request->reason_desc,
+            'seized_doc' => $request->seized_doc,
+        ]);
+
+        $this->createDocuments($request, $animalDocumentation);
 
         // Date Range
         if (!empty($request->start_date)) {

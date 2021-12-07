@@ -171,7 +171,7 @@ class AnimalGroupController extends Controller
         ]);
 
         // Animal Items - Dupliciranje i promjena Id Sheltera
-        $animalItems = AnimalItem::with('dateRange')->where('animal_group_id', $animal_group->id)->get();
+        $animalItems = AnimalItem::with('dateRange', 'animalDocumentation')->where('animal_group_id', $animal_group->id)->get();
         foreach ($animalItems as $item) {
             $newAnimalItems = $item->replicate();
             $newAnimalItems->animal_group_id = $newAnimalGroup->id;
@@ -241,8 +241,13 @@ class AnimalGroupController extends Controller
             }
             // Media AnimalItemLogs
 
+            $animalItemDoc = $item->animalDocumentation;
+            $newAnimalItemDoc = $animalItemDoc->replicate();
+            $newAnimalItemDoc->animal_item_id = $newAnimalItems->id;
+            $newAnimalItemDoc->save();
+
             // Kopija dokumenata
-            $this->copyMedia($item, $newAnimalItems);
+            $this->copyMedia($animalItemDoc, $newAnimalItemDoc);
         }
 
         return response()->json([

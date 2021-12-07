@@ -215,12 +215,12 @@
                             <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
                             <select name="status_receiving" class="form-control">
                                 <option value="">----</option>
-                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                                <option value="otrovana">otrovana</option>
-                                <option value="bolesna">bolesna</option>
-                                <option value="uginula">uginula</option>
-                                <option value="ostalo">ostalo</option>
+                                <option value="1">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                                <option value="2">ozlijeđena/ranjena</option>
+                                <option value="3">otrovana</option>
+                                <option value="4">bolesna</option>
+                                <option value="5">uginula</option>
+                                <option value="6">ostalo</option>
                             </select>
                         </div>
             
@@ -241,12 +241,12 @@
                             <label>Stanje u kojem je životinja pronađena</label>
                             <select name="status_found" class="form-control">
                                 <option value="">----</option>
-                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                                <option value="otrovana">otrovana</option>
-                                <option value="bolesna">bolesna</option>
-                                <option value="uginula">uginula</option>
-                                <option value="ostalo">ostalo</option>
+                                <option value="1">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                                <option value="2">ozlijeđena/ranjena</option>
+                                <option value="3">otrovana</option>
+                                <option value="4">bolesna</option>
+                                <option value="5">uginula</option>
+                                <option value="6">ostalo</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -267,12 +267,12 @@
                             <label>Razlog zaprimanja životinje u oporavilište</label>
                             <select name="status_reason" class="form-control">
                                 <option value="">----</option>
-                                <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                                <option value="otrovana">otrovana</option>
-                                <option value="bolesna">bolesna</option>
-                                <option value="uginula">uginula</option>
-                                <option value="ostalo">ostalo</option>
+                                <option value="1">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                                <option value="2">ozlijeđena/ranjena</option>
+                                <option value="3">otrovana</option>
+                                <option value="4">bolesna</option>
+                                <option value="5">uginula</option>
+                                <option value="6">ostalo</option>
                             </select>
                         </div>
                         <div class="form-group">

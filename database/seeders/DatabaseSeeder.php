@@ -14,6 +14,7 @@ use Database\Seeders\AnimalSizeAttributeSeeder;
 use Database\Seeders\AnimalSystemCategorySeeder;
 use Database\Seeders\ShelterEquipmentTypeSeeder;
 use Database\Seeders\ShelterAccomodationTypeSeeder;
+use Database\Seeders\AnimalItemDocumentationTypeSeeder;
 
 
 class DatabaseSeeder extends Seeder
@@ -39,5 +40,6 @@ class DatabaseSeeder extends Seeder
         $this->call(ShelterEquipmentTypeSeeder::class);
         $this->call(AnimalMarkTypeSeeder::class);
         $this->call(AnimalItemLogTypeSeeder::class);
+        $this->call(AnimalItemDocumentationTypeSeeder::class);
     }
 }
