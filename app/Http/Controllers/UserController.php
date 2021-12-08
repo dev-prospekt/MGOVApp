@@ -38,13 +38,11 @@ class UserController extends Controller
                 ->addColumn('action', function ($user) {
                     return '
                     <div class="d-flex align-items-center">
-                        <a href="javascript:void(0)" class="edit btn btn-xs btn-primary mr-2" data-id="'.$user->id.'">
-                            <i class="mdi mdi-tooltip-edit"></i> 
+                        <a href="javascript:void(0)" class="edit btn btn-xs btn-sm btn-primary mr-2" data-id="'.$user->id.'">
                             Uredi
                         </a>
 
-                        <a href="javascript:void(0)" id="bntDeleteUser" class="btn btn-xs btn-danger" >
-                            <i class="mdi mdi-delete"></i>
+                        <a href="javascript:void(0)" id="bntDeleteUser" class="btn btn-xs btn-sm btn-danger" >
                             <input type="hidden" id="userId" value="'.$user->id.'" />
                             Obriši
                         </a>

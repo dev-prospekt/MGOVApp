@@ -7,8 +7,9 @@ use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
 use App\Models\Shelter\ShelterType;
-use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Http\Requests\FounderDataRequest;
 use Illuminate\Support\Facades\Validator;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class FounderDataController extends Controller
 {
@@ -55,8 +56,8 @@ class FounderDataController extends Controller
         ]);
     }
 
-    public function store(Request $request)
-    {   
+    public function store(FounderDataRequest $request)
+    {  
         $founder = new FounderData;
         $founder->shelter_id = auth()->user()->shelter->id;
         $founder->shelter_type_id = $request->shelter_type;
@@ -147,11 +148,17 @@ class FounderDataController extends Controller
             $request->all(),
             [
                 'service' => 'required',
-                'shelter_type' => 'required'
+                'shelter_type' => 'required',
+                'name' => 'required',
+                'lastname' => 'required',
+                'email' => 'required',
             ],
             [
                 'service.required' => 'Služba koja je izvršila zaplijenu je obvezno polje',
-                'shelter_type.required' => 'Type je obvezno polje',
+                'shelter_type.required' => 'Tip oporavilišta je obvezno polje',
+                'name.required' => 'Ime je obvezno polje',
+                'lastname.required' => 'Prezime je obvezno polje',
+                'email.required' => 'Email je obvezno polje',
             ]
         );
 

@@ -16,10 +16,6 @@
           <i class="btn-icon-append" data-feather="clipboard"></i>
         </a> 
         
-        <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-warning btn-sm btn-icon-text">
-          Premještaj jedinke
-          <i class="btn-icon-append" data-feather="clipboard"></i>
-        </a> 
         <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-info btn-sm btn-icon-text">
           Izvještaj jedinke
           <i class="btn-icon-append" data-feather="clipboard"></i>
@@ -113,7 +109,7 @@
                   </div>
                   <div class="mt-2">
                     <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum pronalaska:</label>
-                    <p class="text-muted">{{ $animalItem->animal_date_found ?? '' }}</p>
+                    <p class="text-muted">{{ $animalItem->animal_date_found->format('d.m.Y') ?? '' }}</p>
                   </div>
     
               </div> 
@@ -167,10 +163,14 @@
               </div> 
               <div class="col-md-4 grid-margin">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Oznaka jedinke:</label>
-                {{-- <p class="text-muted">{{ $animalItem->animalMarks->first()->animalMarkType->name ?? '' }}</p> --}}
+                @if (!empty($animalItem->animalDocumentation->animalMark))
+                  <p class="text-muted">{{ $animalItem->animalDocumentation->animalMark->animalMarkType->name ?? '' }}</p>
+                @endif
                 <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv oznake:</label>
-                 {{--  <p class="text-muted">{{ $animalItem->animalMarks->last()->animal_mark_note ?? '' }}</p> --}}
+                  @if (!empty($animalItem->animalDocumentation->animalMark))
+                    <p class="text-muted">{{ $animalItem->animalDocumentation->animalMark->animal_mark_note ?? '' }}</p>
+                  @endif
                 </div>
               </div>  
               <div class="col-md-4 grid-margin">
@@ -189,53 +189,6 @@
       </div>    
     </div>      
   </div>
-
- 
-<!-- Modal -->
- {{-- <button type="button" id="openModal" class="btn btn-primary d-none" data-toggle="modal" data-target="#exampleModalCenter">
-</button>
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" aria-labelledby="exampleModalCenterTitle" style="display: none;" aria-hidden="true">
-<div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-    <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">×</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-md-12">
-                <form id="changeShelterForm" action="" method="POST">
-                    @csrf
-                    @method('POST')
-        
-                    <div class="form-group">
-                        <h6>Oporavilište u kojem se nalazi:</h6>
-                         <span>{{ $animalItem->first()->shelter->name }}</span> 
-                    </div>
-                    <input type="hidden" name="animal_id" id="animal_id">
-                    <input type="hidden" name="shelter_code" id="shelterCode">
-
-                    <select id="shelter_id" name="shelter_id">
-                        <option value="">Odaberite oporavilište</option>
-                        @foreach ($shelters as $shelter)
-                            @if ($animalItem->first()->shelter->id != $shelter->id)
-                                <option value="{{$shelter->id}}">{{$shelter->name}}</option>
-                            @endif
-                        @endforeach 
-                    </select>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" id="closeModal" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
-        <button type="button" id="save" class="btn btn-primary">Ažuriraj</button>
-    </div>
-    </div>
-</div>
-</div> --}}  
 
 @endsection
 

@@ -8,6 +8,7 @@
 
 @section('content')
 
+
 <div class="d-flex align-items-center justify-content-between mb-3">
     <div> <h5 class="mb-3 mb-md-0">{{ $animalItem->shelter->name }}</h5></div>
     <div>      
@@ -82,7 +83,7 @@
                                 @foreach ($animalItem->animalDocumentation->getMedia('state_receive_file') as $media)
                                   @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))                    
                                     <div class="photo-item d-flex flex-column">
-                                      <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                      <a href="{{ $media->getUrl() }}" data-lightbox="image-{{ $media->id }}">
                                         <figure>
                                           <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
                                         </figure>
@@ -136,7 +137,7 @@
                               @foreach ($animalItem->animalDocumentation->getMedia('state_found_file') as $media)
                                 @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))                    
                                   <div class="photo-item d-flex flex-column">
-                                    <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                    <a href="{{ $media->getUrl() }}" data-lightbox="image-{{ $media->id }}">
                                       <figure>
                                         <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
                                       </figure>
@@ -196,7 +197,7 @@
                           @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)
                             @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))                    
                               <div class="photo-item d-flex flex-column">
-                                <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                <a href="{{ $media->getUrl() }}" data-lightbox="image-{{ $media->id }}">
                                   <figure>
                                     <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
                                   </figure>
@@ -238,7 +239,7 @@
 
                   <div class="form-group">
                       <label>Naziv oznake</label>
-                      <input type="text" name="animal_mark_note" class="form-control" value="{{ $animalItem->animalDocumentation->animalMark->animal_mark_note }}">
+                      <input type="text" name="animal_mark_note" class="form-control" value="{{ $animalItem->animalDocumentation->animalMark->animal_mark_note ?? '' }}">
                   </div>
                   <span class="title text-secondary">Dokumentacija: </span>
                   <div class="latest-photos mt-3">         
@@ -248,7 +249,7 @@
                           @foreach ($animalItem->animalDocumentation->getMedia('animal_mark_photos') as $media)
                             @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))                    
                               <div class="photo-item d-flex flex-column">
-                                <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                <a href="{{ $media->getUrl() }}" data-lightbox="image-{{ $media->id }}">
                                   <figure>
                                     <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
                                   </figure>
@@ -372,8 +373,7 @@
                             method: 'GET',
                             success: function(result) {
                                 if(result.msg == 'success'){
-                              
-                                        location.reload();
+                                  location.reload();
                                 }
                             }
                           }); 

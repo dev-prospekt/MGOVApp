@@ -37,15 +37,15 @@ class ShelterController extends Controller
                 ->addColumn('action', function ($shelter) {
                     return '
                     <div class="d-flex align-items-center">
-                        <a href="shelter/' . $shelter->id . '" class="btn btn-sm btn-info mr-2"> 
+                        <a href="shelter/' . $shelter->id . '" class="btn btn-xs btn-info mr-2"> 
                             Info
                         </a>
                     
-                        <a href="shelter/' . $shelter->id . '/edit" class="btn btn-sm btn-primary mr-2"> 
+                        <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-primary mr-2"> 
                             Uredi
                         </a>
 
-                        <a href="javascript:void(0)" id="shelterClick" class="btn btn-sm btn-danger" >
+                        <a href="javascript:void(0)" id="shelterClick" class="btn btn-xs btn-danger" >
                             <input type="hidden" id="shelter_id" value="' . $shelter->id . '" />
                             Brisanje
                         </a>
@@ -143,20 +143,27 @@ class ShelterController extends Controller
                         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
                             Info
                         </a>
+<<<<<<< HEAD
                     
                         <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-xs btn-primary mr-2"> 
                             Uredi
                         </a>
 
                         <a href="javascript:void(0)" data-href="' . $deleteURL . '" id="animal_group_delete" class="btn btn-xs btn-danger" >
+=======
+                        <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-xs btn-danger" >
+>>>>>>> 37ea33fdc6d46a199aa5c21f05d70548f88fb947
                             Brisanje
                         </a>
                     </div>
                     ';
+                    // <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-xs btn-primary mr-2"> 
+                    //     Uredi
+                    // </a>
                     // if($animal_groups->quantity == 1){
                     //     return '
                     //     <div class="d-flex align-items-center">
-                    //         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '/animal_items/'.$animal_groups->animalItems->first()->id.'" class="btn btn-sm btn-info mr-2"> 
+                    //         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '/animal_items/'.$animal_groups->animalItems->first()->id.'" class="btn btn-xs btn-info mr-2"> 
                     //             Info
                     //         </a>
                     //     </div>
@@ -165,15 +172,20 @@ class ShelterController extends Controller
                     // else {
                     //     return '
                     //     <div class="d-flex align-items-center">
-                    //         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-sm btn-info mr-2"> 
+                    //         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
                     //             Info
                     //         </a>
+<<<<<<< HEAD
 
                     //         <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-sm btn-primary mr-2"> 
+=======
+                        
+                    //         <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-xs btn-primary mr-2"> 
+>>>>>>> 37ea33fdc6d46a199aa5c21f05d70548f88fb947
                     //             Uredi
                     //         </a>
 
-                    //         <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-sm btn-danger" >
+                    //         <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-xs btn-danger" >
                     //             Brisanje
                     //         </a>
                     //     </div>
@@ -211,7 +223,7 @@ class ShelterController extends Controller
      * @param  \App\Models\Shelter  $shelter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ShelterPostRequest $request, $id)
     {
 
         $shelter = Shelter::findOrFail($id);

@@ -14,7 +14,9 @@ use App\Models\Animal\AnimalGroup;
 use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalMarkType;
+use App\Http\Requests\AnimalProtectedCreateRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Models\Animal\AnimalItemDocumentationStateType;
 
 class AnimalShelterCreateController extends Controller
 {
@@ -78,8 +80,6 @@ class AnimalShelterCreateController extends Controller
 
     public function protectedStore(Request $request)
     {
-        //dd($request);
-
         // Increment ID
         $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
         if (empty($incrementId->id)) {
@@ -87,6 +87,7 @@ class AnimalShelterCreateController extends Controller
         } else {
             $increment = $incrementId->id + 1;
         }
+        $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
         // AnimalType
         $animalType = Animal::find($request->animal_id);
@@ -116,6 +117,13 @@ class AnimalShelterCreateController extends Controller
         $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
         $animalItem->in_shelter = true;
 
+        // $animalItem->status_receiving = $request->status_receiving;
+        // $animalItem->status_receiving_desc = $request->status_receiving_desc;
+        // $animalItem->status_found = $request->status_found;
+        // $animalItem->status_found_desc = $request->status_found_desc;
+        // $animalItem->status_reason = $request->status_reason;
+        // $animalItem->reason_desc = $request->reason_desc;
+
         $animalItem->animal_found_note = $request->animal_found_note;
         $animalItem->animal_date_found =  $request->date_found;
         $animalItem->animal_gender = $request->animal_gender;
@@ -126,7 +134,17 @@ class AnimalShelterCreateController extends Controller
         $animalItem->shelter_code = $animal_group->shelter_code;
         $animalItem->save();
 
-        $this->createDocuments($request, $animalItem);
+        // AnimalDocumentation
+        $animalDocumentation = $animalItem->animalDocumentation()->create(['animal_item_id' => $animalItem->id,
+            'state_recive' => $request->status_receiving,
+            'state_recive_desc' => $request->status_receiving_desc,
+            'state_found' => $request->status_found,
+            'state_found_desc' => $request->status_found_desc,
+            'state_reason' => $request->status_reason,
+            'state_reason_desc' => $request->reason_desc,
+        ]);
+
+        $this->createDocuments($request, $animalDocumentation);
 
         // Date Range
         if (!empty($request->start_date)) {
@@ -166,6 +184,7 @@ class AnimalShelterCreateController extends Controller
         } else {
             $increment = $incrementId->id + 1;
         }
+        $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
         // AnimalType
         $animalType = Animal::find($request->animal_id);
@@ -236,6 +255,7 @@ class AnimalShelterCreateController extends Controller
         } else {
             $increment = $incrementId->id + 1;
         }
+        $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
         // AnimalType
         $animalType = Animal::find($request->animal_id);
@@ -269,18 +289,24 @@ class AnimalShelterCreateController extends Controller
         $animalItem->place_seized = $request->place_seized;
         $animalItem->date_seized_animal = Carbon::createFromFormat('m/d/Y', $request->date_seized_animal);
         $animalItem->location_retrieval_animal = $request->location_retrieval_animal;
-        $animalItem->status_receiving = $request->status_receiving;
-        $animalItem->status_receiving_desc = $request->status_receiving_desc;
-        $animalItem->animal_mark_id = $request->animal_mark;
-        $animalItem->animal_mark_note = $request->animal_mark_note;
         $animalItem->animal_found_note = $request->animal_found_note;
         $animalItem->founder_id = $request->founder_id;
         $animalItem->founder_note = $request->founder_note;
-        $animalItem->seized_doc = $request->seized_doc;
         $animalItem->in_shelter = true;
         $animalItem->save();
 
-        $this->createDocuments($request, $animalItem);
+        // AnimalDocumentation
+        $animalDocumentation = $animalItem->animalDocumentation()->create(['animal_item_id' => $animalItem->id,
+            'state_recive' => $request->status_receiving,
+            'state_recive_desc' => $request->status_receiving_desc,
+            'state_found' => $request->status_found,
+            'state_found_desc' => $request->status_found_desc,
+            'state_reason' => $request->status_reason,
+            'state_reason_desc' => $request->reason_desc,
+            'seized_doc' => $request->seized_doc,
+        ]);
+
+        $this->createDocuments($request, $animalDocumentation);
 
         // Date Range
         if (!empty($request->start_date)) {
@@ -313,6 +339,7 @@ class AnimalShelterCreateController extends Controller
         $founder = FounderData::find($founder_id);
         $markTypes = AnimalMarkType::all();
         $shelterType = ShelterType::find($type_id);
+        $stateType = AnimalItemDocumentationStateType::all();
 
         $pluckSystemCat = $sysCats->pluck('id');
         $shelterTypeCode = [$shelterType->code];
@@ -331,7 +358,8 @@ class AnimalShelterCreateController extends Controller
             'founder' => $founder,
             'markTypes' => $markTypes,
             'shelter' => $shelter,
-            'shelterType' => $shelterType
+            'shelterType' => $shelterType,
+            'stateType' => $stateType
         ])->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
@@ -348,9 +376,9 @@ class AnimalShelterCreateController extends Controller
         }
 
         if ($request->reason_file) {
-            $animalItem->addMultipleMediaFromRequest(['reason_file'])
+            $animalItem->addMultipleMediaFromRequest(['state_reason_file'])
                 ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('reason_file');
+                    $fileAdder->toMediaCollection('state_reason_file');
                 });
         }
 
@@ -359,6 +387,27 @@ class AnimalShelterCreateController extends Controller
                 ->each(function ($fileAdder) {
                     $fileAdder->toMediaCollection('animal_mark_photos');
                 });
+        }
+
+        if ($request->status_found_file) {
+            $animalItem->addMultipleMediaFromRequest(['state_found_file'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('state_found_file');
+            });
+        }
+
+        if ($request->status_receiving_file) {
+            $animalItem->addMultipleMediaFromRequest(['state_receive_file'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('state_receive_file');
+            });
+        }
+
+        if ($request->seized_doc_type) {
+            $animalItem->addMultipleMediaFromRequest(['seized_doc_type'])
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('seized_doc_type');
+            });
         }
     }
 }

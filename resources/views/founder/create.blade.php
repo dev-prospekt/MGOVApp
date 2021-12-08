@@ -42,6 +42,9 @@
                                     <option value="vlasnik životinje">vlasnik životinje</option>
                                     <option value="ostalo-navesti:">ostalo-navesti:</option>
                                 </select>
+                                @error('service')
+                                    <div class="text-danger">{{$errors->first('service') }} </div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-12" id="ostalo">
@@ -56,12 +59,18 @@
                             <div class="form-group">
                                 <label>Ime</label>
                                 <input type="text" name="name" class="form-control" >
+                                @error('name')
+                                    <div class="text-danger">{{$errors->first('name') }} </div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Prezime</label>
                                 <input type="text" name="lastname" class="form-control" >
+                                @error('lastname')
+                                    <div class="text-danger">{{$errors->first('lastname') }} </div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -70,12 +79,18 @@
                             <div class="form-group">
                                 <label>Adresa</label>
                                 <input type="text" name="address" class="form-control" >
+                                @error('address')
+                                    <div class="text-danger">{{$errors->first('address') }} </div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Država (prebivališta)</label>
                                 <input type="text" name="country" class="form-control" >
+                                @error('country')
+                                    <div class="text-danger">{{$errors->first('country') }} </div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -84,12 +99,18 @@
                             <div class="form-group">
                                 <label>Kontakt mobitel/telefon</label>
                                 <input type="text" name="contact" class="form-control" >
+                                @error('contact')
+                                    <div class="text-danger">{{$errors->first('contact') }} </div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Email adresa</label>
                                 <input type="text" name="email" class="form-control" >
+                                @error('email')
+                                    <div class="text-danger">{{$errors->first('email') }} </div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -103,6 +124,9 @@
                                         <option value="{{ $ty->id }}">{{ $ty->name }}</option>
                                     @endforeach
                                 </select>
+                                @error('shelter_type')
+                                    <div class="text-danger">{{$errors->first('shelter_type') }} </div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-md-6">

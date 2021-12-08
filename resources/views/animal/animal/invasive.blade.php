@@ -10,7 +10,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Odabir životinjske vrste</label>
-                        <select name="animal_id" class="form-control" id="animalSelect">
+                        <select name="animal_id" class="form-control" id="animalSelect" required>
                             <option value="">------</option>
                             @foreach ($animal as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -22,37 +22,25 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Spol</label>
-                        <select class="form-control" name="animal_gender" id="">
-                            {{-- @if ($animalItem->animal_dob)
-                                <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
-                            @endif --}}
+                        <select class="form-control" name="animal_gender" id="" required>
                             <option value="">Odaberi</option>
                             <option value="muzjak">M (mužjak)</option>
                             <option value="zenka">Ž/F (ženka)</option>
                             <option value="nije moguce odrediti">N (nije moguće odrediti)</option>
                         </select>
-                        @error('animal_gender')
-                            <div class="text-danger">{{$errors->first('animal_gender') }} </div>
-                        @enderror
                     </div>
                 </div>
 
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Dob jedinke</label>
-                        <select class="form-control" name="animal_age" id="">
-                        {{--  @if ($animalItem->animal_dob)
-                                <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
-                            @endif --}}
+                        <select class="form-control" name="animal_age" id="" required>
                             <option value="">Odaberi</option>
                             <option value="ADL">ADL (adultna)</option>
                             <option value="JUV">JUV (juvenilna)</option>
                             <option value="SA">SA (subadultna)</option>
                             <option value="N">N (neodređeno)</option>
                         </select>
-                        @error('animal_age')
-                            <div class="text-danger">{{$errors->first('animal_age') }} </div>
-                        @enderror
                     </div>  
                 </div>
             </div>
@@ -66,15 +54,12 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Lokacija pronalaska</label>
-                            <input type="text" class="form-control" name="location">
-                            @error('location')
-                                <div class="text-danger">{{$errors->first('location') }} </div>
-                            @enderror
+                            <input type="text" class="form-control" name="location" required>
                         </div>
 
                         <div class="form-group">
                             <label>Lokacija preuzimanja životinje</label>
-                            <select class="form-control" name="location_retrieval_animal" id="">
+                            <select class="form-control" name="location_retrieval_animal" id="" required>
                                 <option value="">Odaberi</option>
                                 <option value="u_oporavilistu">U oporavilištu</option>
                                 <option value="izvan_oporavilista">Izvan oporavilišta</option>
@@ -86,7 +71,7 @@
                         <div class="form-group">
                             <label>Datum zaprimanja u oporavilište</label>
                             <div class="input-group date datepicker" id="datePickerExample">
-                                <input type="text" name="start_date" class="form-control">
+                                <input type="text" name="start_date" class="form-control" required>
                                 <span class="input-group-addon">
                                 <i data-feather="calendar"></i>
                                 </span>
@@ -98,7 +83,7 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Nalaznik</label>
-                            <select name="founder_id" class="form-control">
+                            <select name="founder_id" class="form-control" required>
                                 <option selected value="{{$founder->id}}">
                                     {{$founder->name}} {{$founder->lastname}} 
                                     @if($founder->service != 'ostalo-navesti:')
@@ -120,7 +105,7 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Eutanazija</label>
-                            <select class="form-control euthanasia_select" name="euthanasia_select">
+                            <select class="form-control euthanasia_select" name="euthanasia_select" required>
                                 <option value="">------</option>
                                 <option value="da">Da</option>
                                 <option value="ne">Ne</option>

@@ -70,6 +70,9 @@
         <a class="nav-link" id="v-reason-tab" data-toggle="pill" href="#v-reason" role="tab" aria-controls="v-reason" aria-selected="false">Razlog zaprimanja</a>
         <a class="nav-link" id="v-founder-tab" data-toggle="pill" href="#v-founder" role="tab" aria-controls="v-founder" aria-selected="false">Nalaznik</a>
         <a class="nav-link" id="v-mark-tab" data-toggle="pill" href="#v-mark" role="tab" aria-controls="v-mark" aria-selected="false">Oznaka jedinke</a>
+        <a class="nav-link" id="v-mark-tab" data-toggle="pill" href="#v-seized-doc" role="tab" aria-controls="v-seized-doc" aria-selected="false">
+          Vrsta i broj dokumenta temeljem koga je izvršena zapljena
+        </a>
       </div>
     </div>
     <div class="col-7 col-md-9">
@@ -181,6 +184,7 @@
               </div>
             </div>      
           </div><!-- END TAB -->
+
           <div class="tab-pane fade" id="v-reason" role="tabpanel" aria-labelledby="v-reason-tab">
             <div class="card">
               <div class="card-body">
@@ -232,6 +236,7 @@
               </div>
             </div>
           </div>
+
           <div class="tab-pane fade" id="v-founder" role="tabpanel" aria-labelledby="v-founder-tab">
             <div class="row">
               <div class="col-md-6">
@@ -350,6 +355,53 @@
               </div>
             </div>
           </div><!-- END TAB -->
+
+          <div class="tab-pane fade" id="v-seized-doc" role="tabpanel" aria-labelledby="v-seized-doc-tab">
+            <div class="card">
+              <div class="card-body">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div><h6 class="card-description">Vrsta i broj dokumenta temeljem koga je izvršena zapljena</h6> </div> 
+                    <div>      
+                    </div>
+                  </div>      
+                    <div class="row">
+                      <div class="col-md-12 grid-margin">  
+                        <div class="mt-2">
+                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Vrsta: </label>
+                          <p class="text-muted">{{ $animalItem->animalDocumentation->seized_doc  ?? '' }}
+                          </p>
+                        </div> 
+                        <div class="separator separator--small"></div>    
+                         
+                          <div class="mt-2">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>                                 
+                            <div class="bordered-group mt-2">
+                              <div class="latest-photos d-flex">
+                                @if (!empty($animalItem->animalDocumentation))
+                                  @foreach ($animalItem->animalDocumentation->getMedia('seized_doc_type') as $media)      
+                                    @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
+                                    <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                      <figure>
+                                        <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                      </figure>
+                                    </a>
+                                  
+                                    @else
+                                      <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>                    
+                                    @endif                        
+                                  @endforeach  
+                                @endif
+                                                     
+                              </div>
+                            </div>
+                          </div>
+                              
+                      </div>                   
+                  </div>               
+              </div>
+            </div>
+          </div><!-- END TAB -->
+
         </div><!-- END TAB CONTAINER -->
     
       </div>

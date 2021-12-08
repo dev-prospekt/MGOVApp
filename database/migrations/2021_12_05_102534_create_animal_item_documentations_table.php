@@ -26,6 +26,8 @@ class CreateAnimalItemDocumentationsTable extends Migration
             $table->foreignId('state_reason')->nullable()->constrained('animal_item_documentation_state_types');
             $table->text('state_reason_desc')->nullable();
 
+            $table->string('seized_doc')->nullable();
+
             $table->timestamps();
         });
     }

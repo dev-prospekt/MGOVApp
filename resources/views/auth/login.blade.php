@@ -17,11 +17,12 @@
               <a href="#" class="noble-ui-logo logo-light d-block mb-2">Noble<span>UI</span></a>
               <h5 class="text-muted font-weight-normal mb-4">Welcome back! Log in to your account.</h5>
 
-              @if ($message = Session::get('danger'))
-              <div class="alert alert-danger alert-block">
-                  <button type="button" class="close" data-dismiss="alert">×</button>    
-                  <strong>{{ $message }}</strong>
-              </div>
+              @if (!empty($errors->first()))
+                <div class="alert alert-danger alert-block">
+                    <button type="button" class="close" data-dismiss="alert">×</button>    
+                    <strong>{{ $errors->first('email') }}</strong>
+                    <strong>{{ $errors->first('password') }}</strong>
+                </div>
               @endif
 
               <form class="forms-sample" method="POST" action="login">

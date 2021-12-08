@@ -104,6 +104,25 @@ class AnimalItemPriceController extends Controller
                 'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('m/d/Y', $request->hib_est_from) : null,
             ]);
 
+            // Ako je poslan datum za kraj skrbi
+            if(!empty($request->end_date)){
+                $updateAnimalItemHibern = $animalItem->dateRange()->update(['animal_item_id' => $id,
+                    'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('m/d/Y', $request->hib_est_from) : null,
+                    'hibern_end' => (isset($request->end_date)) ? Carbon::createFromFormat('m/d/Y', $request->end_date) : null
+                ]);
+
+                if($updateAnimalItemHibern == 1){
+                    $hib_from = Carbon::createFromFormat('m/d/Y', $request->hib_est_from);
+                    $hib_to = Carbon::createFromFormat('m/d/Y', $request->end_date);
+                    $hibernDiffDays = $hib_to->diffInDays($hib_from);
+
+                    $hib_day = ((int)$diff_in_days - (int)$hibernDiffDays);
+
+                    // Cijena za hibernaciju
+                    $totalPriceHibern = $this->getPrice($animalItem, $hib_day);
+                }
+            }
+
             if(!empty($request->hib_est_to)){
                 $animalItem->dateRange()->update(['animal_item_id' => $id,
                     'hibern_start' => Carbon::createFromFormat('m/d/Y', $request->hib_est_from),
