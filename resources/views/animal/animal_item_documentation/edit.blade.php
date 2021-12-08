@@ -75,7 +75,7 @@
                           @enderror
                       </div>
        
-                        <span class="title text-secondary">Fotodokumentacija: </span>
+                        <span class="title text-secondary">Dokumentacija: </span>
                         <div class="latest-photos mt-3">         
                             @if ($itemDocumentation->getMedia('state_receive_file')->first())
                             <div class="bordered-group mt-2 mb-2">
@@ -129,7 +129,7 @@
                           <div class="text-danger">{{$errors->first('state_found_desc') }} </div>
                            @enderror
                       </div>
-                      <span class="title text-secondary">Fotodokumentacija: </span>
+                      <span class="title text-secondary">Dokumentacija: </span>
                       <div class="latest-photos mt-3">         
                           @if ($itemDocumentation->getMedia('state_found_file')->first())
                           <div class="bordered-group mt-2 mb-2">
@@ -191,7 +191,7 @@
                     </div>
                    
                     @if ($itemDocumentation->getMedia('state_reason_file')->first())  
-                      <span class="title text-secondary">Fotodokumentacija: </span>                  
+                      <span class="title text-secondary">Dokumentacija: </span>                  
                       <div class="bordered-group mt-2 mb-2">
                         <div class="latest-photos d-flex">
                           @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)
@@ -241,7 +241,7 @@
                       <label>Naziv oznake</label>
                       <input type="text" name="animal_mark_note" class="form-control" value="{{ $animalItem->animalDocumentation->animalMark->animal_mark_note ?? '' }}">
                   </div>
-                  <span class="title text-secondary">Fotodokumentacija: </span>
+                  <span class="title text-secondary">Dokumentacija: </span>
                   <div class="latest-photos mt-3">         
                       @if ($itemDocumentation->getMedia('animal_mark_photos')->first())
                       <div class="bordered-group mt-2 mb-2">

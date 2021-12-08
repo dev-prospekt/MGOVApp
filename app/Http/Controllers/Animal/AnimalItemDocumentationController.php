@@ -172,19 +172,17 @@ class AnimalItemDocumentationController extends Controller
         )->with('store_docs', 'Dokumentacija uspješno spremljena');
     }
 
-
-
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
+    public function destroy(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
     {
-        $animalItemDocumentation->delete();
-        return response()->json(['success' => 'Zapis postupanja uspješno izbrisan.']);
+        AnimalItemDocumentation::find($animalItemDocumentation->id)->delete();
+
+        return response()->json(['msg' => 'success']);
     }
 
     public function deleteImage($img)

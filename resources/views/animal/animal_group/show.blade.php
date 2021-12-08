@@ -9,25 +9,26 @@
 @section('content')
 
 <div class="d-flex align-items-center justify-content-between">
-    <h5 class="mb-3 mb-md-0">Popis jedinki unutar grupe</h5>
+    <h5 class="mb-3 mb-md-0">{{ $animal_group->shelters->first()->name }}</h5>
     <div>
-        <a type="button" class="btn btn-warning btn-icon-text" href="/shelter/{{ $animal_group->shelters->first()->id }}">      
-            Povratak na popis
+        <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm btn-icon-text">
+            Premjesti cijelu grupu
+            <i class="btn-icon-append" data-feather="box"></i>
+        </a>
+        <a type="button" class="btn btn-primary btn-sm btn-icon-text" href="/shelter/{{ $animal_group->shelters->first()->id }}">      
+            Povratak na oporavilište
             <i class="btn-icon-append" data-feather="clipboard"></i>
         </a>
+
     </div>
 </div>
 
 <div class="row mt-4">
-    <div class="col-lg-8 col-xl-8 grid-margin">
+    <div class="col-lg-12 col-xl-12 grid-margin">
         <div class="card">
             <div class="card-body">
-                <div class="card-title d-flex align-items-center justify-content-between">
-                    <h6 class="mb-0">Podatci</h6>
-                    <div>
-                        <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm">Premjesti cijelu grupu</a>
-                    </div>
-                </div>
+                <h5 class="card-title">Popis jedinki unutar grupe</h5>
+                <p class="card-description">Napomena: unestite podatke za pojedinu jedinku, duplicirajte dokumentaciju za sve članove grupe</p>
 
                 @if($msg = Session::get('msg'))
                 <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
@@ -40,41 +41,17 @@
                             <th>#</th>
                             <th>NAZIV</th>
                             <th>LATINSKI NAZIV</th>
+                            <th>Datum pronalaska</th>
+                            <th>Dob</th>
+                            <th>Spol</th>
+                            <th>Veličina</th>
+                            <th>Način držanja</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @dump($animal_items)
-
-    <div class="col-md-4">
-        <div class="card grid-margin">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-6 grid-margin">
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv: </label>
-                            <p class="text-muted">{{ $animal_items->first()->animal->name }}</p>
-                        </div>
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv: </label>
-                            <p class="text-muted">{{ $animal_items->first()->animal->latin_name }}</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 grid-margin">
-                        <div class="mt-3">
-                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupni broj:</label>
-                            <p class="text-muted">
-                                {{ $animal_items->count() }}
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -142,6 +119,11 @@ $(function() {
             { data: 'id', name: 'id'},
             { data: 'name', name: 'name'},
             { data: 'latin_name', name: 'latin_name'},
+            { data: 'date_found', name: 'date_found'},
+            { data: 'animal_age', name: 'animal_age'},
+            { data: 'animal_gender', name: 'animal_gender'},
+            { data: 'animal_size', name: 'animal_size'},
+            { data: 'keep_type', name: 'keep_type'},
             { data: 'action', name: 'action'},
         ],
         language: {

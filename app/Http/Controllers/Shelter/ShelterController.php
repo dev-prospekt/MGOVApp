@@ -137,7 +137,7 @@ class ShelterController extends Controller
                 })
                 ->addColumn('action', function ($animal_groups) {
                     $deleteURL = route('shelters.animal_groups.destroy', [$animal_groups->pivot->shelter_id, $animal_groups->id]);
-                    
+
                     return '
                     <div class="d-flex align-items-center">
                         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
