@@ -56,7 +56,7 @@ class AnimalGroupController extends Controller
     {
         $animal_group = AnimalGroup::with('animalItems', 'shelters')->find($animalGroup->id);
         $animal_items = $animal_group->animalItems;
-        
+
         // Vraca oporaviliste samo koje ima isti type
         $animalType = $animal_group->animal->animalType->first()->type_code;
         $shelters = Shelter::where('id', '!=', $shelter->id)
@@ -74,6 +74,21 @@ class AnimalGroupController extends Controller
                 ->addColumn('latin_name', function ($animal_items) {
                     return $animal_items->animal->latin_name;
                 })
+                ->addColumn('date_found', function ($animal_items) {
+                    return $animal_items->animal_date_found;
+                })
+                ->addColumn('animal_age', function ($animal_items) {
+                    return $animal_items->animal_age;
+                })
+                ->addColumn('animal_gender', function ($animal_items) {
+                    return $animal_items->animal_gender;
+                })
+                ->addColumn('animal_size', function ($animal_items) {
+                    return $animal_items->animalSizeAttributes->name;
+                })
+                ->addColumn('keep_type', function ($animal_items) {
+                    return $animal_items->solitary_or_group;
+                })
                 ->addColumn('action', function ($animal_items) {
                     $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
                     $cloneUrl = route('animal_item.clone', [$animal_items->id]);
@@ -81,7 +96,7 @@ class AnimalGroupController extends Controller
                     return '
                     <div class="d-flex align-items-center">
                         <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
-                            Info
+                            Uredi
                         </a>
 
                         <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
@@ -138,7 +153,7 @@ class AnimalGroupController extends Controller
         $animalGroup = AnimalGroup::find($id);
         $animalGroup->delete();
 
-        return response()->json(['msg'=>'success']);
+        return response()->json(['msg' => 'success']);
     }
 
     public function groupChangeShelter(Request $request, AnimalGroup $animalGroup)
@@ -182,10 +197,9 @@ class AnimalGroupController extends Controller
             $newDateRange->save();
 
             // Date full care
-            if(!empty($item->dateFullCare))
-            {
+            if (!empty($item->dateFullCare)) {
                 $dateFullCare = $item->dateFullCare;
-                if(!empty($dateFullCare)){
+                if (!empty($dateFullCare)) {
                     foreach ($dateFullCare as $item) {
                         $newDateRange = $item->replicate();
                         $newDateRange->animal_item_id = $newAnimalItems->id;
@@ -195,8 +209,7 @@ class AnimalGroupController extends Controller
             }
 
             // Shelter Animal Price
-            if(!empty($item->shelterAnimalPrice))
-            {
+            if (!empty($item->shelterAnimalPrice)) {
                 $animalPrice = $item->shelterAnimalPrice;
                 $newAnimalPrice = $animalPrice->replicate();
                 $newAnimalPrice->animal_item_id = $newAnimalItems->id;
@@ -215,43 +228,43 @@ class AnimalGroupController extends Controller
     public function copyMedia($model, $newModel)
     {
         // documents
-        if($model->getMedia('documents')->first()){
+        if ($model->getMedia('documents')->first()) {
             $documents = $model->getMedia('documents')->first();
             $copiedMediaItem = $documents->copy($newModel, 'documents');
         }
 
         // status_receiving_file
-        if($model->getMedia('status_receiving_file')->first()){
+        if ($model->getMedia('status_receiving_file')->first()) {
             $status_receiving_file = $model->getMedia('status_receiving_file')->first();
             $copiedMediaItem = $status_receiving_file->copy($newModel, 'status_receiving_file');
         }
 
         // status_found_file
-        if($model->getMedia('status_found_file')->first()){
+        if ($model->getMedia('status_found_file')->first()) {
             $status_found_file = $model->getMedia('status_found_file')->first();
             $copiedMediaItem = $status_found_file->copy($newModel, 'status_found_file');
         }
 
         // reason_file
-        if($model->getMedia('reason_file')->first()){
+        if ($model->getMedia('reason_file')->first()) {
             $reason_file = $model->getMedia('reason_file')->first();
             $copiedMediaItem = $reason_file->copy($newModel, 'reason_file');
         }
 
         // animal_mark_photos
-        if($model->getMedia('animal_mark_photos')->first()){
+        if ($model->getMedia('animal_mark_photos')->first()) {
             $animal_mark_photos = $model->getMedia('animal_mark_photos')->first();
             $copiedMediaItem = $animal_mark_photos->copy($newModel, 'animal_mark_photos');
         }
 
         // euthanasia_invoice
-        if($model->getMedia('euthanasia_invoice')->first()){
+        if ($model->getMedia('euthanasia_invoice')->first()) {
             $euthanasia_invoice = $model->getMedia('euthanasia_invoice')->first();
             $copiedMediaItem = $euthanasia_invoice->copy($newModel, 'euthanasia_invoice');
         }
 
         // seized_doc_type
-        if($model->getMedia('seized_doc_type')->first()){
+        if ($model->getMedia('seized_doc_type')->first()) {
             $seized_doc_type = $model->getMedia('seized_doc_type')->first();
             $copiedMediaItem = $seized_doc_type->copy($newModel, 'seized_doc_type');
         }

@@ -29,7 +29,7 @@
     <div class="d-flex align-items-center justify-content-between">
       <div> <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5></div>
       <div>      
-        <a type="button" class="btn btn-warning btn-icon-text" data-toggle="modal" 
+        <a type="button" class="btn btn-warning btn-icon-text btn-sm" data-toggle="modal" 
           data-target="#createCareStaffModal">
             Korisnici aplikacije
             <i class="btn-icon-append" data-feather="user-plus"></i>
@@ -43,7 +43,7 @@
           <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
               <div><h6 class="card-title">Podaci oporavilišta</h6> </div> 
-              <a href="{{ route('shelter.edit', $shelter->id) }}" class="btn btn-primary btn-icon-text" type="button">
+              <a href="{{ route('shelter.edit', $shelter->id) }}" class="btn btn-primary btn-sm btn-icon-text" type="button">
                 Izmjeni podatke
                 <i class="btn-icon-append" data-feather="box"></i>
               </a>
@@ -141,7 +141,7 @@
             <div class="d-flex align-items-center justify-content-between">
               <div><h6 class="card-title">Jedinke u oporavilištu</h6> </div>
               <div class="grid-margin">
-                <a href="{{ route('shelterAnimal.create', [$shelter->id]) }}" type="button" class="btn btn-primary btn-icon-text">
+                <a href="{{ route('shelterAnimal.create', [$shelter->id]) }}" type="button" class="btn btn-sm btn-primary btn-icon-text">
                   Dodaj jedinku
                   <i class="btn-icon-append" data-feather="activity"></i>
                 </a>

@@ -41,7 +41,14 @@
       <a href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.edit', 
       [$animalItem->shelter_id, $animalItem->animal_group_id,
        $animalItem->id, $animalItem->animalDocumentation->id]) }}" type="button" class="btn btn-warning btn-sm btn-icon-text">
-        Izmjeni dokumentaciju
+        Izmjeni
+         <i class="btn-icon-append" data-feather="edit"></i>
+       </a> 
+
+       <a id="deleteDoc" href="#" type="button" class="btn btn-danger btn-sm btn-icon-text" 
+       data-shelter-id={{ $animalItem->shelter_id }} data-group-id={{$animalItem->animal_group_id }}
+       data-item-id={{  $animalItem->id }} data-documentation-id={{ $animalItem->animalDocumentation->id }}>
+        Brisanje
          <i class="btn-icon-append" data-feather="edit"></i>
        </a> 
     </div>
@@ -96,20 +103,20 @@
                         
                           <div class="bordered-group mt-2">
                             <div class="latest-photos d-flex">
-                              @foreach ($animalItem->animalDocumentation->getMedia('state_found_file') as $item)
-                                @if (($item->mime_type == 'image/png') || ($item->mime_type == 'image/jpeg'))
-                                
-                                  <a href="{{ $item->getUrl() }}" data-lightbox="image">
+                              @foreach ($animalItem->animalDocumentation->getMedia('state_found_file') as $media)
+                                @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
+                                <div class="photo-item d-flex flex-column">
+                                  <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
                                     <figure>
-                                      <img class="img-fluid" src="{{ $item->getUrl() }}" alt="">
+                                      <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
                                     </figure>
-                                  </a>   
+                                  </a>
+                                </div>          
                                 @else
-                                <div class="document-item">
-                                  <a href="{{ $item->getUrl() }}">{{ $item->name }}</a>   
-                                </div>                 
-                                @endif   
-                                         
+                              <div class="document-item d-flex flex-column">
+                                <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>  
+                              </div>                  
+                              @endif                                  
                               @endforeach
                             </div>
                           </div>
@@ -152,7 +159,7 @@
                                 @foreach ($animalItem->animalDocumentation->getMedia('state_receive_file') as $media)
                                   @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
                                   <div class="photo-item d-flex flex-column">
-                                    <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                    <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
                                       <figure>
                                         <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
                                       </figure>
@@ -160,11 +167,11 @@
                                   </div>          
                                   @else
                                   <div class="document-item d-flex flex-column">
-                                    <a href="{{ $item->getUrl() }}">{{ $media->name }}</a>  
+                                    <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>  
                                   </div>                  
                                   @endif     
                                 @endforeach
-                                </div>
+                              </div>
                             </div>
                             
                           @endisset
@@ -202,15 +209,18 @@
                             <div class="latest-photos d-flex">
                               @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)
                               @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
-                                <a href="{{ $media->getUrl() }}" data-lightbox="image">
-                                <figure>
-                                  <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
-                                </figure>
-                                </a>
-                              
-                              @else
-                              <a href="{{ $item->getUrl() }}">{{ $media->name }}</a>                    
-                              @endif             
+                                  <div class="photo-item d-flex flex-column">
+                                    <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
+                                      <figure>
+                                        <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                      </figure>
+                                    </a>
+                                  </div>          
+                                  @else
+                                  <div class="document-item d-flex flex-column">
+                                    <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>  
+                                  </div>                  
+                                  @endif             
                               @endforeach
                             </div>
                           </div>
@@ -244,7 +254,7 @@
                             <div class="bordered-group mt-2">
                               <div class="latest-photos d-flex">
                                 @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)                 
-                                  <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                  <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
                                     {{ $media->name }}
                                   </a>                    
                                 @endforeach
@@ -316,18 +326,25 @@
                               <div class="latest-photos d-flex">
                                 @if (!empty($animalItem->animalDocumentation))
                                   @foreach ($animalItem->animalDocumentation->getMedia('animal_mark_photos') as $media)      
-                                  <a href="{{ $media->getUrl() }}" data-lightbox="image">
-                                    <figure>
-                                      <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
-                                    </figure>
-                                  </a>                       
+                                    @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
+                                    <div class="photo-item d-flex flex-column">
+                                      <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
+                                        <figure>
+                                          <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                        </figure>
+                                      </a>
+                                    </div>          
+                                    @else
+                                    <div class="document-item d-flex flex-column">
+                                      <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>  
+                                    </div>                  
+                                    @endif                       
                                   @endforeach  
                                 @endif
                                                      
                               </div>
                             </div>
                           </div>
-                              
                       </div>                   
                   </div>               
               </div>
@@ -353,179 +370,8 @@
 
   <script>
       $(function() {
-          // state found 
-          $("#createStateFound").click(function(e) {
-                e.preventDefault();   
-                var animal_item = $(this).data('item-id');
-                var shelter_id = $(this).data('shelter-id');
-                var group_id = $(this).data('group-id');
-                console.log(animal_item);
-                $.ajax({
-                    url: "/shelters/"+shelter_id+"/animal_groups/"+group_id+"/animal_items/"+animal_item+"/animal_item_documentations/create",
-                    method: 'GET',
-                    success: function(result) {
-                        $(".modal").show();
-                        $(".modal").html(result['html']);
-                        stateFoundScript()
-                        console.log(result);
-
-                        $('.modal').find("#storeStateFound").on('submit', function(e){
-                            e.preventDefault();
-
-                            var formData = this;                  
-                            var dangerAlert = $('#dangerStateFound');
-                            var successAlert = $('#successStateFound');
-                            $.ajax({
-                                url: $(formData).attr('action'),
-                                method: 'POST',
-                                data: new FormData(formData),
-                                processData: false,
-                                dataType: 'json',
-                                contentType: false,
-                                success: function(result) {
-                                    if(result.errors) {
-                                        dangerAlert.html('');
-                                        $.each(result.errors, function(key, value) {
-                                          dangerAlert.show();
-                                          dangerAlert.append('<strong><li>'+value+'</li></strong>');
-                                        });
-                                    } 
-                                    else {
-                                      successAlert.hide();
-                                      successAlert.show();
-                                        setInterval(function(){
-                                            successAlert.hide();
-                                            $('.modal').modal('hide');
-                                            location.reload();
-                        
-                                        }, 2000);                           
-                                    }
-                                    
-                                }
-                            });
-                        });
-                    }
-                });        
-
-            });
-
-            // edit, update state found 
-          $("#editStateFound").click(function(e) {
-                e.preventDefault();   
-                var documentation_id = $(this).data('documentation-id');
-                var shelter_id = $(this).data('shelter-id');
-                var animal_item_id = $(this).data('item-id');
-                var group_id = $(this).data('group-id');
-                
-                $.ajax({
-                    url: "/shelters/"+shelter_id+"/animal_groups/"+group_id+"/animal_items/"+animal_item_id+"/animal_item_documentations/"+documentation_id+"/edit",
-                    method: 'GET',
-                    success: function(result) {
-                        $(".modal").show();
-                        $(".modal").html(result['html']);
-                        stateFoundScript()
-                        console.log(result);
-
-                        $('.modal').find("#updateStateFound").on('submit', function(e){
-                            e.preventDefault();
-
-                            var formData = this;                  
-                            var dangerAlert = $('#dangerStateFound');
-                            var successAlert = $('#successStateFound');
-                            var animal_item = $(this).data('item-id');
-                            $.ajax({
-                                url: $(formData).attr('action') ,
-                                method: 'POST',
-                                data: new FormData(formData),
-                                processData: false,
-                                dataType: 'json',
-                                contentType: false,
-                                success: function(result) {
-                                    if(result.errors) {
-                                        dangerAlert.html('');
-                                        $.each(result.errors, function(key, value) {
-                                          dangerAlert.show();
-                                          dangerAlert.append('<strong><li>'+value+'</li></strong>');
-                                        });
-                                    } 
-                                    else {
-                                      successAlert.hide();
-                                      successAlert.show();
-
-                                        setInterval(function(){
-                                            successAlert.hide();
-                                            $('.modal').modal('hide');
-                                            location.reload();
-                                        }, 2000);                              
-                                    }
-                                    
-                                }
-                            });
-                        });
-                    }
-                });        
-
-            });
-
-
-            // edit , update state recived
-          $("#editStateRecived").click(function(e) {
-                e.preventDefault();   
-                var documentation_id = $(this).data('documentation-id');
-                var shelter_id = $(this).data('shelter-id');
-                var animal_item_id = $(this).data('item-id');
-                var group_id = $(this).data('group-id');
-                
-                $.ajax({
-                    url: "/shelters/"+shelter_id+"/animal_groups/"+group_id+"/animal_items/"+animal_item_id+"/animal_item_documentations/"+documentation_id+"/edit",
-                    method: 'GET',
-                    success: function(result) {
-                        $(".modal").show();
-                        $(".modal").html(result['html']);
-                        stateReciveScript()
-                        console.log(result);
-
-                        $('.modal').find("#updateStateRecived").on('submit', function(e){
-                            e.preventDefault();
-
-                            var formData = this;                  
-                            var dangerAlert = $('#dangerStateRecived');
-                            var successAlert = $('#successStateRecived');
-                            var animal_item = $(this).data('item-id');
-                            $.ajax({
-                                url: $(formData).attr('action') ,
-                                method: 'POST',
-                                data: new FormData(formData),
-                                processData: false,
-                                dataType: 'json',
-                                contentType: false,
-                                success: function(result) {
-                                    if(result.errors) {
-                                        dangerAlert.html('');
-                                        $.each(result.errors, function(key, value) {
-                                          dangerAlert.show();
-                                          dangerAlert.append('<strong><li>'+value+'</li></strong>');
-                                        });
-                                    } 
-                                    else {
-                                      successAlert.hide();
-                                      successAlert.show();
-
-                                        setInterval(function(){
-                                            successAlert.hide();
-                                            $('.modal').modal('hide');
-                                            location.reload();
-                                        }, 2000);                              
-                                    }
-                                    
-                                }
-                            });
-                        });
-                    }
-                });        
-
-            });
-                     
+         
+                 
             function stateFoundScript() {
               $("#stateFoundFile").fileinput({
               language: "cr",
@@ -550,49 +396,10 @@
               elErrorContainer: '#error_euthanasia_file',
               msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
                });
-            }
+            };
 
-            // Delete state Found
-          $('body').on('click', '#deleteStateFound', function() {
- 
-            var documentation_id = $(this).data('documentation-id');
-            var shelter_id = $(this).data('shelter-id');
-            var animal_item_id = $(this).data('item-id');
-            var group_id = $(this).data('group-id');
-
-            Swal.fire({
-                title: "Brisanje?",
-                text: "Potvrdite ako ste sigurni za brisanje!",
-                type: "warning",
-                showCancelButton: !0,
-                confirmButtonText: "Da, brisanje!",
-                cancelButtonText: "Ne, odustani!",
-                reverseButtons: !0
-            }).then(function (e) {
-
-            if (e.value === true) {
-                            
-                $.ajax({
-                    type: 'DELETE',
-                    url: "/shelters/"+shelter_id+"/animal_groups/"+group_id+"/animal_items/"+animal_item_id+"/animal_item_documentations/"+documentation_id,
-                    data: {_token: '{{csrf_token()}}'},
-                    dataType: 'JSON',
-                    success: function (results) {
-                      location.reload();
-                    }
-                });
-
-              } else {
-                e.dismiss;
-              }
-
-              }, function (dismiss) {
-              return false;
-              })
-          });
-
-          // Delete state Found
-          $('body').on('click', '#deleteStateRecived', function() {
+          // Delete doc
+          $('body').on('click', '#deleteDoc', function() {
 
           var documentation_id = $(this).data('documentation-id');
           var shelter_id = $(this).data('shelter-id');
@@ -630,23 +437,6 @@
               })
           });
 
-
-        /*euthanasia js*/
-         /*  $("#euthanasia_file").fileinput({
-              language: "cr",
-              //required: true,
-              showPreview: false,
-              showUpload: false,
-              showCancel: false,
-              allowedFileExtensions: ["pdf"],
-              elErrorContainer: '#error_euthanasia_file',
-              msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
-          }); */
-
-           // Close Modal
-           $(".modal").on('click', '.modal-close', function(){
-                $(".modal").hide();
-            });
       })
   </script>
 
