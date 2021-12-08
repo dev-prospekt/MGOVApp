@@ -75,25 +75,42 @@ class AnimalGroupController extends Controller
                 ->addColumn('latin_name', function ($animal_items) {
                     return $animal_items->animal->latin_name;
                 })
-                ->addColumn('action', function ($animal_items) {
+                ->addColumn('action', function ($animal_items) use ($animal_group) {
                     $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
                     $cloneUrl = route('animal_item.clone', [$animal_items->id]);
+                    $countAnimal = count($animal_group->animalItems);
 
-                    return '
-                    <div class="d-flex align-items-center">
-                        <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
-                            Info
-                        </a>
+                    if($countAnimal > 1){
+                        return '
+                        <div class="d-flex align-items-center">
+                            <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
+                                Info
+                            </a>
+    
+                            <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
+                                Dupliciraj
+                            </a>
+    
+                            <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
+                                Premjesti
+                            </a>
+                        </div>
+                        ';
+                    }
+                    else {
+                        return '
+                        <div class="d-flex align-items-center">
+                            <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
+                                Info
+                            </a>
+    
+                            <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
+                                Dupliciraj
+                            </a>
+                        </div>
+                        ';
+                    }
 
-                        <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
-                            Dupliciraj
-                        </a>
-
-                        <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
-                            Premjesti
-                        </a>
-                    </div>
-                    ';
                 })
                 ->make();
         }
@@ -241,10 +258,12 @@ class AnimalGroupController extends Controller
             }
             // Media AnimalItemLogs
 
-            $animalItemDoc = $item->animalDocumentation;
-            $newAnimalItemDoc = $animalItemDoc->replicate();
-            $newAnimalItemDoc->animal_item_id = $newAnimalItems->id;
-            $newAnimalItemDoc->save();
+            if(!empty($item->animalDocumentation)){
+                $animalItemDoc = $item->animalDocumentation;
+                $newAnimalItemDoc = $animalItemDoc->replicate();
+                $newAnimalItemDoc->animal_item_id = $newAnimalItems->id;
+                $newAnimalItemDoc->save();
+            }
 
             // Kopija dokumenata
             $this->copyMedia($animalItemDoc, $newAnimalItemDoc);

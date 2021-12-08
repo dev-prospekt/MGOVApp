@@ -192,7 +192,9 @@ class AnimalItemController extends Controller
         // Media Euthanasia
     
         // Copy Media
-        $this->copyMedia($item->animalDocumentation, $newItem->animalDocumentation);
+        if(!empty($item->animalDocumentation)){
+            $this->copyMedia($item->animalDocumentation, $newItem->animalDocumentation);
+        }
 
         return redirect()->back();
     }
@@ -274,13 +276,14 @@ class AnimalItemController extends Controller
         }
 
         // Copy Media
-        $animalItemDoc = $animal_items->animalDocumentation;
-        $newAnimalItemDoc = $animalItemDoc->replicate();
-        $newAnimalItemDoc->animal_item_id = $newAnimalItem->id;
-        $newAnimalItemDoc->save();
-
-        // Kopija dokumenata
-        $this->copyMedia($animalItemDoc, $newAnimalItemDoc);
+        if($animal_items->animalDocumentation){
+            $animalItemDoc = $animal_items->animalDocumentation;
+            $newAnimalItemDoc = $animalItemDoc->replicate();
+            $newAnimalItemDoc->animal_item_id = $newAnimalItem->id;
+            $newAnimalItemDoc->save();
+            
+            $this->copyMedia($animalItemDoc, $newAnimalItemDoc);
+        }
 
         // Date full care
         if (!empty($animal_items->dateFullCare)) {
