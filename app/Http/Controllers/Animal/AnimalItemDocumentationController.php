@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Animal;
 
+use App\Models\FounderData;
 use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalItem;
@@ -90,15 +91,16 @@ class AnimalItemDocumentationController extends Controller
     {
         $itemDocumentation = AnimalItemDocumentation::find($animalItemDocumentation->id);
         $markTypes = AnimalMarkType::all();
-        $selectedMark = $animalItemDocumentation->animalMark->animal_mark_documentation_id;
+        $selectedMark = $animalItemDocumentation->animalMark->animal_mark_documentation_id ?? '';
         $animalDocType = AnimalItemDocumentationStateType::all();
-
+        $founder = FounderData::all();
 
         return view('animal.animal_item_documentation.edit', [
             'shelter' => $shelter, 'animalGroup' => $animalGroup, 'animalItem' => $animalItem,
             'itemDocumentation' => $itemDocumentation, 'markTypes' => $markTypes,
             'animalDocType' => $animalDocType,
-            'selectedMark' => $selectedMark
+            'selectedMark' => $selectedMark,
+            'founder' => $founder,
         ]);
     }
 
@@ -137,12 +139,16 @@ class AnimalItemDocumentationController extends Controller
                     $fileAdder->toMediaCollection('state_reason_file');
                 });
         }
+
         // animal Mark
-        $animalMark = AnimalMark::find($animalItemDocumentation->animalMark->id);
-        $animalMark->animal_mark_type_id = $request->animal_mark;
-        $animalMark->animal_item_documentation_id = $itemDocumentation->id;
-        $animalMark->animal_mark_note = $request->animal_mark_note;
-        $animalMark->save();
+        if(!empty($animalItemDocumentation->animalMark)){
+            $animalMark = AnimalMark::find($animalItemDocumentation->animalMark->id);
+            $animalMark->animal_mark_type_id = $request->animal_mark;
+            $animalMark->animal_item_documentation_id = $itemDocumentation->id;
+            $animalMark->animal_mark_note = $request->animal_mark_note;
+            $animalMark->save();
+        }
+
         //mark photo
         if ($request->animal_mark_photos) {
             $itemDocumentation->addMultipleMediaFromRequest(['animal_mark_photos'])
