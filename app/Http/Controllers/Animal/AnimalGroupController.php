@@ -263,10 +263,10 @@ class AnimalGroupController extends Controller
                 $newAnimalItemDoc = $animalItemDoc->replicate();
                 $newAnimalItemDoc->animal_item_id = $newAnimalItems->id;
                 $newAnimalItemDoc->save();
+                // Kopija dokumenata
+                $this->copyMedia($animalItemDoc, $newAnimalItemDoc);
             }
 
-            // Kopija dokumenata
-            $this->copyMedia($animalItemDoc, $newAnimalItemDoc);
         }
 
         return response()->json([
