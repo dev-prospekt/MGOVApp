@@ -313,7 +313,7 @@
                           <label class="tx-11 font-weight-bold mb-0 text-uppercase">Tip oznake: </label>
                           @isset($animalItem->animalDocumentation->animalMark)
                           <p class="text-muted">{{ $animalItem->animalDocumentation->animalMark->animalMarkType->name  ?? '' }} 
-                            ({{ $animalItem->animalDocumentation->animalMark->animalMarkType->desc }})
+                            ({{ $animalItem->animalDocumentation->animalMark->animalMarkType->desc ?? '' }})
                           </p>
                           @endisset 
                         </div> 

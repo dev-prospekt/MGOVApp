@@ -90,7 +90,7 @@ class AnimalGroupController extends Controller
                 ->addColumn('keep_type', function ($animal_items) {
                     return $animal_items->solitary_or_group;
                 })
-                ->addColumn('action', function ($animal_items) {
+                ->addColumn('action', function ($animal_items) use ($animal_group) {
                     $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
                     $cloneUrl = route('animal_item.clone', [$animal_items->id]);
                     $countAnimal = count($animal_group->animalItems);

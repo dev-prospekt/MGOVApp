@@ -135,8 +135,9 @@ class AnimalShelterCreateController extends Controller
         $animalItem->save();
 
         // AnimalDocumentation
-        $animalDocumentation = $animalItem->animalDocumentation()->create(['animal_item_id' => $animalItem->id,
-            'state_recive' => $request->status_receiving,
+        $animalDocumentation = $animalItem->animalDocumentation()->create([
+            'animal_item_id' => $animalItem->id,
+            'state_recive' => $request->status_receiving_file,
             'state_recive_desc' => $request->status_receiving_desc,
             'state_found' => $request->status_found,
             'state_found_desc' => $request->status_found_desc,
@@ -296,7 +297,8 @@ class AnimalShelterCreateController extends Controller
         $animalItem->save();
 
         // AnimalDocumentation
-        $animalDocumentation = $animalItem->animalDocumentation()->create(['animal_item_id' => $animalItem->id,
+        $animalDocumentation = $animalItem->animalDocumentation()->create([
+            'animal_item_id' => $animalItem->id,
             'state_recive' => $request->status_receiving,
             'state_recive_desc' => $request->status_receiving_desc,
             'state_found' => $request->status_found,
@@ -391,23 +393,23 @@ class AnimalShelterCreateController extends Controller
 
         if ($request->status_found_file) {
             $animalItem->addMultipleMediaFromRequest(['state_found_file'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('state_found_file');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('state_found_file');
+                });
         }
 
         if ($request->status_receiving_file) {
             $animalItem->addMultipleMediaFromRequest(['state_receive_file'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('state_receive_file');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('state_receive_file');
+                });
         }
 
         if ($request->seized_doc_type) {
             $animalItem->addMultipleMediaFromRequest(['seized_doc_type'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('seized_doc_type');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('seized_doc_type');
+                });
         }
     }
 }

@@ -143,16 +143,12 @@ class ShelterController extends Controller
                         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
                             Info
                         </a>
-<<<<<<< HEAD
                     
                         <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-xs btn-primary mr-2"> 
                             Uredi
                         </a>
 
                         <a href="javascript:void(0)" data-href="' . $deleteURL . '" id="animal_group_delete" class="btn btn-xs btn-danger" >
-=======
-                        <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-xs btn-danger" >
->>>>>>> 37ea33fdc6d46a199aa5c21f05d70548f88fb947
                             Brisanje
                         </a>
                     </div>
@@ -175,13 +171,8 @@ class ShelterController extends Controller
                     //         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
                     //             Info
                     //         </a>
-<<<<<<< HEAD
 
                     //         <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-sm btn-primary mr-2"> 
-=======
-                        
-                    //         <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-xs btn-primary mr-2"> 
->>>>>>> 37ea33fdc6d46a199aa5c21f05d70548f88fb947
                     //             Uredi
                     //         </a>
 

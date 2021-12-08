@@ -44,9 +44,9 @@
             <div class="col-lg-12 email-content">
               <div class="email-inbox-header">
                 <div class="row justify-content-between">           
-                    <div class="email-title mb-2 mb-md-0"><span class="icon"><i data-feather="book"></i></span> Postupak postupanja u oporavilištu</div>  
+                    <div class="email-title mb-2 mb-md-0"> Opis postupanja u oporavilištu</div>  
                     <div>
-                    <a href="{{ route('animal_items.animal_item_logs.create', $animalItem->id) }}" type="button" class="btn btn-primary btn-sm btn-icon-text">                
+                    <a href="{{ route('animal_items.animal_item_logs.create', $animalItem->id) }}" type="button" class="btn btn-primary btn-xs btn-icon-text">                
                           Dodaj zapis
                           <i class="btn-icon-append" data-feather="book"></i>
                         </a> 
@@ -56,8 +56,8 @@
               </div>
               <div class="separator--small"></div>
          
-              <div class="email-list"> 
-                 @foreach ($animalItem->animalItemLogs as $itemlLog)
+              <div class="email-list mb-4"> 
+                 @foreach ($paginateLogs as $itemlLog)
                 <div class="email-list-item">
            
                   <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="email-list-detail">
@@ -75,8 +75,10 @@
                     </div>
                   </a>
                 </div>
-                @endforeach             
+                @endforeach    
+                         
               </div>
+              {{ $paginateLogs->links() }}
             </div>
           </div>
           
@@ -146,47 +148,56 @@
                 </div>           
             </div>     
           </div>   
-            <div class="row">
-              <div class="separator"></div>
-            </div> 
+                
+        </div>
+      </div><!-- end card -->
+      
+      <div class="card mt-3">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between">
+            <div><h6 class="card-title">Akcije postupanja</h6> </div> 
+          </div> 
+          @if($msg = Session::get('update_animal_item'))
+          <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+          @endif        
             <div class="row">                 
       
-              <div class="col-md-4 grid-margin">  
-                
-                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Status jedinke:</label>
-                  <p class="text-muted">U oporavilištu</p>
-                
-                <div class="mt-2">
-                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način Držanja:</label>
-                  <p class="text-muted">{{ $animalItem->solitary_or_group ?? '' }}</p>
+              <div class="col-md-4 grid-margin">          
+                <div class="bordered-group mt-2">
+                  <label class="tx-11  mb-0 text-uppercase">Status - Solitarno/Grupa:</label>
+                  <p class="text-warning text-uppercase pt-3 pb-3">{{ $animalItem->solitary_or_group ?? '' }}</p>
+                  <a href="#" type="button" class="btn btn-primary btn-xs">
+                    Promjena
+                  </a> 
+
                 </div>             
               </div> 
               <div class="col-md-4 grid-margin">
-                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Oznaka jedinke:</label>
-                @if (!empty($animalItem->animalDocumentation->animalMark))
-                  <p class="text-muted">{{ $animalItem->animalDocumentation->animalMark->animalMarkType->name ?? '' }}</p>
-                @endif
-                <div class="mt-2">
-                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv oznake:</label>
-                  @if (!empty($animalItem->animalDocumentation->animalMark))
-                    <p class="text-muted">{{ $animalItem->animalDocumentation->animalMark->animal_mark_note ?? '' }}</p>
-                  @endif
-                </div>
+                <div class="bordered-group mt-2">
+                  <label class="tx-11  mb-0 text-uppercase">Hibernacija:</label>
+                  <p class="text-info text-uppercase pt-3 pb-3">NE</p>
+                  <a href="#" type="button" class="btn btn-primary btn-xs">
+                    Promjena
+                  </a> 
+
+                </div> 
               </div>  
+
               <div class="col-md-4 grid-margin">
-               {{--  @foreach ($animalItem->animalMarks->media as $thumbnail) 
-                
-                  <a href="{{ $thumbnail->getUrl() }}" data-lightbox="equipment">
-                  <figure>
-                    <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
-                  </figure>
-                  </a>
-                 
-                @endforeach --}}
-              </div>
+                <div class="bordered-group mt-2">
+                  <label class="tx-11  mb-0 text-uppercase">Proširena skrb:</label>
+                  <p class="text-danger text-uppercase pt-3 pb-3">NE</p>
+                  <a href="#" type="button" class="btn btn-primary btn-xs">
+                    Promjena
+                  </a> 
+
+                </div> 
+              </div>  
             </div>     
         </div>
-      </div>    
+      </div>  
+      
+      
     </div>      
   </div>
 
