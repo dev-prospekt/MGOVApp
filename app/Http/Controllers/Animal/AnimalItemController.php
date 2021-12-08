@@ -64,7 +64,7 @@ class AnimalItemController extends Controller
     public function show(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
         $animalItem = AnimalItem::with('animal', 'animalSizeAttributes', 'dateRange', 'animalItemLogs', 'founder', 'animalDocumentation')->find($animalItem->id);
-
+        $animalGroup = $animalItem->animalGroup;
 
         // Day and Price
         if (!empty($animalItems->dateRange->end_date)) {
@@ -79,7 +79,7 @@ class AnimalItemController extends Controller
 
         return view('animal.animal_item.show', [
             'animalItem' => $animalItem,
-
+            'animalGroup' => $animalGroup,
         ]);
     }
 
@@ -210,9 +210,9 @@ class AnimalItemController extends Controller
         $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
         // Promjena količine na trenutnoj grupi
-        $animal_group = AnimalGroup::find($animal_items->animalGroup->id);
-        $animal_group->decrement('quantity', 1);
-        $animal_group->save();
+        // $animal_group = AnimalGroup::find($animal_items->animalGroup->id);
+        // $animal_group->decrement('quantity', 1);
+        // $animal_group->save();
 
         // AnimalType
         $animalType = Animal::find($animal_items->animal_id);

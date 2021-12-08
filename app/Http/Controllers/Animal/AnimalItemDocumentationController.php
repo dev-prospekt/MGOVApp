@@ -72,6 +72,7 @@ class AnimalItemDocumentationController extends Controller
         $animalMark->animal_item_documentation_id = $itemDocumentation->id;
         $animalMark->animal_mark_note = $request->animal_mark_note;
         $animalMark->save();
+
         //mark photo
         if ($request->animal_mark_photos) {
             $itemDocumentation->addMultipleMediaFromRequest(['animal_mark_photos'])
@@ -141,13 +142,21 @@ class AnimalItemDocumentationController extends Controller
         }
 
         // animal Mark
-        if(!empty($animalItemDocumentation->animalMark)){
-            $animalMark = AnimalMark::find($animalItemDocumentation->animalMark->id);
-            $animalMark->animal_mark_type_id = $request->animal_mark;
-            $animalMark->animal_item_documentation_id = $itemDocumentation->id;
-            $animalMark->animal_mark_note = $request->animal_mark_note;
-            $animalMark->save();
+        if(!empty($animalItemDocumentation->animalMark)){ // update
+            $animalMark = $animalItemDocumentation->animalMark()->update([
+                'animal_mark_type_id' => $request->animal_mark, 
+                'animal_item_documentation_id' => $itemDocumentation->id,
+                'animal_mark_note' => $request->animal_mark_note,
+            ]);
         }
+        else { // create
+            $animalMark = $animalItemDocumentation->animalMark()->create([
+                'animal_mark_type_id' => $request->animal_mark, 
+                'animal_item_documentation_id' => $itemDocumentation->id,
+                'animal_mark_note' => $request->animal_mark_note,
+            ]);
+        }
+        // animal Mark
 
         //mark photo
         if ($request->animal_mark_photos) {

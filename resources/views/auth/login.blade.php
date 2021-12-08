@@ -21,6 +21,7 @@
                 <div class="alert alert-danger alert-block">
                     <button type="button" class="close" data-dismiss="alert">×</button>    
                     <strong>{{ $errors->first('email') }}</strong>
+                    <strong>{{ $errors->first('password') }}</strong>
                 </div>
               @endif
 

@@ -143,16 +143,14 @@ class ShelterController extends Controller
                         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
                             Info
                         </a>
-                    
-                        <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-xs btn-primary mr-2"> 
-                            Uredi
-                        </a>
-
                         <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-xs btn-danger" >
                             Brisanje
                         </a>
                     </div>
                     ';
+                    // <a href="animal_group/' . $animal_groups->id . '/edit" class="btn btn-xs btn-primary mr-2"> 
+                    //     Uredi
+                    // </a>
                     // if($animal_groups->quantity == 1){
                     //     return '
                     //     <div class="d-flex align-items-center">
