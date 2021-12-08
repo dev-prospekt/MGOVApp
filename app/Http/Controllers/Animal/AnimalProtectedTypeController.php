@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Animal;
 
 use Illuminate\Http\Request;
 
-use Yajra\Datatables\Datatables;
 use App\Models\Animal\Animal;
+use Yajra\Datatables\Datatables;
 use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalType;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalCategory;
 use App\Models\Animal\AnimalSystemCategory;
+use App\Http\Requests\AnimalProtectedTypeRequest;
 
 class AnimalProtectedTypeController extends Controller
 {
@@ -129,7 +130,7 @@ class AnimalProtectedTypeController extends Controller
         return view('animal.animal_type.sz_animal_type_create', compact('animalCodes', 'animalCategory', 'animalSystemCategory', 'animalType'));
     }
 
-    public function storeSZAnimalTypes(Request $request)
+    public function storeSZAnimalTypes(AnimalProtectedTypeRequest $request)
     {
         $szAnimal = new Animal;
 

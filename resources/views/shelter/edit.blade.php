@@ -18,14 +18,14 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Naziv</label>
-                                <input type="text" class="form-control" name="name" value="{{ $shelter->name }}" required>
+                                <input type="text" class="form-control" name="name" value="{{ $shelter->name }}">
                                 @error('name')
                                 <div class="text-danger">{{$errors->first('name') }} </div>
                                 @enderror
                             </div>
                             <div class="form-group">
                                 <label>Mjesto i poštanski broj</label>
-                                <input type="text" class="form-control" name="place_zip" value="{{ $shelter->place_zip }}" required>
+                                <input type="text" class="form-control" name="place_zip" value="{{ $shelter->place_zip }}">
                                 @error('place_zip')
                                 <div class="text-danger">{{$errors->first('place_zip') }} </div>
                                 @enderror

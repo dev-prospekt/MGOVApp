@@ -17,13 +17,13 @@ class CreateAnimalItemDocumentationsTable extends Migration
             $table->id();
             $table->foreignId('animal_item_id');
 
-            $table->string('state_recive')->nullable();
+            $table->foreignId('state_recive')->nullable()->constrained('animal_item_documentation_state_types');
             $table->text('state_recive_desc')->nullable();
 
-            $table->string('state_found')->nullable();
+            $table->foreignId('state_found')->nullable()->constrained('animal_item_documentation_state_types');
             $table->text('state_found_desc')->nullable();
 
-            $table->string('state_reason')->nullable();
+            $table->foreignId('state_reason')->nullable()->constrained('animal_item_documentation_state_types');
             $table->text('state_reason_desc')->nullable();
 
             $table->string('seized_doc')->nullable();

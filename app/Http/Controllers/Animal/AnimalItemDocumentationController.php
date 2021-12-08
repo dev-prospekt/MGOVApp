@@ -8,11 +8,12 @@ use App\Models\Animal\AnimalItem;
 use App\Models\Animal\AnimalMark;
 use App\Models\Animal\AnimalGroup;
 use App\Http\Controllers\Controller;
+use App\Models\Animal\AnimalMarkType;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Animal\AnimalItemDocumentation;
 use App\Http\Requests\DocumentationStoreRequest;
-use App\Models\Animal\AnimalMarkType;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Models\Animal\AnimalItemDocumentationStateType;
 
 class AnimalItemDocumentationController extends Controller
 {
@@ -25,8 +26,9 @@ class AnimalItemDocumentationController extends Controller
     public function create(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
         $markTypes = AnimalMarkType::all();
+        $stateTypes = AnimalItemDocumentationStateType::all();
 
-        return view('animal.animal_item_documentation.create', ['shelter' => $shelter, 'animalGroup' => $animalGroup, 'animalItem' => $animalItem, 'markTypes' => $markTypes]);
+        return view('animal.animal_item_documentation.create', ['shelter' => $shelter, 'animalGroup' => $animalGroup, 'animalItem' => $animalItem, 'markTypes' => $markTypes, 'stateTypes' => $stateTypes]);
     }
 
     public function store(Request $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
@@ -87,13 +89,20 @@ class AnimalItemDocumentationController extends Controller
     public function edit(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
     {
         $itemDocumentation = AnimalItemDocumentation::find($animalItemDocumentation->id);
+        $markTypes = AnimalMarkType::all();
+        
+        $selectedType = $animalItem->animalDocumentation->animalMark;
         $selectedState = $itemDocumentation->state_found;
-        $returnHTML = view('animal.animal_item_documentation.modal_edit_state_found', [
-            'shelter' => $shelter, 'animalGroup' => $animalGroup, 'animalItem' => $animalItem,
-            'itemDocumentation' => $itemDocumentation, 'selectedState' => $selectedState
-        ])->render();
 
-        return response()->json(array('success' => true, 'html' => $returnHTML));
+        return view('animal.animal_item_documentation.edit', [
+            'shelter' => $shelter, 
+            'animalGroup' => $animalGroup, 
+            'animalItem' => $animalItem,
+            'itemDocumentation' => $itemDocumentation, 
+            'selectedState' => $selectedState, 
+            'markTypes' => $markTypes, 
+            'selectedType' => $selectedType
+        ]);
     }
 
     public function update(Request $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)

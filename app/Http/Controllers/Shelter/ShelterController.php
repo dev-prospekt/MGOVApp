@@ -211,7 +211,7 @@ class ShelterController extends Controller
      * @param  \App\Models\Shelter  $shelter
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ShelterPostRequest $request, $id)
     {
 
         $shelter = Shelter::findOrFail($id);

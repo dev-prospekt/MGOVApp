@@ -12,7 +12,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Odabir životinjske vrste</label>
-                        <select name="animal_id" class="form-control" id="animalSelect">
+                        <select name="animal_id" class="form-control" id="animalSelect" required>
                             <option value="">------</option>
                             @foreach ($animal as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -24,7 +24,7 @@
             <div class="col-md-3">
                 <div class="form-group">
                     <label>Spol</label>
-                    <select class="form-control" name="animal_gender" id="">
+                    <select class="form-control" name="animal_gender" id="" required>
                         {{-- @if ($animalItem->animal_dob)
                             <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
                         @endif --}}
@@ -33,20 +33,14 @@
                         <option value="Ž/F(ženka)">Ž/F (ženka)</option>
                         <option value="N(nije moguće odrediti)">N (nije moguće odrediti)</option>
                     </select>
-                    @error('animal_gender')
-                        <div class="text-danger">{{$errors->first('animal_gender') }} </div>
-                    @enderror
                 </div>
             </div>
 
             <div class="col-md-3">
                 <div class="form-group">
                     <label>Veličina</label>
-                    <select class="form-control" name="animal_size_attributes_id" id="animalSize">
+                    <select class="form-control" name="animal_size_attributes_id" id="animalSize" required>
                     </select>
-                    @error('animal_size_attributes_id')
-                        <div class="text-danger">{{$errors->first('animal_size_attributes_id') }} </div>
-                    @enderror
                 </div>
             </div>
             </div>
@@ -56,10 +50,7 @@
 
                     <div class="form-group">
                         <label>Lokacija pronalaska</label>
-                        <input type="text" class="form-control" name="location">
-                        @error('location')
-                            <div class="text-danger">{{$errors->first('location') }} </div>
-                        @enderror
+                        <input type="text" class="form-control" name="location" required>
                     </div>
                 </div>
 
@@ -68,7 +59,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Lokacija preuzimanja životinje</label>
-                        <select class="form-control" name="location_animal_takeover" id="">
+                        <select class="form-control" name="location_animal_takeover" id="" required>
                             <option value="">Odaberi</option>
                             <option value="U oporavilistu">U oporavilištu</option>
                             <option value="Izvan oporavilista">Izvan oporavilišta</option>
@@ -82,7 +73,7 @@
                     <div class="form-group">
                         <label>Datum pronalska</label>
                         <div class="input-group date datepicker" id="datePickerExample">
-                            <input type="text" name="date_found" class="form-control">
+                            <input type="text" name="date_found" class="form-control" required>
                             <span class="input-group-addon">
                             <i data-feather="calendar"></i>
                             </span>
@@ -95,7 +86,7 @@
                     <div class="form-group">
                         <label>Datum zaprimanja u oporavilište</label>
                         <div class="input-group date datepicker" id="datePickerExample">
-                            <input type="text" name="start_date" class="form-control">
+                            <input type="text" name="start_date" class="form-control" required>
                             <span class="input-group-addon">
                             <i data-feather="calendar"></i>
                             </span>
@@ -107,7 +98,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Dob jedinke</label>
-                        <select class="form-control" name="animal_age" id="">
+                        <select class="form-control" name="animal_age" id="" required>
                         {{--  @if ($animalItem->animal_dob)
                                 <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
                             @endif --}}
@@ -117,15 +108,12 @@
                             <option value="SA(subadultna)">SA (subadultna)</option>
                             <option value="N(neodređeno)">N (neodređeno)</option>
                         </select>
-                        @error('animal_age')
-                            <div class="text-danger">{{$errors->first('animal_age') }} </div>
-                        @enderror
                     </div>    
                 </div>  
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Način držanja - solitarno/grupa</label>
-                        <select class="form-control" name="solitary_or_group">
+                        <select class="form-control" name="solitary_or_group" required>
                             <option value="">------</option>
                             <option value="Solitarno">Solitarno</option>
                             <option value="Grupa">Grupa</option>
@@ -136,7 +124,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Način držanja: Hibernacija/estivacija</label>
-                        <select class="form-control hib_est" name="hib_est">
+                        <select class="form-control hib_est" name="hib_est" required>
                             <option value="">------</option>
                             <option value="da">Da</option>
                             <option value="ne">Ne</option>
@@ -184,7 +172,7 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Nalaznik</label>
-                            <select name="founder_id" class="form-control">
+                            <select name="founder_id" class="form-control" required>
                                 <option selected value="{{$founder->id}}">
                                     {{$founder->name}} {{$founder->lastname}} 
                                     @if($founder->service != 'ostalo-navesti:')
@@ -213,14 +201,11 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
-                            <select name="status_receiving" class="form-control">
+                            <select name="status_receiving" class="form-control" required>
                                 <option value="">----</option>
-                                <option value="1">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                <option value="2">ozlijeđena/ranjena</option>
-                                <option value="3">otrovana</option>
-                                <option value="4">bolesna</option>
-                                <option value="5">uginula</option>
-                                <option value="6">ostalo</option>
+                                @foreach ($stateType as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
                             </select>
                         </div>
             
@@ -229,7 +214,7 @@
                             <textarea class="form-control" id="exampleFormControlTextarea1" name="status_receiving_desc" rows="5"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Upload <strong>(JPG, PNG)</strong></label>
+                            <label>Upload</label>
                             <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
                             <div id="error_status_receiving_file"></div>
                         </div>
@@ -239,14 +224,11 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Stanje u kojem je životinja pronađena</label>
-                            <select name="status_found" class="form-control">
+                            <select name="status_found" class="form-control" required>
                                 <option value="">----</option>
-                                <option value="1">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                <option value="2">ozlijeđena/ranjena</option>
-                                <option value="3">otrovana</option>
-                                <option value="4">bolesna</option>
-                                <option value="5">uginula</option>
-                                <option value="6">ostalo</option>
+                                @foreach ($stateType as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
@@ -254,7 +236,7 @@
                             <textarea class="form-control" id="exampleFormControlTextarea1" name="status_found_desc" rows="5"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Upload <strong>(JPG, PNG)</strong></label>
+                            <label>Upload</label>
                             <input type="file" id="status_found_file" name="status_found_file[]" multiple />
                             <div id="error_status_found_file"></div>
                         </div>
@@ -265,14 +247,11 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Razlog zaprimanja životinje u oporavilište</label>
-                            <select name="status_reason" class="form-control">
+                            <select name="status_reason" class="form-control" required>
                                 <option value="">----</option>
-                                <option value="1">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                                <option value="2">ozlijeđena/ranjena</option>
-                                <option value="3">otrovana</option>
-                                <option value="4">bolesna</option>
-                                <option value="5">uginula</option>
-                                <option value="6">ostalo</option>
+                                @foreach ($stateType as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">

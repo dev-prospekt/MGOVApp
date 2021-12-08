@@ -57,9 +57,12 @@
                           <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
                           <select name="state_recive" class="form-control">
                               <option value="">----</option>
-                              @foreach ($stateTypes as $type)
-                              <option value="{{ $type->id }}">{{ $type->name }}</option>
-                              @endforeach
+                              <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                              <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
+                              <option value="otrovana">otrovana</option>
+                              <option value="bolesna">bolesna</option>
+                              <option value="uginula">uginula</option>
+                              <option value="ostalo">ostalo</option>
                           </select>
                           @error('state_recive')
                           <div class="text-danger">{{$errors->first('state_recive') }} </div>
@@ -68,7 +71,7 @@
           
                       <div class="form-group">
                           <label>Opis</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1" name="state_recive_desc" rows="5"></textarea>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" name="state_recive_desc" rows="5">{{ $animalItem->animalDocumentation->state_recive_desc }}</textarea>
                           @error('state_recive_desc')
                           <div class="text-danger">{{$errors->first('state_recive_desc') }} </div>
                            @enderror
@@ -86,14 +89,17 @@
                           <label>Stanje u kojem je životinja pronađena</label>
                           <select name="state_found" class="form-control">
                               <option value="">----</option>
-                              @foreach ($stateTypes as $type)
-                              <option value="{{ $type->id }}">{{ $type->name }}</option>
-                              @endforeach
+                              <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                              <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
+                              <option value="otrovana">otrovana</option>
+                              <option value="bolesna">bolesna</option>
+                              <option value="uginula">uginula</option>
+                              <option value="ostalo">ostalo</option>
                           </select>
                       </div>
                       <div class="form-group">
                           <label>Opis</label>
-                          <textarea class="form-control" id="exampleFormControlTextarea1" name="state_found_desc" rows="5"></textarea>
+                          <textarea class="form-control" id="exampleFormControlTextarea1" name="state_found_desc" rows="5">{{ $animalItem->animalDocumentation->state_found_desc }}</textarea>
                           @error('state_found_desc')
                           <div class="text-danger">{{$errors->first('state_found_desc') }} </div>
                            @enderror
@@ -114,9 +120,12 @@
                         <label>Razlog zaprimanja životinje u oporavilište</label>
                         <select name="state_reason" class="form-control">
                             <option value="">----</option>
-                              @foreach ($stateTypes as $type)
-                              <option value="{{ $type->id }}">{{ $type->name }}</option>
-                              @endforeach
+                            <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
+                            <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
+                            <option value="otrovana">otrovana</option>
+                            <option value="bolesna">bolesna</option>
+                            <option value="uginula">uginula</option>
+                            <option value="ostalo">ostalo</option>
                         </select>
                         @error('state_reason')
                         <div class="text-danger">{{$errors->first('state_reason') }} </div>
@@ -124,7 +133,7 @@
                     </div>
                     <div class="form-group">
                         <label>Opis</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" name="state_reason_desc" rows="5"></textarea>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" name="state_reason_desc" rows="5">{{ $animalItem->animalDocumentation->state_reason_desc }}</textarea>
                         @error('state_reason')
                         <div class="text-danger">{{$errors->first('state_reason_desc') }} </div>
                          @enderror
@@ -142,16 +151,15 @@
                   <div class="form-group">
                       <label>Vrsta oznake</label>
                       <select name="animal_mark" class="form-control">
-                          <option selected disabled>------</option>
-                           @foreach ($markTypes as $markType)
-                          <option value="{{ $markType->id }}">{{ $markType->name }} ({{ $markType->desc }})</option>
-                          @endforeach            
+                        @foreach ($markTypes as $markType)
+                          <option value="{{ $markType->id}}" {{ ( $markType->id == $selectedType) ? 'selected' : '' }}">{{ $markType->name }} ({{ $markType->desc }})</option>
+                        @endforeach            
                       </select>
                   </div>
 
                   <div class="form-group">
                       <label>Naziv oznake</label>
-                      <input type="text" name="animal_mark_note" class="form-control">
+                      <input type="text" name="animal_mark_note" class="form-control" value="{{ $animalItem->animalDocumentation->animalMark->animal_mark_note ?? '' }}">
                   </div>
                   <div class="form-group">
                       <label>Učitaj dokument <span class="text-muted">(jpg,png)</span></label>

@@ -14,7 +14,9 @@ use App\Models\Animal\AnimalGroup;
 use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalMarkType;
+use App\Http\Requests\AnimalProtectedCreateRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
+use App\Models\Animal\AnimalItemDocumentationStateType;
 
 class AnimalShelterCreateController extends Controller
 {
@@ -78,8 +80,6 @@ class AnimalShelterCreateController extends Controller
 
     public function protectedStore(Request $request)
     {
-        //dd($request);
-
         // Increment ID
         $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
         if (empty($incrementId->id)) {
@@ -339,6 +339,7 @@ class AnimalShelterCreateController extends Controller
         $founder = FounderData::find($founder_id);
         $markTypes = AnimalMarkType::all();
         $shelterType = ShelterType::find($type_id);
+        $stateType = AnimalItemDocumentationStateType::all();
 
         $pluckSystemCat = $sysCats->pluck('id');
         $shelterTypeCode = [$shelterType->code];
@@ -357,7 +358,8 @@ class AnimalShelterCreateController extends Controller
             'founder' => $founder,
             'markTypes' => $markTypes,
             'shelter' => $shelter,
-            'shelterType' => $shelterType
+            'shelterType' => $shelterType,
+            'stateType' => $stateType
         ])->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }

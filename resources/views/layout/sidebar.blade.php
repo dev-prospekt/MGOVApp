@@ -113,10 +113,6 @@
             </li>
 
             <li class="nav-item">
-              <a href="{{ url('/shelter_staff') }}" class="nav-link">Osoblje oporavilišta</a>
-            </li>
-
-            <li class="nav-item">
               <a href="{{ url('/shelter/create') }}" class="nav-link">Dodaj novo</a>
             </li>
           

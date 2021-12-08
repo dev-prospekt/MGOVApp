@@ -36,162 +36,301 @@
     @if($msg = Session::get('store_docs'))
     <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
     @endif
+    @if($animalItem->animalDocumentation)
     <div> 
-      <a href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.create', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" type="button" class="btn btn-warning btn-sm btn-icon-text">
-        Kreiraj dokumentaciju
+      <a href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.edit', 
+      [$animalItem->shelter_id, $animalItem->animal_group_id,
+       $animalItem->id, $animalItem->animalDocumentation->id]) }}" type="button" class="btn btn-warning btn-sm btn-icon-text">
+        Izmjeni dokumentaciju
          <i class="btn-icon-append" data-feather="edit"></i>
        </a> 
     </div>
+        @else
+        <div> 
+          <a href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.create', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" type="button" class="btn btn-warning btn-sm btn-icon-text">
+            Kreiraj dokumentaciju
+             <i class="btn-icon-append" data-feather="edit"></i>
+           </a> 
+        </div>
+    @endif
   </div> 
 
-  <div class="card mt-4">
-    <div class="card-body">
-      <div class="row mt-4"> 
-        <div class="col-md-4">
-          <div class="bordered-group">
-              <div class="d-flex align-items-center justify-content-between">
-                <div><h6 class="card-description">Stanje u trenutku pronalaska</h6> </div> 
-                <div>     
-                </div>
-              </div>     
-              @if($msg = Session::get('update_animal_item'))
-              <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-              @endif      
-                <div class="row">
-                  <div class="col-md-12 grid-margin">  
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje jedinke: </label>
-                      <p class="text-muted">{{ $animalItem->animalDocumentation->state_found ?? '' }}</p>
-                    </div> 
-                    <div class="separator separator--small"></div> 
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
-                        <p class="text-muted">{{ $animalItem->animalDocumentation->state_found_desc ?? '' }}</p>
-                      </div>
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>
-                        @isset($animalItem->animalDocumentation->state_found)
-                       
-                        <div class="bordered-group mt-2">
-                          <div class="latest-photos d-flex">
-                            @foreach ($animalItem->animalDocumentation->getMedia('status_found_file') as $item)
-                              @if (($item->mime_type == 'image/png') || ($item->mime_type == 'image/jpeg'))
-                                <a href="{{ $item->getUrl() }}" data-lightbox="image">
-                                  <figure>
-                                    <img class="img-fluid" src="{{ $item->getUrl() }}" alt="">
-                                  </figure>
-                                </a>   
-                              @else
-                               <a href="{{ $item->getUrl() }}">{{ $item->name }}</a>                    
-                              @endif                
-                            @endforeach
-                          </div>
-                        </div>
-                        
-                      @endisset
-                      </div>
-                  </div>                   
-                </div>   
-            </div>         
-          </div>
-    
-          <div class="col-md-4">
-            <div class="bordered-group">
-              <div class="d-flex align-items-center justify-content-between">
-                <div><h6 class="card-description">Stanje u trenutku zaprimanja</h6> </div> 
-                <div>      
-                </div>
-              </div> 
-              @if($msg = Session::get('update_animal_item'))
-              <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-              @endif      
-                <div class="row">
-                  <div class="col-md-12 grid-margin">  
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje jedinke: </label>
-                      <p class="text-muted">{{ $animalItem->animalDocumentation->state_recive ?? '' }}</p>
-                    </div> 
-                    <div class="separator separator--small"></div> 
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
-                        <p class="text-muted">{{ $animalItem->animalDocumentation->state_recive_desc ?? '' }}</p>
-                      </div>
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>
-                        @isset($animalItem->animalDocumentation->state_recive)               
-                        <div class="bordered-group mt-2">
-                          <div class="latest-photos d-flex">
-                            @foreach ($animalItem->animalDocumentation->getMedia('status_receiving_file') as $media)
-                              @if ( ($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg') )
-                                <a href="{{ $media->getUrl() }}" data-lightbox="image">
-                                  <figure>
-                                    <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
-                                  </figure>
-                                </a>          
-                              @else
-                                <a href="{{ $item->getUrl() }}">{{ $media->name }}</a>                    
-                              @endif     
-                            @endforeach
-                          </div>
-                        </div>
-                        
-                      @endisset
-                      </div>
-                  </div>                   
-              </div>      
-            </div> 
-          </div>
-          <div class="col-md-4">  
-            <div class="bordered-group">
-              <div class="d-flex align-items-center justify-content-between">
-                <div><h6 class="card-description">Razlog zaprimanja</h6> </div> 
-              
-              </div> 
-              @if($msg = Session::get('update_animal_item'))
-              <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-              @endif      
-              <div class="row">
-                <div class="col-md-12 grid-margin">  
-                  <div class="mt-2">
-                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje jedinke: </label>
-                    <p class="text-muted">{{ $animalItem->animalDocumentation->state_reason ?? '' }}</p>
-                  </div> 
-                  <div class="separator separator--small"></div> 
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
-                      <p class="text-muted">{{ $animalItem->animalDocumentation->state_reason_desc ?? '' }}</p>
-                    </div>
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>
-                      @isset($animalItem->animalDocumentation->state_reason)
-                      
-                      <div class="bordered-group mt-2">
-                        <div class="latest-photos d-flex">
-                          @foreach ($animalItem->animalDocumentation->getMedia('reason_file') as $media)
-                          @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
-                            <a href="{{ $media->getUrl() }}" data-lightbox="image">
-                            <figure>
-                              <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
-                            </figure>
-                            </a>
-                          
-                          @else
-                          <a href="{{ $item->getUrl() }}">{{ $media->name }}</a>                    
-                          @endif 
-                          
-                          @endforeach
-                        </div>
-                      </div>
-                      
-                    @endisset
-                    </div>
-                </div>                   
-            </div>    
-          </div>  
-        </div>                         
+  <div class="row mt-4">
+    <div class="col-5 col-md-3">
+      <div class="nav nav-tabs nav-tabs-vertical" id="v-tab" role="tablist" aria-orientation="vertical">
+        <a class="nav-link active" id="v-found-tab" data-toggle="pill" href="#v-found" role="tab" aria-controls="v-found" aria-selected="true">Stanje u trenutku pronalaska</a>
+        <a class="nav-link" id="v-recive-tab" data-toggle="pill" href="#v-recive" role="tab" aria-controls="v-recive" aria-selected="false">Stanje u trenutku zaprimanja</a>
+        <a class="nav-link" id="v-reason-tab" data-toggle="pill" href="#v-reason" role="tab" aria-controls="v-reason" aria-selected="false">Razlog zaprimanja</a>
+        <a class="nav-link" id="v-founder-tab" data-toggle="pill" href="#v-founder" role="tab" aria-controls="v-founder" aria-selected="false">Nalaznik</a>
+        <a class="nav-link" id="v-mark-tab" data-toggle="pill" href="#v-mark" role="tab" aria-controls="v-mark" aria-selected="false">Oznaka jedinke</a>
       </div>
     </div>
-  </div>
+    <div class="col-7 col-md-9">
+      <div class="tab-content tab-content-vertical" id="v-tabContent">
+        <div class="tab-pane fade show active" id="v-found" role="tabpanel" aria-labelledby="v-found-tab">
+          <div class="card">
+            <div class="card-body">
+              
+                <div class="d-flex align-items-center justify-content-between">
+                  <div><h6 class="card-description">Stanje u trenutku pronalaska</h6> </div> 
+                  <div>     
+                  </div>
+                </div>     
+                @if($msg = Session::get('update_animal_item'))
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif      
+                  <div class="row">
+                    <div class="col-md-12 grid-margin">  
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje jedinke: </label>
+                        <p class="text-muted">{{ $animalItem->animalDocumentation->stateFound->name ?? '' }}</p>
+                      </div> 
+                      <div class="separator separator--small"></div> 
+                        <div class="mt-2">
+                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
+                          <p class="text-muted">{{ $animalItem->animalDocumentation->state_found_desc ?? '' }}</p>
+                        </div>
+                        <div class="mt-2">
+                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>
+                          @isset($animalItem->animalDocumentation->state_found)
+                        
+                          <div class="bordered-group mt-2">
+                            <div class="latest-photos d-flex">
+                              @foreach ($animalItem->animalDocumentation->getMedia('state_found_file') as $item)
+                                @if (($item->mime_type == 'image/png') || ($item->mime_type == 'image/jpeg'))
+                                  <a href="{{ $item->getUrl() }}" data-lightbox="image">
+                                    <figure>
+                                      <img class="img-fluid" src="{{ $item->getUrl() }}" alt="">
+                                    </figure>
+                                  </a>   
+                                @else
+                                <a href="{{ $item->getUrl() }}">{{ $item->name }}</a>                    
+                                @endif                
+                              @endforeach
+                            </div>
+                          </div>
+                          
+                        @endisset
+                        </div>
+                    </div>                   
+                  </div>   
+              
+            </div>
+          </div>            
+        </div>
+          <div class="tab-pane fade" id="v-recive" role="tabpanel" aria-labelledby="v-recive-tab">
+            <div class="card">
+              <div class="card-body">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div><h6 class="card-description">Stanje u trenutku zaprimanja</h6> </div> 
+                    <div>      
+                    </div>
+                  </div> 
+                  @if($msg = Session::get('update_animal_item'))
+                  <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                  @endif      
+                    <div class="row">
+                      <div class="col-md-12 grid-margin">  
+                        <div class="mt-2">
+                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje jedinke: </label>
+                          <p class="text-muted">{{ $animalItem->animalDocumentation->stateRecived->name ?? '' }}</p>
+                        </div> 
+                        <div class="separator separator--small"></div> 
+                          <div class="mt-2">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
+                            <p class="text-muted">{{ $animalItem->animalDocumentation->state_recive_desc ?? '' }}</p>
+                          </div>
+                          <div class="mt-2">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>
+                            @isset($animalItem->animalDocumentation->state_recive)               
+                            <div class="bordered-group mt-2">
+                              <div class="latest-photos d-flex">
+                                @foreach ($animalItem->animalDocumentation->getMedia('state_receive_file') as $media)
+                                  @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
+                                    <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                      <figure>
+                                        <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                      </figure>
+                                    </a>          
+                                  @else
+                                    <a href="{{ $item->getUrl() }}">{{ $media->name }}</a>                    
+                                  @endif     
+                                @endforeach
+                              </div>
+                            </div>
+                            
+                          @endisset
+                          </div>
+                      </div>                   
+                  </div>        
+              </div>
+            </div>      
+          </div><!-- END TAB -->
+          <div class="tab-pane fade" id="v-reason" role="tabpanel" aria-labelledby="v-reason-tab">
+            <div class="card">
+              <div class="card-body">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div><h6 class="card-description">Razlog zaprimanja</h6> </div>        
+                  </div> 
+                  @if($msg = Session::get('update_animal_item'))
+                  <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                  @endif      
+                  <div class="row">
+                    <div class="col-md-12 grid-margin">  
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje jedinke: </label>
+                        <p class="text-muted">{{ $animalItem->animalDocumentation->stateReason->name ?? '' }}</p>
+                      </div> 
+                      <div class="separator separator--small"></div> 
+                        <div class="mt-2">
+                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
+                          <p class="text-muted">{{ $animalItem->animalDocumentation->state_reason_desc ?? '' }}</p>
+                        </div>
+                        <div class="mt-2">
+                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>
+                          @isset($animalItem->animalDocumentation->state_reason)
+                          
+                          <div class="bordered-group mt-2">
+                            <div class="latest-photos d-flex">
+                              @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)
+                              @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
+                                <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                <figure>
+                                  <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                </figure>
+                                </a>
+                              
+                              @else
+                              <a href="{{ $item->getUrl() }}">{{ $media->name }}</a>                    
+                              @endif             
+                              @endforeach
+                            </div>
+                          </div>
+                          
+                        @endisset
+                        </div>
+                    </div>                   
+                  </div>              
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane fade" id="v-founder" role="tabpanel" aria-labelledby="v-founder-tab">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">
+                    <div><h6 class="card-description">Nalaznik</h6> </div>  
+                    <div class="row">
+                      <div class="col-md-12 grid-margin">  
+                        <div class="mt-2">
+                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Nalaznik: </label>
+                          <p class="text-muted">{{ $animalItem->founder->name }} - {{ $animalItem->founder->service }}</p>
+                        </div>
+                        <div class="mt-2">
+                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Napomena nalaznika: </label>
+                          <p class="text-muted">{{ $animalItem->founder_note }}</p>
+                        </div>
+                          <div class="mt-2">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>
+                            @isset($animalItem->animalDocumentation->state_reason)                 
+                            <div class="bordered-group mt-2">
+                              <div class="latest-photos d-flex">
+                                @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)                 
+                                  <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                    {{ $media->name }}
+                                  </a>                    
+                                @endforeach
+                              </div>
+                            </div>               
+                            @endisset
+                          </div>
+                      </div>                   
+                  </div>  
+                  </div>
+                </div> 
+              </div>
+
+              <div class="col-md-6">
+                <div class="card">
+                  <div class="card-body">       
+                      <div class="d-flex align-items-center justify-content-between">
+                        <div><h6 class="card-description">Okolnosti pronalaska</h6> </div> 
+                        <div>     
+                        </div>
+                      </div>     
+                      @if($msg = Session::get('update_animal_item'))
+                      <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                      @endif      
+                        <div class="row">
+                          <div class="col-md-12 grid-margin">  
+                            <div class="separator separator--small"></div> 
+                              <div class="mt-2">
+                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
+                                <p class="text-muted">{{ $animalItem->animal_found_note ?? '' }}</p>
+                              </div>
+                          </div>                   
+                        </div>                      
+                  </div>
+                </div>
+              </div>
+            </div>
+                                 
+          </div><!-- END TAB -->
+          <div class="tab-pane fade" id="v-mark" role="tabpanel" aria-labelledby="v-mark-tab">
+            <div class="card">
+              <div class="card-body">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <div><h6 class="card-description">Oznaka jedinke</h6> </div> 
+                    <div>      
+                    </div>
+                  </div>      
+                    <div class="row">
+                      <div class="col-md-12 grid-margin">  
+                        <div class="mt-2">
+                          <label class="tx-11 font-weight-bold mb-0 text-uppercase">Tip oznake: </label>
+                          @isset($animalItem->animalDocumentation->animalMark)
+                          <p class="text-muted">{{ $animalItem->animalDocumentation->animalMark->animalMarkType->name  ?? '' }} 
+                            ({{ $animalItem->animalDocumentation->animalMark->animalMarkType->desc }})
+                          </p>
+                          @endisset 
+                        </div> 
+                        <div class="separator separator--small"></div> 
+                          <div class="mt-2">
+                            @isset($animalItem->animalDocumentation->animalMark->animal_mark_note)
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv oznake: </label>
+                            <p class="text-muted">{{ $animalItem->animalDocumentation->state_recive_desc ?? '' }}</p>
+                            @endisset    
+                          </div>        
+                         
+                          <div class="mt-2">
+                            <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>                                 
+                            <div class="bordered-group mt-2">
+                              <div class="latest-photos d-flex">
+                                @if (!empty($animalItem->animalDocumentation))
+                                  @foreach ($animalItem->animalDocumentation->getMedia('animal_mark_photos') as $media)      
+                                  <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                    <figure>
+                                      <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                    </figure>
+                                  </a>                       
+                                  @endforeach  
+                                @endif
+                                                     
+                              </div>
+                            </div>
+                          </div>
+                              
+                      </div>                   
+                  </div>               
+              </div>
+            </div>
+          </div><!-- END TAB -->
+        </div><!-- END TAB CONTAINER -->
+    
+      </div>
+    </div>
+  
+  
 @endsection
 
 @push('plugin-scripts')
