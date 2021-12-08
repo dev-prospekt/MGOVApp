@@ -65,6 +65,7 @@ class AnimalItemController extends Controller
     {
         $animalItem = AnimalItem::with('animal', 'animalSizeAttributes', 'dateRange', 'animalItemLogs', 'founder', 'animalDocumentation')->find($animalItem->id);
         $animalGroup = $animalItem->animalGroup;
+        $paginateLogs = $animalItem->latestAnimalItemLogs()->paginate(2);
 
         // Day and Price
         if (!empty($animalItems->dateRange->end_date)) {
@@ -80,6 +81,7 @@ class AnimalItemController extends Controller
         return view('animal.animal_item.show', [
             'animalItem' => $animalItem,
             'animalGroup' => $animalGroup,
+            'paginateLogs' => $paginateLogs
         ]);
     }
 

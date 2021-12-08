@@ -376,7 +376,7 @@ class AnimalShelterCreateController extends Controller
         }
 
         if ($request->reason_file) {
-            $animalItem->addMultipleMediaFromRequest(['state_reason_file'])
+            $animalItem->addMultipleMediaFromRequest(['reason_file'])
                 ->each(function ($fileAdder) {
                     $fileAdder->toMediaCollection('state_reason_file');
                 });
@@ -390,14 +390,14 @@ class AnimalShelterCreateController extends Controller
         }
 
         if ($request->status_found_file) {
-            $animalItem->addMultipleMediaFromRequest(['state_found_file'])
+            $animalItem->addMultipleMediaFromRequest(['status_found_file'])
             ->each(function ($fileAdder) {
                 $fileAdder->toMediaCollection('state_found_file');
             });
         }
 
         if ($request->status_receiving_file) {
-            $animalItem->addMultipleMediaFromRequest(['state_receive_file'])
+            $animalItem->addMultipleMediaFromRequest(['status_receiving_file'])
             ->each(function ($fileAdder) {
                 $fileAdder->toMediaCollection('state_receive_file');
             });

@@ -57,7 +57,7 @@
               <div class="separator--small"></div>
          
               <div class="email-list"> 
-                 @foreach ($animalItem->animalItemLogs as $itemlLog)
+                 @foreach ($paginateLogs as $itemlLog)
                 <div class="email-list-item">
            
                   <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="email-list-detail">
@@ -75,8 +75,9 @@
                     </div>
                   </a>
                 </div>
-                @endforeach             
+                @endforeach        
               </div>
+              {{ $paginateLogs->links() }}     
             </div>
           </div>
           
