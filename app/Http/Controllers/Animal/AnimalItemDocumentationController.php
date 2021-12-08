@@ -90,52 +90,71 @@ class AnimalItemDocumentationController extends Controller
     {
         $itemDocumentation = AnimalItemDocumentation::find($animalItemDocumentation->id);
         $markTypes = AnimalMarkType::all();
-        
-        $selectedType = $animalItem->animalDocumentation->animalMark;
-        $selectedState = $itemDocumentation->state_found;
+        $selectedMark = $animalItemDocumentation->animalMark->animal_mark_documentation_id;
+        $animalDocType = AnimalItemDocumentationStateType::all();
+
 
         return view('animal.animal_item_documentation.edit', [
-            'shelter' => $shelter, 
-            'animalGroup' => $animalGroup, 
-            'animalItem' => $animalItem,
-            'itemDocumentation' => $itemDocumentation, 
-            'selectedState' => $selectedState, 
-            'markTypes' => $markTypes, 
-            'selectedType' => $selectedType
+            'shelter' => $shelter, 'animalGroup' => $animalGroup, 'animalItem' => $animalItem,
+            'itemDocumentation' => $itemDocumentation, 'markTypes' => $markTypes,
+            'animalDocType' => $animalDocType,
+            'selectedMark' => $selectedMark
         ]);
     }
 
     public function update(Request $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
     {
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'state_found_desc' => 'required'
-            ],
-            [
-                'state_found_desc.required' => 'Dodajte opis',
-            ]
-        );
-
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()->all()]);
-        }
 
         $itemDocumentation = AnimalItemDocumentation::find($animalItemDocumentation->id);
-        $itemDocumentation->update([
-            'animal_item_id' => $animalItem->id,
-            'state_found' => $request->edit_state_found,
-            'state_found_desc' => $request->state_found_desc
-        ]);
+        $itemDocumentation->animal_item_id = $animalItem->id;
+        $itemDocumentation->state_recive = $request->state_recive;
+        $itemDocumentation->state_recive_desc = $request->state_recive_desc;
+        $itemDocumentation->state_found = $request->state_found;
+        $itemDocumentation->state_found_desc = $request->state_found_desc;
+        $itemDocumentation->state_reason = $request->state_reason;
+        $itemDocumentation->state_reason_desc = $request->state_reason_desc;
 
-        if ($request->edit_state_found_file) {
-            $itemDocumentation->addMultipleMediaFromRequest(['edit_state_found_file'])
+        $itemDocumentation->save();
+
+        // docs
+        if ($request->state_receive_file) {
+            $itemDocumentation->addMultipleMediaFromRequest(['state_receive_file'])
                 ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('state_found_files');
+                    $fileAdder->toMediaCollection('state_receive_file');
                 });
         }
 
-        return response()->json(['success' => 'Uspješno izmjenjeno.']);
+        if ($request->state_found_file) {
+            $itemDocumentation->addMultipleMediaFromRequest(['state_found_file'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('state_found_file');
+                });
+        }
+
+        if ($request->state_reason_file) {
+            $itemDocumentation->addMultipleMediaFromRequest(['state_reason_file'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('state_reason_file');
+                });
+        }
+        // animal Mark
+        $animalMark = AnimalMark::find($animalItemDocumentation->animalMark->id);
+        $animalMark->animal_mark_type_id = $request->animal_mark;
+        $animalMark->animal_item_documentation_id = $itemDocumentation->id;
+        $animalMark->animal_mark_note = $request->animal_mark_note;
+        $animalMark->save();
+        //mark photo
+        if ($request->animal_mark_photos) {
+            $itemDocumentation->addMultipleMediaFromRequest(['animal_mark_photos'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('animal_mark_photos');
+                });
+        }
+
+        return redirect()->route(
+            'shelters.animal_groups.animal_items.animal_item_documentations.index',
+            [$shelter, $animalGroup, $animalItem]
+        )->with('store_docs', 'Dokumentacija uspješno spremljena');
     }
 
 

@@ -87,7 +87,7 @@
                         <img class="img-fluid" src="{{ $thumbnail->getUrl() }}" alt="">
                       </figure>
                       </a>
-                      <a type="button" data-href="{{ route('accomodation.thumbDelete', $thumbnail) }}" class="btn btn-sm btn-danger btn-icon deleteThumb" >
+                      <a type="button" data-href="{{ route('item_documentation.thumbDelete', $thumbnail) }}" class="btn btn-sm btn-danger btn-icon deleteThumb" >
                         <i data-feather="trash"></i>
                     </a>
                     </div>                  

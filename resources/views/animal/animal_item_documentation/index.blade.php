@@ -98,14 +98,18 @@
                             <div class="latest-photos d-flex">
                               @foreach ($animalItem->animalDocumentation->getMedia('state_found_file') as $item)
                                 @if (($item->mime_type == 'image/png') || ($item->mime_type == 'image/jpeg'))
+                                
                                   <a href="{{ $item->getUrl() }}" data-lightbox="image">
                                     <figure>
                                       <img class="img-fluid" src="{{ $item->getUrl() }}" alt="">
                                     </figure>
                                   </a>   
                                 @else
-                                <a href="{{ $item->getUrl() }}">{{ $item->name }}</a>                    
-                                @endif                
+                                <div class="document-item">
+                                  <a href="{{ $item->getUrl() }}">{{ $item->name }}</a>   
+                                </div>                 
+                                @endif   
+                                         
                               @endforeach
                             </div>
                           </div>
@@ -147,16 +151,20 @@
                               <div class="latest-photos d-flex">
                                 @foreach ($animalItem->animalDocumentation->getMedia('state_receive_file') as $media)
                                   @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
+                                  <div class="photo-item d-flex flex-column">
                                     <a href="{{ $media->getUrl() }}" data-lightbox="image">
                                       <figure>
                                         <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
                                       </figure>
-                                    </a>          
+                                    </a>
+                                  </div>          
                                   @else
-                                    <a href="{{ $item->getUrl() }}">{{ $media->name }}</a>                    
+                                  <div class="document-item d-flex flex-column">
+                                    <a href="{{ $item->getUrl() }}">{{ $media->name }}</a>  
+                                  </div>                  
                                   @endif     
                                 @endforeach
-                              </div>
+                                </div>
                             </div>
                             
                           @endisset

@@ -43,9 +43,9 @@
   <div class="card">
     <div class="card-body">
         <h4 class="card-title">Dokumentacija - Zaprimanje jedinke</h4>
-        <form action="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.store', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.update', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id, $itemDocumentation->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('POST')
+            @method('PUT')
 
             <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
             <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
@@ -55,15 +55,12 @@
                   <div class="bordered-group">
                       <div class="form-group">
                           <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
-                          <select name="state_recive" class="form-control">
-                              <option value="">----</option>
-                              <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                              <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                              <option value="otrovana">otrovana</option>
-                              <option value="bolesna">bolesna</option>
-                              <option value="uginula">uginula</option>
-                              <option value="ostalo">ostalo</option>
-                          </select>
+                            <select name="state_recive" class="form-control">
+                              @foreach ($animalDocType as $docType)
+                                <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_recive) ? 'selected' : '' }}">{{ $docType->name }}</option>
+                              @endforeach 
+                            </select>
+                         
                           @error('state_recive')
                           <div class="text-danger">{{$errors->first('state_recive') }} </div>
                            @enderror
@@ -74,13 +71,44 @@
                           <textarea class="form-control" id="exampleFormControlTextarea1" name="state_recive_desc" rows="5">{{ $animalItem->animalDocumentation->state_recive_desc }}</textarea>
                           @error('state_recive_desc')
                           <div class="text-danger">{{$errors->first('state_recive_desc') }} </div>
-                           @enderror
+                          @enderror
                       </div>
-                      <div class="form-group">
-                        <label>Učitaj dokument <span class="text-muted">(pdf,jpg,png,doc,docx)</span></label>
-                          <input type="file" id="stateRecivedFile" name="state_receive_file[]" multiple />
-                          <div id="error_state_recive_file"></div>
-                      </div>
+       
+                        <span class="title text-secondary">Fotodokumentacija: </span>
+                        <div class="latest-photos mt-3">         
+                            @if ($itemDocumentation->getMedia('state_receive_file')->first())
+                            <div class="bordered-group mt-2 mb-2">
+                              <div class="latest-photos d-flex">
+                                @foreach ($animalItem->animalDocumentation->getMedia('state_receive_file') as $media)
+                                  @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))                    
+                                    <div class="photo-item d-flex flex-column">
+                                      <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                        <figure>
+                                          <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                        </figure>
+                                      </a> 
+                                      <a type="button" data-href="{{ route('item_documentation.thumbDelete', $media) }}" class="btn btn-sm btn-danger btn-icon deleteThumb">
+                                        <i data-feather="trash"></i>
+                                      </a>   
+                                    </div>       
+                                  @else
+                                  <div class="document-item d-flex flex-column">
+                                    <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>   
+                                    <a type="button" data-href="{{ route('item_documentation.thumbDelete', $media) }}" class="btn btn-sm btn-danger btn-icon deleteThumb">
+                                      <i data-feather="trash"></i>
+                                    </a> 
+                                  </div> 
+                                  @endif                       
+                                @endforeach                       
+                              </div>
+                            </div>
+                            @endif                             
+                        </div>
+                        <div class="form-group">
+                          <label>Učitaj dokument <span class="text-muted">(pdf,jpg,png,doc,docx)</span></label>
+                            <input type="file" id="stateRecivedFile" name="state_receive_file[]" multiple />
+                            <div id="error_state_recive_file"></div>
+                        </div>
                   </div>
               </div>
                 <div class="col-md-6">
@@ -88,13 +116,9 @@
                       <div class="form-group">
                           <label>Stanje u kojem je životinja pronađena</label>
                           <select name="state_found" class="form-control">
-                              <option value="">----</option>
-                              <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                              <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                              <option value="otrovana">otrovana</option>
-                              <option value="bolesna">bolesna</option>
-                              <option value="uginula">uginula</option>
-                              <option value="ostalo">ostalo</option>
+                            @foreach ($animalDocType as $docType)
+                              <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_found) ? 'selected' : '' }}">{{ $docType->name }}</option>
+                            @endforeach 
                           </select>
                       </div>
                       <div class="form-group">
@@ -103,6 +127,36 @@
                           @error('state_found_desc')
                           <div class="text-danger">{{$errors->first('state_found_desc') }} </div>
                            @enderror
+                      </div>
+                      <span class="title text-secondary">Fotodokumentacija: </span>
+                      <div class="latest-photos mt-3">         
+                          @if ($itemDocumentation->getMedia('state_found_file')->first())
+                          <div class="bordered-group mt-2 mb-2">
+                            <div class="latest-photos d-flex">
+                              @foreach ($animalItem->animalDocumentation->getMedia('state_found_file') as $media)
+                                @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))                    
+                                  <div class="photo-item d-flex flex-column">
+                                    <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                      <figure>
+                                        <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                      </figure>
+                                    </a> 
+                                    <a type="button" data-href="{{ route('item_documentation.thumbDelete', $media) }}" class="btn btn-sm btn-danger btn-icon deleteThumb">
+                                      <i data-feather="trash"></i>
+                                    </a>   
+                                  </div>       
+                                @else
+                                <div class="document-item d-flex flex-column">
+                                  <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>   
+                                  <a type="button" data-href="{{ route('item_documentation.thumbDelete', $media) }}" class="btn btn-sm btn-danger btn-icon deleteThumb">
+                                    <i data-feather="trash"></i>
+                                  </a> 
+                                </div> 
+                                @endif                       
+                              @endforeach                       
+                            </div>
+                          </div>
+                          @endif                             
                       </div>
                       <div class="form-group">
                         <label>Učitaj dokument <span class="text-muted">(pdf,jpg,png,doc,docx)</span></label>
@@ -119,13 +173,9 @@
                     <div class="form-group">
                         <label>Razlog zaprimanja životinje u oporavilište</label>
                         <select name="state_reason" class="form-control">
-                            <option value="">----</option>
-                            <option value="iscrpljena/dehidrirana-bez vanjskih ozljeda">iscrpljena/dehidrirana-bez vanjskih ozljeda</option>
-                            <option value="ozlijeđena/ranjena">ozlijeđena/ranjena</option>
-                            <option value="otrovana">otrovana</option>
-                            <option value="bolesna">bolesna</option>
-                            <option value="uginula">uginula</option>
-                            <option value="ostalo">ostalo</option>
+                          @foreach ($animalDocType as $docType)
+                            <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_reason) ? 'selected' : '' }}">{{ $docType->name }}</option>
+                          @endforeach 
                         </select>
                         @error('state_reason')
                         <div class="text-danger">{{$errors->first('state_reason') }} </div>
@@ -138,6 +188,35 @@
                         <div class="text-danger">{{$errors->first('state_reason_desc') }} </div>
                          @enderror
                     </div>
+                   
+                    @if ($itemDocumentation->getMedia('state_reason_file')->first())  
+                      <span class="title text-secondary">Fotodokumentacija: </span>                  
+                      <div class="bordered-group mt-2 mb-2">
+                        <div class="latest-photos d-flex">
+                          @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)
+                            @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))                    
+                              <div class="photo-item d-flex flex-column">
+                                <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                  <figure>
+                                    <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                  </figure>
+                                </a> 
+                                <a type="button" data-href="{{ route('item_documentation.thumbDelete', $media) }}" class="btn btn-sm btn-danger btn-icon deleteThumb">
+                                  <i data-feather="trash"></i>
+                                </a>   
+                              </div>       
+                            @else
+                            <div class="document-item d-flex flex-column">
+                              <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>   
+                              <a type="button" data-href="{{ route('item_documentation.thumbDelete', $media) }}" class="btn btn-sm btn-danger btn-icon deleteThumb">
+                                <i data-feather="trash"></i>
+                              </a> 
+                            </div> 
+                            @endif                       
+                          @endforeach                       
+                        </div>
+                      </div>            
+                    @endif 
                     <div class="form-group">
                       <label>Učitaj dokument <span class="text-muted">(pdf,jpg,png,doc,docx)</span></label>
                         <input type="file" id="stateReasonFile" name="state_reason_file[]" multiple />
@@ -151,15 +230,45 @@
                   <div class="form-group">
                       <label>Vrsta oznake</label>
                       <select name="animal_mark" class="form-control">
-                        @foreach ($markTypes as $markType)
-                          <option value="{{ $markType->id}}" {{ ( $markType->id == $selectedType) ? 'selected' : '' }}">{{ $markType->name }} ({{ $markType->desc }})</option>
-                        @endforeach            
+                         @foreach ($markTypes as $markType)
+                          <option value="{{ $markType->id}}" {{ ( $markType->id == $selectedMark) ? 'selected' : '' }}">{{ $markType->name }} ({{ $markType->desc }})</option>
+                          @endforeach           
                       </select>
                   </div>
 
                   <div class="form-group">
                       <label>Naziv oznake</label>
                       <input type="text" name="animal_mark_note" class="form-control" value="{{ $animalItem->animalDocumentation->animalMark->animal_mark_note ?? '' }}">
+                  </div>
+                  <span class="title text-secondary">Fotodokumentacija: </span>
+                  <div class="latest-photos mt-3">         
+                      @if ($itemDocumentation->getMedia('animal_mark_photos')->first())
+                      <div class="bordered-group mt-2 mb-2">
+                        <div class="latest-photos d-flex">
+                          @foreach ($animalItem->animalDocumentation->getMedia('animal_mark_photos') as $media)
+                            @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))                    
+                              <div class="photo-item d-flex flex-column">
+                                <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                  <figure>
+                                    <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                  </figure>
+                                </a> 
+                                <a type="button" data-href="{{ route('item_documentation.thumbDelete', $media) }}" class="btn btn-sm btn-danger btn-icon deleteThumb">
+                                  <i data-feather="trash"></i>
+                                </a>   
+                              </div>       
+                            @else
+                            <div class="document-item d-flex flex-column">
+                              <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>   
+                              <a type="button" data-href="{{ route('item_documentation.thumbDelete', $media) }}" class="btn btn-sm btn-danger btn-icon deleteThumb">
+                                <i data-feather="trash"></i>
+                              </a> 
+                            </div> 
+                            @endif                       
+                          @endforeach                       
+                        </div>
+                      </div>
+                      @endif                             
                   </div>
                   <div class="form-group">
                       <label>Učitaj dokument <span class="text-muted">(jpg,png)</span></label>
@@ -243,6 +352,33 @@
                   elErrorContainer: '#error_mark_photos',
                   msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
                });
+
+                // Delete files
+                $(".deleteThumb").on('click', function(e){
+                e.preventDefault();
+                url = $(this).attr('data-href');
+                Swal.fire({
+                    title: 'Jeste li sigurni?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Da, obriši!',
+                    cancelButtonText: "Ne, odustani!",
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: url,
+                            method: 'GET',
+                            success: function(result) {
+                                if(result.msg == 'success'){
+                                  location.reload();
+                                }
+                            }
+                          }); 
+                      }
+                  });
+              });
 
             // Delete state Found
           $('body').on('click', '#deleteStateFound', function() {
