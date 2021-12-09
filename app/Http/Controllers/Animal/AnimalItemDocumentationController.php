@@ -68,14 +68,14 @@ class AnimalItemDocumentationController extends Controller
 
 
         // animal Mark
-        if (!empty($animalItemDocumentation->animalMark)) { // update
-            $animalMark = $animalItemDocumentation->animalMark()->update([
+        if (!empty($itemDocumentation->animalMark)) { // update
+            $animalMark = $itemDocumentation->animalMark()->update([
                 'animal_mark_type_id' => $request->animal_mark,
                 'animal_item_documentation_id' => $itemDocumentation->id,
                 'animal_mark_note' => $request->animal_mark_note,
             ]);
         } else { // create
-            $animalMark = $animalItemDocumentation->animalMark()->create([
+            $animalMark = $itemDocumentation->animalMark()->create([
                 'animal_mark_type_id' => $request->animal_mark,
                 'animal_item_documentation_id' => $itemDocumentation->id,
                 'animal_mark_note' => $request->animal_mark_note,
