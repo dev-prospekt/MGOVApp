@@ -22,6 +22,8 @@ class AnimalItem extends Model implements HasMedia
 
     /* protected $cloneable_file_attributes = ['media']; */
 
+    protected $fillable = ['animal_code'];
+
     protected $casts = [
         'animal_date_found' => 'date',
         'date_seized_animal' => 'date',

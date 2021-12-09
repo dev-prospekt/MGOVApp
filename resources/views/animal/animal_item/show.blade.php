@@ -171,6 +171,7 @@
                   </a> 
                 </div>             
               </div> 
+              
               <div class="col-md-4 grid-margin">
                 <div class="bordered-group mt-2">
                   <label class="tx-11  mb-0 text-uppercase">Hibernacija:</label>
@@ -179,6 +180,7 @@
                   @else
                     <p class="text-info text-uppercase pt-3 pb-3">DA</p>
                   @endif
+
                   <a href="#" type="button" class="btn btn-primary btn-xs">
                     Promjena
                   </a> 
@@ -190,9 +192,9 @@
                   <label class="tx-11  mb-0 text-uppercase">Proširena skrb:</label>
 
                   @foreach ($fullCare as $item)
-                  <p class="text-muted">{{ $item->start_date->format('d.m.Y') }}</p>
-                  <p class="text-muted">{{ $item->end_date->format('d.m.Y') }}</p>
-                  <p class="text-muted">{{ $item->days }}</p>
+                    <p class="text-muted">{{ $item->start_date->format('d.m.Y') }}</p>
+                    <p class="text-muted">{{ $item->end_date->format('d.m.Y') }}</p>
+                    <p class="text-muted">{{ $item->days }}</p>
                   @endforeach
 
                   @if (empty($fullCare->first()))
@@ -200,6 +202,7 @@
                   @else
                     <p class="text-info text-uppercase pt-3 pb-3">DA</p>
                   @endif
+
                   <a href="#" type="button" class="btn btn-primary btn-xs">
                     Promjena
                   </a> 

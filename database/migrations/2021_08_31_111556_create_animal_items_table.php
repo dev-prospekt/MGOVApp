@@ -42,6 +42,7 @@ class CreateAnimalItemsTable extends Migration
             $table->string('seized_doc');
 
             $table->string('shelter_code');
+            $table->string('animal_code');
 
             $table->timestamps();
         });

@@ -208,6 +208,7 @@ class AnimalGroupController extends Controller
             $newAnimalItems->shelter_id = $newShelter->id;
             $newAnimalItems->shelter_code = $newAnimalGroup->shelter_code;
             $newAnimalItems->save();
+            $newAnimalItems->update(['animal_code' => $newAnimalGroup->shelter_code . '-j-' . $newAnimalItems->id]);
 
             // Date Range dulicate for new items
             $dateRange = $item->dateRange;

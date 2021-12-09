@@ -184,6 +184,8 @@ class AnimalItemController extends Controller
         $newItem = $item->duplicate();
         $newItem->save();
 
+        $newItem->update(['animal_code' => $newItem->shelter_code . '-j-' . $newItem->id]);
+
         // Media AnimalItemLogs
         $animalItemLog = $item->animalItemLogs;
         foreach ($animalItemLog as $itemLog) {
@@ -252,7 +254,9 @@ class AnimalItemController extends Controller
         $newAnimalItem->animal_group_id = $newAnimalGroup->id;
         $newAnimalItem->shelter_id = $newShelter->id;
         $newAnimalItem->in_shelter = true;
+        $newAnimalItem->shelter_code = $newAnimalGroup->shelter_code;
         $newAnimalItem->save();
+        $newAnimalItem->update(['animal_code' => $newAnimalGroup->shelter_code . '-j-' . $newAnimalItem->id]);
 
         // Duplicate solitary group date
         $animalItemsDateSolitaryGroup = $animal_items->dateSolitaryGroups;

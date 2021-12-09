@@ -116,14 +116,6 @@ class AnimalShelterCreateController extends Controller
         $animalItem->founder_note = $request->founder_note;
         $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
         $animalItem->in_shelter = true;
-
-        // $animalItem->status_receiving = $request->status_receiving;
-        // $animalItem->status_receiving_desc = $request->status_receiving_desc;
-        // $animalItem->status_found = $request->status_found;
-        // $animalItem->status_found_desc = $request->status_found_desc;
-        // $animalItem->status_reason = $request->status_reason;
-        // $animalItem->reason_desc = $request->reason_desc;
-
         $animalItem->animal_found_note = $request->animal_found_note;
         $animalItem->animal_date_found =  $request->date_found;
         $animalItem->animal_gender = $request->animal_gender;
@@ -133,6 +125,8 @@ class AnimalShelterCreateController extends Controller
         $animalItem->solitary_or_group = $request->solitary_or_group;
         $animalItem->shelter_code = $animal_group->shelter_code;
         $animalItem->save();
+
+        $animalItem->update(['animal_code' => $animal_group->shelter_code . '-j-' . $animalItem->id]);
 
         // AnimalDocumentation
         $animalDocumentation = $animalItem->animalDocumentation()->create([
@@ -226,6 +220,8 @@ class AnimalShelterCreateController extends Controller
         $animalItem->in_shelter = true;
         $animalItem->save();
 
+        $animalItem->update(['animal_code' => $animal_group->shelter_code . '-j-' . $animalItem->id]);
+
         $this->createDocuments($request, $animalItem);
 
         // Date Range
@@ -295,6 +291,8 @@ class AnimalShelterCreateController extends Controller
         $animalItem->founder_note = $request->founder_note;
         $animalItem->in_shelter = true;
         $animalItem->save();
+
+        $animalItem->update(['animal_code' => $animal_group->shelter_code . '-j-' . $animalItem->id]);
 
         // AnimalDocumentation
         $animalDocumentation = $animalItem->animalDocumentation()->create([
