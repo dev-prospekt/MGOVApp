@@ -11,7 +11,7 @@
   <div class="col-md-6">
     <div class="card rounded grid-margin">
       <div class="card-body">
-          <div class="d-flex align-items-center justify-content-between mb-2">
+        <div class="d-flex align-items-center justify-content-between mb-2">
               <h6 class="card-title mb-0">Eutanazija</h6>
           </div>
 

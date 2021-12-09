@@ -12,11 +12,11 @@
     <h5 class="mb-3 mb-md-0">{{ $animal_group->shelters->first()->name }}</h5>
     <div>
         <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm btn-icon-text">
-            Premjesti cijelu grupu
+            Premjesti grupu
             <i class="btn-icon-append" data-feather="box"></i>
         </a>
         <a type="button" class="btn btn-primary btn-sm btn-icon-text" href="/shelter/{{ $animal_group->shelters->first()->id }}">      
-            Povratak na oporavilište
+            Povratak
             <i class="btn-icon-append" data-feather="clipboard"></i>
         </a>
 

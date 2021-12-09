@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DocumentationStoreRequest extends FormRequest
+class AnimalDocumentStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,25 +25,19 @@ class DocumentationStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'state_receive' => ['required'],
-            'state_recive_desc' => ['required'],
-            'state_found' => ['required', 'max:5'],
-            'state_found_desc' => ['required'],
+            'state_recive' => ['required'],
+            'state_found' => ['required'],
             'state_reason' => ['required'],
-            'state_reason_desc' => ['required'],
+
         ];
     }
 
     public function messages()
     {
         return [
-            'state_receive.required' => 'Obavezan podatak',
-            'state_recive_desc.required' => 'Obavezan podatak',
-            'shelter_code.required' => 'Obavezan podatak',
+            'state_recive.required' => 'Obavezan podatak',
             'state_found.required' => 'Obavezan podatak',
-            'state_found_desc.required' => 'Obavezan podatak',
             'state_reason.required' => 'Obavezan podatak',
-            'state_reason_desc.required' => 'Obavezan podatak',
         ];
     }
 }

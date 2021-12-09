@@ -11,17 +11,13 @@
 <div class="d-flex align-items-center justify-content-between mb-3">
     <div> <h5 class="mb-3 mb-md-0">{{ $animalItem->shelter->name }}</h5></div>
     <div>      
-       <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-primary btn-sm btn-icon-text">
+       <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}/animal_items/{{ $animalItem->id }}" type="button" class="btn btn-primary btn-sm btn-icon-text">
           Povratak na popis
           <i class="btn-icon-append" data-feather="clipboard"></i>
         </a> 
         
         <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-warning btn-sm btn-icon-text">
           Premještaj jedinke
-          <i class="btn-icon-append" data-feather="clipboard"></i>
-        </a> 
-        <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-info btn-sm btn-icon-text">
-          Izvještaj jedinke
           <i class="btn-icon-append" data-feather="clipboard"></i>
         </a> 
     </div>
@@ -90,6 +86,9 @@
                               <option value="{{ $type->id }}">{{ $type->name }}</option>
                               @endforeach
                           </select>
+                          @error('state_found')
+                          <div class="text-danger">{{$errors->first('state_recive') }} </div>
+                           @enderror
                       </div>
                       <div class="form-group">
                           <label>Opis</label>
@@ -101,7 +100,7 @@
                       <div class="form-group">
                         <label>Učitaj dokument <span class="text-muted">(pdf,jpg,png,doc,docx)</span></label>
                           <input type="file" id="stateFoundFile" name="state_found_file[]" multiple />
-                          <div id="error_status_found_file"></div>
+                          <div id="error_state_found_file"></div>
                       </div>
                   </div>
                 </div>
@@ -197,7 +196,7 @@
                   showUpload: false,
                   showCancel: false,
                   allowedFileExtensions: ["pdf", "jpg", "png", 'doc', 'docx'],
-                  elErrorContainer: '#error_recived_file',
+                  elErrorContainer: '#error_state_found_file',
                   msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
                });
             
@@ -210,7 +209,7 @@
                   showUpload: false,
                   showCancel: false,
                   allowedFileExtensions: ["pdf", "jpg", "png", 'doc', 'docx'],
-                  elErrorContainer: '#error_recived_file',
+                  elErrorContainer: '#error_state_recive_file',
                   msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
                });
             
