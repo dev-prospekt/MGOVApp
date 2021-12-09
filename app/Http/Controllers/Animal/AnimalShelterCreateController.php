@@ -347,11 +347,11 @@ class AnimalShelterCreateController extends Controller
         $animal = Animal::whereHas('animalType', function ($q) use ($shelterTypeCode) {
             $q->whereIn('type_code', $shelterTypeCode);
         })
-            ->whereHas('animalCategory.animalSystemCategory', function ($q) use ($pluckSystemCat) {
-                $q->whereIn('id', $pluckSystemCat);
-            })
-            ->orderBy('name')
-            ->get();
+        ->whereHas('animalCategory.animalSystemCategory', function ($q) use ($pluckSystemCat) {
+            $q->whereIn('id', $pluckSystemCat);
+        })
+        ->orderBy('name')
+        ->get();
 
         $returnHTML = view("animal.animal.$template", [
             'animal' => $animal,

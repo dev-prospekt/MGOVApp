@@ -139,7 +139,7 @@
                                             $('.alert-success').hide();
                                             $('.modal').modal('hide');
                                             location.reload();
-                                        }, 2000);
+                                        }, 1000);
                                     }
                                 }
                             });
@@ -156,7 +156,6 @@
             // Get Form
             $("#founder").change(function(){
                 if($(this).val() > 0){
-
                     $.ajaxSetup({
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')

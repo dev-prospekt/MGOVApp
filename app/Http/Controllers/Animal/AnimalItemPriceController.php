@@ -37,7 +37,7 @@ class AnimalItemPriceController extends Controller
 
             // Ako je poslan datum za kraj skrbi, ažurirat cemo samo zadnji record
             // Zadnji record, polje end_date je uvijek null pa cemo ga azuirati i dobiti ukupni broj dana
-            if(!empty($request->end_date)){ 
+            if(!empty($request->end_date) && empty($request->solitary_or_group_type) && empty($request->solitary_or_group_end)){ 
                 // Ažuriranje zadnjeg recorda koji ima end_date null
                 $animalItem->dateSolitaryGroups()
                 ->where('end_date', '=', null)
@@ -49,33 +49,32 @@ class AnimalItemPriceController extends Controller
 
             // Ako se posalje samo type (Solitarna, Grupa)
             // Ažuriramo podatak
-            if(!empty($request->solitary_or_group_type)){
+            if(!empty($request->solitary_or_group_type) && empty($request->solitary_or_group_end) && empty($request->end_date)){
                 $animalItem->dateSolitaryGroups()
                 ->where('end_date', '=', null)
                 ->update([
-                    'animal_item_id' => $id,
                     'solitary_or_group' => $request->solitary_or_group_type,
                 ]);
             }
 
             // Ovaj dio radi samo ako je poslan zadnji datum kod promjene type-a (Grupa, Solitarna)
-            if(!empty($request->solitary_or_group_end)){
+            if(!empty($request->solitary_or_group_end) && !empty($request->solitary_or_group_type) && empty($request->end_date)){
                 // Ažuriranje zadnjeg recorda koji ima end_date null
-                $animalItem->dateSolitaryGroups()
+                $updateDate = $animalItem->dateSolitaryGroups()
                 ->where('end_date', '=', null)
                 ->update([
-                    'animal_item_id' => $id,
                     'end_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
                 ]);
 
-                // Novi red i novi type (Grupa, Solitarna)
-                if(!empty($request->solitary_or_group_type)){
-                    $animalItem->dateSolitaryGroups()
-                    ->create([
-                        'animal_item_id' => $id,
-                        'start_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
-                        'solitary_or_group' => $request->solitary_or_group_type,
-                    ]);
+                if($updateDate == 1){
+                    // Novi red i novi type (Grupa, Solitarna)
+                    if(!empty($request->solitary_or_group_type)){
+                        $animalItem->dateSolitaryGroups()
+                        ->create([
+                            'start_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
+                            'solitary_or_group' => $request->solitary_or_group_type,
+                        ]);
+                    }
                 }
             }
 
