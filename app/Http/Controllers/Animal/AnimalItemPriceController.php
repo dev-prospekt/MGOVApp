@@ -61,10 +61,10 @@ class AnimalItemPriceController extends Controller
             if(!empty($request->solitary_or_group_end) && !empty($request->solitary_or_group_type) && empty($request->end_date)){
                 // Ažuriranje zadnjeg recorda koji ima end_date null
                 $updateDate = $animalItem->dateSolitaryGroups()
-                ->where('end_date', '=', null)
-                ->update([
-                    'end_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
-                ]);
+                            ->where('end_date', '=', null)
+                            ->update([
+                                'end_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
+                            ]);
 
                 if($updateDate == 1){
                     // Novi red i novi type (Grupa, Solitarna)
