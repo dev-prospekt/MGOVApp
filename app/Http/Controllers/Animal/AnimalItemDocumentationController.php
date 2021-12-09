@@ -32,9 +32,8 @@ class AnimalItemDocumentationController extends Controller
         return view('animal.animal_item_documentation.create', ['shelter' => $shelter, 'animalGroup' => $animalGroup, 'animalItem' => $animalItem, 'markTypes' => $markTypes, 'stateTypes' => $stateTypes]);
     }
 
-    public function store(Request $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
+    public function store(DocumentationStoreRequest $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
-
         $itemDocumentation = new AnimalItemDocumentation;
         $itemDocumentation->animal_item_id = $animalItem->id;
         $itemDocumentation->state_recive = $request->state_recive;
@@ -66,12 +65,23 @@ class AnimalItemDocumentationController extends Controller
                     $fileAdder->toMediaCollection('state_reason_file');
                 });
         }
+
+
         // animal Mark
-        $animalMark = new AnimalMark;
-        $animalMark->animal_mark_type_id = $request->animal_mark;
-        $animalMark->animal_item_documentation_id = $itemDocumentation->id;
-        $animalMark->animal_mark_note = $request->animal_mark_note;
-        $animalMark->save();
+        if (!empty($animalItemDocumentation->animalMark)) { // update
+            $animalMark = $animalItemDocumentation->animalMark()->update([
+                'animal_mark_type_id' => $request->animal_mark,
+                'animal_item_documentation_id' => $itemDocumentation->id,
+                'animal_mark_note' => $request->animal_mark_note,
+            ]);
+        } else { // create
+            $animalMark = $animalItemDocumentation->animalMark()->create([
+                'animal_mark_type_id' => $request->animal_mark,
+                'animal_item_documentation_id' => $itemDocumentation->id,
+                'animal_mark_note' => $request->animal_mark_note,
+            ]);
+        }
+        // animal Mark
 
         //mark photo
         if ($request->animal_mark_photos) {
@@ -105,9 +115,8 @@ class AnimalItemDocumentationController extends Controller
         ]);
     }
 
-    public function update(Request $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
+    public function update(DocumentationStoreRequest $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
     {
-
         $itemDocumentation = AnimalItemDocumentation::find($animalItemDocumentation->id);
         $itemDocumentation->animal_item_id = $animalItem->id;
         $itemDocumentation->state_recive = $request->state_recive;
@@ -142,16 +151,15 @@ class AnimalItemDocumentationController extends Controller
         }
 
         // animal Mark
-        if(!empty($animalItemDocumentation->animalMark)){ // update
+        if (!empty($animalItemDocumentation->animalMark)) { // update
             $animalMark = $animalItemDocumentation->animalMark()->update([
-                'animal_mark_type_id' => $request->animal_mark, 
+                'animal_mark_type_id' => $request->animal_mark,
                 'animal_item_documentation_id' => $itemDocumentation->id,
                 'animal_mark_note' => $request->animal_mark_note,
             ]);
-        }
-        else { // create
+        } else { // create
             $animalMark = $animalItemDocumentation->animalMark()->create([
-                'animal_mark_type_id' => $request->animal_mark, 
+                'animal_mark_type_id' => $request->animal_mark,
                 'animal_item_documentation_id' => $itemDocumentation->id,
                 'animal_mark_note' => $request->animal_mark_note,
             ]);

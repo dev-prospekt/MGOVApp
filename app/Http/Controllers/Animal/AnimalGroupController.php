@@ -95,7 +95,7 @@ class AnimalGroupController extends Controller
                     $cloneUrl = route('animal_item.clone', [$animal_items->id]);
                     $countAnimal = count($animal_group->animalItems);
 
-                    if($countAnimal > 1){
+                    if ($countAnimal > 1) {
                         return '
                         <div class="d-flex align-items-center">
                             <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
@@ -111,8 +111,7 @@ class AnimalGroupController extends Controller
                             </a>
                         </div>
                         ';
-                    }
-                    else {
+                    } else {
                         return '
                         <div class="d-flex align-items-center">
                             <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
@@ -192,7 +191,7 @@ class AnimalGroupController extends Controller
 
         // Duplicate Grupe sa novom šifrom oporavilišta
         $newAnimalGroup = $animal_group->replicate();
-        $newAnimalGroup->shelter_code = Carbon::now()->format('y') . '' . $newShelter->shelter_code . '/' . $animalTypeCode . '-'. $increment;
+        $newAnimalGroup->shelter_code = Carbon::now()->format('y') . '' . $newShelter->shelter_code . '/' . $animalTypeCode . '-' . $increment;
         $newAnimalGroup->save();
 
         // Novi red u pivot tablici koji povezuje dupliciranu grupu i novo oporavilište
@@ -216,9 +215,9 @@ class AnimalGroupController extends Controller
             $newDateRange->animal_item_id = $newAnimalItems->id;
             $newDateRange->save();
             // Date Solitary or Group
-            if(!empty($item->dateSolitaryGroups)){
+            if (!empty($item->dateSolitaryGroups)) {
                 $dateSolitaryOrGroupRange = $item->dateSolitaryGroups;
-                if(!empty($dateSolitaryOrGroupRange)){
+                if (!empty($dateSolitaryOrGroupRange)) {
                     foreach ($dateSolitaryOrGroupRange as $value) {
                         $newDateSolitaryOrGroupRange = $value->replicate();
                         $newDateSolitaryOrGroupRange->animal_item_id = $newAnimalItems->id;
@@ -227,8 +226,7 @@ class AnimalGroupController extends Controller
                 }
             }
             // animalMarks
-            if(!empty($item->animalMarks))
-            {
+            if (!empty($item->animalMarks)) {
                 foreach ($item->animalMarks as $item) {
                     $newAnimalMarks = $item->replicate();
                     $newAnimalMarks->animal_item_id = $newAnimalItems->id;
@@ -247,7 +245,7 @@ class AnimalGroupController extends Controller
                 }
             }
             // Euthanasia
-            if(!empty($item->euthanasia)){
+            if (!empty($item->euthanasia)) {
                 $euthanasia = $item->euthanasia;
                 $newEuthanasia = $euthanasia->animal_item_id = $newAnimalItems->id;
                 $newEuthanasia->save();
@@ -265,12 +263,12 @@ class AnimalGroupController extends Controller
                 $newAnimalItemLog = $itemLog->replicate();
                 $newAnimalItemLog->animal_item_id = $newAnimalItems->id;
                 $newAnimalItemLog->save();
-                
+
                 $this->copyMedia($itemLog, $newAnimalItemLog);
             }
             // Media AnimalItemLogs
 
-            if(!empty($item->animalDocumentation)){
+            if (!empty($item->animalDocumentation)) {
                 $animalItemDoc = $item->animalDocumentation;
                 $newAnimalItemDoc = $animalItemDoc->replicate();
                 $newAnimalItemDoc->animal_item_id = $newAnimalItems->id;
@@ -278,7 +276,6 @@ class AnimalGroupController extends Controller
                 // Kopija dokumenata
                 $this->copyMedia($animalItemDoc, $newAnimalItemDoc);
             }
-
         }
 
         return response()->json([
@@ -292,7 +289,7 @@ class AnimalGroupController extends Controller
     public function copyMedia($model, $newModel)
     {
         // log-docs
-        if($model->getMedia('log-docs')){
+        if ($model->getMedia('log-docs')) {
             $documents = $model->getMedia('log-docs');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'log-docs');
@@ -300,63 +297,63 @@ class AnimalGroupController extends Controller
         }
 
         // documents
-        if($model->getMedia('documents')){
+        if ($model->getMedia('documents')) {
             $documents = $model->getMedia('documents');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'documents');
             }
         }
         // media
-        if($model->getMedia('media')){
+        if ($model->getMedia('media')) {
             $documents = $model->getMedia('media');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'media');
             }
         }
         // status_receiving_file
-        if($model->getMedia('state_receive_file')){
-            $documents = $model->getMedia('state_receive_file');
+        if ($model->getMedia('status_receiving_file')) {
+            $documents = $model->getMedia('status_receiving_file');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'state_receive_file');
             }
         }
         // status_found_file
-        if($model->getMedia('state_found_file')){
-            $documents = $model->getMedia('state_found_file');
+        if ($model->getMedia('status_found_file')) {
+            $documents = $model->getMedia('status_found_file');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'state_found_file');
             }
         }
         // reason_file
-        if($model->getMedia('state_reason_file')){
+        if ($model->getMedia('state_reason_file')) {
             $documents = $model->getMedia('state_reason_file');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'state_reason_file');
             }
         }
         // animal_mark_photos
-        if($model->getMedia('animal_mark_photos')){
+        if ($model->getMedia('animal_mark_photos')) {
             $documents = $model->getMedia('animal_mark_photos');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'animal_mark_photos');
             }
         }
         // euthanasia_invoice
-        if($model->getMedia('euthanasia_invoice')){
+        if ($model->getMedia('euthanasia_invoice')) {
             $documents = $model->getMedia('euthanasia_invoice');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'euthanasia_invoice');
             }
         }
         // euthanasia_file
-        if($model->getMedia('euthanasia_file')){
+        if ($model->getMedia('euthanasia_file')) {
             $documents = $model->getMedia('euthanasia_file');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'euthanasia_file');
             }
         }
         // seized_doc_type
-        if($model->getMedia('seized_doc_type')){
+        if ($model->getMedia('seized_doc_type')) {
             $documents = $model->getMedia('seized_doc_type');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'seized_doc_type');

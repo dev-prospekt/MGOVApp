@@ -258,8 +258,8 @@
                             @isset($animalItem->animalDocumentation->state_reason)                 
                             <div class="bordered-group mt-2">
                               <div class="latest-photos d-flex">
-                                @foreach ($animalItem->founder->getMedia('founder') as $media)                 
-                                  <a href="{{ $media->getUrl() }}" data-lightbox="image">
+                                @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)                 
+                                  <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
                                     {{ $media->name }}
                                   </a>                    
                                 @endforeach
@@ -313,7 +313,7 @@
                           <label class="tx-11 font-weight-bold mb-0 text-uppercase">Tip oznake: </label>
                           @isset($animalItem->animalDocumentation->animalMark)
                           <p class="text-muted">{{ $animalItem->animalDocumentation->animalMark->animalMarkType->name  ?? '' }} 
-                            ({{ $animalItem->animalDocumentation->animalMark->animalMarkType->desc }})
+                            ({{ $animalItem->animalDocumentation->animalMark->animalMarkType->desc ?? '' }})
                           </p>
                           @endisset 
                         </div> 

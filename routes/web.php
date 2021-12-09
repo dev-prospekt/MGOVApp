@@ -68,6 +68,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('accomodation/thumb/{thumb}', 'Shelter\ShelterAccomodationController@deleteImage')->name('accomodation.thumbDelete');
     Route::get('animal_item_log/thumb/{thumb}', 'Animal\AnimalItemLogController@deleteImage')->name('animal_item_log.thumbDelete');
     Route::get('animal_item_documentation/thumb/{thumb}', 'Animal\AnimalItemDocumentationController@deleteImage')->name('item_documentation.thumbDelete');
+    Route::get('equipment/thumb/{thumb}', 'Shelter\ShelterEquipmentController@deleteImage')->name('equipment.thumbDelete');
 
     Route::resource('shelters.nutritions', Shelter\ShelterNutritionController::class)->parameters([
         'nutritions' => 'shelter_nutrition'
@@ -76,8 +77,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('shelters.equipments', Shelter\ShelterEquipmentController::class)->parameters([
         'equipments' => 'shelter_equipment'
     ]);
-    // delete shelter equipment images
-    Route::get('equipment/thumb/{thumb}', 'Shelter\ShelterEquipmentController@deleteImage')->name('equipment.thumbDelete');
 
     Route::get('shelter/{shelterId}/animal/{animalId}', [ShelterController::class, 'animalItems']);
     // get all shelter staff

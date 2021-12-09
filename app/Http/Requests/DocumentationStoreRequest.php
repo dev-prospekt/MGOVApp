@@ -25,7 +25,7 @@ class DocumentationStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'state_receive' => ['required'],
+            'state_recive' => ['required'],
             'state_recive_desc' => ['required'],
             'state_found' => ['required', 'max:5'],
             'state_found_desc' => ['required'],
@@ -37,7 +37,7 @@ class DocumentationStoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'state_receive.required' => 'Obavezan podatak',
+            'state_recive.required' => 'Obavezan podatak',
             'state_recive_desc.required' => 'Obavezan podatak',
             'shelter_code.required' => 'Obavezan podatak',
             'state_found.required' => 'Obavezan podatak',
