@@ -63,7 +63,7 @@ class AnimalItemController extends Controller
      */
     public function show(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
-        $animalItem = AnimalItem::with('animal', 'animalSizeAttributes', 'dateRange', 'founder')->find($animalItem->id);
+        $animalItem = AnimalItem::find($animalItem->id);
         $animalGroup = $animalItem->animalGroup;
         $paginateLogs = $animalItem->latestAnimalItemLogs()->paginate(5);
 
@@ -78,9 +78,20 @@ class AnimalItemController extends Controller
         $totalPriceHibern = (isset($animalItem->shelterAnimalPrice->hibern)) ? $animalItem->shelterAnimalPrice->hibern : 0;
         $totalPriceFullCare = (isset($animalItem->shelterAnimalPrice->full_care)) ? $animalItem->shelterAnimalPrice->full_care : 0;
 
+        // Hibernacija : Da ili Ne
+        $hibern = $animalItem->dateRange->where('animal_item_id', '=', $animalItem->id)
+        ->where('hibern_start', '!=', null)
+        ->where('hibern_end', '!=', null)
+        ->get();
+
+        // Proširena skrb
+        $fullCare = $animalItem->dateFullCare;
+
         return view('animal.animal_item.show', [
             'animalItem' => $animalItem,
-            'paginateLogs' => $paginateLogs
+            'paginateLogs' => $paginateLogs,
+            'hibern' => $hibern,
+            'fullCare' => $fullCare,
         ]);
     }
 
