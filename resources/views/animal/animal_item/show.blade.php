@@ -89,14 +89,15 @@
     <div class="col-md-7 grid-margin">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Informacije</a>
+          <a class="nav-link {{ Session::get('error') ? '' : 'active' }}" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="{{ Session::get('error') ? 'false' : 'true' }}">Informacije</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Akcije postupanja</a>
+          <a class="nav-link {{ Session::get('error') ? 'active' : '' }}" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="{{ Session::get('error') ? 'true' : 'false' }}">Akcije postupanja</a>
         </li>
       </ul>
+
       <div class="tab-content border border-top-0" id="myTabContent">
-        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        <div class="tab-pane fade {{ Session::get('error') ? '' : 'show active' }}" id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="card">
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between">
@@ -176,10 +177,15 @@
           </div><!-- end card -->
         </div><!--  end TAB -->
 
-        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane fade {{ Session::get('error') ? 'show active' : '' }}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
           <div class="card">
             <div class="card-body">
-              <h6 class="card-title">Akcije postupanja</h6> 
+              <h6 class="card-title">Akcije postupanja</h6>
+
+              @if($msg = Session::get('error'))
+                <div id="dangerMessage" class="alert alert-danger"> {{ $msg }}</div>
+              @endif
+
               <form action="/animalItem/update/{{$animalItem->id}}" method="POST">
                 @csrf
                 @method('POST')
@@ -189,13 +195,15 @@
                             <label>Hibernacija/estivacija</label>
                             <div class="d-flex">
                                 <div class="input-group date datepicker" id="datePickerExample">
-                                  <input type="text" name="hib_est_from" class="form-control hib_est_from" value="{{ $animalItem->dateRange->hibern_start->format('m/d/Y') }}">
+                                  <input type="text" name="hib_est_from" class="form-control hib_est_from" 
+                                  value="{{ $animalItem->dateRange->hibern_start ? $animalItem->dateRange->hibern_start->format('m/d/Y') : null }}">
                                   <span class="input-group-addon">
                                       <i data-feather="calendar"></i>
                                   </span>
                                 </div>
                                 <div class="input-group date datepicker" id="datePickerExample">
-                                  <input type="text" name="hib_est_to" class="form-control hib_est_to" value="{{ $animalItem->dateRange->hibern_end->format('m/d/Y') }}">
+                                  <input type="text" name="hib_est_to" class="form-control hib_est_to" 
+                                  value="{{ $animalItem->dateRange->hibern_end ? $animalItem->dateRange->hibern_end->format('m/d/Y') : null }}">
                                   <span class="input-group-addon">
                                       <i data-feather="calendar"></i>
                                   </span>
@@ -203,7 +211,7 @@
                             </div>
                         </div>
                         <div class="form-group" id="period">
-                            <label>Razdoblje provođenja proširene skrbi <strong>(ostalo {{  $totalDays }} dana)</strong></label>
+                            <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dana)</strong></label>
                             @if ($totalDays != 0)
                             <div class="d-flex">
                                 <div class="input-group date datepicker" id="datePickerExample">
