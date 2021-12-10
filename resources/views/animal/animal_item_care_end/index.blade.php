@@ -127,18 +127,6 @@
           </div>
 
         </div>
-        <div class="row">
-
-          <div class="col-md-4 grid-margin">
-            <div class="mt-2">
-              <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupna cijena:</label>
-              <p class="text-muted">
-
-              </p>
-            </div>
-          </div>
-
-        </div>
 
       </div>
     </div>
