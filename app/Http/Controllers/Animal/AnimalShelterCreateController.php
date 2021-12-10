@@ -124,6 +124,7 @@ class AnimalShelterCreateController extends Controller
         $animalItem->location_animal_takeover = $request->location_animal_takeover;
         $animalItem->solitary_or_group = $request->solitary_or_group;
         $animalItem->shelter_code = $animal_group->shelter_code;
+
         $animalItem->save();
 
         $animalItem->update(['animal_code' => $animal_group->shelter_code . '-j-' . $animalItem->id]);

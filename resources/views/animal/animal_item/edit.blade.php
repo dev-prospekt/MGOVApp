@@ -50,8 +50,8 @@
                                         </div>
         
                                         <div class="form-group" id="period">
-                                            <label>Razdoblje provođenja proširene skrbi <strong>(ostalo {{ $totalDays }} dana)</strong></label>
-                                            @if ($totalDays != 0)
+                                            <label>Razdoblje provođenja proširene skrbi <strong>(ostalo dana)</strong></label>
+
                                             <div class="d-flex">
                                                 <div class="input-group date datepicker" id="datePickerExample">
                                                     <input type="text" name="full_care_start" class="form-control full_care_start">
@@ -66,7 +66,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            @endif
+                                            
                                         </div>
                                     </div>
     
@@ -266,36 +266,6 @@
                 allowedFileExtensions: ["pdf"],
                 elErrorContainer: '#error_file',
                 msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
-            });
-
-            if($('div#datePickerExample').length) {
-                $('div#datePickerExample input').datepicker({
-                    format: "mm/dd/yyyy",
-                    todayHighlight: true,
-                    autoclose: true,
-                });
-                $("div#datePickerExample").find(".end_date").datepicker('setDate', $("div#datePickerExample").find(".end_date").val());
-                $("div#datePickerExample").find(".hib_est_from").datepicker('setDate', $("div#datePickerExample").find(".hib_est_from").val());
-                $("div#datePickerExample").find(".hib_est_to").datepicker('setDate', $("div#datePickerExample").find(".hib_est_to").val());
-            }
-
-            // Proširena skrb, obavezno
-            $('.full_care_start').on('change', function(){
-                if($(this).val()){
-                    $('#submit').attr("disabled", true);
-
-                    $('.full_care_end').on('change', function(){
-                        if($(this).val()){
-                            $('#submit').attr("disabled", false);
-                        }
-                        else {
-                            $('#submit').attr("disabled", true);
-                        }
-                    });
-                }
-                else {
-                    $('#submit').attr("disabled", false);
-                }
             });
 
             // Delete files

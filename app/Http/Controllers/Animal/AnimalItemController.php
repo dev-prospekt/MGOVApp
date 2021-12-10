@@ -67,13 +67,7 @@ class AnimalItemController extends Controller
         $animalGroup = $animalItem->animalGroup;
         $paginateLogs = $animalItem->latestAnimalItemLogs()->paginate(5);
 
-        // Day and Price
-        if (!empty($animalItems->dateRange->end_date)) {
-            $from = Carbon::parse($animalItems->dateRange->start_date);
-            $to = (isset($animalItems->dateRange->end_date)) ? Carbon::parse($animalItems->dateRange->end_date) : '';
-            $diff_in_days = $to->diffInDays($from);
-        }
-
+        // Price
         $totalPriceStand = (isset($animalItem->shelterAnimalPrice->stand_care)) ? $animalItem->shelterAnimalPrice->stand_care : 0;
         $totalPriceHibern = (isset($animalItem->shelterAnimalPrice->hibern)) ? $animalItem->shelterAnimalPrice->hibern : 0;
         $totalPriceFullCare = (isset($animalItem->shelterAnimalPrice->full_care)) ? $animalItem->shelterAnimalPrice->full_care : 0;
@@ -83,14 +77,28 @@ class AnimalItemController extends Controller
         ->where('hibern_start', '!=', null)
         ->get();
 
-        // Proširena skrb
+        // Full Care
         $fullCare = $animalItem->dateFullCare;
+        $dateFullCare_total = $animalItem->dateFullCare;
+        $countDays = 0;
+        foreach ($dateFullCare_total as $key) {
+            $countDays += $key->days;
+        }
+        $maxDate = 10;
+        $totalCountForUse = ($maxDate - $countDays);
+        $totalDays = $totalCountForUse;
+
+        // Solitary/Group
+        $solitary_group = $animalItem->dateSolitaryGroups()
+        ->where('end_date', '=', null)->first();
 
         return view('animal.animal_item.show', [
             'animalItem' => $animalItem,
             'paginateLogs' => $paginateLogs,
             'hibern' => $hibern,
             'fullCare' => $fullCare,
+            'totalDays' => $totalDays,
+            'solitary_group' => $solitary_group,
         ]);
     }
 
@@ -107,22 +115,11 @@ class AnimalItemController extends Controller
         $size = $animalItem->animal->animalSize;
         $dateRange = $animalItem->dateRange;
 
-        $dateFullCare_total = $animalItem->dateFullCare;
-        $countDays = 0;
-        foreach ($dateFullCare_total as $key) {
-            $countDays += $key->days;
-        }
-        $maxDate = 10;
-        $totalCountForUse = ($maxDate - $countDays);
-        $totalDays = $totalCountForUse;
-
         return view('animal.animal_item.edit', [
             'animalItem' => $animalItem,
             'mediaItems' => $mediaItems,
             'size' => $size,
             'dateRange' => $dateRange,
-            'totalDays' => $totalDays,
-            'dateFullCare_total' => $dateFullCare_total
         ]);
     }
 

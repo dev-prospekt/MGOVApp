@@ -312,15 +312,15 @@ class AnimalGroupController extends Controller
             }
         }
         // status_receiving_file
-        if ($model->getMedia('status_receiving_file')) {
-            $documents = $model->getMedia('status_receiving_file');
+        if ($model->getMedia('state_receive_file')) {
+            $documents = $model->getMedia('state_receive_file');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'state_receive_file');
             }
         }
         // status_found_file
-        if ($model->getMedia('status_found_file')) {
-            $documents = $model->getMedia('status_found_file');
+        if ($model->getMedia('state_found_file')) {
+            $documents = $model->getMedia('state_found_file');
             foreach ($documents as $item) {
                 $copiedMediaItem = $item->copy($newModel, 'state_found_file');
             }

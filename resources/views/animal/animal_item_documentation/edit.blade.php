@@ -48,9 +48,6 @@
             @csrf
             @method('PUT')
 
-            <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
-            <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
-
             <div class="row">
               <div class="col-md-6">
                   <div class="bordered-group">
@@ -162,7 +159,7 @@
                       <div class="form-group">
                         <label>Učitaj dokument <span class="text-muted">(pdf,jpg,png,doc,docx)</span></label>
                           <input type="file" id="stateFoundFile" name="state_found_file[]" multiple />
-                          <div id="error_status_found_file"></div>
+                          <div id="error_state_found_file"></div>
                       </div>
                   </div>
                 </div>
@@ -308,14 +305,14 @@
       $(function() {
                      
             
-              $("#stateFoundFile").fileinput({
+        $("#stateFoundFile").fileinput({
                   language: "cr",
                   //required: true,
                   showPreview: false,
                   showUpload: false,
                   showCancel: false,
                   allowedFileExtensions: ["pdf", "jpg", "png", 'doc', 'docx'],
-                  elErrorContainer: '#error_recived_file',
+                  elErrorContainer: '#error_state_found_file',
                   msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
                });
             
@@ -328,7 +325,7 @@
                   showUpload: false,
                   showCancel: false,
                   allowedFileExtensions: ["pdf", "jpg", "png", 'doc', 'docx'],
-                  elErrorContainer: '#error_recived_file',
+                  elErrorContainer: '#error_state_recive_file',
                   msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
                });
             
@@ -380,84 +377,6 @@
                       }
                   });
               });
-
-            // Delete state Found
-          $('body').on('click', '#deleteStateFound', function() {
- 
-            var documentation_id = $(this).data('documentation-id');
-            var shelter_id = $(this).data('shelter-id');
-            var animal_item_id = $(this).data('item-id');
-            var group_id = $(this).data('group-id');
-
-            Swal.fire({
-                title: "Brisanje?",
-                text: "Potvrdite ako ste sigurni za brisanje!",
-                type: "warning",
-                showCancelButton: !0,
-                confirmButtonText: "Da, brisanje!",
-                cancelButtonText: "Ne, odustani!",
-                reverseButtons: !0
-            }).then(function (e) {
-
-            if (e.value === true) {
-                            
-                $.ajax({
-                    type: 'DELETE',
-                    url: "/shelters/"+shelter_id+"/animal_groups/"+group_id+"/animal_items/"+animal_item_id+"/animal_item_documentations/"+documentation_id,
-                    data: {_token: '{{csrf_token()}}'},
-                    dataType: 'JSON',
-                    success: function (results) {
-                      location.reload();
-                    }
-                });
-
-              } else {
-                e.dismiss;
-              }
-
-              }, function (dismiss) {
-              return false;
-              })
-          });
-
-          // Delete state Found
-          $('body').on('click', '#deleteStateRecived', function() {
-
-          var documentation_id = $(this).data('documentation-id');
-          var shelter_id = $(this).data('shelter-id');
-          var animal_item_id = $(this).data('item-id');
-          var group_id = $(this).data('group-id');
-
-            Swal.fire({
-                title: "Brisanje?",
-                text: "Potvrdite ako ste sigurni za brisanje!",
-                type: "warning",
-                showCancelButton: !0,
-                confirmButtonText: "Da, brisanje!",
-                cancelButtonText: "Ne, odustani!",
-                reverseButtons: !0
-            }).then(function (e) {
-
-            if (e.value === true) {
-                            
-                $.ajax({
-                    type: 'DELETE',
-                    url: "/shelters/"+shelter_id+"/animal_groups/"+group_id+"/animal_items/"+animal_item_id+"/animal_item_documentations/"+documentation_id,
-                    data: {_token: '{{csrf_token()}}'},
-                    dataType: 'JSON',
-                    success: function (results) {
-                      location.reload();
-                    }
-                });
-
-              } else {
-                e.dismiss;
-              }
-
-              }, function (dismiss) {
-              return false;
-              })
-          });
       })
   </script>
 

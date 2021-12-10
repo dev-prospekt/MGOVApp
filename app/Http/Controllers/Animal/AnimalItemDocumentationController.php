@@ -9,10 +9,10 @@ use App\Models\Animal\AnimalItem;
 use App\Models\Animal\AnimalMark;
 use App\Models\Animal\AnimalGroup;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AnimalDocumentStoreRequest;
 use App\Models\Animal\AnimalMarkType;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Animal\AnimalItemDocumentation;
-use App\Http\Requests\DocumentationStoreRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Animal\AnimalItemDocumentationStateType;
 
@@ -32,7 +32,7 @@ class AnimalItemDocumentationController extends Controller
         return view('animal.animal_item_documentation.create', ['shelter' => $shelter, 'animalGroup' => $animalGroup, 'animalItem' => $animalItem, 'markTypes' => $markTypes, 'stateTypes' => $stateTypes]);
     }
 
-    public function store(DocumentationStoreRequest $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
+    public function store(AnimalDocumentStoreRequest $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
         $itemDocumentation = new AnimalItemDocumentation;
         $itemDocumentation->animal_item_id = $animalItem->id;
@@ -90,11 +90,10 @@ class AnimalItemDocumentationController extends Controller
             });
         }
 
-        return redirect()->route('shelters.animal_groups.animal_items.animal_item_documentations.index',[
-            $shelter, 
-            $animalGroup, 
-            $animalItem
-        ])->with('store_docs', 'Dokumentacija uspješno spremljena');
+        return redirect()->route(
+            'shelters.animal_groups.animal_items.animal_item_documentations.index',
+            [$shelter,  $animalGroup, $animalItem]
+        )->with('store_docs', 'Dokumentacija uspješno spremljena');
     }
 
     public function edit(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
@@ -114,7 +113,7 @@ class AnimalItemDocumentationController extends Controller
         ]);
     }
 
-    public function update(DocumentationStoreRequest $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
+    public function update(AnimalDocumentStoreRequest $request, Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
     {
         $itemDocumentation = AnimalItemDocumentation::find($animalItemDocumentation->id);
         $itemDocumentation->animal_item_id = $animalItem->id;

@@ -42,31 +42,6 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {{-- @foreach ($shelters as $shelter)
-                        <tr>
-                            <td>{{ $shelter->id }}</td>
-                            <td>{{ $shelter->name }}</td>                 
-                            <td>{{ $shelter->address }}</td>
-                            <td>{{ $shelter->email }}</td>
-                            <td>{{ $shelter->telephone }}</td>
-                            <td>{{ $shelter->users->first()->name ?? '' }}</td>
-                            <td>
-                                @foreach ($shelter->shelterTypes as $type)
-                                    <button type="button" class="btn btn-{{ $type->id == 1 ? 'warning' : 'danger' }}" data-toggle="tooltip" data-placement="top" title="{{ $type->name }}">
-                                        {{ $type->code }}
-                                    </button>
-                                @endforeach
-                            </td>
-                            <td class="d-flex justify-content-between">
-                                <a href="{{ route('shelter.show', [$shelter->id]) }}" class="btn btn-info" href="#" role="button">Pregled</a>
-                                <a class="btn btn-warning" href="{{ route("shelter.edit", $shelter) }}" role="button">Uredi</a>
-                                <a href="javascript:void(0)" id="shelterClick" class="btn btn-danger">
-                                    <input type="hidden" id="shelter_id" value="{{$shelter->id}}">
-                                    Obriši
-                                </a>
-                            </td>
-                        </tr>        
-                    @endforeach --}}
                 </table>
                 </div>
             </div>

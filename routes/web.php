@@ -24,7 +24,7 @@ Auth::routes();
 
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/', [DashboardController::class, 'index']);
+    Route::get('/', [DashboardController::class, 'index'])->name('home');
 
     Route::get('/test', function () {
         return view('sample');

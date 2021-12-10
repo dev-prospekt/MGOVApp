@@ -2,12 +2,13 @@
 
 namespace App\Models\Animal;
 
+use DateTimeInterface;
 use App\Models\DateRange;
 use App\Models\FounderData;
 use App\Models\DateFullCare;
-use App\Models\DateSolitaryGroup;
 
 use App\Models\Shelter\Shelter;
+use App\Models\DateSolitaryGroup;
 use Spatie\MediaLibrary\HasMedia;
 use App\Models\Animal\AnimalGroup;
 use App\Models\ShelterAnimalPrice;
@@ -21,6 +22,7 @@ class AnimalItem extends Model implements HasMedia
     use \Bkwld\Cloner\Cloneable;
 
     /* protected $cloneable_file_attributes = ['media']; */
+    protected $guarded = [];
 
     protected $fillable = ['animal_code'];
 
@@ -28,6 +30,7 @@ class AnimalItem extends Model implements HasMedia
         'animal_date_found' => 'date',
         'date_seized_animal' => 'date',
     ];
+
 
     protected $cloneable_relations = ['animalDocumentation', 'dateRange', 'dateSolitaryGroups', 'dateFullCare', 'euthanasia'];
 

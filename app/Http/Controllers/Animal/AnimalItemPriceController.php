@@ -18,7 +18,7 @@ class AnimalItemPriceController extends Controller
         
         // Date Range
         if(!empty($request->end_date)){
-            $animalItem->dateRange()->update(['animal_item_id' => $id,
+            $animalItem->dateRange()->update([
                 'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date),
                 'reason_date_end' => $request->reason_date_end,
             ]);
@@ -42,7 +42,6 @@ class AnimalItemPriceController extends Controller
                 $animalItem->dateSolitaryGroups()
                 ->where('end_date', '=', null)
                 ->update([
-                    'animal_item_id' => $id,
                     'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date),
                 ]);
             }
@@ -99,13 +98,13 @@ class AnimalItemPriceController extends Controller
 
         // Hibern
         if(!empty($request->hib_est_from)){
-            $animalItem->dateRange()->update(['animal_item_id' => $id,
+            $animalItem->dateRange()->update([
                 'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('m/d/Y', $request->hib_est_from) : null,
             ]);
 
             // Ako je poslan datum za kraj skrbi
             if(!empty($request->end_date)){
-                $updateAnimalItemHibern = $animalItem->dateRange()->update(['animal_item_id' => $id,
+                $updateAnimalItemHibern = $animalItem->dateRange()->update([
                     'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('m/d/Y', $request->hib_est_from) : null,
                     'hibern_end' => (isset($request->end_date)) ? Carbon::createFromFormat('m/d/Y', $request->end_date) : null
                 ]);
@@ -123,7 +122,7 @@ class AnimalItemPriceController extends Controller
             }
 
             if(!empty($request->hib_est_to)){
-                $animalItem->dateRange()->update(['animal_item_id' => $id,
+                $animalItem->dateRange()->update([
                     'hibern_start' => Carbon::createFromFormat('m/d/Y', $request->hib_est_from),
                     'hibern_end' => Carbon::createFromFormat('m/d/Y', $request->hib_est_to),
                 ]);
@@ -161,7 +160,7 @@ class AnimalItemPriceController extends Controller
                 die();
             }
 
-            $animalItem->dateFullCare()->create(['animal_item_id' => $id,
+            $animalItem->dateFullCare()->create([
                 'start_date' => Carbon::createFromFormat('m/d/Y', $request->full_care_start),
                 'end_date' => Carbon::createFromFormat('m/d/Y', $request->full_care_end),
                 'days' => $full_care_diff_in_days,

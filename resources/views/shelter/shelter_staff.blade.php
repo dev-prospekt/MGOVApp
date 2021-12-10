@@ -27,19 +27,19 @@
     <div class="d-flex align-items-center justify-content-between">
       <div> <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5></div>
       <div>      
-          <a href="javascript:void(0)" class="btn btn-primary btn-icon-text" data-toggle="modal" 
-          data-target="#createStaffModal" type="button" class="btn btn-primary btn-icon-text">
+          <a href="javascript:void(0)" class="btn btn-primary btn-sm btn-icon-text" data-toggle="modal" 
+          data-target="#createStaffModal" type="button" class="btn btn-primary btn-sm btn-icon-text">
             Pravna osoba
             <i class="btn-icon-append" data-feather="user-plus"></i>
           </a>
     
-          <a type="button" class="btn btn-warning btn-icon-text" data-toggle="modal" 
+          <a type="button" class="btn btn-warning btn-icon-text btn-sm" data-toggle="modal" 
           data-target="#createCareStaffModal">
             Osoba - skrb životinja
             <i class="btn-icon-append" data-feather="user-plus"></i>
           </a>
     
-          <a type="button" class="btn btn-info btn-icon-text" data-toggle="modal" data-target="#createVetStaffModal">
+          <a type="button" class="btn btn-info btn-icon-text btn-sm" data-toggle="modal" data-target="#createVetStaffModal">
             Pružatelj veterinarske usluge
             <i class="btn-icon-append" data-feather="plus-circle"></i>
           </a>               
@@ -319,7 +319,7 @@
                   <h6 class="card-title">Ostale osobe za skrb životinja</h6>        
                 </div>
                 <div>        
-                  <a type="button" class="btn btn-info btn-icon-text" data-toggle="modal" data-target="#createPersonelStaffModal">
+                  <a type="button" class="btn btn-info btn-sm btn-icon-text" data-toggle="modal" data-target="#createPersonelStaffModal">
                     Dodaj<i class="btn-icon-append" data-feather="user-plus"></i>
                   </a>                      
                 </div>
@@ -354,10 +354,10 @@
                           <td>{{ $staff->email }}</td>
                           <td>{{ $staff->education }}</td>
                         
-                          <td><button type="button" class="btn btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
+                          <td><button type="button" class="btn btn-sm btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
                             <i data-feather="check-square"></i>
                           </button>        
-                          <button type="button" id="deletePersonelStaff" type="button" class="btn btn-danger btn-icon" 
+                          <button type="button" id="deletePersonelStaff" type="button" class="btn btn-sm btn-danger btn-icon" 
                             data-id="{{ $staff->id ?? ''  }}">
                               <i data-feather="box"></i>
                             </button></td>
@@ -412,8 +412,7 @@
 
 <script>
 
-      $(function() {
-           
+      $(function() {    
         // Create Legal Shelter Staff Ajax request.
         $('#createLegalStaff').on('submit', function(e) {
           e.preventDefault();

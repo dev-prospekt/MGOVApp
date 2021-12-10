@@ -103,6 +103,7 @@ hr {
   justify-content: end;
   min-width: 155px;
   max-width: 180px;
+  background: #0e0e0e;
 }
 .latest-photos .photo-item {
   margin: 0 5px;
@@ -110,11 +111,6 @@ hr {
   margin-right: 20px;
 }
 
-.latest-photos .photo-item > a.deleteThumb {
-  position: absolute;
-  top: -20px;
-  right: -15px;
-}
 
 /*tabs nav*/
 .nav.nav-tabs.nav-tabs-line .nav-link.active {
