@@ -27,11 +27,11 @@
       <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.show', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">{{ $animalItem->animal->name }} - {{ $animalItem->animal->latin_name }}</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Dokumentacija</a>
+      <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Dokumentacija jedinke</a>
     </li>
 
     <li class="nav-item">
-      <a class="nav-link" href="#">Eutanazija</a>
+      <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Završetak skrbi</a>
     </li>
   </ul>
 
@@ -63,10 +63,10 @@
                   <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="email-list-detail">
                     <div>
                       <span class="from">{{  $itemlLog->log_subject }}</span>
-                      <p class="msg">{{ $itemlLog->logType->type_name }} </p>
+                      <p class="msg {{ ($itemlLog->logType->type_name == 'Proširena skrb') ? 'text-danger' : '' }}">{{ $itemlLog->logType->type_name }} </p>
                     </div>
                     <div class="justify-content-between"> 
-                    <span class="date">                        
+                    <span class="date {{ ($itemlLog->logType->type_name == 'Proširena skrb') ? 'text-danger' : '' }}">                        
                       {{ $itemlLog->created_at->format('d.m.Y.') }}
                     </span>
                     <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="btn btn-warning btn-xs mt-1">
@@ -243,30 +243,34 @@
                 </div> 
     
                 <div class="row">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Promjena Solitarna ili Grupa</label>
-                        <select class="form-control" name="solitary_or_group_type" id="">
-                          <option value="">---</option>
-                          @if ($solitary_group->solitary_or_group == 'Grupa')
-                            <option value="Solitarno">Solitarno</option>
-                          @else
-                            <option value="Grupa">Grupa</option>
-                          @endif
-                        </select>     
-                    </div> 
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="">Datum</label>
-                      <div class="input-group date datepicker" id="datePickerExample">          
-                        <input type="text" name="solitary_or_group_end" class="form-control end_date" >
-                          <span class="input-group-addon">
-                            <i data-feather="calendar"></i>
-                          </span>
+                  @if(empty($solitary_group_end))
+                    <div class="col-md-6">
+                      <div class="form-group">
+                          <label>Promjena Solitarna ili Grupa</label>
+                          <select class="form-control" name="solitary_or_group_type" id="">
+                            <option value="">---</option>
+                            @if ($solitary_group->solitary_or_group == 'Grupa')
+                              <option value="Solitarno">Solitarno</option>
+                            @else
+                              <option value="Grupa">Grupa</option>
+                            @endif
+                          </select>     
+                      </div> 
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="">Datum</label>
+                        <div class="input-group date datepicker" id="datePickerExample">          
+                          <input type="text" name="solitary_or_group_end" class="form-control end_date" >
+                            <span class="input-group-addon">
+                              <i data-feather="calendar"></i>
+                            </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  @endif
+
                 </div>
     
                 <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>

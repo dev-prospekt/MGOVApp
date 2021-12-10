@@ -13,7 +13,7 @@
 
   <div>      
     <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}/animal_items/{{ $animalItem->id }}" type="button" class="btn btn-primary btn-sm btn-icon-text">
-       Povratak
+       Povratak na popis
        <i class="btn-icon-append" data-feather="clipboard"></i>
      </a> 
   </div>

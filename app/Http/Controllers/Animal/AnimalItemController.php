@@ -92,6 +92,9 @@ class AnimalItemController extends Controller
         $solitary_group = $animalItem->dateSolitaryGroups()
         ->where('end_date', '=', null)->first();
 
+        $solitary_group_end = $animalItem->dateSolitaryGroups()
+        ->where('end_date', '!=', null)->latest()->first();
+
         return view('animal.animal_item.show', [
             'animalItem' => $animalItem,
             'paginateLogs' => $paginateLogs,
@@ -99,6 +102,7 @@ class AnimalItemController extends Controller
             'fullCare' => $fullCare,
             'totalDays' => $totalDays,
             'solitary_group' => $solitary_group,
+            'solitary_group_end' => $solitary_group_end,
         ]);
     }
 
