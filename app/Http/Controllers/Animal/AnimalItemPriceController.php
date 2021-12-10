@@ -196,6 +196,11 @@ class AnimalItemPriceController extends Controller
 
                 $this->updatePrice($animalItem->id, $totalPriceStand, $totalPriceHibern, $totalPriceFullCare);
             }
+            
+            // Euthanasia
+            if(!empty($request->euthanasia)){
+                
+            }
 
             // Finish Price
             if(!empty($totalPriceHibern)){

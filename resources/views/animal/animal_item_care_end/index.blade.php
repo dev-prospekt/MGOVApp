@@ -43,10 +43,6 @@
             <div>
               <p class="text-muted">
                 Početak skrbi - <span class="text-info">{{ $animalItem->dateRange->start_date->format('d.m.Y.') }}</span>
-
-                @if (!empty($animalItem->dateRange->end_date))
-                  Kraj skrbi - <span class="text-info">{{ $animalItem->dateRange->end_date->format('d.m.Y.') }}</span>
-                @endif
               </p>
             </div>
         </div>
@@ -86,8 +82,15 @@
   <div class="col-md-5">
     <div class="card">
       <div class="card-body">
-        <div class="d-flex align-items-center justify-content-between">
-          <div><h6 class="card-title">Cijene skrbi</h6> </div> 
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <h6 class="card-title mb-0">Cijene skrbi</h6>
+          <div>
+            <p class="text-muted">
+              @if (!empty($animalItem->dateRange->end_date))
+                Kraj skrbi - <span class="text-info">{{ $animalItem->dateRange->end_date->format('d.m.Y.') }}</span>
+              @endif
+            </p>
+          </div>
         </div> 
 
         @if($msg = Session::get('update_animal_item'))
