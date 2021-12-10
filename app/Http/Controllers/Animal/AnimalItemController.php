@@ -67,11 +67,6 @@ class AnimalItemController extends Controller
         $animalGroup = $animalItem->animalGroup;
         $paginateLogs = $animalItem->latestAnimalItemLogs()->paginate(5);
 
-        // Price
-        $totalPriceStand = (isset($animalItem->shelterAnimalPrice->stand_care)) ? $animalItem->shelterAnimalPrice->stand_care : 0;
-        $totalPriceHibern = (isset($animalItem->shelterAnimalPrice->hibern)) ? $animalItem->shelterAnimalPrice->hibern : 0;
-        $totalPriceFullCare = (isset($animalItem->shelterAnimalPrice->full_care)) ? $animalItem->shelterAnimalPrice->full_care : 0;
-
         // Hibernacija : Da ili Ne
         $hibern = $animalItem->dateRange->where('animal_item_id', '=', $animalItem->id)
         ->where('hibern_start', '!=', null)

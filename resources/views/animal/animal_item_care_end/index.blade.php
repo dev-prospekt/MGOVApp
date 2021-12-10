@@ -94,7 +94,7 @@
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Grupa: </label>
                 <p class="text-muted">
                   @if (!empty($animalItem->shelterAnimalPrice))
-                  {{ $animalItem->shelterAnimalPrice->group_price ? $animalItem->shelterAnimalPrice->group_price . ' kn' : '' }}
+                  {{ $price->group_price ? $price->group_price . 'kn' : '' }}
                   @endif
                 </p>
               </div>
@@ -102,7 +102,7 @@
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Solitarno: </label>
                 <p class="text-muted">
                   @if (!empty($animalItem->shelterAnimalPrice))
-                  {{ $animalItem->shelterAnimalPrice->solitary_price ? $animalItem->shelterAnimalPrice->solitary_price . ' kn' : '' }}
+                  {{ $price->solitary_price ? $price->solitary_price . 'kn' : '' }}
                   @endif
                 </p>
               </div>
@@ -112,7 +112,7 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->shelterAnimalPrice))
-                {{ $animalItem->shelterAnimalPrice->full_care != 0 ? $animalItem->shelterAnimalPrice->full_care : '' }}
+                {{ $price->full_care != 0 ? $price->full_care . 'kn' : '' }}
                 @endif
               </p>
             </div>
@@ -120,13 +120,26 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->shelterAnimalPrice))
-                {{ $animalItem->shelterAnimalPrice->hibern ? $animalItem->shelterAnimalPrice->hibern . ' kn' : '' }}
+                {{ $price->hibern ? $price->hibern . 'kn' : '' }}
                 @endif
               </p>
             </div>
           </div>
 
-        </div>   
+        </div>
+        <div class="row">
+
+          <div class="col-md-4 grid-margin">
+            <div class="mt-2">
+              <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupna cijena:</label>
+              <p class="text-muted">
+
+              </p>
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </div>
   </div><!-- end card -->
