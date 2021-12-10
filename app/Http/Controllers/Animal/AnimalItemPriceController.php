@@ -207,9 +207,9 @@ class AnimalItemPriceController extends Controller
                 $this->updateFinishPrice($animalItem->id, $finishPrice);
             }
             if(!empty($totalPriceSolitaryOrGroup)){
-                $solitaryAndGroup = $animalItem->shelterAnimalPrice;
-                if(!empty($solitaryAndGroup->group_price) && !empty($solitaryAndGroup->solitary_price)){
-                    $finishPrice = ($solitaryAndGroup->group_price + $solitaryAndGroup->solitary_price);
+                $solitaryAndGroupPrice = $animalItem->shelterAnimalPrice;
+                if(!empty($solitaryAndGroupPrice->group_price) && !empty($solitaryAndGroupPrice->solitary_price)){
+                    $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                     $this->updateFinishPrice($animalItem->id, $finishPrice);
                 }
             }
