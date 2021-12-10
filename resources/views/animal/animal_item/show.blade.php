@@ -35,6 +35,10 @@
     </li>
   </ul>
 
+  @if($msg = Session::get('care_end'))
+  <div id="successMessage" class="alert alert-warning"> {{ $msg }}</div>
+  @endif  
+
   <div class="row mt-4">
     <div class="col-md-5">
       <div class="card">
@@ -260,7 +264,7 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label for="">Datum</label>
-                      <div class="input-group date datepicker" id="datePickerExample">          
+                      <div class="input-group date datepicker" id="datePickerExample">
                         <input type="text" name="solitary_or_group_end" class="form-control end_date" >
                           <span class="input-group-addon">
                             <i data-feather="calendar"></i>
