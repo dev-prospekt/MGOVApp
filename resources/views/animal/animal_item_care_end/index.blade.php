@@ -41,7 +41,13 @@
         <div class="d-flex align-items-center justify-content-between mb-2">
             <h6 class="card-title mb-0">Kraj skrbi jedinke</h6>
             <div>
-              <p class="text-muted">Početak skrbi - <span class="text-info">{{ $animalItem->dateRange->start_date->format('d.m.Y.') }}</span></p>
+              <p class="text-muted">
+                Početak skrbi - <span class="text-info">{{ $animalItem->dateRange->start_date->format('d.m.Y.') }}</span>
+
+                @if (!empty($animalItem->dateRange->end_date))
+                  Kraj skrbi - <span class="text-info">{{ $animalItem->dateRange->end_date->format('d.m.Y.') }}</span>
+                @endif
+              </p>
             </div>
         </div>
 
@@ -93,16 +99,16 @@
               <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Grupa: </label>
                 <p class="text-muted">
-                  @if (!empty($animalItem->shelterAnimalPrice))
-                  {{ $price->group_price ? $price->group_price . 'kn' : '' }}
+                  @if (!empty($animalItem->dateRange->end_date))
+                    {{ $price->group_price ? $price->group_price . 'kn' : '' }}
                   @endif
                 </p>
               </div>
               <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Solitarno: </label>
                 <p class="text-muted">
-                  @if (!empty($animalItem->shelterAnimalPrice))
-                  {{ $price->solitary_price ? $price->solitary_price . 'kn' : '' }}
+                  @if (!empty($animalItem->dateRange->end_date))
+                    {{ $price->solitary_price ? $price->solitary_price . 'kn' : '' }}
                   @endif
                 </p>
               </div>
@@ -111,16 +117,16 @@
             <div class="mt-2">
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
               <p class="text-muted">
-                @if (!empty($animalItem->shelterAnimalPrice))
-                {{ $price->full_care != 0 ? $price->full_care . 'kn' : '' }}
+                @if (!empty($animalItem->dateRange->end_date))
+                  {{ $price->full_care != 0 ? $price->full_care . 'kn' : '' }}
                 @endif
               </p>
             </div>
             <div class="mt-2">
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija: </label>
               <p class="text-muted">
-                @if (!empty($animalItem->shelterAnimalPrice))
-                {{ $price->hibern ? $price->hibern . 'kn' : '' }}
+                @if (!empty($animalItem->dateRange->end_date))
+                  {{ $price->hibern ? $price->hibern . 'kn' : '' }}
                 @endif
               </p>
             </div>
