@@ -89,25 +89,40 @@
         @endif      
 
         <div class="row">
-
           <div class="col-md-4 grid-margin">   
               <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Grupa: </label>
-                <p class="text-muted">{{ $animalItem->shelterAnimalPrice->group_price ? $animalItem->shelterAnimalPrice->group_price . ' kn' : '' }}</p>
+                <p class="text-muted">
+                  @if (!empty($animalItem->shelterAnimalPrice))
+                  {{ $animalItem->shelterAnimalPrice->group_price ? $animalItem->shelterAnimalPrice->group_price . ' kn' : '' }}
+                  @endif
+                </p>
               </div>
               <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Solitarno: </label>
-                <p class="text-muted">{{ $animalItem->shelterAnimalPrice->solitary_price ? $animalItem->shelterAnimalPrice->solitary_price . ' kn' : '' }}</p>
+                <p class="text-muted">
+                  @if (!empty($animalItem->shelterAnimalPrice))
+                  {{ $animalItem->shelterAnimalPrice->solitary_price ? $animalItem->shelterAnimalPrice->solitary_price . ' kn' : '' }}
+                  @endif
+                </p>
               </div>
           </div>
           <div class="col-md-4 grid-margin">   
             <div class="mt-2">
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
-              <p class="text-muted">{{ $animalItem->shelterAnimalPrice->full_care != 0 ? $animalItem->shelterAnimalPrice->full_care : '' }}</p>
+              <p class="text-muted">
+                @if (!empty($animalItem->shelterAnimalPrice))
+                {{ $animalItem->shelterAnimalPrice->full_care != 0 ? $animalItem->shelterAnimalPrice->full_care : '' }}
+                @endif
+              </p>
             </div>
             <div class="mt-2">
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija: </label>
-              <p class="text-muted">{{ $animalItem->shelterAnimalPrice->hibern ?? '' }}</p>
+              <p class="text-muted">
+                @if (!empty($animalItem->shelterAnimalPrice))
+                {{ $animalItem->shelterAnimalPrice->hibern ? $animalItem->shelterAnimalPrice->hibern . ' kn' : '' }}
+                @endif
+              </p>
             </div>
           </div>
 
