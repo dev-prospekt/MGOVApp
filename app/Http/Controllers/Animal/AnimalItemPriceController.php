@@ -25,7 +25,7 @@ class AnimalItemPriceController extends Controller
 
                 // Standard
                 $from = Carbon::parse($animalItem->dateRange->start_date);
-                $to = (isset($animalItem->dateRange->end_date)) ? Carbon::parse($animalItem->dateRange->end_date) : '';
+                $to = Carbon::createFromFormat('m/d/Y', $request->end_date);
                 $diff_in_days = $to->diffInDays($from);
 
                 // Standardna cijena
@@ -177,7 +177,7 @@ class AnimalItemPriceController extends Controller
             }
 
             // solitary_or_group - kod svake akcije treba napraviti update cijene
-            if(!empty($request->solitary_or_group_end) || !empty($request->end_date)){
+            if(!empty($request->solitary_or_group_end) || !empty($request->end_date) || !empty($request->solitary_or_group_type)){
                 $totalPriceSolitaryOrGroup = (isset($totalPriceSolitaryOrGroup)) ? $totalPriceSolitaryOrGroup : null;
                 
                 $this->updatePriceSolitaryOrGroup($animalItem->id, $totalPriceSolitaryOrGroup);
@@ -196,6 +196,24 @@ class AnimalItemPriceController extends Controller
 
                 $this->updatePrice($animalItem->id, $totalPriceStand, $totalPriceHibern, $totalPriceFullCare);
             }
+
+            // Finish Price
+            if(!empty($totalPriceHibern)){
+                $finishPrice = $totalPriceHibern;
+                $this->updateFinishPrice($animalItem->id, $finishPrice);
+            }
+            if(!empty($totalPriceFullCare)){
+                $finishPrice = ($totalPriceFullCare + $totalPriceSolitaryOrGroup);
+                $this->updateFinishPrice($animalItem->id, $finishPrice);
+            }
+            if(!empty($totalPriceSolitaryOrGroup)){
+                $solitaryAndGroup = $animalItem->shelterAnimalPrice;
+                if(!empty($solitaryAndGroup->group_price) && !empty($solitaryAndGroup->solitary_price)){
+                    $finishPrice = ($solitaryAndGroup->group_price + $solitaryAndGroup->solitary_price);
+                    $this->updateFinishPrice($animalItem->id, $finishPrice);
+                }
+            }
+            // Finish Price
 
             return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
         }
@@ -274,6 +292,14 @@ class AnimalItemPriceController extends Controller
         }
     }
 
+    public function updateFinishPrice($animalId, $totalPrice)
+    {
+        $shelterAnimalPrice = ShelterAnimalPrice::where('animal_item_id', $animalId)->first();
+        $shelterAnimalPrice->update([
+            "total_price" => $totalPrice,
+        ]);
+    }
+
     public function updatePrice($animalId, $standPrice, $hibernPrice, $fullCarePrice)
     {
         // Create or Update Price
@@ -283,7 +309,6 @@ class AnimalItemPriceController extends Controller
             $shelterAnimalPrice->update([
                 "hibern" => $hibernPrice,
                 "full_care" => $fullCarePrice,
-                "stand_care" => $standPrice,
             ]);
         }
         else {
@@ -291,7 +316,6 @@ class AnimalItemPriceController extends Controller
                 "animal_item_id" => $animalId,
                 "hibern" => $hibernPrice,
                 "full_care" => $fullCarePrice,
-                "stand_care" => $standPrice,
             ]);
         }
     }

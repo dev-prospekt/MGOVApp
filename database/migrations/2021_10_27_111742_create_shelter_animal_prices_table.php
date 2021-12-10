@@ -19,9 +19,9 @@ class CreateShelterAnimalPricesTable extends Migration
             $table->foreignId('animal_item_id');
             $table->decimal('hibern')->nullable();
             $table->decimal('full_care')->nullable();
-            $table->decimal('stand_care')->nullable();
             $table->decimal('solitary_price')->nullable();
             $table->decimal('group_price')->nullable();
+            $table->decimal('total_price')->nullable();
 
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ class AnimalItemCareEndController extends Controller
     public function index(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
         $animalItem = AnimalItem::with('animal', 'animalSizeAttributes', 'dateRange', 'founder')->find($animalItem->id);
-        $price = $animalItem->shelterAnimalPrice;
+        $price = (isset($animalItem->shelterAnimalPrice)) ? $animalItem->shelterAnimalPrice : null;
 
         return view('animal.animal_item_care_end.index', [
             'animalItem' => $animalItem,

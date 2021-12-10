@@ -100,7 +100,7 @@
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Grupa: </label>
                 <p class="text-muted">
                   @if (!empty($animalItem->dateRange->end_date))
-                    {{ $price->group_price ? $price->group_price . 'kn' : '' }}
+                    {{ (isset($price->group_price)) ? $price->group_price . 'kn' : '' }}
                   @endif
                 </p>
               </div>
@@ -108,7 +108,7 @@
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Solitarno: </label>
                 <p class="text-muted">
                   @if (!empty($animalItem->dateRange->end_date))
-                    {{ $price->solitary_price ? $price->solitary_price . 'kn' : '' }}
+                    {{ (isset($price->solitary_price)) ? $price->solitary_price . 'kn' : '' }}
                   @endif
                 </p>
               </div>
@@ -118,7 +118,7 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ $price->full_care != 0 ? $price->full_care . 'kn' : '' }}
+                  {{ (isset($price->full_care)) != 0 ? $price->full_care . 'kn' : '' }}
                 @endif
               </p>
             </div>
@@ -126,12 +126,24 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ $price->hibern ? $price->hibern . 'kn' : '' }}
+                  {{ (isset($price->hibern)) ? $price->hibern . 'kn' : '' }}
                 @endif
               </p>
             </div>
           </div>
 
+        </div>
+        <div class="row">
+          <div class="col-md-4 grid-margin">
+            <div class="mt-2">
+              <label class="tx-11 font-weight-bold mb-0 text-uppercase">Konačna cijena: </label>
+              <p class="text-muted">
+                @if (!empty($animalItem->dateRange->end_date))
+                  {{ $price->total_price . 'kn' }}
+                @endif
+              </p>
+            </div>
+          </div>
         </div>
 
       </div>
