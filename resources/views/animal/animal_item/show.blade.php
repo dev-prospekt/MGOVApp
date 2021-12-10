@@ -126,7 +126,7 @@
                       </div>
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način držanja:</label>
-                        <p class="text-warning">{{ $solitary_group->solitary_or_group ?? '' }}</p>
+                        <p class="text-warning">{{ $animalItem->solitary_or_group ?? '' }}</p>
                       </div>
 
                       <div class="mt-2">

@@ -94,37 +94,36 @@ class AnimalItemPriceController extends Controller
         // Hibern
         if(!empty($request->hib_est_from) || !empty($request->end_date)){
             
+            // Spremamo početak hibernacije
             if(!empty($request->hib_est_from) && empty($request->end_date)){
                 $animalItem->dateRange()->update([
                     'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('m/d/Y', $request->hib_est_from) : null,
                 ]);
             }
 
-            // Ako je poslan datum za kraj skrbi
-            if(!empty($request->end_date) && !empty($animalItem->dateRange->hibern_start)){
-                $updateAnimalItemHibern = $animalItem->dateRange()->update([
-                    'hibern_end' => (isset($request->end_date)) ? Carbon::createFromFormat('m/d/Y', $request->end_date) : null
-                ]);
-
-                $hib_from = Carbon::parse($animalItem->dateRange->hibern_start);
-                $hib_to = Carbon::createFromFormat('m/d/Y', $request->end_date);
-                $hibernDiffDays = $hib_to->diffInDays($hib_from);
-
-                $hib_day = ((int)$diff_in_days - (int)$hibernDiffDays);
-
-                // Cijena za hibernaciju
-                $totalPriceHibern = $this->getPrice($animalItem, $hib_day);
+            // Ako je poslan datum za kraj skrbi, ažuriraj ako je hibern_end prazan
+            if(empty($animalItem->dateRange->hibern_end)){
+                if(!empty($request->end_date) && !empty($animalItem->dateRange->hibern_start)){
+                    $updateAnimalItemHibern = $animalItem->dateRange()->update([
+                        'hibern_end' => (isset($request->end_date)) ? Carbon::createFromFormat('m/d/Y', $request->end_date) : null
+                    ]);
+                }
             }
 
+            // update hibernacije - spremamo kraj hibernacije
             if(!empty($request->hib_est_to)){
                 $animalItem->dateRange()->update([
                     'hibern_start' => Carbon::createFromFormat('m/d/Y', $request->hib_est_from),
                     'hibern_end' => Carbon::createFromFormat('m/d/Y', $request->hib_est_to),
                 ]);
-                
+            }
+
+            // Izvlacimo cijenu hibernacije
+            if(!empty($request->end_date) && !empty($animalItem->dateRange->hibern_start))
+            {
                 if(!empty($diff_in_days)){
-                    $hib_from = Carbon::createFromFormat('m/d/Y', $request->hib_est_from);
-                    $hib_to = Carbon::createFromFormat('m/d/Y', $request->hib_est_to);
+                    $hib_from = Carbon::parse($animalItem->dateRange->hibern_start);
+                    $hib_to = Carbon::parse($animalItem->dateRange->hibern_end);
                     $hib_diff_days = $hib_to->diffInDays($hib_from);
 
                     $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);

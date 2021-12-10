@@ -88,7 +88,7 @@ class AnimalItemController extends Controller
         ->where('end_date', '=', null)->first();
 
         $solitary_group_end = $animalItem->dateSolitaryGroups()
-        ->where('end_date', '!=', null)->latest()->first();
+        ->where('end_date', '!=', null)->latest()->take(1);
 
         return view('animal.animal_item.show', [
             'animalItem' => $animalItem,
