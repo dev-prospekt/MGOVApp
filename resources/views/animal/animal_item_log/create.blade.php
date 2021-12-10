@@ -12,8 +12,8 @@
   <div> <h5 class="mb-3 mb-md-0">{{ $animalItem->shelter->name }}</h5></div>
 
   <div>      
-    <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-primary btn-sm btn-icon-text">
-       Povratak na popis
+    <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}/animal_items/{{ $animalItem->id }}" type="button" class="btn btn-primary btn-sm btn-icon-text">
+       Povratak
        <i class="btn-icon-append" data-feather="clipboard"></i>
      </a> 
   </div>
