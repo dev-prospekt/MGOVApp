@@ -66,7 +66,6 @@ class AnimalItemDocumentationController extends Controller
                 });
         }
 
-
         // animal Mark
         if (!empty($itemDocumentation->animalMark)) { // update
             $animalMark = $itemDocumentation->animalMark()->update([
@@ -86,16 +85,16 @@ class AnimalItemDocumentationController extends Controller
         //mark photo
         if ($request->animal_mark_photos) {
             $itemDocumentation->addMultipleMediaFromRequest(['animal_mark_photos'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('animal_mark_photos');
-                });
+            ->each(function ($fileAdder) {
+                $fileAdder->toMediaCollection('animal_mark_photos');
+            });
         }
 
-
-        return redirect()->route(
-            'shelters.animal_groups.animal_items.animal_item_documentations.index',
-            [$shelter, $animalGroup, $animalItem]
-        )->with('store_docs', 'Dokumentacija uspješno spremljena');
+        return redirect()->route('shelters.animal_groups.animal_items.animal_item_documentations.index',[
+            $shelter, 
+            $animalGroup, 
+            $animalItem
+        ])->with('store_docs', 'Dokumentacija uspješno spremljena');
     }
 
     public function edit(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem, AnimalItemDocumentation $animalItemDocumentation)
