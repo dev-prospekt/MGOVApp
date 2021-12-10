@@ -141,6 +141,7 @@
                       @if(!empty($animalItem->dateFullCare->first()))
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb:</label>
+                        <p class="text-muted">Iskorišteni broj dana: {{$totalDays}}</p>
                         @foreach ($animalItem->dateFullCare as $full)
                           <p class="text-muted">{{$full->start_date->format('d.m.Y')}} - {{ $full->end_date->format('d.m.Y') }} ({{$full->days}} dana)</p>
                         @endforeach
