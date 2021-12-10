@@ -83,21 +83,12 @@ class AnimalItemController extends Controller
         $totalCountForUse = ($maxDate - $countDays);
         $totalDays = $totalCountForUse;
 
-        // Solitary/Group
-        $solitary_group = $animalItem->dateSolitaryGroups()
-        ->where('end_date', '=', null)->first();
-
-        $solitary_group_end = $animalItem->dateSolitaryGroups()
-        ->where('end_date', '!=', null)->latest()->take(1);
-
         return view('animal.animal_item.show', [
             'animalItem' => $animalItem,
             'paginateLogs' => $paginateLogs,
             'hibern' => $hibern,
             'fullCare' => $fullCare,
             'totalDays' => $totalDays,
-            'solitary_group' => $solitary_group,
-            'solitary_group_end' => $solitary_group_end,
         ]);
     }
 

@@ -243,33 +243,31 @@
                 </div> 
     
                 <div class="row">
-                  @if(empty($solitary_group_end))
-                    <div class="col-md-6">
-                      <div class="form-group">
-                          <label>Promjena Solitarna ili Grupa</label>
-                          <select class="form-control" name="solitary_or_group_type" id="">
-                            <option value="">---</option>
-                            @if ($solitary_group->solitary_or_group == 'Grupa')
-                              <option value="Solitarno">Solitarno</option>
-                            @else
-                              <option value="Grupa">Grupa</option>
-                            @endif
-                          </select>     
-                      </div> 
-                    </div>
-                    
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="">Datum</label>
-                        <div class="input-group date datepicker" id="datePickerExample">          
-                          <input type="text" name="solitary_or_group_end" class="form-control end_date" >
-                            <span class="input-group-addon">
-                              <i data-feather="calendar"></i>
-                            </span>
-                        </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Promjena Solitarna ili Grupa</label>
+                        <select class="form-control" name="solitary_or_group_type" id="">
+                          <option value="">---</option>
+                          @if ($animalItem->solitary_or_group == 'Grupa')
+                            <option value="Solitarno">Solitarno</option>
+                          @else
+                            <option value="Grupa">Grupa</option>
+                          @endif
+                        </select>     
+                    </div> 
+                  </div>
+                  
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="">Datum</label>
+                      <div class="input-group date datepicker" id="datePickerExample">          
+                        <input type="text" name="solitary_or_group_end" class="form-control end_date" >
+                          <span class="input-group-addon">
+                            <i data-feather="calendar"></i>
+                          </span>
                       </div>
                     </div>
-                  @endif
+                  </div>
 
                 </div>
     
