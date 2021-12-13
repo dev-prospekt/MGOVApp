@@ -204,7 +204,7 @@ class AnimalItemPriceController extends Controller
             // Finish Price
             if(!empty($totalPriceSolitaryOrGroup)){
                 $solitaryAndGroupPrice = $animalItem->shelterAnimalPrice;
-
+                
                 if(!empty($solitaryAndGroupPrice->group_price)) {
                     if(isset($totalPriceHibern)){
                         $finishPrice = $totalPriceHibern;
@@ -222,7 +222,7 @@ class AnimalItemPriceController extends Controller
                                 $euthanasia_price = 100;
                             }
                             else {
-                                $euthanasia_price = (float)$request->euthanasia_price;
+                                $euthanasia_price = $request->euthanasia_price;
                             }
         
                             $finishPrice = ($sol_group + $euthanasia_price);
@@ -253,7 +253,7 @@ class AnimalItemPriceController extends Controller
                                 $euthanasia_price = 100;
                             }
                             else {
-                                $euthanasia_price = (float)$request->euthanasia_price;
+                                $euthanasia_price = $request->euthanasia_price;
                             }
         
                             $finishPrice = ($sol_group + $euthanasia_price);
