@@ -117,7 +117,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Type</label>
+                                <label>Tip jedinke</label>
                                 <select name="shelter_type" id="">
                                     <option value="">----</option>
                                     @foreach ($type as $ty)

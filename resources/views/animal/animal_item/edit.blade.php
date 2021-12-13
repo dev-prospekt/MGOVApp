@@ -9,170 +9,54 @@
 
 @section('content')
 
-    <div class="row">
-        <div class="col-md-8 stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <div class="mb-2">
-                        @if($msg = Session::get('msg_update'))
-                        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                        @endif
-
-                        @if($msg = Session::get('error'))
-                        <div id="dangerMessage" class="alert alert-danger"> {{ $msg }}</div>
-                        @endif
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <form action="/animalItem/update/{{$animalItem->id}}" method="POST">
-                                @csrf
-                                @method('POST')
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group" id="hib_est_from_to">
-                                            <label>Hibernacija/estivacija</label>
-                                            <div class="d-flex">
-                                                <div class="input-group date datepicker" id="datePickerExample">
-                                                    <input type="text" name="hib_est_from" class="form-control hib_est_from" value="{{ $animalItem->dateRange->hibern_start }}">
-                                                    <span class="input-group-addon">
-                                                        <i data-feather="calendar"></i>
-                                                    </span>
-                                                </div>
-                                                <div class="input-group date datepicker" id="datePickerExample">
-                                                    <input type="text" name="hib_est_to" class="form-control hib_est_to" value="{{ $animalItem->dateRange->hibern_end }}">
-                                                    <span class="input-group-addon">
-                                                        <i data-feather="calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <div> <h5 class="mb-3 mb-md-0">Izmjena podataka</h5></div>
+    <div>      
+       <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}/animal_items/{{ $animalItem->id }}" type="button" class="btn btn-primary btn-sm btn-icon-text">
+          Povratak na popis
+          <i class="btn-icon-append" data-feather="clipboard"></i>
+        </a> 
         
-                                        <div class="form-group" id="period">
-                                            <label>Razdoblje provođenja proširene skrbi <strong>(ostalo {{ $totalDays }} dana)</strong></label>
-                                            @if ($totalDays != 0)
-                                            <div class="d-flex">
-                                                <div class="input-group date datepicker" id="datePickerExample">
-                                                    <input type="text" name="full_care_start" class="form-control full_care_start">
-                                                    <span class="input-group-addon">
-                                                        <i data-feather="calendar"></i>
-                                                    </span>
-                                                </div>
-                                                <div class="input-group date datepicker" id="datePickerExample">
-                                                    <input type="text" name="full_care_end" class="form-control full_care_end">
-                                                    <span class="input-group-addon">
-                                                        <i data-feather="calendar"></i>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            @endif
-                                        </div>
-                                    </div>
-    
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Datum prestanka skrbi o životinji (<strong>Datum početka skrbi {{ $dateRange->start_date }}</strong>)</label>
-                                            <div class="input-group date datepicker" id="datePickerExample">
-                                                <input type="text" name="end_date" class="form-control end_date" value="{{ $dateRange->end_date }}">
-                                                <span class="input-group-addon">
-                                                    <i data-feather="calendar"></i>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Razlog prestanka skrbi o životinji</label>
-                                            <div class="input-group">
-                                                <input type="text" name="reason_date_end" class="form-control" value="{{ $dateRange->reason_date_end }}">
-                                            </div>
-                                        </div> 
-                                    </div>       
-                                </div> 
-
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Promjena Solitarna ili Grupa</label>
-                                            <select class="form-control" name="solitary_or_group_type" id="">
-                                                <option value="">---</option>
-                                                <option value="Grupa">Grupa</option>
-                                                <option value="Solitarno">Solitarno</option>
-                                            </select>
-                                            <div class="input-group date datepicker" id="datePickerExample">
-                                                <input type="text" name="solitary_or_group_end" class="form-control end_date" >
-                                                <span class="input-group-addon">
-                                                    <i data-feather="calendar"></i>
-                                                </span>
-                                            </div>
-                                        </div> 
-                                    </div>
-                                </div>
-
-                                <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4 stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <div class="mb-2">
-                        @if($msg = Session::get('msg'))
-                        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                        @endif
-                    </div>
-
-                    <form method="POST" id="animalItemFile" action="{{ route('animaItem.addedFile') }}" enctype="multipart/form-data">
-                        @csrf
-                        <input type="hidden" id="animal_item_id" name="animal_item_id" value="{{$animalItem->id}}">
-
-                        <div class="form-group">
-                            <label>PDF</label>
-                            <input type="file" id="file" name="filenames[]" multiple />
-                            <div id="error_file"></div>
-                        </div>
-            
-                        <button type="submit" class="btn btn-primary mr-2">Upload</button>
-                    </form>
-
-                    <div class="mb-2 mt-4">
-                        <h6 class="card-title">Dokumenti životinje</h6>
-                    </div>
-                    
-                    @if ($mediaItems)
-                        @foreach ($mediaItems as $file)
-                            <div id="findFile">
-                                <div>
-                                    <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                                        href="{{ $file->getUrl() }}">
-                                        {{ $file->file_name }}
-                                    </a>
-                                    <a data-href="{{ route('animalItem.fileDelete', $file) }}" class="btn btn-sm btn-danger p-1 deleteFile" >
-                                        <i class="mdi mdi-delete"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        @endforeach
-                    @endif
-
-                </div>
-            </div>
-        </div>
-
+        <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-info btn-sm btn-icon-text">
+          Izvještaj jedinke
+          <i class="btn-icon-append" data-feather="clipboard"></i>
+        </a> 
     </div>
+  </div>
+  <ul class="nav shelter-nav">
+    <li class="nav-item">
+      <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.show', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">{{ $animalItem->animal->name }} - {{ $animalItem->animal->latin_name }}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Dokumentacija jedinke</a>
+    </li>
 
-    <div class="row mt-3">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Završetak skrbi</a>
+    </li>
+  </ul>
+
+    <div class="row">
         <div class="col-md-12">
+            <div class="mb-2">
+                @if($msg = Session::get('msg_update'))
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
+    
+                @if($msg = Session::get('error'))
+                <div id="dangerMessage" class="alert alert-danger"> {{ $msg }}</div>
+                @endif
+            </div>
+        </div>
+    </div> 
+     
+    <div class="row">  
+        <div class="col-md-6">               
             <div class="card">
                 <div class="card-body">
                     <form action="{{ route("animal_item.update", $animalItem->id) }}" method="POST">
                         @csrf
-                        @method('PATCH')
-                        
-                        <div class="col-md-4">
+                        @method('PATCH')                
                             @if ($size)
                             <div class="form-group">
                                 <label>Veličina</label>
@@ -220,19 +104,96 @@
                                 @error('animal_gender')
                                     <div class="text-danger">{{$errors->first('animal_gender') }} </div>
                                 @enderror
+                            </div>  
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-warning  mr-2">Ažuriraj podatke</button>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="col-md-4">
-
-                        </div>
-
-                        <button type="submit" class="btn btn-primary mr-2">Ažuriraj</button>
                     </form>
                 </div>
-            </div>
-        </div>
+            </div>                       
+        </div>                  
+        <div class="col-md-6">    
+            <div class="card">
+                <div class="card-body">
+                    <form action="/animalItem/update/{{$animalItem->id}}" method="POST">
+                            @csrf
+                            @method('POST')
+                            <div class="form-group" id="hib_est_from_to">
+                                <label>Hibernacija/estivacija</label>
+                                <div class="d-flex">
+                                    <div class="input-group date datepicker" id="datePickerExample">
+                                        <input type="text" name="hib_est_from" class="form-control hib_est_from" value="{{ $animalItem->dateRange->hibern_start }}">
+                                        <span class="input-group-addon">
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                    </div>
+                                    <div class="input-group date datepicker" id="datePickerExample">
+                                        <input type="text" name="hib_est_to" class="form-control hib_est_to" value="{{ $animalItem->dateRange->hibern_end }}">
+                                        <span class="input-group-addon">
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group" id="period">
+                                <label>Razdoblje provođenja proširene skrbi <strong>(ostalo {{ $totalDays }} dana)</strong></label>
+                                @if ($totalDays != 0)
+                                <div class="d-flex">
+                                    <div class="input-group date datepicker" id="datePickerExample">
+                                        <input type="text" name="full_care_start" class="form-control full_care_start">
+                                        <span class="input-group-addon">
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                    </div>
+                                    <div class="input-group date datepicker" id="datePickerExample">
+                                        <input type="text" name="full_care_end" class="form-control full_care_end">
+                                        <span class="input-group-addon">
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Promjena Solitarna ili Grupa</label>
+                                        <select class="form-control" name="solitary_or_group_type" id="">
+                                            <option value="">---</option>
+                                            <option value="Grupa">Grupa</option>
+                                            <option value="Solitarno">Solitarno</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label>Odabir datuma za promjenu stanja</label>
+                                        <div class="input-group date datepicker" id="datePickerExample">
+                                            <input type="text" name="solitary_or_group_end" class="form-control end_date" >
+                                            <span class="input-group-addon">
+                                                <i data-feather="calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>                      
+                            </div> 
+                        <div class="row mt-3">
+                            <div class="col-md-12">
+                                <div class="d-flex justify-content-end">
+                                    <button type="submit" class="btn btn-warning  mr-2">Ažuriraj podatke</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>                   
+        </div>                                     
     </div>
+    
+          
+                
 @endsection
 
 @push('plugin-scripts')

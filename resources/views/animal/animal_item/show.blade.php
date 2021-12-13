@@ -102,15 +102,15 @@
               <div class="d-flex align-items-center justify-content-between">
                 <div><h6 class="card-title">Podaci o zaprimanju</h6> </div> 
                 <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-icon-text btn-sm" type="button">
-                  Izmjeni podatke
+                  Izmjeni
                   <i class="btn-icon-append" data-feather="box"></i>
                 </a>
               </div> 
               @if($msg = Session::get('update_animal_item'))
               <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-              @endif      
-                <div class="row">
-                  <div class="col-md-4 grid-margin">    
+              @endif       
+                  <div class="row">
+                    <div class="col-md-4">    
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv vrste: </label>
                         <p class="text-muted">{{ $animalItem->animal->name }}</p>
@@ -127,36 +127,28 @@
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način držanja:</label>
                         <p class="text-warning">{{ $animalItem->solitary_or_group ?? '' }}</p>
                       </div>
+                    </div> 
+                    <div class="col-md-4 ">
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Razred: </label>
+                        <p class="text-muted">{{ $animalItem->animal->animalCategory->animalSystemCategory->latin_name ?? '' }}</p>
+                      </div>
 
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Porodica: </label>
+                        <p class="text-muted">{{ $animalItem->animal->animalCategory->latin_name ?? '' }}</p>
+                      </div>  
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Red:</label>
+                        <p class="text-muted">{{ $animalItem->animal->animalCategory->animalOrder->order_name ?? '' }}</p>
+                      </div>  
+                    
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija:</label>
                         <p class="text-info">Ne</p>
                       </div>
-        
-                  </div> 
-      
-                  <div class="col-md-4 grid-margin">
-                    
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Lokacija pronalaska: </label>
-                      <p class="text-muted">{{ $animalItem->location ?? '' }}</p>
-                    </div>
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Nalaznik: </label>
-                      <p class="text-muted">{{ $animalItem->founder->name }} - {{ $animalItem->founder->service }}</p>
-                    </div>
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Napomena nalaznika: </label>
-                      <p class="text-muted">{{ $animalItem->founder_note }}</p>
-                    </div>
-                  </div>  
-                  
-                  <div class="col-md-4 grid-margin">    
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Spol:</label>
-                      <p class="text-muted">{{ $animalItem->animal_gender ?? '' }}</p>
-                    </div>
-    
+                  </div>   
+                  <div class="col-md-4">
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Veličina:</label>
                       <p class="text-muted">{{ $animalItem->animalSizeAttributes->name ?? '' }}</p>
@@ -164,10 +156,17 @@
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dob Jedinke:</label>
                       <p class="text-muted">{{ $animalItem->animal_age ?? '' }}</p>
-                    </div>           
-                </div>     
-              </div>   
-                    
+                    </div> 
+                    <div class="mt-2">
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Spol:</label>
+                      <p class="text-muted">{{ $animalItem->animal_gender ?? '' }}</p>
+                    </div>  
+                    <div class="mt-2">
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Šifra jedinke:</label>
+                      <p class="text-muted">{{ $animalItem->animal_code ?? '' }}</p>
+                    </div>    
+                </div>              
+              </div>
             </div>
           </div><!-- end card -->
         </div><!--  end TAB -->
