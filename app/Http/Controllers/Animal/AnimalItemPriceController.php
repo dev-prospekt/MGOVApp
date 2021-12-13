@@ -15,7 +15,7 @@ class AnimalItemPriceController extends Controller
     {
         $animalItem = AnimalItem::findOrFail($id);
 
-        if(empty($animalItem->dateRange->end_date)){
+        if(empty($animalItem->dateRange->end_date)){ // Samo ako nije završena skrb
             // Date Range
             if(!empty($request->end_date)){
                 $animalItem->dateRange()->update([
@@ -191,6 +191,7 @@ class AnimalItemPriceController extends Controller
             // Update svih cijena nakon zavrsetka skrbi
             if(!empty($request->end_date)){
 
+                // update statusa
                 AnimalItem::where('id', $id)->update(['animal_item_care_end_status' => false]);
 
                 $totalPriceHibern = (isset($totalPriceHibern)) ? $totalPriceHibern : null;
@@ -286,7 +287,7 @@ class AnimalItemPriceController extends Controller
                     ]);
                 }
 
-                if($request->end_care_type == 3){
+                if($request->end_care_type == 3){ // Usmrcivanje
                     if(!empty($animalItem->euthanasia)){
                         $animalItem->euthanasia()->update([
                             'shelter_staff_id' => $request->vetenaryStaff,
