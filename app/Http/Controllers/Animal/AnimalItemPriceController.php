@@ -15,7 +15,7 @@ class AnimalItemPriceController extends Controller
     {
         $animalItem = AnimalItem::findOrFail($id);
 
-        if(empty($animalItem->dateRange->end_date)){
+        if(!empty($animalItem->dateRange->end_date)){
             // Date Range
             if(!empty($request->end_date)){
                 $animalItem->dateRange()->update([
@@ -124,7 +124,7 @@ class AnimalItemPriceController extends Controller
                 {
                     if(!empty($diff_in_days)){
                         $hib_from = Carbon::parse($animalItem->dateRange->hibern_start);
-                        $hib_to = Carbon::parse($animalItem->dateRange->hibern_end);
+                        $hib_to = Carbon::createFromFormat('m/d/Y', $request->end_date);
                         $hib_diff_days = $hib_to->diffInDays($hib_from);
 
                         $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);
@@ -198,23 +198,38 @@ class AnimalItemPriceController extends Controller
             }
             
             // Euthanasia
-            if(!empty($request->euthanasia)){
-                
-            }
 
             // Finish Price
-            if(!empty($totalPriceHibern)){
-                $finishPrice = $totalPriceHibern;
-                $this->updateFinishPrice($animalItem->id, $finishPrice);
-            }
-            if(!empty($totalPriceFullCare)){
-                $finishPrice = ($totalPriceFullCare + $totalPriceSolitaryOrGroup);
-                $this->updateFinishPrice($animalItem->id, $finishPrice);
-            }
             if(!empty($totalPriceSolitaryOrGroup)){
                 $solitaryAndGroupPrice = $animalItem->shelterAnimalPrice;
-                if(!empty($solitaryAndGroupPrice->group_price) && !empty($solitaryAndGroupPrice->solitary_price)){
-                    $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
+
+                if(!empty($solitaryAndGroupPrice->group_price) || !empty($solitaryAndGroupPrice->solitary_price)){
+                    if($solitaryAndGroupPrice->full_care != 0){
+                        $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
+                        $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group);
+                        $this->updateFinishPrice($animalItem->id, $finishPrice);
+                    }
+                    else {
+                        $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
+                        $this->updateFinishPrice($animalItem->id, $finishPrice);
+                    }
+                }
+                elseif(!empty($solitaryAndGroupPrice->group_price)) {
+                    if(isset($totalPriceHibern)){
+                        $finishPrice = $totalPriceHibern;
+                    }
+                    else {
+                        $finishPrice = $solitaryAndGroupPrice->group_price;
+                    }
+                    $this->updateFinishPrice($animalItem->id, $finishPrice);
+                }
+                else {
+                    if(isset($totalPriceHibern)){
+                        $finishPrice = $totalPriceHibern;
+                    }
+                    else {
+                        $finishPrice = $solitaryAndGroupPrice->solitary_price;
+                    }
                     $this->updateFinishPrice($animalItem->id, $finishPrice);
                 }
             }
