@@ -91,7 +91,6 @@ class AnimalItemController extends Controller
             'hibern' => $hibern,
             'fullCare' => $fullCare,
             'totalDays' => $totalDays,
-            'countDays' => $countDays,
             'price' => $price,
             'date' => $date,
             'solitaryGroup' => $solitaryGroup,

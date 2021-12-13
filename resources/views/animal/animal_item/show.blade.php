@@ -156,16 +156,6 @@
                           <p class="text-info">NE</p>
                         @endif
                       </div>
-
-                      @if(!empty($animalItem->dateFullCare->first()))
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb:</label>
-                        <p class="text-muted">Iskorišteni broj dana: {{$countDays}}</p>
-                        @foreach ($animalItem->dateFullCare as $full)
-                          <p class="text-muted">{{$full->start_date->format('d.m.Y')}} - {{ $full->end_date->format('d.m.Y') }} ({{$full->days}} dana)</p>
-                        @endforeach
-                      </div>
-                      @endif
                   </div>   
                   <div class="col-md-4">
                     <div class="mt-2">
@@ -360,9 +350,11 @@
               <div class="mt-2">
                 <label class="m-0">Proširena skrb</label>
                 @if(!empty($animalItem->dateFullCare->first()))
-                  <p class="text-muted">Iskorišteni broj dana: {{$countDays}}</p>
                   @foreach ($animalItem->dateFullCare as $full)
-                    <p class="text-muted">{{$full->start_date->format('d.m.Y')}} - {{ $full->end_date->format('d.m.Y') }} ({{$full->days}} dana)</p>
+                    <p class="text-muted">
+                      {{$full->start_date->format('d.m.Y')}} - {{ $full->end_date->format('d.m.Y') }}
+                      (<span class="text-warning">{{$full->days}}</span> dana)
+                    </p>
                   @endforeach
                 @endif
               </div>
