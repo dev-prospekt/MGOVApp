@@ -15,6 +15,8 @@ class AnimalItemPriceController extends Controller
     {
         $animalItem = AnimalItem::findOrFail($id);
 
+        //dd($request);
+
         if(!empty($animalItem->dateRange->end_date)){
             // Date Range
             if(!empty($request->end_date)){
@@ -196,70 +198,91 @@ class AnimalItemPriceController extends Controller
 
                 $this->updatePrice($animalItem->id, $totalPriceStand, $totalPriceHibern, $totalPriceFullCare);
             }
-            
-            // Euthanasia
-            if(!empty($request->euthanasia_type)){
-                if(!empty($animalItem->euthanasia->first())){
-                    $animalItem->euthanasia()->update([
-                        'shelter_staff_id' => $request->vetenaryStaff,
-                        'price' => $request->euthanasia_price,
-                    ]);
-                }
-                else {
-                    $animalItem->euthanasia()->create([
-                        'shelter_staff_id' => $request->vetenaryStaff,
-                        'price' => $request->euthanasia_price,
-                    ]);
-                }
-            }
 
             // Finish Price
             if(!empty($totalPriceSolitaryOrGroup)){
                 $solitaryAndGroupPrice = $animalItem->shelterAnimalPrice;
 
-                if(!empty($solitaryAndGroupPrice->group_price) || !empty($solitaryAndGroupPrice->solitary_price)){
-                    if($solitaryAndGroupPrice->full_care != 0){
-                        $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
-                        $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group);
-                        $this->updateFinishPrice($animalItem->id, $finishPrice);
+                if(!empty($solitaryAndGroupPrice->group_price)) {
+                    if(isset($totalPriceHibern)){
+                        $finishPrice = $totalPriceHibern;
                     }
-                    elseif($request->euthanasia_type)
-                    {
-                        $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
-                        if($request->euthanasia_type == 'Izvedeno u oporavilištu'){
-                            $euthanasia_price = 100;
+                    else {
+                        if($solitaryAndGroupPrice->full_care != 0){
+                            $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
+                            $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group);
+                            $this->updateFinishPrice($animalItem->id, $finishPrice);
+                        }
+                        elseif($request->end_care_type == 3)
+                        {
+                            $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
+                            if($request->euthanasia_type == 'Izvedeno u oporavilištu'){
+                                $euthanasia_price = 100;
+                            }
+                            else {
+                                $euthanasia_price = (float)$request->euthanasia_price;
+                            }
+        
+                            $finishPrice = ($sol_group + $euthanasia_price);
+                            $this->updateFinishPrice($animalItem->id, $finishPrice);
                         }
                         else {
-                            $euthanasia_price = (float)$request->euthanasia_price;
+                            $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
+                            $this->updateFinishPrice($animalItem->id, $finishPrice);
                         }
+                    }
 
-                        $finishPrice = ($sol_group + $euthanasia_price);
-                        $this->updateFinishPrice($animalItem->id, $finishPrice);
-                    }
-                    else {
-                        $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
-                        $this->updateFinishPrice($animalItem->id, $finishPrice);
-                    }
-                }
-                elseif(!empty($solitaryAndGroupPrice->group_price)) {
-                    if(isset($totalPriceHibern)){
-                        $finishPrice = $totalPriceHibern;
-                    }
-                    else {
-                        $finishPrice = $solitaryAndGroupPrice->group_price;
-                    }
                     $this->updateFinishPrice($animalItem->id, $finishPrice);
                 }
-                else {
+
+                if(!empty($solitaryAndGroupPrice->solitary_price)) {
                     if(isset($totalPriceHibern)){
                         $finishPrice = $totalPriceHibern;
                     }
                     else {
-                        $finishPrice = $solitaryAndGroupPrice->solitary_price;
+                        if($solitaryAndGroupPrice->full_care != 0){
+                            $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
+                            $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group);
+                            $this->updateFinishPrice($animalItem->id, $finishPrice);
+                        }
+                        elseif($request->end_care_type == 3)
+                        {
+                            $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
+                            if($request->euthanasia_type == 'Izvedeno u oporavilištu'){
+                                $euthanasia_price = 100;
+                            }
+                            else {
+                                $euthanasia_price = (float)$request->euthanasia_price;
+                            }
+        
+                            $finishPrice = ($sol_group + $euthanasia_price);
+                            $this->updateFinishPrice($animalItem->id, $finishPrice);
+                        }
+                        else {
+                            $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
+                            $this->updateFinishPrice($animalItem->id, $finishPrice);
+                        }
                     }
                     $this->updateFinishPrice($animalItem->id, $finishPrice);
                 }
             }
+
+            // Euthanasia
+            if($request->end_care_type == 3){
+                if(!empty($animalItem->euthanasia)){
+                    $animalItem->euthanasia()->update([
+                        'shelter_staff_id' => $request->vetenaryStaff,
+                        'price' => $euthanasia_price,
+                    ]);
+                }
+                else {
+                    $animalItem->euthanasia()->create([
+                        'shelter_staff_id' => $request->vetenaryStaff,
+                        'price' => $euthanasia_price,
+                    ]);
+                }
+            }
+
             // Finish Price
 
             return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');

@@ -52,6 +52,7 @@
           <form action="/animalItem/update/{{$animalItem->id}}" method="POST">
             @csrf
             @method('POST')  
+
             <div class="form-group mt-2">
               <label>Datum prestanka skrbi o životinji</label>
               <div class="input-group date datepicker" id="dateEndcarePicker">
@@ -86,7 +87,7 @@
                 <label class="form-check-label">
                   <input checked type="radio" class="form-check-input euthanasia_type" name="euthanasia_type" id="euthanasiaShelterType" value="Izvedeno u oporavilištu">
                   Izvedeno u oporavilištu
-                <i class="input-frame"></i></label>
+                  <i class="input-frame"></i></label>
               </div>
             
               <div class="form-check">
@@ -98,7 +99,7 @@
               
               <div class="form-group">
                 <label for="">Odabir Veterinara/Službe</label>
-                <select class="form-control" name="vetenaryStaff" id="" required>
+                <select class="form-control" name="vetenaryStaff" id="">
                  
                   <option value="">---</option>
                   <option value="{{ $vetenaryStaff['id'] ?? '' }}">{{ $vetenaryStaff['name'] ?? '' }}</option>
@@ -179,7 +180,7 @@
           </div>
         </div>
 
-        @if (!empty($animalItem->euthanasia->first()))
+        @if (!empty($animalItem->euthanasia))
         <div class="row">
           <div class="col-md-4 grid-margin">
             <div class="mt-2">
