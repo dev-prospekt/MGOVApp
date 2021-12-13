@@ -15,16 +15,13 @@ class AnimalItemPriceController extends Controller
     {
         $animalItem = AnimalItem::findOrFail($id);
 
-        //dd($request);
-
         if(empty($animalItem->dateRange->end_date)){
             // Date Range
             if(!empty($request->end_date)){
                 $animalItem->dateRange()->update([
-                    'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date),
-                    'reason_date_end' => $request->end_care_type,
+                    'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date)
                 ]);
-
+            
                 // Standard
                 $from = Carbon::parse($animalItem->dateRange->start_date);
                 $to = Carbon::createFromFormat('m/d/Y', $request->end_date);
@@ -198,6 +195,7 @@ class AnimalItemPriceController extends Controller
 
                 $totalPriceHibern = (isset($totalPriceHibern)) ? $totalPriceHibern : null;
                 $totalPriceFullCare = (isset($totalPriceFullCare)) ? $totalPriceFullCare : null;
+                $totalPriceStand = (isset($totalPriceStand)) ? $totalPriceStand : null;
 
                 $this->updatePrice($animalItem->id, $totalPriceStand, $totalPriceHibern, $totalPriceFullCare);
             }
@@ -269,19 +267,38 @@ class AnimalItemPriceController extends Controller
                 }
             }
 
-            // Euthanasia
-            if($request->end_care_type == 3){
-                if(!empty($animalItem->euthanasia)){
-                    $animalItem->euthanasia()->update([
-                        'shelter_staff_id' => $request->vetenaryStaff,
-                        'price' => $euthanasia_price,
+            // END
+            if($request->end_care_type){
+                if(!empty($animalItem->careEnd)){
+                    $animalItem->careEnd()->update([
+                        'animal_item_care_end_type_id' => $request->end_care_type,
+                        'release_location' => $request->release_location,
+                        'permanent_keep_name' => $request->permanent_keep_name,
+                        'care_end_other' => $request->care_end_other,
                     ]);
                 }
                 else {
-                    $animalItem->euthanasia()->create([
-                        'shelter_staff_id' => $request->vetenaryStaff,
-                        'price' => $euthanasia_price,
+                    $animalItem->careEnd()->create([
+                        'animal_item_care_end_type_id' => $request->end_care_type,
+                        'release_location' => $request->release_location,
+                        'permanent_keep_name' => $request->permanent_keep_name,
+                        'care_end_other' => $request->care_end_other,
                     ]);
+                }
+
+                if($request->end_care_type == 3){
+                    if(!empty($animalItem->euthanasia)){
+                        $animalItem->euthanasia()->update([
+                            'shelter_staff_id' => $request->vetenaryStaff,
+                            'price' => $euthanasia_price,
+                        ]);
+                    }
+                    else {
+                        $animalItem->euthanasia()->create([
+                            'shelter_staff_id' => $request->vetenaryStaff,
+                            'price' => $euthanasia_price,
+                        ]);
+                    }
                 }
             }
 

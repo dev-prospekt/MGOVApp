@@ -20,7 +20,6 @@ class CreateDateRangeTable extends Migration
             
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->string('reason_date_end')->nullable();
 
             $table->date('hibern_start')->nullable();
             $table->date('hibern_end')->nullable();
