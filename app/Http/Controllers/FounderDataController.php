@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
 use App\Models\Shelter\ShelterType;
+use Illuminate\Support\Facades\Log;
 use App\Http\Requests\FounderDataRequest;
 use Illuminate\Support\Facades\Validator;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -58,27 +59,34 @@ class FounderDataController extends Controller
 
     public function store(FounderDataRequest $request)
     {  
-        $founder = new FounderData;
-        $founder->shelter_id = auth()->user()->shelter->id;
-        $founder->shelter_type_id = $request->shelter_type;
-        $founder->name = $request->name;
-        $founder->lastname = $request->lastname;
-        $founder->address = $request->address;
-        $founder->country = $request->country;
-        $founder->contact = $request->contact;
-        $founder->email = $request->email;
-        $founder->service = $request->service;
-        $founder->others = $request->others;
-        $founder->save();
+        try {
+            
+            $founder = new FounderData;
+            $founder->shelter_id = auth()->user()->shelter->id;
+            $founder->shelter_type_id = $request->shelter_type;
+            $founder->name = $request->name;
+            $founder->lastname = $request->lastname;
+            $founder->address = $request->address;
+            $founder->country = $request->country;
+            $founder->contact = $request->contact;
+            $founder->email = $request->email;
+            $founder->service = $request->service;
+            $founder->others = $request->others;
+            $founder->save();
 
-        if($request->founder_documents){
-            $founder->addMultipleMediaFromRequest(['founder_documents'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('founder_documents');
-            });
+            if($request->founder_documents){
+                $founder->addMultipleMediaFromRequest(['founder_documents'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('founder_documents');
+                });
+            }
+        
+            return redirect()->back()->with('founder', 'Uspješno. Dodali ste novog nalaznika.');
+
+        } catch (\Throwable $th) {
+            Log::error('Creating founder : ' . $th->getMessage());
+            return view('pages.error.500');
         }
-    
-        return redirect()->back()->with('founder', 'Uspješno. Dodali ste novog nalaznika.');
     }
 
     public function edit(Shelter $shelter, FounderData $founder)
