@@ -285,7 +285,7 @@
 
   @if ($animalItem->animal_item_care_end_status == false)
   <div class="row">
-    <div class="col-md-5">
+    <div class="col-md-5 stretch-card">
 
       <div class="card">
         <div class="card-body">
@@ -297,7 +297,7 @@
           <div class="row">
             <div class="col-md-6">
               <div class="mt-1">
-                <label>Datum skrbi</label>
+                <label class="m-0">Datum skrbi</label>
                 @if (!empty($date->start_date) && !empty($date->end_date))
                   <p class="text-muted">
                     {{ $date->start_date->format('d.m.Y') . ' - ' . $date->end_date->format('d.m.Y') }}
@@ -309,7 +309,7 @@
 
             <div class="col-md-6">
               <div class="mt-1">
-                <label>Datum hibernacije</label>
+                <label class="m-0">Datum hibernacije</label>
                 @if (!empty($date->hibern_start) && !empty($date->hibern_end))
                   <p class="text-muted">{{ $date->hibern_start . ' - ' . $date->hibern_end }}</p>
                   <p class="text-muted">Broj dana <span class="text-warning">{{ $date->hibern_start->diffInDays($date->hibern_end) }}</span></p>
@@ -321,11 +321,11 @@
           <div class="row">
             <div class="col-md-6">
               <div class="mt-2">
-                <label>Način držanja (Grupa)</label>
+                <label class="m-0">Način držanja (Grupa)</label>
                 @if (!empty($solitaryGroup))
                   @foreach ($solitaryGroup as $item)
                     @if ($item->solitary_or_group == 'Grupa')
-                      <div class="mt-2">
+                      <div>
                         <p class="text-muted">
                           {{ $item->start_date->format('d.m.Y') . ' - ' . $item->end_date->format('d.m.Y') }}
                           (<span class="text-warning">{{ $item->start_date->diffInDays($item->end_date) }}</span> dana)
@@ -338,11 +338,11 @@
             </div>
             <div class="col-md-6">
               <div class="mt-2">
-                <label>Način držanja (Solitarno)</label>
+                <label class="m-0">Način držanja (Solitarno)</label>
                 @if (!empty($solitaryGroup))
                   @foreach ($solitaryGroup as $item)
                     @if ($item->solitary_or_group == 'Solitarno')
-                      <div class="mt-2">
+                      <div>
                         <p class="text-muted">
                           {{ $item->start_date->format('d.m.Y') . ' - ' . $item->end_date->format('d.m.Y') }}
                           (<span class="text-warning">{{ $item->start_date->diffInDays($item->end_date) }}</span> dana)
@@ -358,9 +358,8 @@
           <div class="row">
             <div class="col-md-6">
               <div class="mt-2">
-                <label>Proširena skrb</label>
+                <label class="m-0">Proširena skrb</label>
                 @if(!empty($animalItem->dateFullCare->first()))
-                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb:</label>
                   <p class="text-muted">Iskorišteni broj dana: {{$countDays}}</p>
                   @foreach ($animalItem->dateFullCare as $full)
                     <p class="text-muted">{{$full->start_date->format('d.m.Y')}} - {{ $full->end_date->format('d.m.Y') }} ({{$full->days}} dana)</p>
@@ -374,7 +373,7 @@
       </div>
 
     </div>
-    <div class="col-md-7">
+    <div class="col-md-7 stretch-card">
       <div class="card">
         <div class="card-body">
 
@@ -401,8 +400,9 @@
                 </p>
               </div>
             </div>
+
             <div class="col-md-4 grid-margin">   
-              <div class="mt-1">
+              <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
                 <p class="text-muted">
                   @if (!empty($date->end_date))
@@ -419,19 +419,18 @@
                 </p>
               </div>
             </div>
-          </div>
-  
-          @if (!empty($animalItem->euthanasia))
-          <div class="row">
+
             <div class="col-md-4 grid-margin">
               <div class="mt-1">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Eutanazija: </label>
                 <p class="text-muted">
-                  {{ $animalItem->euthanasia->price . 'kn' }}
+                  {{ $animalItem->euthanasia ? $animalItem->euthanasia->price . 'kn' : '0kn' }}
                 </p>
               </div>
             </div>
-
+          </div>
+  
+          <div class="row">
             <div class="col-md-4 grid-margin">
               <div class="mt-1">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Konačna cijena: </label>
@@ -443,7 +442,6 @@
               </div>
             </div>
           </div>
-          @endif
 
         </div>
       </div>
