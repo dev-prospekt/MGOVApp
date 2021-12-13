@@ -14,6 +14,7 @@ use App\Models\Animal\AnimalItem;
 use App\Models\Animal\AnimalType;
 use Illuminate\Support\Facades\DB;
 use App\Models\Shelter\ShelterType;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use App\Models\Shelter\ShelterStaff;
 use App\Models\Animal\AnimalCategory;

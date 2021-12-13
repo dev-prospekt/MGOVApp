@@ -17,7 +17,7 @@ class AnimalItemPriceController extends Controller
 
         //dd($request);
 
-        if(!empty($animalItem->dateRange->end_date)){
+        if(empty($animalItem->dateRange->end_date)){
             // Date Range
             if(!empty($request->end_date)){
                 $animalItem->dateRange()->update([
@@ -231,7 +231,6 @@ class AnimalItemPriceController extends Controller
                             $this->updateFinishPrice($animalItem->id, $finishPrice);
                         }
                     }
-
                     $this->updateFinishPrice($animalItem->id, $finishPrice);
                 }
 
