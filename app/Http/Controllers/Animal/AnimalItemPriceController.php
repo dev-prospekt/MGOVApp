@@ -198,6 +198,20 @@ class AnimalItemPriceController extends Controller
             }
             
             // Euthanasia
+            if(!empty($request->euthanasia_type)){
+                if(!empty($animalItem->euthanasia->first())){
+                    $animalItem->euthanasia()->update([
+                        'shelter_staff_id' => $request->vetenaryStaff,
+                        'price' => $request->euthanasia_price,
+                    ]);
+                }
+                else {
+                    $animalItem->euthanasia()->create([
+                        'shelter_staff_id' => $request->vetenaryStaff,
+                        'price' => $request->euthanasia_price,
+                    ]);
+                }
+            }
 
             // Finish Price
             if(!empty($totalPriceSolitaryOrGroup)){
@@ -207,6 +221,19 @@ class AnimalItemPriceController extends Controller
                     if($solitaryAndGroupPrice->full_care != 0){
                         $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                         $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group);
+                        $this->updateFinishPrice($animalItem->id, $finishPrice);
+                    }
+                    elseif($request->euthanasia_type)
+                    {
+                        $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
+                        if($request->euthanasia_type == 'Izvedeno u oporavilištu'){
+                            $euthanasia_price = 100;
+                        }
+                        else {
+                            $euthanasia_price = (float)$request->euthanasia_price;
+                        }
+
+                        $finishPrice = ($sol_group + $euthanasia_price);
                         $this->updateFinishPrice($animalItem->id, $finishPrice);
                     }
                     else {

@@ -35,86 +35,129 @@
 </ul>
 <div class="row">
   <div class="col-md-7">
-
-    <div class="card">
+    <div class="card rounded">
       <div class="card-body">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-            <h6 class="card-title mb-0">Kraj skrbi jedinke</h6>
-            <div>
-              <p class="text-muted">
-                Početak skrbi - <span class="text-info">{{ $animalItem->dateRange->start_date->format('d.m.Y.') }}</span>
-              </p>
+          <div class="d-flex align-items-center justify-content-between mb-2">
+              <h6 class="card-title mb-0">Kraj skrbi jedinke</h6>
+              <div>
+                <p class="text-muted">Početak skrbi - <span class="text-info">{{ $animalItem->dateRange->start_date->format('d.m.Y.') }}</span></p>
+              </div>
+          </div>
+          <div class="row"><div class="separator separator--small"></div></div>
+
+          @if($msg = Session::get('euthanasiaMsg'))
+            <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+          @endif   
+
+          <form action="/animalItem/update/{{$animalItem->id}}" method="POST">
+            @csrf
+            @method('POST')  
+            <div class="form-group mt-2">
+              <label>Datum prestanka skrbi o životinji</label>
+              <div class="input-group date datepicker" id="dateEndcarePicker">
+                  <input type="text" name="end_date" class="form-control end_date" 
+                  value="{{ $animalItem->dateRange->end_date ? $animalItem->dateRange->end_date->format('m/d/Y') : null }}">
+                  <span class="input-group-addon">
+                      <i data-feather="calendar"></i>
+                  </span>
+              </div>
+            </div>    
+            <div class="form-group">
+              <label>Razlog prestanka skrbi</label>
+              <select class="form-control end_care_type" name="end_care_type" id="endCareType" required>
+                <option value="">----</option>
+                @foreach ($careEndTypes as $careEndType)
+                    <option value="{{ $careEndType->id }}">{{ $careEndType->name }}</option>
+                @endforeach  
+              </select>  
+            </div>  
+            <div class="form-group" id="releaseLocation">
+              <label for="releaseLocation">Lokacija puštanja</label>
+              <input type="text" name="release_location" class="form-control" placeholder="... lokacija ili gps kordinate">
+            </div>   
+            
+            <div class="form-group" id="permanentKeepName">
+              <label for="permanentKeepName">Naziv pravne/fizičke osobe ili institucije</label>
+              <input type="text" name="permanent_keep_name" class="form-control" placeholder="Naziv pravne/fizičke osobe ili institucije gdje se jedinka zbrinjava">
             </div>
-        </div>
+           
+            <div class="form-group" id="euthanasiaShelter">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input checked type="radio" class="form-check-input euthanasia_type" name="euthanasia_type" id="euthanasiaShelterType" value="Izvedeno u oporavilištu">
+                  Izvedeno u oporavilištu
+                <i class="input-frame"></i></label>
+              </div>
+            
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="radio" class="form-check-input euthanasia_type" name="euthanasia_type" id="euthanasiaOuterType" value="Vanjski pružatelj usluge">
+                  Vanjski pružatelj usluge
+                <i class="input-frame"></i></label>
+              </div> 
+              
+              <div class="form-group">
+                <label for="">Odabir Veterinara/Službe</label>
+                <select class="form-control" name="vetenaryStaff" id="" required>
+                 
+                  <option value="">---</option>
+                  <option value="{{ $vetenaryStaff['id'] ?? '' }}">{{ $vetenaryStaff['name'] ?? '' }}</option>
+                </select>
+              </div>
 
-        <div class="row"><div class="separator separator--small"></div></div>
-
-        @if ($animalItem->animal->animalType->first()->type_code == 'IJ')
-
-        @endif
-
-        @if($msg = Session::get('euthanasiaMsg'))
-        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-        @endif   
-        
-        <form action="/animalItem/update/{{$animalItem->id}}" method="POST">
-          @csrf
-          @method('POST')
-          
-          <div class="form-group mt-2">
-            <label>Datum prestanka skrbi o životinji</label>
-            <div class="input-group date datepicker" id="dateEndcarePicker">
-                <input type="text" name="end_date" class="form-control end_date" 
-                value="{{ $animalItem->dateRange->end_date ? $animalItem->dateRange->end_date->format('m/d/Y') : null }}">
-                <span class="input-group-addon">
-                    <i data-feather="calendar"></i>
-                </span>
+              <div class="form-group" id="euthanasiaPrice">
+                <div class="form-group">
+                  <label for="euthanasiaPrice">Cijena - iznos</label>
+                  <input type="text" class="form-control" name="euthanasia_price" placeholder="cijena u HRK">
+                </div>
+                <div class="form-group">
+                  <label>Učitaj račun</label>
+                  <input id="euthanasiaInvoice" type="file" name="euthanasia_invoice" class="file-upload-default">
+                  <div id="errorEuthanasiaInvoice"></div>         
+                </div>           
+              </div> 
             </div>
-          </div>                       
-
-          <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Završi</button>
-        </form>
+            <div class="form-group" id="careEndOther">
+              <label for="releaseLocation">Unos</label>
+              <input type="text" name="care_end_other" class="form-control" placeholder="... slobodan unos">
+            </div>                   
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-warning  mr-2">Spremite zapis</button>
+            </div>            
+          </form>
       </div>
-    </div>
-
+    </div> 
   </div>
 
   <div class="col-md-5">
     <div class="card">
       <div class="card-body">
-        <div class="d-flex align-items-center justify-content-between mb-2">
-          <h6 class="card-title mb-0">Cijene skrbi</h6>
-          <div>
-            <p class="text-muted">
-              @if (!empty($animalItem->dateRange->end_date))
-                Kraj skrbi - <span class="text-info">{{ $animalItem->dateRange->end_date->format('d.m.Y.') }}</span>
-              @endif
-            </p>
-          </div>
+        <div class="d-flex align-items-center justify-content-between">
+          <div><h6 class="card-title">Cijene skrbi</h6> </div> 
         </div> 
-
+        
         @if($msg = Session::get('update_animal_item'))
         <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
         @endif      
-
+        
         <div class="row">
-          <div class="col-md-4 grid-margin">   
-              <div class="mt-2">
-                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Grupa: </label>
-                <p class="text-muted">
-                  @if (!empty($animalItem->dateRange->end_date))
-                    {{ (isset($price->group_price)) ? $price->group_price . 'kn' : '' }}
-                  @endif
-                </p>
-              </div>
-              <div class="mt-2">
-                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Solitarno: </label>
-                <p class="text-muted">
-                  @if (!empty($animalItem->dateRange->end_date))
-                    {{ (isset($price->solitary_price)) ? $price->solitary_price . 'kn' : '' }}
-                  @endif
-                </p>
-              </div>
+          <div class="col-md-4 grid-margin">    
+            <div class="mt-2">
+              <label class="tx-11 font-weight-bold mb-0 text-uppercase">Solitarno: </label>
+              <p class="text-muted">
+                @if (!empty($animalItem->dateRange->end_date))
+                  {{ (isset($price->solitary_price)) ? $price->solitary_price . 'kn' : '' }}
+                @endif
+              </p>
+            </div>
+            <div class="mt-2">
+              <label class="tx-11 font-weight-bold mb-0 text-uppercase">Grupa: </label>
+              <p class="text-muted">
+                @if (!empty($animalItem->dateRange->end_date))
+                  {{ (isset($price->group_price)) ? $price->group_price . 'kn' : '' }}
+                @endif
+              </p>
+            </div>
           </div>
           <div class="col-md-4 grid-margin">   
             <div class="mt-2">
@@ -134,8 +177,21 @@
               </p>
             </div>
           </div>
-
         </div>
+
+        @if (!empty($animalItem->euthanasia->first()))
+        <div class="row">
+          <div class="col-md-4 grid-margin">
+            <div class="mt-2">
+              <label class="tx-11 font-weight-bold mb-0 text-uppercase">Eutanazija: </label>
+              <p class="text-muted">
+                {{ $animalItem->euthanasia->price . 'kn' }}
+              </p>
+            </div>
+          </div>
+        </div>
+        @endif
+
         <div class="row">
           <div class="col-md-4 grid-margin">
             <div class="mt-2">
@@ -162,34 +218,69 @@
 <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/lightbox2/lightbox.min.js') }}"></script> 
 <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
-  <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
-  <script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script>
-
   <script>  
       $(function() {
+        /*euthanasia js*/
+        $("#euthanasia_file").fileinput({
+            language: "cr",
+            //required: true,
+            showPreview: false,
+            showUpload: false,
+            showCancel: false,
+            allowedFileExtensions: ["pdf"],
+            elErrorContainer: '#error_euthanasia_file',
+            msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
+        });
 
-          /*euthanasia js*/
-          $("#euthanasia_file").fileinput({
-              language: "cr",
-              //required: true,
-              showPreview: false,
-              showUpload: false,
-              showCancel: false,
-              allowedFileExtensions: ["pdf"],
-              elErrorContainer: '#error_euthanasia_file',
-              msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
-          });
+        $('div#dateEndcarePicker input').datepicker({
+            format: "mm/dd/yyyy",
+            todayHighlight: true,
+            autoclose: true,
+        });
 
-          $('div#dateEndcarePicker input').datepicker({
-              format: "mm/dd/yyyy",
-              todayHighlight: true,
-              autoclose: true,
-          });
-            
-      })
+        $("#releaseLocation").hide();
+        $("#permanentKeepName").hide();
+        $("#euthanasiaShelter").hide();
+        $("#careEndOther").hide();
+        $("#euthanasiaPrice").hide();
+
+        //fields based on dropdown
+        $("#endCareType").change(function(){
+          $("#euthanasiaPrice").hide();
+          var id = $("#endCareType").val();             
+            id == 1 ?  $("#releaseLocation").show() : $("#releaseLocation").hide();
+            id == 2 ?  $("#permanentKeepName").show() : $("#permanentKeepName").hide();
+            id == 3 ?  $("#euthanasiaShelter").show() : $("#euthanasiaShelter").hide();  
+            id == 4 ?  $("#careEndOther").show() : $("#careEndOther").hide();                          
+        });
+
+        $("input[name=euthanasia_type]").change(function(){
+
+          if($("#euthanasiaOuterType").is(':checked')){
+              $("#euthanasiaPrice").show();
+          }else if($("#euthanasiaShelterType").is(':checked')){
+            $("#euthanasiaPrice").hide();
+          } else {
+            $("#euthanasiaPrice").hide();
+          }
+        });
+
+        $("#euthanasiaInvoice").fileinput({
+          dropZoneEnabled: false,
+          language: "cr",
+          showPreview: false,
+          showUpload: false,
+          allowedFileExtensions: ["jpg", "png", 'doc', 'pdf', 'xls'],
+          elErrorContainer: '#errorEuthanasiaInvoice',
+          msgInvalidFileExtension: 'Nevažeća fotografija, Podržani su "{extensions}" formati.'
+
+         });
+    
+      });
   </script>
-
-@endpush
+  @endpush

@@ -12,6 +12,8 @@ class Euthanasia extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
+    protected $fillable = ['shelter_staff_id', 'price'];
+
     public function animalItem()
     {
         return $this->belongsTo(AnimalItem::class);

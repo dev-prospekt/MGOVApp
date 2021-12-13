@@ -97,4 +97,8 @@ class AnimalItem extends Model implements HasMedia
     {
         return $this->hasOne(AnimalItemDocumentation::class);
     }
+    public function careEndType()
+    {
+        return $this->belongsTo(AnimalItemCareEndType::class, 'animal_item_care_end_type_id');
+    }
 }
