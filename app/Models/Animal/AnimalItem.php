@@ -32,7 +32,7 @@ class AnimalItem extends Model implements HasMedia
     ];
 
 
-    protected $cloneable_relations = ['animalDocumentation', 'dateRange', 'dateSolitaryGroups', 'dateFullCare', 'euthanasia'];
+    protected $cloneable_relations = ['animalDocumentation', 'dateRange', 'dateSolitaryGroups', 'dateFullCare', 'euthanasia', 'shelterAnimalPrice'];
 
     public function animal()
     {
@@ -97,8 +97,9 @@ class AnimalItem extends Model implements HasMedia
     {
         return $this->hasOne(AnimalItemDocumentation::class);
     }
-    public function careEndType()
+    
+    public function careEnd()
     {
-        return $this->belongsTo(AnimalItemCareEndType::class, 'animal_item_care_end_type_id');
+        return $this->hasOne(AnimalItemCareEnd::class);
     }
 }

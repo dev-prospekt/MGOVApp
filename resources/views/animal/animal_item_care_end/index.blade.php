@@ -165,7 +165,7 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ ($price->full_care != 0 ) ? $price->full_care . 'kn' : '' }}
+                  {{ (isset($price->full_care) != 0 ) ? $price->full_care . 'kn' : '' }}
                 @endif
               </p>
             </div>
@@ -199,7 +199,7 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Konačna cijena: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ $price->total_price . 'kn' }}
+                  {{ isset($price->total_price) ? $price->total_price . 'kn' : '' }}
                 @endif
               </p>
             </div>

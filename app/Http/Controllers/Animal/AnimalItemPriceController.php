@@ -22,7 +22,7 @@ class AnimalItemPriceController extends Controller
             if(!empty($request->end_date)){
                 $animalItem->dateRange()->update([
                     'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date),
-                    'reason_date_end' => $request->reason_date_end,
+                    'reason_date_end' => $request->end_care_type,
                 ]);
 
                 // Standard
@@ -193,6 +193,9 @@ class AnimalItemPriceController extends Controller
 
             // Update svih cijena nakon zavrsetka skrbi
             if(!empty($request->end_date)){
+
+                AnimalItem::where('id', $id)->update(['animal_item_care_end_status' => false]);
+
                 $totalPriceHibern = (isset($totalPriceHibern)) ? $totalPriceHibern : null;
                 $totalPriceFullCare = (isset($totalPriceFullCare)) ? $totalPriceFullCare : null;
 
@@ -281,8 +284,6 @@ class AnimalItemPriceController extends Controller
                     ]);
                 }
             }
-
-            // Finish Price
 
             return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
         }
