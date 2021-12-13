@@ -283,6 +283,7 @@
     </div>      
   </div>
 
+  @if ($animalItem->animal_item_care_end_status == false)
   <div class="row">
     <div class="col-md-5">
 
@@ -448,6 +449,7 @@
       </div>
     </div>
   </div>
+  @endif
 
 @endsection
 
