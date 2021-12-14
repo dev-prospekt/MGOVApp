@@ -293,13 +293,15 @@ class AnimalGroupController extends Controller
                 $newAnimalPrice->save();
             }
             // Media AnimalItemLogs
-            $animalItemLog = $item->animalItemLogs;
-            foreach ($animalItemLog as $itemLog) {
-                $newAnimalItemLog = $itemLog->replicate();
-                $newAnimalItemLog->animal_item_id = $newAnimalItems->id;
-                $newAnimalItemLog->save();
-
-                $this->copyMedia($itemLog, $newAnimalItemLog);
+            if(!empty($item->animalItemLogs->first())){
+                $animalItemLog = $item->animalItemLogs;
+                foreach ($animalItemLog as $itemLog) {
+                    $newAnimalItemLog = $itemLog->replicate();
+                    $newAnimalItemLog->animal_item_id = $newAnimalItems->id;
+                    $newAnimalItemLog->save();
+    
+                    $this->copyMedia($itemLog, $newAnimalItemLog);
+                }
             }
             // Media AnimalItemLogs
 

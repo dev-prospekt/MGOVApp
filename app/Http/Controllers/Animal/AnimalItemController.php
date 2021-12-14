@@ -226,11 +226,6 @@ class AnimalItemController extends Controller
         $increment = $incrementId->id + 1;
         $increment = str_pad($increment, 5, 0, STR_PAD_LEFT);
 
-        // Promjena količine na trenutnoj grupi
-        // $animal_group = AnimalGroup::find($animal_items->animalGroup->id);
-        // $animal_group->decrement('quantity', 1);
-        // $animal_group->save();
-
         // AnimalType
         $animalType = Animal::find($animal_items->animal_id);
         $animalTypeCode = $animalType->animalType->first()->type_code;
@@ -257,6 +252,7 @@ class AnimalItemController extends Controller
         $newAnimalItem->animal_group_id = $newAnimalGroup->id;
         $newAnimalItem->shelter_id = $newShelter->id;
         $newAnimalItem->in_shelter = true;
+        $newAnimalItem->animal_item_care_end_status = true;
         $newAnimalItem->shelter_code = $newAnimalGroup->shelter_code;
         $newAnimalItem->save();
         $newAnimalItem->update(['animal_code' => $newAnimalGroup->shelter_code . '-j-' . $newAnimalItem->id]);
@@ -264,11 +260,11 @@ class AnimalItemController extends Controller
         // Duplicate solitary group date
         $animalItemsDateSolitaryGroup = $animal_items->dateSolitaryGroups;
         if ($animalItemsDateSolitaryGroup) {
-            foreach ($animalItemsDateSolitaryGroup as $value) {
-                $newDateSolitaryOrGroup = $value->replicate();
-                $newDateSolitaryOrGroup->animal_item_id = $newAnimalItem->id;
-                $newDateSolitaryOrGroup->save();
-            }
+            $newAnimalItem->dateSolitaryGroups()->create([
+                'start_date' => Carbon::now(),
+                'end_date' => null,
+                'solitary_or_group' => $animal_items->dateSolitaryGroups()->latest()->take(1)->first()->solitary_or_group,
+            ]);
         }
 
         // Copy mark_type
@@ -304,31 +300,35 @@ class AnimalItemController extends Controller
             $this->copyMedia($animalItemDoc, $newAnimalItemDoc);
         }
 
-        // Date full care
-        if (!empty($animal_items->dateFullCare)) {
-            $dateFullCare = $animal_items->dateFullCare;
-            if (!empty($dateFullCare)) {
-                foreach ($dateFullCare as $item) {
-                    $newDateRange = $item->replicate();
-                    $newDateRange->animal_item_id = $newAnimalItem->id;
-                    $newDateRange->save();
-                }
-            }
-        }
+        // // Date full care
+        // if (!empty($animal_items->dateFullCare)) {
+        //     $dateFullCare = $animal_items->dateFullCare;
+        //     if (!empty($dateFullCare)) {
+        //         foreach ($dateFullCare as $item) {
+        //             $newDateRange = $item->replicate();
+        //             $newDateRange->animal_item_id = $newAnimalItem->id;
+        //             $newDateRange->save();
+        //         }
+        //     }
+        // }
 
         // Date Range
         $dateRange = $animal_items->dateRange;
         $newDateRange = $dateRange->replicate();
         $newDateRange->animal_item_id = $newAnimalItem->id;
+        $newDateRange->start_date = Carbon::now();
+        $newDateRange->end_date = null;
+        $newDateRange->hibern_start = null;
+        $newDateRange->hibern_end = null;
         $newDateRange->save();
 
-        // Shelter Animal Price
-        if (!empty($animal_items->shelterAnimalPrice)) {
-            $animalPrice = $animal_items->shelterAnimalPrice;
-            $newAnimalPrice = $animalPrice->replicate();
-            $newAnimalPrice->animal_item_id = $newAnimalItem->id;
-            $newAnimalPrice->save();
-        }
+        // // Shelter Animal Price
+        // if (!empty($animal_items->shelterAnimalPrice)) {
+        //     $animalPrice = $animal_items->shelterAnimalPrice;
+        //     $newAnimalPrice = $animalPrice->replicate();
+        //     $newAnimalPrice->animal_item_id = $newAnimalItem->id;
+        //     $newAnimalPrice->save();
+        // }
 
         return response()->json([
             'msg' => 'success',

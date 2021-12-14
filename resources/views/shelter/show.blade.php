@@ -35,6 +35,9 @@
         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Jedinke</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" id="send-tab" data-toggle="tab" href="#send" role="tab" aria-controls="send" aria-selected="true">Poslano</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Podaci oporavilišta</a>
       </li>
     </ul>
@@ -177,6 +180,44 @@
           </div>      
         </div>
       </div>
+
+      <div class="tab-pane fade" id="send" role="tabpanel" aria-labelledby="send-tab">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                  <div><h6 class="card-title">Jedinke koje su poslane u drugo oporavilište</h6> </div>
+                </div>
+
+                <div class="table-responsive-sm">
+                  <table id="shelterAnimalItem" class="table">
+                    <thead>          
+                      <tr>
+                        <th>#</th>
+                        <th>Naziv</th>
+                        <th>Latinski naziv</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @foreach ($shelter->animalItemSends as $item)
+                        <tr>
+                          <th>{{ $item->animal_code }}</th>
+                          <th>{{ $item->animal->name }}</th>
+                          <th>{{ $item->animal->latin_name }}</th>
+                        </tr>
+                      @endforeach
+                    </tbody>                
+                  </table>
+                </div>
+        
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
    

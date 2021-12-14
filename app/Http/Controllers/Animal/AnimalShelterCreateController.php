@@ -132,7 +132,7 @@ class AnimalShelterCreateController extends Controller
         // AnimalDocumentation
         $animalDocumentation = $animalItem->animalDocumentation()->create([
             'animal_item_id' => $animalItem->id,
-            'state_recive' => $request->status_receiving_file,
+            'state_recive' => $request->status_receiving,
             'state_recive_desc' => $request->status_receiving_desc,
             'state_found' => $request->status_found,
             'state_found_desc' => $request->status_found_desc,

@@ -255,7 +255,7 @@
                         @isset($animalItem->animalDocumentation->state_reason)                 
                         <div class="bordered-group mt-2">
                           <div class="latest-photos d-flex">
-                            @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)                 
+                            @foreach ($animalItem->animalDocumentation->getMedia('founder_documents') as $media)                 
                               <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
                                 {{ $media->name }}
                               </a>                    

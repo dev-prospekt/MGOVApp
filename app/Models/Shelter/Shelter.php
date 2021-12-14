@@ -61,4 +61,9 @@ class Shelter extends Model
     {
         return $this->hasMany(FounderData::class);
     }
+
+    public function animalItemSends()
+    {
+        return $this->hasMany(AnimalItem::class)->where('in_shelter', 0);
+    }
 }
