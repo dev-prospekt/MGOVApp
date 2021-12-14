@@ -383,8 +383,8 @@ class AnimalItemPriceController extends Controller
         }
 
         // Juvenilne jedinke - Ako su gmazovi cijena nema razlike
-        if ($animalItem->animal_age == 'JUV') {
-            if ($animalItem->animal->animalCategory->animalSystemCategory != 'gmazovi') {
+        if ($animalItem->animal_age == 'JUV(juvenilna)') {
+            if ($animalItem->animal->animalCategory->animalSystemCategory->name != 'gmazovi') {
                 $percentGet = 30;
                 $percentDecimal = $percentGet / 100;
                 $totalWithPercent = ($totalPrice * $percentDecimal);
