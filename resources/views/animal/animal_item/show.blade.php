@@ -50,10 +50,9 @@
                 <div class="row justify-content-between">           
                     <div class="email-title mb-2 mb-md-0"> Opis postupanja u oporavilištu</div>  
                     <div>
-                    <a href="{{ route('animal_items.animal_item_logs.create', $animalItem->id) }}" type="button" class="btn btn-primary btn-xs btn-icon-text">                
+                      <a href="{{ route('animal_items.animal_item_logs.create', $animalItem->id) }}" type="button" class="btn btn-primary btn-xs">                
                           Dodaj zapis
-                          <i class="btn-icon-append" data-feather="book"></i>
-                        </a> 
+                      </a> 
                     </div>
                  
                 </div>
@@ -73,7 +72,7 @@
                     <span class="date {{ ($itemlLog->logType->type_name == 'Proširena skrb') ? 'text-danger' : '' }}">                        
                       {{ $itemlLog->created_at->format('d.m.Y.') }}
                     </span>
-                    <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="btn btn-warning btn-xs mt-1">
+                    <a href="{{ route('animal_items.animal_item_logs.show', [$animalItem->id, $itemlLog->id]) }}" class="btn btn-secondary btn-xs mt-1">
                         pregled
                      </a> 
                     </div>
@@ -100,15 +99,14 @@
         </li>
       </ul>
 
-      <div class="tab-content border border-top-0" id="myTabContent">
+      <div class="tab-content  border-top-0" id="myTabContent">
         <div class="tab-pane fade {{ Session::get('error') ? '' : 'show active' }}" id="home" role="tabpanel" aria-labelledby="home-tab">
           <div class="card">
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between">
                 <div><h6 class="card-title">Podaci o zaprimanju</h6> </div> 
-                <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-icon-text btn-sm" type="button">
+                <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-sm" type="button">
                   Izmjeni
-                  <i class="btn-icon-append" data-feather="box"></i>
                 </a>
               </div> 
               @if($msg = Session::get('update_animal_item'))
@@ -126,7 +124,7 @@
                       </div>
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum pronalaska:</label>
-                        <p class="text-muted">{{ $animalItem->animal_date_found->format('d.m.Y') ?? '' }}</p>
+                        <p class="text-info">{{ $animalItem->animal_date_found->format('d.m.Y') ?? '' }}</p>
                       </div>
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način držanja:</label>
@@ -178,6 +176,47 @@
               </div>
             </div>
           </div><!-- end card -->
+          @if ($animalItem->animal_item_care_end_status == false)
+          <div class="card mt-3">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between">         
+                <div class="email-title mb-2 mb-md-0"> <h6 class="card-title">Status Skrbi</h6></div>  
+                <div>
+                <a href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', 
+                          [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" type="button" class="btn btn-primary btn-xs">                
+                  Pregled cijene skrbi                
+                </a> 
+                </div>
+             
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><span class="text-danger">ZAVRŠENA SKRB</span></li>
+                    <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">Puštena u prirodu</span></li>
+                    <li class="list-group-item">Trajanje skrbi: <span class="text-warning">{{ $date->start_date->diffInDays($date->end_date) }} dana</span></li>
+                     
+                  </ul>
+                </div>
+                <div class="col-md-6">
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><p class="text-light">Početak skrbi: <span class="text-light">{{ $animalItem->dateRange->start_date->format('d.m.Y') }}</span></p></li>
+                    <li class="list-group-item"><p class="text-light">Kraj skrbi: <span class="text-light">{{ $animalItem->dateRange->end_date->format('d.m.Y') }}</span></p></li>
+                    
+                    <li class="list-group-item">Ukupna cijena skrbi: 
+                      <span class="text-info"> 
+                        @if (!empty($animalItem->dateRange->end_date))
+                                {{ $price->total_price ? $price->total_price . 'kn' : '0kn' }}
+                        @endif
+                      </span>
+                    </li>       
+                  </ul>
+                </div>
+              </div>
+        
+            </div>
+          </div>
+          @endif
         </div><!--  end TAB -->
 
         <div class="tab-pane fade {{ Session::get('error') ? 'show active' : '' }}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -277,166 +316,12 @@
   <div class="row">
     <div class="col-md-5 stretch-card">
 
-      <div class="card">
-        <div class="card-body">
-
-          <div class="d-flex align-items-center justify-content-between">
-            <div><h6 class="card-title">Datumi</h6> </div> 
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="mt-1">
-                <label class="m-0">Datum skrbi</label>
-                @if (!empty($date->start_date) && !empty($date->end_date))
-                  <p class="text-muted">
-                    {{ $date->start_date->format('d.m.Y') . ' - ' . $date->end_date->format('d.m.Y') }}
-                    (<span class="text-warning">{{ $date->start_date->diffInDays($date->end_date) }}</span> dana)
-                  </p>
-                @endif
-              </div>
-            </div>
-
-            <div class="col-md-6">
-              <div class="mt-1">
-                <label class="m-0">Datum hibernacije</label>
-                @if (!empty($date->hibern_start) && !empty($date->hibern_end))
-                  <p class="text-muted">{{ $date->hibern_start . ' - ' . $date->hibern_end }}</p>
-                  <p class="text-muted">Broj dana <span class="text-warning">{{ $date->hibern_start->diffInDays($date->hibern_end) }}</span></p>
-                @endif
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="mt-2">
-                <label class="m-0">Način držanja (Grupa)</label>
-                @if (!empty($solitaryGroup))
-                  @foreach ($solitaryGroup as $item)
-                    @if ($item->solitary_or_group == 'Grupa')
-                      <div>
-                        <p class="text-muted">
-                          {{ $item->start_date->format('d.m.Y') . ' - ' . $item->end_date->format('d.m.Y') }}
-                          (<span class="text-warning">{{ $item->start_date->diffInDays($item->end_date) }}</span> dana)
-                        </p>
-                      </div>
-                    @endif
-                  @endforeach
-                @endif
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="mt-2">
-                <label class="m-0">Način držanja (Solitarno)</label>
-                @if (!empty($solitaryGroup))
-                  @foreach ($solitaryGroup as $item)
-                    @if ($item->solitary_or_group == 'Solitarno')
-                      <div>
-                        <p class="text-muted">
-                          {{ $item->start_date->format('d.m.Y') . ' - ' . $item->end_date->format('d.m.Y') }}
-                          (<span class="text-warning">{{ $item->start_date->diffInDays($item->end_date) }}</span> dana)
-                        </p>
-                      </div>
-                    @endif
-                  @endforeach
-                @endif
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-md-6">
-              <div class="mt-2">
-                <label class="m-0">Proširena skrb</label>
-                @if(!empty($animalItem->dateFullCare->first()))
-                  @foreach ($animalItem->dateFullCare as $full)
-                    <p class="text-muted">
-                      {{$full->start_date->format('d.m.Y')}} - {{ $full->end_date->format('d.m.Y') }}
-                      (<span class="text-warning">{{$full->days}}</span> dana)
-                    </p>
-                  @endforeach
-                @endif
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
+      
 
     </div>
-    <div class="col-md-7 stretch-card">
-      <div class="card">
-        <div class="card-body">
+    <div class="col-md-7">
 
-          <div class="d-flex align-items-center justify-content-between">
-            <div><h6 class="card-title">Cijene skrbi</h6> </div> 
-          </div>
-
-          <div class="row">
-            <div class="col-md-4 grid-margin">    
-              <div class="mt-1">
-                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Solitarno: </label>
-                <p class="text-muted">
-                  @if (!empty($date->end_date))
-                    {{ $price->solitary_price ? $price->solitary_price . 'kn' : '0kn' }}
-                  @endif
-                </p>
-              </div>
-              <div class="mt-1">
-                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Grupa: </label>
-                <p class="text-muted">
-                  @if (!empty($date->end_date))
-                    {{ $price->group_price ? $price->group_price . 'kn' : '0kn' }}
-                  @endif
-                </p>
-              </div>
-            </div>
-
-            <div class="col-md-4 grid-margin">   
-              <div class="mt-2">
-                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
-                <p class="text-muted">
-                  @if (!empty($date->end_date))
-                    {{ ($price->full_care != 0 ) ? $price->full_care . 'kn' : '0kn' }}
-                  @endif
-                </p>
-              </div>
-              <div class="mt-1">
-                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija: </label>
-                <p class="text-muted">
-                  @if (!empty($date->end_date))
-                    {{ $price->hibern ? $price->hibern . 'kn' : '0kn' }}
-                  @endif
-                </p>
-              </div>
-            </div>
-
-            <div class="col-md-4 grid-margin">
-              <div class="mt-1">
-                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Eutanazija: </label>
-                <p class="text-muted">
-                  {{ $animalItem->euthanasia ? $animalItem->euthanasia->price . 'kn' : '0kn' }}
-                </p>
-              </div>
-            </div>
-          </div>
-  
-          <div class="row">
-            <div class="col-md-4 grid-margin">
-              <div class="mt-1">
-                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Konačna cijena: </label>
-                <p class="text-muted">
-                  @if (!empty($date->end_date))
-                    {{ $price->total_price ? $price->total_price . 'kn' : '0kn' }}
-                  @endif
-                </p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
+      
     </div>
   </div>
   @endif

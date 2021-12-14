@@ -25185,4 +25185,8 @@ hr {
   color: #fff;
 }
 
+span.line-through {
+  text-decoration: line-through;
+}
+
 /*# sourceMappingURL=app.css.map*/
