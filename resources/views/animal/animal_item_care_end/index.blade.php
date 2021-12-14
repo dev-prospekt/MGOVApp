@@ -35,7 +35,7 @@
     </a>
   </li>
 </ul>
-@if ($animalItem->animal_item_care_end_status)
+@if ($animalItem->animal_item_care_end_status == true)
 <div class="row">
   <div class="col-md-7">
    
@@ -219,6 +219,7 @@
         <div class="card-body">
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><span class="text-danger">ZAVRŠENA SKRB</span></li>
+            <li class="list-group-item">Trajanje skrbi: <span class="text-warning">{{ $date->start_date->diffInDays($date->end_date) }} dana</span></li>
             <li class="list-group-item"><p class="text-light">Početak skrbi: <span class="text-light">{{ $animalItem->dateRange->start_date->format('d.m.Y') }}</span></p></li>
             <li class="list-group-item"><p class="text-light">Kraj skrbi: <span class="text-light">{{ $animalItem->dateRange->end_date->format('d.m.Y') }}</span></p></li>
             <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">{{ $animalItem->careEnd->careEndType->name }}</span></li>
@@ -237,34 +238,70 @@
         <div class="card-body">
 
           <div class="d-flex align-items-center justify-content-between">
-            <h6 class="card-title">Cijene skrbi</h6>
+            <h6 class="card-title">Podaci skrbi</h6>
           </div> 
           
           @if($msg = Session::get('update_animal_item'))
           <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
           @endif         
           <div class="row">
-            <div class="col-md-4 grid-margin">    
+            <div class="col-md-4 grid-margin">   
+              
               <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Solitarno držanje: </label>
                 <p class="text-muted">
-                  @if (!empty($animalItem->dateRange->end_date))
-                    <span class="text-info">{{ (isset($price->solitary_price)) ? $price->solitary_price . 'kn' : '0kn' }}</span>
+                  @if (!empty($animalItem->dateRange->end_date) && (isset($price->solitary_price)))
+                    <span class="text-info {{ isset($price->hibern) ? 'line-through ' : '' }}">{{ (isset($price->solitary_price)) ? $price->solitary_price . 'kn' : '' }}</span>
+                    @else
+                    <span class="text-info">0.00 kn</span>
                   @endif
                 </p>
+                @if (!empty($solitaryGroup))
+                  @foreach ($solitaryGroup as $item)
+                    @if ($item->solitary_or_group == 'Solitarno')
+                      <div>
+                        <p class="text-muted">
+                          Broj dana: <span class="text-warning">{{ $item->start_date->diffInDays($item->end_date) }}</span>
+                        </p>
+                        <p class="text-muted">
+                          {{ $item->start_date->format('d.m.Y') . ' - ' . $item->end_date->format('d.m.Y') }}
+                        </p>                
+                      </div>
+                    @endif
+                  @endforeach
+                @endif
               </div>
+             
+            </div>
+            <div class="col-md-4 grid-margin">  
               <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Grupno držanje: </label>
                 <p class="text-muted">
                   @if (!empty($animalItem->dateRange->end_date) && (isset($price->group_price)) )
-                    {{ $price->group_price . 'kn'}}
+                  <span class="text-info {{ isset($price->hibern) ? 'line-through ' : '' }}" >{{ $price->group_price . 'kn'}}</span>
                     @else
-                    <span class="text-info">NE</span>
+                    <span class="text-info">0.00 kn</span>
                   @endif
                 </p>
-              </div>
+                @if (!empty($solitaryGroup))
+                @foreach ($solitaryGroup as $item)
+                  @if ($item->solitary_or_group == 'Grupa')
+                    <div>        
+                      <p class="text-muted">
+                        Broj dana: <span class="text-warning">{{ $item->start_date->diffInDays($item->end_date) }}</span> 
+                      </p>
+                      <p class="text-muted">
+                        {{ $item->start_date->format('d.m.Y') . ' - ' . $item->end_date->format('d.m.Y') }}
+                      </p>
+                    </div>
+                  @endif
+                @endforeach
+              @endif
+              </div> 
+    
+         
             </div>
-            <div class="col-md-4 grid-margin">   
+            <div class="col-md-4 grid-margin"> 
               <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
                 <p class="text-muted">
@@ -272,12 +309,32 @@
                   <span class="text-info">{{ (isset($price->full_care) != 0 ) ? $price->full_care . 'kn' : '0kn' }}</span>
                   @endif
                 </p>
-              </div>
+                @if(!empty($animalItem->dateFullCare->first()))
+                @foreach ($animalItem->dateFullCare as $full)
+                  <p class="text-muted">
+                    Broj dana: <span class="text-warning">{{$full->days}}</span>
+                  </p>
+                  <p class="text-muted">
+                    {{$full->start_date->format('d.m.Y')}} - {{ $full->end_date->format('d.m.Y') }}
+                  </p>
+                @endforeach
+              @endif
+              </div>  
+           
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 grid-margin">
               <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija: </label>
                 <p class="text-muted">
                   @if (!empty($animalItem->dateRange->end_date)  && (isset($price->hibern)))
-                    {{  $price->hibern . 'kn'}}
+                    <span class="text-info">{{  $price->hibern . 'kn'}}</span>
+                    @if (!empty($date->hibern_start) && !empty($date->hibern_end))
+                    <p class="text-muted">Broj dana: <span class="text-warning">{{ $date->hibern_start->diffInDays($date->hibern_end) }}</span></p>
+                    <p class="text-muted">{{ $date->hibern_start->format('d.m.Y') . ' - ' . $date->hibern_end->format('d.m.Y') }}</p>
+                    
+                  @endif
                     @else
                     <span class="text-info">NE</span>
                   @endif
@@ -285,7 +342,7 @@
               </div>
             </div>
 
-            <div class="col-md-4 grid-margin">   
+            <div class="col-md-4 grid-margin">
               <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Eutanazija: </label>
                 <p class="text-muted">
@@ -300,9 +357,10 @@
                     <span class="text-warning">NE</span>
                   @endif
                 </p>
-              </div>    
+              </div> 
             </div>
           </div>
+
           <div class="row separator separator--small"></div>
             <div class="d-flex align-items-center justify-content-between mb-2">
               <div></div>        
@@ -310,7 +368,7 @@
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Konačna cijena: </label>
                   <p class="text-muted">
                     @if (!empty($animalItem->dateRange->end_date))
-                      {{ isset($price->total_price) ? $price->total_price . 'kn' : '0kn' }}
+                      <h5 class="text-primary">{{ isset($price->total_price) ? $price->total_price . 'kn' : '' }}</h5>
                     @endif
                   </p>     
                 </div>
@@ -319,6 +377,7 @@
       </div>
     </div>
   </div><!-- end row -->
+
 @endif
   
 @endsection
