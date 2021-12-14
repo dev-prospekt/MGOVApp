@@ -221,7 +221,7 @@
             <li class="list-group-item"><span class="text-danger">ZAVRŠENA SKRB</span></li>
             <li class="list-group-item"><p class="text-light">Početak skrbi: <span class="text-light">{{ $animalItem->dateRange->start_date->format('d.m.Y') }}</span></p></li>
             <li class="list-group-item"><p class="text-light">Kraj skrbi: <span class="text-light">{{ $animalItem->dateRange->end_date->format('d.m.Y') }}</span></p></li>
-            <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">Puštena u prirodu</span></li>
+            <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">{{ $animalItem->careEnd->careEndType->name }}</span></li>
             <li class="list-group-item"><span class="text-muted">Opis:</span>
               <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                  Vel hic, cupiditate cumque autem itaque totam rerum expedita aperiam ipsum sint?
