@@ -218,13 +218,15 @@
                             @if ($totalDays != 0)
                             <div class="d-flex">
                                 <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="full_care_start" class="form-control full_care_start">
+                                    <input type="text" name="full_care_start" class="form-control full_care_start"
+                                    value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
                                     <span class="input-group-addon">
                                         <i data-feather="calendar"></i>
                                     </span>
                                 </div>
                                 <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="full_care_end" class="form-control full_care_end">
+                                    <input type="text" name="full_care_end" class="form-control full_care_end"
+                                    value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
                                     <span class="input-group-addon">
                                         <i data-feather="calendar"></i>
                                     </span>
@@ -352,7 +354,7 @@
                 @if(!empty($animalItem->dateFullCare->first()))
                   @foreach ($animalItem->dateFullCare as $full)
                     <p class="text-muted">
-                      {{$full->start_date->format('d.m.Y')}} - {{ $full->end_date->format('d.m.Y') }}
+                      {{ isset($full->start_date) ? $full->start_date->format('d.m.Y') : '' }} - {{ isset($full->end_date) ? $full->end_date->format('d.m.Y') : '' }}
                       (<span class="text-warning">{{$full->days}}</span> dana)
                     </p>
                   @endforeach
@@ -467,23 +469,23 @@
       }
 
       // Proširena skrb, obavezno
-      $('.full_care_start').on('change', function(){
-          if($(this).val()){
-            $('#submit').attr("disabled", true);
+      // $('.full_care_start').on('change', function(){
+      //     if($(this).val()){
+      //       $('#submit').attr("disabled", true);
 
-            $('.full_care_end').on('change', function(){
-                if($(this).val()){
-                  $('#submit').attr("disabled", false);
-                }
-                else {
-                  $('#submit').attr("disabled", true);
-                }
-            });
-          }
-          else {
-            $('#submit').attr("disabled", false);
-          }
-      });
+      //       $('.full_care_end').on('change', function(){
+      //           if($(this).val()){
+      //             $('#submit').attr("disabled", false);
+      //           }
+      //           else {
+      //             $('#submit').attr("disabled", true);
+      //           }
+      //       });
+      //     }
+      //     else {
+      //       $('#submit').attr("disabled", false);
+      //     }
+      // });
 
     });
   </script>

@@ -138,25 +138,81 @@ class AnimalItemPriceController extends Controller
             if(!empty($request->full_care_start)){
                 $full_care_from = Carbon::createFromFormat('m/d/Y', $request->full_care_start);
                 $full_care_to = (isset($request->full_care_end)) ? Carbon::createFromFormat('m/d/Y', $request->full_care_end) : '';
+
+                if(!empty($full_care_from) && empty($full_care_to)){
+                    if(!empty($animalItem->dateFullCare->first())){
+                        $update = $animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first();
+
+                        if(!empty($update)){
+                            $animalItem->dateFullCare()->where('end_date', '=', null)->update([
+                                'start_date' => $full_care_from,
+                            ]);
+                        }
+                        else {
+                            $animalItem->dateFullCare()->where('end_date', '!=', null)->create([
+                                'start_date' => $full_care_from,
+                            ]);
+                        }
+                    }
+                    else {
+                        $animalItem->dateFullCare()->create([
+                            'start_date' => $full_care_from,
+                        ]);
+                    }
+                }
+
+                if(!empty($full_care_from) && !empty($full_care_to)){
+                    $full_care_diff_in_days = $full_care_to->diffInDays($full_care_from);
+
+                    $fullCaretotaldays = 0;
+                    foreach ($animalItem->dateFullCare as $key) {
+                        $fullCaretotaldays += $key->days;
+                    }
+
+                    if($fullCaretotaldays >= 10 || ($fullCaretotaldays + $full_care_diff_in_days) > 10){
+                        return redirect()->back()->with('error', 'Proširena skrb ne smije biti duža od 10 dana.');
+                        die();
+                    }
+                    if($full_care_diff_in_days > 10){
+                        return redirect()->back()->with('error', 'Proširena skrb ne smije biti duža od 10 dana.');
+                        die();
+                    }
+
+                    $animalItem->dateFullCare()->where('end_date', '=', null)->update([
+                        'start_date' => $full_care_from,
+                        'end_date' => $full_care_to,
+                        'days' => $full_care_diff_in_days,
+                    ]);
+
+                    // Cijena za proširenu skrb
+                    $totalPriceFullCare = $this->getPrice($animalItem, ($fullCaretotaldays + $full_care_diff_in_days), 'fullCare');
+                }
+            }
+            elseif(!empty($animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first()->start_date) && !empty($request->end_date))
+            {
+                $fullDate = $animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first();
+
+                $full_care_from = Carbon::parse($fullDate->start_date);
+                $full_care_to = (isset($request->end_date)) ? Carbon::createFromFormat('m/d/Y', $request->end_date) : '';
                 $full_care_diff_in_days = $full_care_to->diffInDays($full_care_from);
 
                 $fullCaretotaldays = 0;
                 foreach ($animalItem->dateFullCare as $key) {
                     $fullCaretotaldays += $key->days;
                 }
+
                 if($fullCaretotaldays >= 10 || ($fullCaretotaldays + $full_care_diff_in_days) > 10){
                     return redirect()->back()->with('error', 'Proširena skrb ne smije biti duža od 10 dana.');
                     die();
                 }
-
                 if($full_care_diff_in_days > 10){
                     return redirect()->back()->with('error', 'Proširena skrb ne smije biti duža od 10 dana.');
                     die();
                 }
 
-                $animalItem->dateFullCare()->create([
-                    'start_date' => Carbon::createFromFormat('m/d/Y', $request->full_care_start),
-                    'end_date' => Carbon::createFromFormat('m/d/Y', $request->full_care_end),
+                $animalItem->dateFullCare()->where('end_date', '=', null)->update([
+                    'start_date' => $full_care_from,
+                    'end_date' => $full_care_to,
                     'days' => $full_care_diff_in_days,
                 ]);
 

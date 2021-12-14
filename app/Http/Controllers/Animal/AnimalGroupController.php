@@ -103,7 +103,7 @@ class AnimalGroupController extends Controller
                             return '
                             <div class="d-flex align-items-center">
                                 <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
-                                    Info
+                                    Podaci
                                 </a>
                                 <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
                                     Dupliciraj
@@ -118,7 +118,7 @@ class AnimalGroupController extends Controller
                             return '
                             <div class="d-flex align-items-center">
                                 <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
-                                    Info
+                                    Podaci
                                 </a>
                                 <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
                                     Premjesti
