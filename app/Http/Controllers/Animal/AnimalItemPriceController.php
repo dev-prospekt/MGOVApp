@@ -195,7 +195,7 @@ class AnimalItemPriceController extends Controller
                         die();
                     }
 
-                    $animalItem->dateFullCare()->where('end_date', '=', null)->update([
+                    $animalItem->dateFullCare()->create([
                         'start_date' => $full_care_from,
                         'end_date' => $full_care_to,
                         'days' => $full_care_diff_in_days,
