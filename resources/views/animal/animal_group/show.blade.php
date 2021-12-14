@@ -39,9 +39,8 @@
                     <thead>
                         <tr>
                             <th>Šifra jedinke</th>
-                            <th>NAZIV</th>
                             <th>LATINSKI NAZIV</th>
-                            <th>Datum pronalaska</th>
+                            <th>Datum <br> pronalaska</th>
                             <th>Dob</th>
                             <th>Spol</th>
                             <th>Veličina</th>
@@ -117,7 +116,6 @@ $(function() {
         ajax: '{!! route('shelters.animal_groups.show', [$animal_group->shelters->first()->id, $animal_group->id]) !!}',
         columns: [
             { data: 'animal_code', name: 'animal_code'},
-            { data: 'name', name: 'name'},
             { data: 'latin_name', name: 'latin_name'},
             { data: 'date_found', name: 'date_found'},
             { data: 'animal_age', name: 'animal_age'},

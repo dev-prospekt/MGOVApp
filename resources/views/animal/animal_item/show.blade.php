@@ -257,13 +257,15 @@
                             @if ($totalDays != 0)
                             <div class="d-flex">
                                 <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="full_care_start" class="form-control full_care_start">
+                                    <input type="text" name="full_care_start" class="form-control full_care_start"
+                                    value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
                                     <span class="input-group-addon">
                                         <i data-feather="calendar"></i>
                                     </span>
                                 </div>
                                 <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="full_care_end" class="form-control full_care_end">
+                                    <input type="text" name="full_care_end" class="form-control full_care_end"
+                                    value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
                                     <span class="input-group-addon">
                                         <i data-feather="calendar"></i>
                                     </span>
@@ -350,25 +352,6 @@
           $("div#datePickerExample").find(".hib_est_from").datepicker('setDate', $("div#datePickerExample").find(".hib_est_from").val());
           $("div#datePickerExample").find(".hib_est_to").datepicker('setDate', $("div#datePickerExample").find(".hib_est_to").val());
       }
-
-      // Proširena skrb, obavezno
-      $('.full_care_start').on('change', function(){
-          if($(this).val()){
-            $('#submit').attr("disabled", true);
-
-            $('.full_care_end').on('change', function(){
-                if($(this).val()){
-                  $('#submit').attr("disabled", false);
-                }
-                else {
-                  $('#submit').attr("disabled", true);
-                }
-            });
-          }
-          else {
-            $('#submit').attr("disabled", false);
-          }
-      });
 
     });
   </script>

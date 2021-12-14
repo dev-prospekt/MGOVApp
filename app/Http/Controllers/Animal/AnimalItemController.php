@@ -77,6 +77,8 @@ class AnimalItemController extends Controller
 
         // Full Care
         $fullCare = $animalItem->dateFullCare;
+        $lastFullCare = $animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first();
+
         $dateFullCare_total = $animalItem->dateFullCare;
         $countDays = 0;
         foreach ($dateFullCare_total as $key) {
@@ -90,6 +92,7 @@ class AnimalItemController extends Controller
             'paginateLogs' => $paginateLogs,
             'hibern' => $hibern,
             'fullCare' => $fullCare,
+            'lastFullCare' => $lastFullCare,
             'totalDays' => $totalDays,
             'price' => $price,
             'date' => $date,

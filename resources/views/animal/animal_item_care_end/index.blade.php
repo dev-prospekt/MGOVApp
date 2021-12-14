@@ -53,7 +53,7 @@
             <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
           @endif   
 
-          <form action="/animalItem/update/{{$animalItem->id}}" method="POST">
+          <form action="/animalItem/update/{{$animalItem->id}}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')  
 
@@ -117,7 +117,7 @@
                 </div>
                 <div class="form-group">
                   <label>Učitaj račun</label>
-                  <input id="euthanasiaInvoice" type="file" name="euthanasia_invoice" class="file-upload-default">
+                  <input type="file" id="euthanasiaInvoice" name="euthanasia_invoice">
                   <div id="errorEuthanasiaInvoice"></div>         
                 </div>           
               </div> 
@@ -165,7 +165,7 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ ($price->full_care != 0) ? $price->full_care . 'kn' : '0kn' }}
+                  {{ ( $price->full_care != 0 ) ? $price->full_care . 'kn' : '0kn' }}
                 @endif
               </p>
             </div>
@@ -222,7 +222,7 @@
             <li class="list-group-item">Trajanje skrbi: <span class="text-warning">{{ $date->start_date->diffInDays($date->end_date) }} dana</span></li>
             <li class="list-group-item"><p class="text-light">Početak skrbi: <span class="text-light">{{ $animalItem->dateRange->start_date->format('d.m.Y') }}</span></p></li>
             <li class="list-group-item"><p class="text-light">Kraj skrbi: <span class="text-light">{{ $animalItem->dateRange->end_date->format('d.m.Y') }}</span></p></li>
-            <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">Puštena u prirodu</span></li>
+            <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">{{ $animalItem->careEnd->careEndType->name }}</span></li>
             <li class="list-group-item"><span class="text-muted">Opis:</span>
               <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                  Vel hic, cupiditate cumque autem itaque totam rerum expedita aperiam ipsum sint?
@@ -306,7 +306,7 @@
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
                 <p class="text-muted">
                   @if (!empty($animalItem->dateRange->end_date))
-                  <span class="text-info">{{ (isset($price->full_care) != 0 ) ? $price->full_care . 'kn' : '' }}</span>
+                  <span class="text-info">{{ (isset($price->full_care) != 0 ) ? $price->full_care . 'kn' : '0kn' }}</span>
                   @endif
                 </p>
                 @if(!empty($animalItem->dateFullCare->first()))
@@ -347,8 +347,13 @@
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Eutanazija: </label>
                 <p class="text-muted">
                   @if (!empty($animalItem->euthanasia))
-                  {{ $animalItem->euthanasia->price . 'kn' }}
-                    @else
+                    {{ $animalItem->euthanasia->price . 'kn' }}
+                    <p>
+                      <a href="{{ $animalItem->euthanasia->getMedia('euthanasia_invoice')->first()->getUrl() }}" target="_blank">
+                        {{ $animalItem->euthanasia->getMedia('euthanasia_invoice')->first()->name }}
+                      </a>
+                    </p>
+                  @else
                     <span class="text-warning">NE</span>
                   @endif
                 </p>
@@ -389,18 +394,6 @@
 @push('custom-scripts')
   <script>  
       $(function() {
-        /*euthanasia js*/
-        $("#euthanasia_file").fileinput({
-            language: "cr",
-            //required: true,
-            showPreview: false,
-            showUpload: false,
-            showCancel: false,
-            allowedFileExtensions: ["pdf"],
-            elErrorContainer: '#error_euthanasia_file',
-            msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
-        });
-
         $('div#dateEndcarePicker input').datepicker({
             format: "mm/dd/yyyy",
             todayHighlight: true,
@@ -424,7 +417,6 @@
         });
 
         $("input[name=euthanasia_type]").change(function(){
-
           if($("#euthanasiaOuterType").is(':checked')){
               $("#euthanasiaPrice").show();
           }else if($("#euthanasiaShelterType").is(':checked')){
@@ -434,16 +426,17 @@
           }
         });
 
+        /*euthanasia js*/
         $("#euthanasiaInvoice").fileinput({
-          dropZoneEnabled: false,
           language: "cr",
+          maxFileCount: 1,
           showPreview: false,
           showUpload: false,
-          allowedFileExtensions: ["jpg", "png", 'doc', 'pdf', 'xls'],
+          showCancel: false,
+          allowedFileExtensions: ["jpg", "png", "doc", "pdf", "xls"],
           elErrorContainer: '#errorEuthanasiaInvoice',
-          msgInvalidFileExtension: 'Nevažeća fotografija, Podržani su "{extensions}" formati.'
-
-         });
+          msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
+        });
     
       });
   </script>

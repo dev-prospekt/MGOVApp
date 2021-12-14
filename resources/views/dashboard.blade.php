@@ -171,14 +171,14 @@
                           <td>{{ $shelter->users->first()->name ?? '' }}</td>
                           <td>
                               @foreach ($shelter->shelterTypes as $type)
-                                  <button type="button" class="btn btn-{{ $type->id == 1 ? 'warning' : 'danger' }}" data-toggle="tooltip" data-placement="top" title="{{ $type->name }}">
+                                  <button type="button" class="btn btn-xs btn-{{ $type->id == 1 ? 'warning' : 'danger' }}" data-toggle="tooltip" data-placement="top" title="{{ $type->name }}">
                                       {{ $type->code }}
                                   </button>
                               @endforeach
                           </td>
                           <td>
-                              <a href="{{ route('shelter.show', [$shelter->id]) }}" class="btn btn-info" href="#" role="button">Pregled</a>
-                              <a class="btn btn-warning" href="{{ route("shelter.edit", $shelter) }}" role="button">Uredi</a>
+                              <a href="{{ route('shelter.show', [$shelter->id]) }}" class="btn btn-xs btn-info" href="#" role="button">Pregled</a>
+                              <a class="btn btn-xs btn-warning" href="{{ route("shelter.edit", $shelter) }}" role="button">Uredi</a>
                           </td>
                       </tr>        
                   @endforeach
