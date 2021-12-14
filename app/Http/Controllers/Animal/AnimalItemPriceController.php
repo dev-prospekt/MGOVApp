@@ -193,9 +193,7 @@ class AnimalItemPriceController extends Controller
             }
             elseif(!empty($startDateFull->start_date) && !empty($request->end_date))
             {
-                $fullDate = $animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first();
-
-                $full_care_from = Carbon::parse($fullDate->start_date);
+                $full_care_from = Carbon::parse($startDateFull->start_date);
                 $full_care_to = (isset($request->end_date)) ? Carbon::createFromFormat('m/d/Y', $request->end_date) : '';
                 $full_care_diff_in_days = $full_care_to->diffInDays($full_care_from);
 
