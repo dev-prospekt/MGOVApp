@@ -122,7 +122,7 @@ class AnimalItemPriceController extends Controller
                 if (!empty($request->end_date) && !empty($animalItem->dateRange->hibern_start)) {
                     if (!empty($diff_in_days)) {
                         $hib_from = Carbon::parse($animalItem->dateRange->hibern_start);
-                        $hib_to = Carbon::createFromFormat('m/d/Y', $request->end_date);
+                        $hib_to = Carbon::parse($animalItem->dateRange->hibern_end);
                         $hib_diff_days = $hib_to->diffInDays($hib_from);
 
                         $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);
