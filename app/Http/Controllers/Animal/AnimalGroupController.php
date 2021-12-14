@@ -68,7 +68,9 @@ class AnimalGroupController extends Controller
 
         if ($request->ajax()) {
             return DataTables::of($animal_items)
-                ->addIndexColumn()
+                ->addColumn('animal_code', function ($animal_items) {
+                    return $animal_items->animal_code;
+                })
                 ->addColumn('name', function ($animal_items) {
                     return $animal_items->animal->name;
                 })
@@ -87,11 +89,21 @@ class AnimalGroupController extends Controller
                 ->addColumn('animal_size', function ($animal_items) {
                     return $animal_items->animalSizeAttributes->name;
                 })
-                ->addColumn('keep_type', function ($animal_items) {
-                    return $animal_items->solitary_or_group;
-                })
+
                 ->addColumn('animal_item_care_end_status', function ($animal_items) {
-                    return $animal_items->animal_item_care_end_status ? 'aktivna' : 'završena skrb';
+                    switch ($animal_items->animal_item_care_end_status) {
+                        case true:
+                            $btn_class = 'warning';
+                            $btn_text = 'Aktivna';
+                            break;
+                        case false:
+                            $btn_class = 'danger';
+                            $btn_text = 'Završena skrb';
+                            break;
+                        default:
+                            $btn_class = 'light';
+                    }
+                    return  '<span class="badge badge-' . ($btn_class) . '">' . $btn_text . '</span>';
                 })
                 ->addColumn('action', function ($animal_items) use ($animal_group) {
                     $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
@@ -99,7 +111,7 @@ class AnimalGroupController extends Controller
                     $countAnimal = count($animal_group->animalItems);
 
                     if ($countAnimal > 1) {
-                        if($animal_items->animal_item_care_end_status == true){
+                        if ($animal_items->animal_item_care_end_status == true) {
                             return '
                             <div class="d-flex align-items-center">
                                 <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
@@ -113,8 +125,7 @@ class AnimalGroupController extends Controller
                                 </a>
                             </div>
                             ';
-                        }
-                        else {
+                        } else {
                             return '
                             <div class="d-flex align-items-center">
                                 <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
@@ -127,7 +138,7 @@ class AnimalGroupController extends Controller
                             ';
                         }
                     } else {
-                        if($animal_items->animal_item_care_end_status == true){
+                        if ($animal_items->animal_item_care_end_status == true) {
                             return '
                             <div class="d-flex align-items-center">
                                 <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
@@ -139,8 +150,7 @@ class AnimalGroupController extends Controller
                                 </a>
                             </div>
                             ';
-                        }
-                        else {
+                        } else {
                             return '
                             <div class="d-flex align-items-center">
                                 <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
@@ -151,6 +161,7 @@ class AnimalGroupController extends Controller
                         }
                     }
                 })
+                ->rawColumns(['animal_item_care_end_status', 'action'])
                 ->make();
         }
 

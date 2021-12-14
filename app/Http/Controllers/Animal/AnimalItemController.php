@@ -72,8 +72,8 @@ class AnimalItemController extends Controller
 
         // Hibernacija : Da ili Ne
         $hibern = $animalItem->dateRange->where('animal_item_id', '=', $animalItem->id)
-        ->where('hibern_start', '!=', null)
-        ->get();
+            ->where('hibern_start', '!=', null)
+            ->get();
 
         // Full Care
         $fullCare = $animalItem->dateFullCare;
