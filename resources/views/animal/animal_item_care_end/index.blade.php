@@ -165,7 +165,7 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ ($price->full_care != 0) ? $price->full_care . 'kn' : '0kn' }}
+                  {{ ( $price->full_care != 0 ) ? $price->full_care . 'kn' : '0kn' }}
                 @endif
               </p>
             </div>

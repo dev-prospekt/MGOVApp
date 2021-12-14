@@ -41,7 +41,7 @@
                             <th>Šifra jedinke</th>
                             <th>NAZIV</th>
                             <th>LATINSKI NAZIV</th>
-                            <th>Datum pronalaska</th>
+                            <th>Datum <br> pronalaska</th>
                             <th>Dob</th>
                             <th>Spol</th>
                             <th>Veličina</th>
