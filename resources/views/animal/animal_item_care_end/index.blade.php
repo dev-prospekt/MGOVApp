@@ -240,6 +240,10 @@
           <div class="d-flex align-items-center justify-content-between">
             <h6 class="card-title">Podaci skrbi</h6>
           </div> 
+
+          @if ($animalItem->animal_age == 'JUV(juvenilna)' && $animalItem->animal->animalCategory->animalSystemCategory->name != 'gmazovi')
+            <p><code class="p-0">Napomena:</code> Dob jedinke je JUV(juvenilna) i cijena je povećana za 30%.</p>
+          @endif
           
           @if($msg = Session::get('update_animal_item'))
           <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
