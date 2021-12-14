@@ -15,7 +15,7 @@ class AnimalItemPriceController extends Controller
     {
         $animalItem = AnimalItem::findOrFail($id);
 
-        if (!empty($animalItem->dateRange->end_date)) { // Samo ako nije završena skrb
+        if (empty($animalItem->dateRange->end_date)) { // Samo ako nije završena skrb
             // Date Range
             if (!empty($request->end_date)) {
                 $animalItem->dateRange()->update([
@@ -118,31 +118,32 @@ class AnimalItemPriceController extends Controller
                     ]);
                 }
 
-                // Ako je hibernacija ispunjena
-                if(!empty($animalItem->dateRange->hibern_start) && !empty($animalItem->dateRange->hibern_end)){
-                    if (!empty($diff_in_days)) {
-                        $hib_from = Carbon::parse($animalItem->dateRange->hibern_start);
-                        $hib_to = Carbon::parse($animalItem->dateRange->hibern_end);
-                        $hib_diff_days = $hib_to->diffInDays($hib_from);
-
-                        $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);
-
-                        // Cijena za hibernaciju
-                        $totalPriceHibern = $this->getPrice($animalItem, $hib_day);
-                    }
-                }
-
                 // Izvlacimo cijenu hibernacije
                 if (!empty($request->end_date) && !empty($animalItem->dateRange->hibern_start)) {
                     if (!empty($diff_in_days)) {
-                        $hib_from = Carbon::parse($animalItem->dateRange->hibern_start);
-                        $hib_to = Carbon::createFromFormat('m/d/Y', $request->end_date);
-                        $hib_diff_days = $hib_to->diffInDays($hib_from);
+                        // Ako je hibernacija ispunjena
+                        if(!empty($animalItem->dateRange->hibern_start) && !empty($animalItem->dateRange->hibern_end)){
+                            if (!empty($diff_in_days)) {
+                                $hib_from = Carbon::parse($animalItem->dateRange->hibern_start);
+                                $hib_to = Carbon::parse($animalItem->dateRange->hibern_end);
+                                $hib_diff_days = $hib_to->diffInDays($hib_from);
 
-                        $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);
+                                $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);
 
-                        // Cijena za hibernaciju
-                        $totalPriceHibern = $this->getPrice($animalItem, $hib_day);
+                                // Cijena za hibernaciju
+                                $totalPriceHibern = $this->getPrice($animalItem, $hib_day);
+                            }
+                        }
+                        else {
+                            $hib_from = Carbon::parse($animalItem->dateRange->hibern_start);
+                            $hib_to = Carbon::createFromFormat('m/d/Y', $request->end_date);
+                            $hib_diff_days = $hib_to->diffInDays($hib_from);
+    
+                            $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);
+    
+                            // Cijena za hibernaciju
+                            $totalPriceHibern = $this->getPrice($animalItem, $hib_day);
+                        }
                     }
                 }
             }
