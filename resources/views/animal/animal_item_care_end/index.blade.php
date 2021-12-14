@@ -30,11 +30,15 @@
   </li>
 
   <li class="nav-item">
-    <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Završetak skrbi</a>
+    <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">
+    {{ $animalItem->animal_item_care_end_status ? 'Završetak skrbi' : 'Cijene skrbi' }}
+    </a>
   </li>
 </ul>
+@if ($animalItem->animal_item_care_end_status)
 <div class="row">
   <div class="col-md-7">
+   
     <div class="card rounded">
       <div class="card-body">
           <div class="d-flex align-items-center justify-content-between mb-2">
@@ -127,7 +131,7 @@
             </div>            
           </form>
       </div>
-    </div> 
+    </div>   
   </div>
 
   <div class="col-md-5">
@@ -210,7 +214,111 @@
     </div>
   </div><!-- end card -->
   
-</div>
+</div><!-- end row -->
+  @else
+  <!-- IF CARE END -->
+  <div class="row">
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-body">
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item"><span class="text-danger">ZAVRŠENA SKRB</span></li>
+            <li class="list-group-item"><p class="text-light">Početak skrbi: <span class="text-light">{{ $animalItem->dateRange->start_date->format('d.m.Y') }}</span></p></li>
+            <li class="list-group-item"><p class="text-light">Kraj skrbi: <span class="text-light">{{ $animalItem->dateRange->end_date->format('d.m.Y') }}</span></p></li>
+            <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">Puštena u prirodu</span></li>
+            <li class="list-group-item"><span class="text-muted">Opis:</span>
+              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+                 Vel hic, cupiditate cumque autem itaque totam rerum expedita aperiam ipsum sint?
+                </p>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7">    
+      <div class="card">
+        
+        <div class="card-body">
+
+          <div class="d-flex align-items-center justify-content-between">
+            <h6 class="card-title">Cijene skrbi</h6>
+          </div> 
+          
+          @if($msg = Session::get('update_animal_item'))
+          <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+          @endif         
+          <div class="row">
+            <div class="col-md-4 grid-margin">    
+              <div class="mt-2">
+                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Solitarno držanje: </label>
+                <p class="text-muted">
+                  @if (!empty($animalItem->dateRange->end_date))
+                    <span class="text-info">{{ (isset($price->solitary_price)) ? $price->solitary_price . 'kn' : '' }}</span>
+                  @endif
+                </p>
+              </div>
+              <div class="mt-2">
+                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Grupno držanje: </label>
+                <p class="text-muted">
+                  @if (!empty($animalItem->dateRange->end_date) && (isset($price->group_price)) )
+                    {{ $price->group_price . 'kn'}}
+                    @else
+                    <span class="text-info">NE</span>
+                  @endif
+                </p>
+              </div>
+            </div>
+            <div class="col-md-4 grid-margin">   
+              <div class="mt-2">
+                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
+                <p class="text-muted">
+                  @if (!empty($animalItem->dateRange->end_date))
+                  <span class="text-info">{{ (isset($price->full_care) != 0 ) ? $price->full_care . 'kn' : '' }}</span>
+                  @endif
+                </p>
+              </div>
+              <div class="mt-2">
+                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija: </label>
+                <p class="text-muted">
+                  @if (!empty($animalItem->dateRange->end_date)  && (isset($price->hibern)))
+                    {{  $price->hibern . 'kn'}}
+                    @else
+                    <span class="text-info">NE</span>
+                  @endif
+                </p>
+              </div>
+            </div>
+
+            <div class="col-md-4 grid-margin">   
+              <div class="mt-2">
+                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Eutanazija: </label>
+                <p class="text-muted">
+                  @if (!empty($animalItem->euthanasia))
+                  {{ $animalItem->euthanasia->price . 'kn' }}
+                    @else
+                    <span class="text-warning">NE</span>
+                  @endif
+                </p>
+              </div>    
+            </div>
+          </div>
+          <div class="row separator separator--small"></div>
+            <div class="d-flex align-items-center justify-content-between mb-2">
+              <div></div>        
+                <div class="mt-2">
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Konačna cijena: </label>
+                  <p class="text-muted">
+                    @if (!empty($animalItem->dateRange->end_date))
+                      {{ isset($price->total_price) ? $price->total_price . 'kn' : '' }}
+                    @endif
+                  </p>     
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end row -->
+@endif
   
 @endsection
 

@@ -38,14 +38,13 @@
                 <table class="table" id="animal-table">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>Šifra jedinke</th>
                             <th>NAZIV</th>
                             <th>LATINSKI NAZIV</th>
                             <th>Datum pronalaska</th>
                             <th>Dob</th>
                             <th>Spol</th>
                             <th>Veličina</th>
-                            <th>Način držanja</th>
                             <th>Status</th>
                             <th></th>
                         </tr>
@@ -117,14 +116,13 @@ $(function() {
         serverSide: true,
         ajax: '{!! route('shelters.animal_groups.show', [$animal_group->shelters->first()->id, $animal_group->id]) !!}',
         columns: [
-            { data: 'id', name: 'id'},
+            { data: 'animal_code', name: 'animal_code'},
             { data: 'name', name: 'name'},
             { data: 'latin_name', name: 'latin_name'},
             { data: 'date_found', name: 'date_found'},
             { data: 'animal_age', name: 'animal_age'},
             { data: 'animal_gender', name: 'animal_gender'},
             { data: 'animal_size', name: 'animal_size'},
-            { data: 'keep_type', name: 'keep_type'},
             { data: 'animal_item_care_end_status', name: 'animal_item_care_end_status'},
             { data: 'action', name: 'action'},
         ],
