@@ -134,6 +134,9 @@ class AnimalItemPriceController extends Controller
                 }
             }
 
+            // Kada se salje zavrsetak skrbi
+            // Trebamo imati i početni datum proširene skrbi
+            $startDateFull = $animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first();
             // Proširena skrb
             if(!empty($request->full_care_start)){
                 $full_care_from = Carbon::createFromFormat('m/d/Y', $request->full_care_start);
@@ -188,7 +191,7 @@ class AnimalItemPriceController extends Controller
                     $totalPriceFullCare = $this->getPrice($animalItem, ($fullCaretotaldays + $full_care_diff_in_days), 'fullCare');
                 }
             }
-            elseif(!empty($animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first()->start_date) && !empty($request->end_date))
+            elseif(!empty($startDateFull->start_date) && !empty($request->end_date))
             {
                 $fullDate = $animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first();
 
