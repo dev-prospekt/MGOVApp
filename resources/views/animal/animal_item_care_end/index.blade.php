@@ -292,7 +292,7 @@
                   @if (!empty($animalItem->euthanasia))
                     {{ $animalItem->euthanasia->price . 'kn' }}
                     <p>
-                      <a href="{{ $animalItem->euthanasia->getMedia('euthanasia_invoice')->first()->getUrl() }}">
+                      <a href="{{ $animalItem->euthanasia->getMedia('euthanasia_invoice')->first()->getUrl() }}" target="_blank">
                         {{ $animalItem->euthanasia->getMedia('euthanasia_invoice')->first()->name }}
                       </a>
                     </p>
