@@ -141,17 +141,13 @@
           <div><h6 class="card-title">Cijene skrbi</h6> </div> 
         </div> 
         
-        @if($msg = Session::get('update_animal_item'))
-        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-        @endif      
-        
         <div class="row">
           <div class="col-md-4 grid-margin">    
             <div class="mt-2">
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Solitarno: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ (isset($price->solitary_price)) ? $price->solitary_price . 'kn' : '' }}
+                  {{ $price->solitary_price ? $price->solitary_price . 'kn' : '0kn' }}
                 @endif
               </p>
             </div>
@@ -159,7 +155,7 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Grupa: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ (isset($price->group_price)) ? $price->group_price . 'kn' : '' }}
+                  {{ $price->group_price ? $price->group_price . 'kn' : '0kn' }}
                 @endif
               </p>
             </div>
@@ -169,7 +165,7 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ (isset($price->full_care) != 0 ) ? $price->full_care . 'kn' : '' }}
+                  {{ ($price->full_care != 0) ? $price->full_care . 'kn' : '0kn' }}
                 @endif
               </p>
             </div>
@@ -177,7 +173,7 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ (isset($price->hibern)) ? $price->hibern . 'kn' : '' }}
+                  {{ $price->hibern ? $price->hibern . 'kn' : '0kn' }}
                 @endif
               </p>
             </div>
@@ -203,7 +199,7 @@
               <label class="tx-11 font-weight-bold mb-0 text-uppercase">Konačna cijena: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
-                  {{ isset($price->total_price) ? $price->total_price . 'kn' : '' }}
+                  {{ $price->total_price ? $price->total_price . 'kn' : '0kn' }}
                 @endif
               </p>
             </div>

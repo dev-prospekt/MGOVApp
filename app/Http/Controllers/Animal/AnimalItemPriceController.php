@@ -15,14 +15,11 @@ class AnimalItemPriceController extends Controller
     {
         $animalItem = AnimalItem::findOrFail($id);
 
-        //dd($request);
-
-        if(empty($animalItem->dateRange->end_date)){
+        if (empty($animalItem->dateRange->end_date)) { // Samo ako nije završena skrb
             // Date Range
-            if(!empty($request->end_date)){
+            if (!empty($request->end_date)) {
                 $animalItem->dateRange()->update([
-                    'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date),
-                    'reason_date_end' => $request->end_care_type,
+                    'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date)
                 ]);
 
                 // Standard
@@ -35,44 +32,44 @@ class AnimalItemPriceController extends Controller
             }
 
             // Solitary or Group
-            if(!empty($request->solitary_or_group_end) || !empty($request->end_date) || !empty($request->solitary_or_group_type)){
+            if (!empty($request->solitary_or_group_end) || !empty($request->end_date) || !empty($request->solitary_or_group_type)) {
                 // Ako je poslan datum za kraj skrbi, ažurirat cemo samo zadnji record
                 // Zadnji record, polje end_date je uvijek null pa cemo ga azuirati i dobiti ukupni broj dana
-                if(!empty($request->end_date) && empty($request->solitary_or_group_type) && empty($request->solitary_or_group_end)){ 
+                if (!empty($request->end_date) && empty($request->solitary_or_group_type) && empty($request->solitary_or_group_end)) {
                     // Ažuriranje zadnjeg recorda koji ima end_date null
                     $animalItem->dateSolitaryGroups()
-                    ->where('end_date', '=', null)
-                    ->update([
-                        'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date),
-                    ]);
+                        ->where('end_date', '=', null)
+                        ->update([
+                            'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date),
+                        ]);
                 }
 
                 // Ako se posalje samo type (Solitarna, Grupa)
                 // Ažuriramo podatak
-                if(!empty($request->solitary_or_group_type) && empty($request->solitary_or_group_end) && empty($request->end_date)){
+                if (!empty($request->solitary_or_group_type) && empty($request->solitary_or_group_end) && empty($request->end_date)) {
                     $animalItem->dateSolitaryGroups()
-                    ->where('end_date', '=', null)
-                    ->update([
-                        'solitary_or_group' => $request->solitary_or_group_type,
-                    ]);
+                        ->where('end_date', '=', null)
+                        ->update([
+                            'solitary_or_group' => $request->solitary_or_group_type,
+                        ]);
                 }
 
                 // Ovaj dio radi samo ako je poslan zadnji datum kod promjene type-a (Grupa, Solitarna)
-                if(!empty($request->solitary_or_group_end) && !empty($request->solitary_or_group_type) && empty($request->end_date)){
+                if (!empty($request->solitary_or_group_end) && !empty($request->solitary_or_group_type) && empty($request->end_date)) {
                     // Ažuriranje zadnjeg recorda koji ima end_date null
                     $updateDate = $animalItem->dateSolitaryGroups()
-                                ->update([
-                                    'end_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
-                                ]);
+                        ->update([
+                            'end_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
+                        ]);
 
-                    if($updateDate == 1){
+                    if ($updateDate == 1) {
                         // Novi red i novi type (Grupa, Solitarna)
-                        if(!empty($request->solitary_or_group_type)){
+                        if (!empty($request->solitary_or_group_type)) {
                             $animalItem->dateSolitaryGroups()
-                            ->create([
-                                'start_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
-                                'solitary_or_group' => $request->solitary_or_group_type,
-                            ]);
+                                ->create([
+                                    'start_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
+                                    'solitary_or_group' => $request->solitary_or_group_type,
+                                ]);
                         }
                     }
                 }
@@ -95,18 +92,18 @@ class AnimalItemPriceController extends Controller
             }
 
             // Hibern
-            if(!empty($request->hib_est_from) || !empty($request->end_date)){
-                
+            if (!empty($request->hib_est_from) || !empty($request->end_date)) {
+
                 // Spremamo početak hibernacije
-                if(!empty($request->hib_est_from) && empty($request->end_date)){
+                if (!empty($request->hib_est_from) && empty($request->end_date)) {
                     $animalItem->dateRange()->update([
                         'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('m/d/Y', $request->hib_est_from) : null,
                     ]);
                 }
 
                 // Ako je poslan datum za kraj skrbi, ažuriraj ako je hibern_end prazan
-                if(empty($animalItem->dateRange->hibern_end)){
-                    if(!empty($request->end_date) && !empty($animalItem->dateRange->hibern_start)){
+                if (empty($animalItem->dateRange->hibern_end)) {
+                    if (!empty($request->end_date) && !empty($animalItem->dateRange->hibern_start)) {
                         $updateAnimalItemHibern = $animalItem->dateRange()->update([
                             'hibern_end' => (isset($request->end_date)) ? Carbon::createFromFormat('m/d/Y', $request->end_date) : null
                         ]);
@@ -114,7 +111,7 @@ class AnimalItemPriceController extends Controller
                 }
 
                 // update hibernacije - spremamo kraj hibernacije
-                if(!empty($request->hib_est_to)){
+                if (!empty($request->hib_est_to)) {
                     $animalItem->dateRange()->update([
                         'hibern_start' => Carbon::createFromFormat('m/d/Y', $request->hib_est_from),
                         'hibern_end' => Carbon::createFromFormat('m/d/Y', $request->hib_est_to),
@@ -122,9 +119,8 @@ class AnimalItemPriceController extends Controller
                 }
 
                 // Izvlacimo cijenu hibernacije
-                if(!empty($request->end_date) && !empty($animalItem->dateRange->hibern_start))
-                {
-                    if(!empty($diff_in_days)){
+                if (!empty($request->end_date) && !empty($animalItem->dateRange->hibern_start)) {
+                    if (!empty($diff_in_days)) {
                         $hib_from = Carbon::parse($animalItem->dateRange->hibern_start);
                         $hib_to = Carbon::createFromFormat('m/d/Y', $request->end_date);
                         $hib_diff_days = $hib_to->diffInDays($hib_from);
@@ -138,7 +134,7 @@ class AnimalItemPriceController extends Controller
             }
 
             // Proširena skrb
-            if(!empty($request->full_care_start)){
+            if (!empty($request->full_care_start)) {
                 $full_care_from = Carbon::createFromFormat('m/d/Y', $request->full_care_start);
                 $full_care_to = (isset($request->full_care_end)) ? Carbon::createFromFormat('m/d/Y', $request->full_care_end) : '';
                 $full_care_diff_in_days = $full_care_to->diffInDays($full_care_from);
@@ -147,12 +143,12 @@ class AnimalItemPriceController extends Controller
                 foreach ($animalItem->dateFullCare as $key) {
                     $fullCaretotaldays += $key->days;
                 }
-                if($fullCaretotaldays >= 10 || ($fullCaretotaldays + $full_care_diff_in_days) > 10){
+                if ($fullCaretotaldays >= 10 || ($fullCaretotaldays + $full_care_diff_in_days) > 10) {
                     return redirect()->back()->with('error', 'Proširena skrb ne smije biti duža od 10 dana.');
                     die();
                 }
 
-                if($full_care_diff_in_days > 10){
+                if ($full_care_diff_in_days > 10) {
                     return redirect()->back()->with('error', 'Proširena skrb ne smije biti duža od 10 dana.');
                     die();
                 }
@@ -165,8 +161,7 @@ class AnimalItemPriceController extends Controller
 
                 // Cijena za proširenu skrb
                 $totalPriceFullCare = $this->getPrice($animalItem, ($fullCaretotaldays + $full_care_diff_in_days), 'fullCare');
-            }
-            else {
+            } else {
                 // Ako ne postoji u requestu datum za proširenu skrb
                 // onda nakon update-a cijena bude null
                 // zato uzimamo ukupni broj dana ovdje i ažuriramo cijenu sa ukupnim brojem dana.
@@ -179,57 +174,54 @@ class AnimalItemPriceController extends Controller
             }
 
             // solitary_or_group - kod svake akcije treba napraviti update cijene
-            if(!empty($request->solitary_or_group_end) || !empty($request->end_date) || !empty($request->solitary_or_group_type)){
+            if (!empty($request->solitary_or_group_end) || !empty($request->end_date) || !empty($request->solitary_or_group_type)) {
                 $totalPriceSolitaryOrGroup = (isset($totalPriceSolitaryOrGroup)) ? $totalPriceSolitaryOrGroup : null;
-                
+
                 $this->updatePriceSolitaryOrGroup($animalItem->id, $totalPriceSolitaryOrGroup);
 
                 // Nakon što je poslano sve za izracun cijene
                 // ažuriramo animalItem - Grupa ili Solitarno
-                if(!empty($request->solitary_or_group_type)){ // Provjera je li postoji type
+                if (!empty($request->solitary_or_group_type)) { // Provjera je li postoji type
                     AnimalItem::where('id', $id)->update(['solitary_or_group' => $request->solitary_or_group_type]);
                 }
             }
 
             // Update svih cijena nakon zavrsetka skrbi
-            if(!empty($request->end_date)){
+            if (!empty($request->end_date)) {
 
+                // update statusa
                 AnimalItem::where('id', $id)->update(['animal_item_care_end_status' => false]);
 
                 $totalPriceHibern = (isset($totalPriceHibern)) ? $totalPriceHibern : null;
                 $totalPriceFullCare = (isset($totalPriceFullCare)) ? $totalPriceFullCare : null;
+                $totalPriceStand = (isset($totalPriceStand)) ? $totalPriceStand : null;
 
                 $this->updatePrice($animalItem->id, $totalPriceStand, $totalPriceHibern, $totalPriceFullCare);
             }
 
             // Finish Price
-            if(!empty($totalPriceSolitaryOrGroup)){
+            if (!empty($totalPriceSolitaryOrGroup)) {
                 $solitaryAndGroupPrice = $animalItem->shelterAnimalPrice;
 
-                if(!empty($solitaryAndGroupPrice->group_price)) {
-                    if(isset($totalPriceHibern)){
+                if (!empty($solitaryAndGroupPrice->group_price)) {
+                    if (isset($totalPriceHibern)) {
                         $finishPrice = $totalPriceHibern;
-                    }
-                    else {
-                        if($solitaryAndGroupPrice->full_care != 0){
+                    } else {
+                        if ($solitaryAndGroupPrice->full_care != 0) {
                             $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                             $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group);
                             $this->updateFinishPrice($animalItem->id, $finishPrice);
-                        }
-                        elseif($request->end_care_type == 3)
-                        {
+                        } elseif ($request->end_care_type == 3) {
                             $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
-                            if($request->euthanasia_type == 'Izvedeno u oporavilištu'){
+                            if ($request->euthanasia_type == 'Izvedeno u oporavilištu') {
                                 $euthanasia_price = 100;
+                            } else {
+                                $euthanasia_price = $request->euthanasia_price;
                             }
-                            else {
-                                $euthanasia_price = (float)$request->euthanasia_price;
-                            }
-        
+
                             $finishPrice = ($sol_group + $euthanasia_price);
                             $this->updateFinishPrice($animalItem->id, $finishPrice);
-                        }
-                        else {
+                        } else {
                             $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                             $this->updateFinishPrice($animalItem->id, $finishPrice);
                         }
@@ -237,30 +229,25 @@ class AnimalItemPriceController extends Controller
                     $this->updateFinishPrice($animalItem->id, $finishPrice);
                 }
 
-                if(!empty($solitaryAndGroupPrice->solitary_price)) {
-                    if(isset($totalPriceHibern)){
+                if (!empty($solitaryAndGroupPrice->solitary_price)) {
+                    if (isset($totalPriceHibern)) {
                         $finishPrice = $totalPriceHibern;
-                    }
-                    else {
-                        if($solitaryAndGroupPrice->full_care != 0){
+                    } else {
+                        if ($solitaryAndGroupPrice->full_care != 0) {
                             $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                             $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group);
                             $this->updateFinishPrice($animalItem->id, $finishPrice);
-                        }
-                        elseif($request->end_care_type == 3)
-                        {
+                        } elseif ($request->end_care_type == 3) {
                             $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
-                            if($request->euthanasia_type == 'Izvedeno u oporavilištu'){
+                            if ($request->euthanasia_type == 'Izvedeno u oporavilištu') {
                                 $euthanasia_price = 100;
+                            } else {
+                                $euthanasia_price = $request->euthanasia_price;
                             }
-                            else {
-                                $euthanasia_price = (float)$request->euthanasia_price;
-                            }
-        
+
                             $finishPrice = ($sol_group + $euthanasia_price);
                             $this->updateFinishPrice($animalItem->id, $finishPrice);
-                        }
-                        else {
+                        } else {
                             $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                             $this->updateFinishPrice($animalItem->id, $finishPrice);
                         }
@@ -269,44 +256,59 @@ class AnimalItemPriceController extends Controller
                 }
             }
 
-            // Euthanasia
-            if($request->end_care_type == 3){
-                if(!empty($animalItem->euthanasia)){
-                    $animalItem->euthanasia()->update([
-                        'shelter_staff_id' => $request->vetenaryStaff,
-                        'price' => $euthanasia_price,
+            // END
+            if ($request->end_care_type) {
+                if (!empty($animalItem->careEnd)) {
+                    $animalItem->careEnd()->update([
+                        'animal_item_care_end_type_id' => $request->end_care_type,
+                        'release_location' => $request->release_location,
+                        'permanent_keep_name' => $request->permanent_keep_name,
+                        'care_end_other' => $request->care_end_other,
+                    ]);
+                } else {
+                    $animalItem->careEnd()->create([
+                        'animal_item_care_end_type_id' => $request->end_care_type,
+                        'release_location' => $request->release_location,
+                        'permanent_keep_name' => $request->permanent_keep_name,
+                        'care_end_other' => $request->care_end_other,
                     ]);
                 }
-                else {
-                    $animalItem->euthanasia()->create([
-                        'shelter_staff_id' => $request->vetenaryStaff,
-                        'price' => $euthanasia_price,
-                    ]);
+
+                if ($request->end_care_type == 3) { // Usmrcivanje
+                    if (!empty($animalItem->euthanasia)) {
+                        $animalItem->euthanasia()->update([
+                            'shelter_staff_id' => $request->vetenaryStaff,
+                            'price' => $euthanasia_price,
+                        ]);
+                    } else {
+                        $animalItem->euthanasia()->create([
+                            'shelter_staff_id' => $request->vetenaryStaff,
+                            'price' => $euthanasia_price,
+                        ]);
+                    }
                 }
             }
 
             return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
-        }
-        else {
+        } else {
             return redirect()->route('shelters.animal_groups.animal_items.show', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem])
-            ->with('care_end', 'Za ovu jedinku je skrb završena i ne možete je ažurirati.');
+                ->with('care_end', 'Za ovu jedinku je skrb završena i ne možete je ažurirati.');
         }
     }
 
     public function getPrice($animalItem, $diff_in_days, $full_care = null)
     {
-        if($animalItem->solitary_or_group == 'Grupa'){ // U grupi je
+        if ($animalItem->solitary_or_group == 'Grupa') { // U grupi je
             $groupPrice = $animalItem->animalSizeAttributes->group_price;
             $totalPrice = ($diff_in_days * $groupPrice);
-        }
-        else { // Nije u grupi
+        } else { // Nije u grupi
             $basePrice = $animalItem->animalSizeAttributes->base_price;
             $totalPrice = ($diff_in_days * $basePrice);
         }
 
         // Juvenilne jedinke - Ako su gmazovi cijena nema razlike
-        if($animalItem->animal_age == 'JUV'){
-            if($animalItem->animal->animalCategory->animalSystemCategory != 'gmazovi'){
+        if ($animalItem->animal_age == 'JUV') {
+            if ($animalItem->animal->animalCategory->animalSystemCategory != 'gmazovi') {
                 $percentGet = 30;
                 $percentDecimal = $percentGet / 100;
                 $totalWithPercent = ($totalPrice * $percentDecimal);
@@ -316,12 +318,12 @@ class AnimalItemPriceController extends Controller
         }
 
         // Proširena skrb
-        if(!empty($full_care)){
+        if (!empty($full_care)) {
             $full_care_total_price = ($diff_in_days * 200);
             $full_care_total_price = $full_care_total_price;
             $totalPrice = $full_care_total_price;
         }
-        
+
         return $totalPrice;
     }
 
@@ -330,29 +332,26 @@ class AnimalItemPriceController extends Controller
         $shelterAnimalPrice = ShelterAnimalPrice::where('animal_item_id', $animalId)->first();
         $animalItem = AnimalItem::find($animalId);
 
-        if(!empty($totalPriceSolitaryOrGroup)){
-            if($animalItem->solitary_or_group == 'Grupa'){
-                if(!empty($shelterAnimalPrice)){
+        if (!empty($totalPriceSolitaryOrGroup)) {
+            if ($animalItem->solitary_or_group == 'Grupa') {
+                if (!empty($shelterAnimalPrice)) {
                     $animalItem->shelterAnimalPrice()->update([
                         'animal_item_id' => $animalId,
                         'group_price' => $totalPriceSolitaryOrGroup
                     ]);
-                }
-                else {
+                } else {
                     $animalItem->shelterAnimalPrice()->create([
                         'animal_item_id' => $animalId,
                         'group_price' => $totalPriceSolitaryOrGroup
                     ]);
                 }
-            }
-            else {
-                if(!empty($shelterAnimalPrice)){
+            } else {
+                if (!empty($shelterAnimalPrice)) {
                     $animalItem->shelterAnimalPrice()->update([
                         'animal_item_id' => $animalId,
                         'solitary_price' => $totalPriceSolitaryOrGroup
                     ]);
-                }
-                else {
+                } else {
                     $animalItem->shelterAnimalPrice()->create([
                         'animal_item_id' => $animalId,
                         'solitary_price' => $totalPriceSolitaryOrGroup
@@ -375,13 +374,12 @@ class AnimalItemPriceController extends Controller
         // Create or Update Price
         $shelterAnimalPrice = ShelterAnimalPrice::where('animal_item_id', $animalId)->first();
 
-        if(!empty($shelterAnimalPrice)){
+        if (!empty($shelterAnimalPrice)) {
             $shelterAnimalPrice->update([
                 "hibern" => $hibernPrice,
                 "full_care" => $fullCarePrice,
             ]);
-        }
-        else {
+        } else {
             ShelterAnimalPrice::create([
                 "animal_item_id" => $animalId,
                 "hibern" => $hibernPrice,

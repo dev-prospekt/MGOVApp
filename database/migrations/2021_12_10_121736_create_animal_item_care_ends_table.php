@@ -19,8 +19,8 @@ class CreateAnimalItemCareEndsTable extends Migration
             $table->foreignId('animal_item_care_end_type_id')->nullable();
             $table->string('release_location')->nullable();
             $table->string('permanent_keep_name')->nullable();
-            $table->string('care_end_other');
-            $table->text('care_end_description');
+            $table->string('care_end_other')->nullable();
+            $table->text('care_end_description')->nullable();
             $table->timestamps();
         });
     }

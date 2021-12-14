@@ -66,11 +66,14 @@ class AnimalItemController extends Controller
         $animalItem = AnimalItem::find($animalItem->id);
         $animalGroup = $animalItem->animalGroup;
         $paginateLogs = $animalItem->latestAnimalItemLogs()->paginate(4);
+        $price = (isset($animalItem->shelterAnimalPrice)) ? $animalItem->shelterAnimalPrice : null;
+        $date = $animalItem->dateRange;
+        $solitaryGroup = $animalItem->dateSolitaryGroups;
 
         // Hibernacija : Da ili Ne
         $hibern = $animalItem->dateRange->where('animal_item_id', '=', $animalItem->id)
-        ->where('hibern_start', '!=', null)
-        ->get();
+            ->where('hibern_start', '!=', null)
+            ->get();
 
         // Full Care
         $fullCare = $animalItem->dateFullCare;
@@ -88,7 +91,9 @@ class AnimalItemController extends Controller
             'hibern' => $hibern,
             'fullCare' => $fullCare,
             'totalDays' => $totalDays,
-            'countDays' => $countDays,
+            'price' => $price,
+            'date' => $date,
+            'solitaryGroup' => $solitaryGroup,
         ]);
     }
 
