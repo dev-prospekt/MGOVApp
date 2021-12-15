@@ -11,12 +11,8 @@
 <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-3 mb-md-0">{{ $animal_group->shelters->first()->name }}</h5>
     <div>
-        <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm btn-icon-text">
-            Premjesti grupu
-            <i class="btn-icon-append" data-feather="box"></i>
-        </a>
         <a type="button" class="btn btn-primary btn-sm btn-icon-text" href="/shelter/{{ $animal_group->shelters->first()->id }}">      
-            Povratak
+            Povratak na popis
             <i class="btn-icon-append" data-feather="clipboard"></i>
         </a>
 
@@ -27,8 +23,21 @@
     <div class="col-lg-12 col-xl-12 grid-margin">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Popis jedinki unutar grupe</h5>
-                <p class="card-description">Napomena: unestite podatke za pojedinu jedinku, duplicirajte dokumentaciju za sve članove grupe</p>
+                <div class="d-flex align-items-start justify-content-between">
+                    <div><h5 class="card-title">Popis jedinki unutar grupe</h5>
+                        <p class="card-description">Napomena: unestite podatke za pojedinu jedinku, duplicirajte dokumentaciju za sve članove grupe</p>
+                    </div>
+                    <div>
+                    <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm">
+                        Premjesti grupu
+                    </a>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    
+                </div>
+                
 
                 @if($msg = Session::get('msg'))
                 <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>

@@ -27,12 +27,12 @@ class FounderDataController extends Controller
 
                     return '
                     <div class="d-flex align-items-center">
-                        <a href="javascript:void()" class="trash btn btn-xs btn-danger mr-2" data-href="'. $deleteUrl .'">
+                        <a href="javascript:void()" class="trash btn btn-xs btn-danger mr-2" data-href="' . $deleteUrl . '">
                             <i class="mdi mdi-tooltip-trash"></i> 
                             Delete
                         </a>
 
-                        <a href="'.$editUrl.'" class="edit btn btn-xs btn-info mr-2">
+                        <a href="' . $editUrl . '" class="edit btn btn-xs btn-info mr-2">
                             <i class="mdi mdi-tooltip-edit"></i> 
                             Edit
                         </a>
@@ -57,9 +57,9 @@ class FounderDataController extends Controller
     }
 
     public function store(FounderDataRequest $request)
-    {  
+    {
         try {
-            
+
             $founder = new FounderData;
             $founder->shelter_id = auth()->user()->shelter->id;
             $founder->shelter_type_id = $request->shelter_type;
@@ -73,15 +73,14 @@ class FounderDataController extends Controller
             $founder->others = $request->others;
             $founder->save();
 
-            if($request->founder_documents){
+            if ($request->founder_documents) {
                 $founder->addMultipleMediaFromRequest(['founder_documents'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('founder_documents');
-                });
+                    ->each(function ($fileAdder) {
+                        $fileAdder->toMediaCollection('founder_documents');
+                    });
             }
-        
-            return redirect()->back()->with('founder', 'Uspješno. Dodali ste novog nalaznika.');
 
+            return redirect()->back()->with('founder', 'Uspješno. Dodali ste novog nalaznika.');
         } catch (\Throwable $th) {
             Log::error('Creating founder : ' . $th->getMessage());
             return view('pages.error.500');
@@ -94,7 +93,7 @@ class FounderDataController extends Controller
         $type = ShelterType::all();
 
         return view('founder.edit', [
-            'founder' => $founder, 
+            'founder' => $founder,
             'mediaFiles' => $mediaFiles,
             'type' => $type
         ]);
@@ -114,11 +113,11 @@ class FounderDataController extends Controller
         $founder->others = $request->others;
         $founder->save();
 
-        if($request->founder_documents){
+        if ($request->founder_documents) {
             $founder->addMultipleMediaFromRequest(['founder_documents'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('founder_documents');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('founder_documents');
+                });
         }
 
         return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
@@ -128,7 +127,7 @@ class FounderDataController extends Controller
     {
         $founder->delete();
 
-        return response()->json(['msg'=>'success']);
+        return response()->json(['msg' => 'success']);
         //return redirect()->route("founder.index")->with('msg', 'Uspješno obrisano.');
     }
 
@@ -144,9 +143,9 @@ class FounderDataController extends Controller
     {
         $type = ShelterType::all();
 
-        $returnHTML = view('founder.modalCreate', ['type'=> $type])->render();
+        $returnHTML = view('founder.modalCreate', ['type' => $type])->render();
 
-        return response()->json( array('success' => true, 'html' => $returnHTML) );
+        return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
     public function createFounder(Request $request)
@@ -162,7 +161,7 @@ class FounderDataController extends Controller
             ],
             [
                 'service.required' => 'Služba koja je izvršila zaplijenu je obvezno polje',
-                'shelter_type.required' => 'Tip oporavilišta je obvezno polje',
+                'shelter_type.required' => 'Tip jedinke je obvezno polje',
                 'name.required' => 'Ime je obvezno polje',
                 'lastname.required' => 'Prezime je obvezno polje',
                 'email.required' => 'Email je obvezno polje',
@@ -186,11 +185,11 @@ class FounderDataController extends Controller
         $founder->others = $request->others;
         $founder->save();
 
-        if($request->founder_documents){
+        if ($request->founder_documents) {
             $founder->addMultipleMediaFromRequest(['founder_documents'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('founder_documents');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('founder_documents');
+                });
         }
 
         return response()->json(['success' => 'Uspješno dodano.']);

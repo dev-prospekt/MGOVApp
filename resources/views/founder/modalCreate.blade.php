@@ -1,7 +1,7 @@
 <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+            <h5 class="modal-title" id="exampleModalCenterTitle">Nalaznik jedinke</h5>
             <button type="button" class="close modal-close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">×</span>
             </button>
@@ -31,7 +31,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Služba koja je izvršila zaplijenu</label>
+                                    <label>Služba/osoba koja je izvršila predaju u oporavilište</label>
                                     <select id="sluzba" name="service" class="form-control">
                                         <option value="">------</option>
                                         <option value="Državni inspektorat-inspekcija zaštite prirode">Državni inspektorat-inspekcija zaštite prirode</option>
@@ -99,7 +99,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label>Type</label>
+                                    <label>Tip jedinke</label>
                                     <select name="shelter_type" id="">
                                         <option value="">---</option>
                                         @foreach ($type as $ty)

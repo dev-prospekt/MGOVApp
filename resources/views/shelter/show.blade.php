@@ -65,6 +65,7 @@
                         <th>Količina</th>
                         <th>Naziv</th>
                         <th>Latinski naziv</th>
+                        <th>Tip jedinke</th>
                         <th>Šifra</th>
                         <th></th>
                       </tr>
@@ -202,6 +203,7 @@ $(function() {
           { data: 'animal_count', name: 'animal_count'},
           { data: 'name', name: 'name'},
           { data: 'latin_name', name: 'latin_name'},
+          { data: 'animal_type', name: 'animal_type'},
           { data: 'shelter_code', name: 'shelter_code'},
           { data: 'action', name: 'action'},
       ],

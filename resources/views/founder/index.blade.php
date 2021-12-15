@@ -6,7 +6,18 @@
 @endpush
 
 @section('content')
+
+<div class="d-flex align-items-center justify-content-between mb-3">
+    <div> <h5 class="mb-3 mb-md-0">{{ $founders[0]->shelter->name }}</h5></div>
+    <div>      
+       <a href="#" type="button" class="btn btn-primary btn-sm btn-icon-text">
+          Povratak na popis
+          <i class="btn-icon-append" data-feather="clipboard"></i>
+        </a> 
+    </div>
+  </div>
 <div class="row">
+    @dump($founders)
 
     <div class="col-lg-12 col-xl-12 grid-margin stretch-card">
         <div class="card">
