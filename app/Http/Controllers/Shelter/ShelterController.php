@@ -139,6 +139,27 @@ class ShelterController extends Controller
                 ->addColumn('latin_name', function ($animal_groups) {
                     return $animal_groups->animal->latin_name;
                 })
+                ->addColumn('animal_type', function ($animal_groups) {
+                    return $animal_groups->animal->animalType->map(function ($type) {
+                        switch ($type->type_code) {
+                            case "SZJ":
+                                $btn_class = 'warning';
+                                break;
+                            case "IJ":
+                                $btn_class = 'danger';
+                                break;
+                            case "ZJ":
+                                $btn_class = 'info';
+                                break;
+
+                            default:
+                                $btn_class = 'light';
+                        }
+                        return  '<button type="button" class="btn btn-xs btn-' . ($btn_class) . '" data-toggle="tooltip" data-placement="left" title="' . ($type->type_name) . '">
+                        ' . $type->type_code . '
+                       </button>';
+                    })->implode('<br>');
+                })
                 ->addColumn('action', function ($animal_groups) {
                     $deleteURL = route('shelters.animal_groups.destroy', [$animal_groups->pivot->shelter_id, $animal_groups->id]);
 
@@ -147,12 +168,14 @@ class ShelterController extends Controller
                         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
                             Info
                         </a>
-                        <a href="javascript:void(0)" data-href="'.$deleteURL.'" id="animal_group_delete" class="btn btn-xs btn-danger" >
+                        <a href="javascript:void(0)" data-href="' . $deleteURL . '" id="animal_group_delete" class="btn btn-xs btn-danger" >
                             Brisanje
                         </a>
                     </div>
                     ';
-                })->make();
+                })
+                ->rawColumns(['animal_type', 'action'])
+                ->make();
         }
 
         return view('shelter.show', ['shelter' => $shelters]);

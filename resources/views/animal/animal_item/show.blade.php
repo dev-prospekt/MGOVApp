@@ -228,54 +228,10 @@
                 <div id="dangerMessage" class="alert alert-danger"> {{ $msg }}</div>
               @endif
 
-              <form action="/animalItem/update/{{$animalItem->id}}" method="POST">
+              <form action="/animalItem/update/{{$animalItem->id}}" method="POST" autocomplete="off">
                 @csrf
                 @method('POST')
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="form-group" id="hib_est_from_to">
-                            <label>Hibernacija/estivacija</label>
-                            <div class="d-flex">
-                                <div class="input-group date datepicker" id="datePickerExample">
-                                  <input type="text" name="hib_est_from" class="form-control hib_est_from" 
-                                  value="{{ $date->hibern_start ? $date->hibern_start->format('m/d/Y') : null }}">
-                                  <span class="input-group-addon">
-                                      <i data-feather="calendar"></i>
-                                  </span>
-                                </div>
-                                <div class="input-group date datepicker" id="datePickerExample">
-                                  <input type="text" name="hib_est_to" class="form-control hib_est_to" 
-                                  value="{{ $date->hibern_end ? $date->hibern_end->format('m/d/Y') : null }}">
-                                  <span class="input-group-addon">
-                                      <i data-feather="calendar"></i>
-                                  </span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" id="period">
-                            <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dana)</strong></label>
-                            @if ($totalDays != 0)
-                            <div class="d-flex">
-                                <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="full_care_start" class="form-control full_care_start"
-                                    value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
-                                    <span class="input-group-addon">
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
-                                <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="full_care_end" class="form-control full_care_end"
-                                    value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
-                                    <span class="input-group-addon">
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            @endif
-                        </div>
-                    </div>       
-                </div> 
-    
+
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
@@ -304,7 +260,53 @@
                   </div>
 
                 </div>
-    
+
+                <div class="row">
+                    <div class="col-md-12">
+                  
+                        <div class="form-group" id="period">
+                            <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dana)</strong></label>
+                            @if ($totalDays != 0)
+                            <div class="d-flex">
+                                <div class="input-group date datepicker" id="datePickerExample">
+                                    <input type="text" name="full_care_start" class="form-control full_care_start"
+                                    value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
+                                    <span class="input-group-addon">
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
+                                <div class="input-group date datepicker" id="datePickerExample">
+                                    <input type="text" name="full_care_end" class="form-control full_care_end"
+                                    value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
+                                    <span class="input-group-addon">
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            @endif
+                        </div>
+                    </div>       
+                </div> 
+
+                <div class="form-group" id="hib_est_from_to">
+                  <label>Hibernacija/estivacija</label>
+                  <div class="d-flex">
+                      <div class="input-group date datepicker" id="datePickerExample">
+                        <input type="text" name="hib_est_from" class="form-control hib_est_from" 
+                        value="{{ $date->hibern_start ? $date->hibern_start->format('m/d/Y') : null }}">
+                        <span class="input-group-addon">
+                            <i data-feather="calendar"></i>
+                        </span>
+                      </div>
+                      <div class="input-group date datepicker" id="datePickerExample">
+                        <input type="text" name="hib_est_to" class="form-control hib_est_to" 
+                        value="{{ $date->hibern_end ? $date->hibern_end->format('m/d/Y') : null }}">
+                        <span class="input-group-addon">
+                            <i data-feather="calendar"></i>
+                        </span>
+                      </div>
+                  </div>
+              </div>       
                 <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>
               </form>
             </div>

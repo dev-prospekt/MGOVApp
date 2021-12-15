@@ -53,7 +53,7 @@
             <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
           @endif   
 
-          <form action="/animalItem/update/{{$animalItem->id}}" method="POST" enctype="multipart/form-data">
+          <form action="/animalItem/update/{{$animalItem->id}}" method="POST" enctype="multipart/form-data" autocomplete="off">
             @csrf
             @method('POST')  
 
@@ -244,10 +244,7 @@
             <h6 class="card-title">Podaci skrbi</h6>
           </div> 
 
-          @if ($animalItem->animal_age == 'JUV(juvenilna)' && $animalItem->animal->animalCategory->animalSystemCategory->name != 'gmazovi')
-            <p><code class="p-0">Napomena:</code> Dob jedinke je JUV(juvenilna) i cijena je povećana za 30%.</p>
-          @endif
-          
+             
           @if($msg = Session::get('update_animal_item'))
           <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
           @endif         
@@ -365,6 +362,13 @@
                   @endif
                 </p>
               </div> 
+            </div>
+
+            <div class="col-md-4 grid-margin">
+              @if ($animalItem->animal_age == 'JUV(juvenilna)' && $animalItem->animal->animalCategory->animalSystemCategory->name != 'gmazovi')
+            <p><code class="p-0">Napomena:</code></p>
+            <p>JUV(juvenilna) + 30%</p>
+          @endif
             </div>
           </div>
 
