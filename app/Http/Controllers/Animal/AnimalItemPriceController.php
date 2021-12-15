@@ -141,29 +141,27 @@ class AnimalItemPriceController extends Controller
                 $full_care_from = Carbon::createFromFormat('m/d/Y', $request->full_care_start);
                 $full_care_to = (isset($request->full_care_end)) ? Carbon::createFromFormat('m/d/Y', $request->full_care_end) : '';
 
-                if(!empty($full_care_from) && empty($full_care_to)){
-                    if(!empty($animalItem->dateFullCare->first())){
+                if (!empty($full_care_from) && empty($full_care_to)) {
+                    if (!empty($animalItem->dateFullCare->first())) {
                         $update = $animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first();
 
-                        if(!empty($update)){
+                        if (!empty($update)) {
                             $animalItem->dateFullCare()->where('end_date', '=', null)->update([
                                 'start_date' => $full_care_from,
                             ]);
-                        }
-                        else {
+                        } else {
                             $animalItem->dateFullCare()->where('end_date', '!=', null)->create([
                                 'start_date' => $full_care_from,
                             ]);
                         }
-                    }
-                    else {
+                    } else {
                         $animalItem->dateFullCare()->create([
                             'start_date' => $full_care_from,
                         ]);
                     }
                 }
 
-                if(!empty($full_care_from) && !empty($full_care_to)){
+                if (!empty($full_care_from) && !empty($full_care_to)) {
                     $full_care_diff_in_days = $full_care_to->diffInDays($full_care_from);
 
                     $fullCaretotaldays = 0;
@@ -171,11 +169,11 @@ class AnimalItemPriceController extends Controller
                         $fullCaretotaldays += $key->days;
                     }
 
-                    if($fullCaretotaldays >= 10 || ($fullCaretotaldays + $full_care_diff_in_days) > 10){
+                    if ($fullCaretotaldays >= 10 || ($fullCaretotaldays + $full_care_diff_in_days) > 10) {
                         return redirect()->back()->with('error', 'Proširena skrb ne smije biti duža od 10 dana.');
                         die();
                     }
-                    if($full_care_diff_in_days > 10){
+                    if ($full_care_diff_in_days > 10) {
                         return redirect()->back()->with('error', 'Proširena skrb ne smije biti duža od 10 dana.');
                         die();
                     }
@@ -189,9 +187,7 @@ class AnimalItemPriceController extends Controller
                     // Cijena za proširenu skrb
                     $totalPriceFullCare = $this->getPrice($animalItem, ($fullCaretotaldays + $full_care_diff_in_days), 'fullCare');
                 }
-            }
-            elseif(!empty($startDateFull->start_date) && !empty($request->end_date))
-            {
+            } elseif (!empty($startDateFull->start_date) && !empty($request->end_date)) {
                 $full_care_from = Carbon::parse($startDateFull->start_date);
                 $full_care_to = (isset($request->end_date)) ? Carbon::createFromFormat('m/d/Y', $request->end_date) : '';
                 $full_care_diff_in_days = $full_care_to->diffInDays($full_care_from);
@@ -201,11 +197,11 @@ class AnimalItemPriceController extends Controller
                     $fullCaretotaldays += $key->days;
                 }
 
-                if($fullCaretotaldays >= 10 || ($fullCaretotaldays + $full_care_diff_in_days) > 10){
+                if ($fullCaretotaldays >= 10 || ($fullCaretotaldays + $full_care_diff_in_days) > 10) {
                     return redirect()->back()->with('error', 'Proširena skrb ne smije biti duža od 10 dana.');
                     die();
                 }
-                if($full_care_diff_in_days > 10){
+                if ($full_care_diff_in_days > 10) {
                     return redirect()->back()->with('error', 'Proširena skrb ne smije biti duža od 10 dana.');
                     die();
                 }
@@ -321,6 +317,7 @@ class AnimalItemPriceController extends Controller
                         'release_location' => $request->release_location,
                         'permanent_keep_name' => $request->permanent_keep_name,
                         'care_end_other' => $request->care_end_other,
+                        'care_end_description' => $request->care_end_description
                     ]);
                 } else {
                     $animalItem->careEnd()->create([
@@ -328,6 +325,7 @@ class AnimalItemPriceController extends Controller
                         'release_location' => $request->release_location,
                         'permanent_keep_name' => $request->permanent_keep_name,
                         'care_end_other' => $request->care_end_other,
+                        'care_end_description' => $request->care_end_description
                     ]);
                 }
 
@@ -343,7 +341,7 @@ class AnimalItemPriceController extends Controller
                             'price' => $euthanasia_price,
                         ]);
                         // Eutanazija Račun
-                        if(!empty($request->euthanasia_invoice)){
+                        if (!empty($request->euthanasia_invoice)) {
                             $euth->addMedia($request->euthanasia_invoice)->toMediaCollection('euthanasia_invoice');
                         }
                     }

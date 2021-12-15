@@ -85,9 +85,9 @@ class AnimalItemDocumentationController extends Controller
         //mark photo
         if ($request->animal_mark_photos) {
             $itemDocumentation->addMultipleMediaFromRequest(['animal_mark_photos'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('animal_mark_photos');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('animal_mark_photos');
+                });
         }
 
         return redirect()->route(
@@ -100,7 +100,7 @@ class AnimalItemDocumentationController extends Controller
     {
         $itemDocumentation = AnimalItemDocumentation::find($animalItemDocumentation->id);
         $markTypes = AnimalMarkType::all();
-        $selectedMark = $animalItemDocumentation->animalMark->animal_mark_documentation_id ?? '';
+        $selectedMark = $animalItemDocumentation->animalMark->animal_mark_type_id ?? '';
         $animalDocType = AnimalItemDocumentationStateType::all();
         $founder = FounderData::all();
 
