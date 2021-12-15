@@ -123,7 +123,6 @@ class AnimalItemDocumentationController extends Controller
         $itemDocumentation->state_found_desc = $request->state_found_desc;
         $itemDocumentation->state_reason = $request->state_reason;
         $itemDocumentation->state_reason_desc = $request->state_reason_desc;
-
         $itemDocumentation->save();
 
         // docs

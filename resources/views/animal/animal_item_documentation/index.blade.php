@@ -201,24 +201,26 @@
                         <div class="mt-2">
                           <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>
                           @isset($animalItem->animalDocumentation->state_reason)
-                          
+
                           <div class="bordered-group mt-2">
                             <div class="latest-photos d-flex">
-                              @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)
-                              @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
-                                  <div class="photo-item d-flex flex-column">
-                                    <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
-                                      <figure>
-                                        <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
-                                      </figure>
-                                    </a>
-                                  </div>          
-                                  @else
-                                  <div class="document-item d-flex flex-column">
-                                    <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>  
-                                  </div>                  
-                                  @endif             
-                              @endforeach
+                              @if (!empty($animalItem->animalDocumentation->getMedia('state_reason_file')))
+                                @foreach ($animalItem->animalDocumentation->getMedia('state_reason_file') as $media)
+                                @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
+                                    <div class="photo-item d-flex flex-column">
+                                      <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
+                                        <figure>
+                                          <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                        </figure>
+                                      </a>
+                                    </div>          
+                                    @else
+                                    <div class="document-item d-flex flex-column">
+                                      <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>  
+                                    </div>                  
+                                    @endif             
+                                @endforeach
+                              @endif
                             </div>
                           </div>
                           
