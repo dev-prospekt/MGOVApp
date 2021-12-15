@@ -166,8 +166,7 @@
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija:</label>
                         @if (!empty($hibern))
                           <p class="text-info">DA</p>
-                          <p>Početak: {{ isset($hibern->hibern_start) ? $hibern->hibern_start->format('d.m.Y') : '' }}</p>
-                          <p>Kraj: {{ isset($hibern->hibern_end) ? $hibern->hibern_end->format('d.m.Y') : '' }}</p>
+                          
                         @else
                           <p class="text-danger">NE</p>
                         @endif
@@ -193,56 +192,6 @@
                   </div>              
                 </div>
 
-                <div class="row">
-                  @if (!empty($fullCare->first()))
-                    <div class="col-md-4">
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb:</label>
-                        @if (!empty($lastFullCare))
-                          <p class="text-muted">Početak: {{ $lastFullCare->start_date->format('d.m.Y') }}</p>
-                        @endif
-
-                        <p class="text-muted">
-                          Početak i kraj: 
-                          @foreach ($fullCare as $full)
-                            @if (!empty($full->end_date))
-                              <p>
-                                {{ $full->start_date->format('d.m.Y') .' - '. $full->end_date->format('d.m.Y') }}
-                                ({{ $full->days }} dana)
-                              </p>
-                            @endif
-                          @endforeach
-                        </p>
-                      </div>  
-                    </div>
-                  @endif
-                </div>
-
-                <div class="row">
-                  @if (!empty($startSolitaryGroup))
-                    <div class="col-md-4">
-                      <div class="mt-2">
-                        <label>{{ $startSolitaryGroup->solitary_or_group }}</label>
-                        <p class="text-muted">Početak {{ $startSolitaryGroup->start_date->format('d.m.Y') }}</p>
-                      </div>
-                    </div>
-                  @endif
-
-                  @if (!empty($allSolitaryGroup))
-                    <div class="col-md-4">
-                      <div class="mt-2">
-                        @foreach ($allSolitaryGroup as $item => $value)
-                          <label>{{ $item }}</label>
-                          @foreach ($value as $v)
-                            <p class="text-muted">Početak {{ $v->start_date->format('d.m.Y') }}</p>
-                            <p class="text-muted">Kraj {{ $v->end_date->format('d.m.Y') }}</p>
-                          @endforeach
-                        @endforeach
-                      </div>
-                    </div>
-                  @endif
-                </div>
-
             </div>
           </div><!-- end card -->
           @if ($animalItem->animal_item_care_end_status == false)
@@ -262,8 +211,8 @@
                 <div class="col-md-6">
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item"><span class="text-danger">ZAVRŠENA SKRB</span></li>
-                    <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">{{ $animalItem->careEnd->careEndType->name }}</span></li>
-                    <li class="list-group-item">Trajanje skrbi: <span class="text-warning">{{ $date->start_date->diffInDays($date->end_date) }} dana</span></li>
+                    <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">Puštena u prirodu</span></li>
+                    <li class="list-group-item">Trajanje skrbi: <span class="text-warning">{{ $date->start_date->diffInDays($date->end_date) }} dan/a</span></li>
                      
                   </ul>
                 </div>
@@ -330,61 +279,32 @@
 
                 </div>
 
-                @if ($animalItem->animal->animalType->first()->type_code == 'SZJ')
-                  <div class="row">
-                      <div class="col-md-12">
-                    
-                          <div class="form-group" id="period">
-                              <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dana)</strong></label>
-                              @if ($totalDays != 0)
-                              <div class="d-flex">
-                                  <div class="input-group date datepicker" id="datePickerExample">
-                                      <input type="text" name="full_care_start" class="form-control full_care_start"
-                                      value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
-                                      <span class="input-group-addon">
-                                          <i data-feather="calendar"></i>
-                                      </span>
-                                  </div>
-                                  <div class="input-group date datepicker" id="datePickerExample">
-                                      <input type="text" name="full_care_end" class="form-control full_care_end"
-                                      value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
-                                      <span class="input-group-addon">
-                                          <i data-feather="calendar"></i>
-                                      </span>
-                                  </div>
-                              </div>
-                              @endif
-                          </div>
-                      </div>       
-                  </div>
-                @elseif ($animalItem->full_care_status == 1 && $animalItem->animal->animalType->first()->type_code == 'ZJ')
-                  <div class="row">
-                      <div class="col-md-12">
-                    
-                          <div class="form-group" id="period">
-                              <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dana)</strong></label>
-                              @if ($totalDays != 0)
-                              <div class="d-flex">
-                                  <div class="input-group date datepicker" id="datePickerExample">
-                                      <input type="text" name="full_care_start" class="form-control full_care_start"
-                                      value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
-                                      <span class="input-group-addon">
-                                          <i data-feather="calendar"></i>
-                                      </span>
-                                  </div>
-                                  <div class="input-group date datepicker" id="datePickerExample">
-                                      <input type="text" name="full_care_end" class="form-control full_care_end"
-                                      value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
-                                      <span class="input-group-addon">
-                                          <i data-feather="calendar"></i>
-                                      </span>
-                                  </div>
-                              </div>
-                              @endif
-                          </div>
-                      </div>       
-                  </div>
-                @endif
+                <div class="row">
+                    <div class="col-md-12">
+                  
+                        <div class="form-group" id="period">
+                            <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dan/a)</strong></label>
+                            @if ($totalDays != 0)
+                            <div class="d-flex">
+                                <div class="input-group date datepicker" id="datePickerExample">
+                                    <input type="text" name="full_care_start" class="form-control full_care_start"
+                                    value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
+                                    <span class="input-group-addon">
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
+                                <div class="input-group date datepicker" id="datePickerExample">
+                                    <input type="text" name="full_care_end" class="form-control full_care_end"
+                                    value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
+                                    <span class="input-group-addon">
+                                        <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            @endif
+                        </div>
+                    </div>       
+                </div> 
 
                 <div class="form-group" id="hib_est_from_to">
                   <label>Hibernacija/estivacija</label>
@@ -411,6 +331,75 @@
             </div>
           </div>
         </div><!-- end TAB -->
+        
+        @if ($animalItem->animal_item_care_end_status == true)
+        <div class="card mt-2">
+          <div class="card-body">
+            <h6 class="card-title">Popis akcija</h6>
+            <div class="row">          
+              @if (!empty($startSolitaryGroup))
+              <div class="col-md-4">
+                <div class="mt-2">
+                  <label>Trenutni status: {{ $startSolitaryGroup->solitary_or_group }}</label>
+                  <p class="text-muted">Početak {{ $startSolitaryGroup->start_date->format('d.m.Y') }}</p>
+                </div>
+              </div>
+              @endif
+              
+              @if (!empty($hibern)) 
+              <div class="col-md-4">
+              <div class="mt-2">
+                <label for="">Hibernacija</label>
+                <p class="text-muted">Početak: {{ isset($hibern->hibern_start) ? $hibern->hibern_start->format('d.m.Y') : '' }}</p>
+                <p class="text-muted">Kraj: {{ isset($hibern->hibern_end) ? $hibern->hibern_end->format('d.m.Y') : '' }}</p>
+              </div>
+              </div>
+              @endif   
+              @if (!empty($fullCare->first())) 
+                <div class="col-md-4">        
+                  <div class="mt-2">
+                    <label class="tx-11 font-weight text-danger mb-0 text-uppercase">Proširena skrb:</label>
+                    @if (!empty($lastFullCare))
+                      <p class="text-muted">Početak: {{ $lastFullCare->start_date->format('d.m.Y') }}</p>
+                    @endif
+
+                    <p class="text-muted">
+                      Početak, kraj: 
+                      @foreach ($fullCare as $full)
+                        @if (!empty($full->end_date))
+                          <p class="text-muted">
+                            {{ $full->start_date->format('d.m.Y') .' - '. $full->end_date->format('d.m.Y') }}
+                            ({{ $full->days }} dan/a)
+                          </p>
+                        @endif
+                      @endforeach
+                    </p>
+                  </div>                          
+              </div>
+              @endif
+
+
+              @if (!empty($allSolitaryGroup))
+              <div class="col-md-4">
+                <div class="mt-2">
+                  @foreach ($allSolitaryGroup as $item => $value)
+                    
+                    @foreach ($value as $v)
+                    <div class="mb-2">
+                      <label class="mb-0">Protekli status: {{ $item }}</label>
+                      <p class="text-muted">Početak {{ $v->start_date->format('d.m.Y') }}</p>
+                      <p class="text-muted">Kraj {{ $v->end_date->format('d.m.Y') }}</p>
+                    </div>
+                    @endforeach
+                  @endforeach
+                </div>
+              </div>
+              @endif         
+            </div>
+          </div>
+        </div>
+        @endif
+               
       </div><!-- TAB container -->
     </div>      
   </div>
