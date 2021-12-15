@@ -125,7 +125,12 @@
             <div class="form-group" id="careEndOther">
               <label for="releaseLocation">Unos</label>
               <input type="text" name="care_end_other" class="form-control" placeholder="... slobodan unos">
-            </div>                   
+            </div> 
+            
+            <div class="form-group" id="careEndDesc">
+              <label for="careEndDesc">Opis (neobvezno)</label>
+              <textarea name="care_end_description" class="form-control" rows="5"></textarea>
+            </div>
             <div class="d-flex justify-content-end">
               <button type="submit" class="btn btn-warning  mr-2">Spremite zapis</button>
             </div>            
@@ -219,14 +224,12 @@
         <div class="card-body">
           <ul class="list-group list-group-flush">
             <li class="list-group-item"><span class="text-danger">ZAVRŠENA SKRB</span></li>
-            <li class="list-group-item">Trajanje skrbi: <span class="text-warning">{{ $date->start_date->diffInDays($date->end_date) }} dana</span></li>
+            <li class="list-group-item">Trajanje skrbi, broj dana: <span class="text-warning">{{ $date->start_date->diffInDays($date->end_date) }}</span></li>
             <li class="list-group-item"><p class="text-light">Početak skrbi: <span class="text-light">{{ $animalItem->dateRange->start_date->format('d.m.Y') }}</span></p></li>
             <li class="list-group-item"><p class="text-light">Kraj skrbi: <span class="text-light">{{ $animalItem->dateRange->end_date->format('d.m.Y') }}</span></p></li>
             <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">{{ $animalItem->careEnd->careEndType->name }}</span></li>
             <li class="list-group-item"><span class="text-muted">Opis:</span>
-              <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                 Vel hic, cupiditate cumque autem itaque totam rerum expedita aperiam ipsum sint?
-                </p>
+             {{ $animalItem->careEnd->care_end_description }}
             </li>
           </ul>
         </div>

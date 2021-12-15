@@ -348,11 +348,11 @@ class AnimalShelterCreateController extends Controller
         $animal = Animal::whereHas('animalType', function ($q) use ($shelterTypeCode) {
             $q->whereIn('type_code', $shelterTypeCode);
         })
-        ->whereHas('animalCategory.animalSystemCategory', function ($q) use ($pluckSystemCat) {
-            $q->whereIn('id', $pluckSystemCat);
-        })
-        ->orderBy('name')
-        ->get();
+            ->whereHas('animalCategory.animalSystemCategory', function ($q) use ($pluckSystemCat) {
+                $q->whereIn('id', $pluckSystemCat);
+            })
+            ->orderBy('name')
+            ->get();
 
         $returnHTML = view("animal.animal.$template", [
             'animal' => $animal,
@@ -370,45 +370,45 @@ class AnimalShelterCreateController extends Controller
         if ($request->euthanasia_select == 'da') {
             if (!empty($request->euthanasia_invoice)) {
                 $animalItem->addMultipleMediaFromRequest(['euthanasia_invoice'])
-                ->each(function ($fileAdder) {
-                    $fileAdder->toMediaCollection('euthanasia_file');
-                });
+                    ->each(function ($fileAdder) {
+                        $fileAdder->toMediaCollection('euthanasia_file');
+                    });
             }
         }
 
         if ($request->reason_file) {
             $animalItem->addMultipleMediaFromRequest(['reason_file'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('state_reason_file');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('state_reason_file');
+                });
         }
 
         if ($request->animal_mark_photos) {
             $animalItem->addMultipleMediaFromRequest(['animal_mark_photos'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('animal_mark_photos');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('animal_mark_photos');
+                });
         }
 
         if ($request->status_found_file) {
             $animalItem->addMultipleMediaFromRequest(['status_found_file'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('state_found_file');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('state_found_file');
+                });
         }
 
         if ($request->status_receiving_file) {
             $animalItem->addMultipleMediaFromRequest(['status_receiving_file'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('state_receive_file');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('state_receive_file');
+                });
         }
 
         if ($request->seized_doc_type) {
             $animalItem->addMultipleMediaFromRequest(['seized_doc_type'])
-            ->each(function ($fileAdder) {
-                $fileAdder->toMediaCollection('seized_doc_type');
-            });
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('seized_doc_type');
+                });
         }
     }
 }

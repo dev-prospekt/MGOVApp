@@ -105,8 +105,8 @@
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between">
                 <div><h6 class="card-title">Podaci o zaprimanju</h6> </div> 
-                <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-sm" type="button">
-                  Izmjeni
+                <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-xs" type="button">
+                  Izmjeni podatke
                 </a>
               </div> 
               @if($msg = Session::get('update_animal_item'))

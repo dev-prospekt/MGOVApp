@@ -9,7 +9,7 @@ class AnimalItemCareEnd extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['animal_item_care_end_type_id', 'release_location', 'permanent_keep_name', 'care_end_other'];
+    protected $fillable = ['animal_item_care_end_type_id', 'release_location', 'permanent_keep_name', 'care_end_other', 'care_end_description'];
 
     public function careEndType()
     {

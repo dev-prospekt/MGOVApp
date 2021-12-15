@@ -214,7 +214,7 @@
                             <textarea class="form-control" id="exampleFormControlTextarea1" name="status_receiving_desc" rows="5"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Upload</label>
+                            <label>Učitaj</label>
                             <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
                             <div id="error_status_receiving_file"></div>
                         </div>
@@ -236,7 +236,7 @@
                             <textarea class="form-control" id="exampleFormControlTextarea1" name="status_found_desc" rows="5"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Upload</label>
+                            <label>Učitaj</label>
                             <input type="file" id="status_found_file" name="status_found_file[]" multiple />
                             <div id="error_status_found_file"></div>
                         </div>
@@ -259,7 +259,7 @@
                             <textarea class="form-control" id="exampleFormControlTextarea1" name="reason_desc" rows="5"></textarea>
                         </div>
                         <div class="form-group">
-                            <label>Upload <strong>(PDF)</strong></label>
+                            <label>Učitaj</label>
                             <input type="file" id="reason_file" name="reason_file[]" multiple />
                             <div id="error_reason_file"></div>
                         </div>

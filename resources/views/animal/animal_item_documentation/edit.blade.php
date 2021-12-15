@@ -55,7 +55,7 @@
                           <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
                             <select name="state_recive" class="form-control">
                               @foreach ($animalDocType as $docType)
-                                <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_recive) ? 'selected' : '' }}">{{ $docType->name }}</option>
+                                <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_recive) ? 'selected' : '' }}>{{ $docType->name }}</option>
                               @endforeach 
                             </select>
                          
@@ -115,7 +115,7 @@
                           <label>Stanje u kojem je životinja pronađena</label>
                           <select name="state_found" class="form-control">
                             @foreach ($animalDocType as $docType)
-                              <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_found) ? 'selected' : '' }}">{{ $docType->name }}</option>
+                              <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_found) ? 'selected' : '' }}>{{ $docType->name }}</option>
                             @endforeach 
                           </select>
                       </div>
@@ -164,6 +164,7 @@
                   </div>
                 </div>
           </div> 
+          
           <div class="separator"></div>
           <div class="row">
             <div class="col-md-6">
@@ -172,7 +173,7 @@
                         <label>Razlog zaprimanja životinje u oporavilište</label>
                         <select name="state_reason" class="form-control">
                           @foreach ($animalDocType as $docType)
-                            <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_reason) ? 'selected' : '' }}">{{ $docType->name }}</option>
+                            <option value="{{ $docType->id}}" {{ ( $docType->id == $itemDocumentation->state_reason) ? 'selected' : '' }}>{{ $docType->name }}</option>
                           @endforeach 
                         </select>
                         @error('state_reason')
@@ -229,7 +230,7 @@
                       <label>Vrsta oznake</label>
                       <select name="animal_mark" class="form-control">
                          @foreach ($markTypes as $markType)
-                          <option value="{{ $markType->id}}" {{ ( $markType->id == $selectedMark) ? 'selected' : '' }}">{{ $markType->name }} ({{ $markType->desc }})</option>
+                          <option value="{{ $markType->id}}" {{ ( $markType->id == $selectedMark) ? 'selected' : '' }}>{{ $markType->name }} ({{ $markType->desc }})</option>
                           @endforeach           
                       </select>
                   </div>
