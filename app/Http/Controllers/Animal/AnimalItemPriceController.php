@@ -15,7 +15,7 @@ class AnimalItemPriceController extends Controller
     {
         $animalItem = AnimalItem::findOrFail($id);
 
-        if (empty($animalItem->dateRange->end_date)) { // Samo ako nije završena skrb
+        if (!empty($animalItem->dateRange->end_date)) { // Samo ako nije završena skrb
             // Date Range
             if (!empty($request->end_date)) {
                 $animalItem->dateRange()->update([
@@ -300,7 +300,10 @@ class AnimalItemPriceController extends Controller
                 if (!empty($solitaryAndGroupPrice->solitary_price)) {
                     if (isset($totalPriceHibern)) {
                         $finishPrice = $totalPriceHibern;
-                    } else {
+
+                        $euthanasia_price = 0;
+                    } 
+                    else {
                         if ($solitaryAndGroupPrice->full_care != 0) {
                             $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                             $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group);
