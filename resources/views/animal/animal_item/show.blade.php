@@ -357,6 +357,33 @@
                           </div>
                       </div>       
                   </div>
+                @elseif ($animalItem->full_care_status == 1 && $animalItem->animal->animalType->first()->type_code == 'ZJ')
+                  <div class="row">
+                      <div class="col-md-12">
+                    
+                          <div class="form-group" id="period">
+                              <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dana)</strong></label>
+                              @if ($totalDays != 0)
+                              <div class="d-flex">
+                                  <div class="input-group date datepicker" id="datePickerExample">
+                                      <input type="text" name="full_care_start" class="form-control full_care_start"
+                                      value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
+                                      <span class="input-group-addon">
+                                          <i data-feather="calendar"></i>
+                                      </span>
+                                  </div>
+                                  <div class="input-group date datepicker" id="datePickerExample">
+                                      <input type="text" name="full_care_end" class="form-control full_care_end"
+                                      value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
+                                      <span class="input-group-addon">
+                                          <i data-feather="calendar"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                              @endif
+                          </div>
+                      </div>       
+                  </div>
                 @endif
 
                 <div class="form-group" id="hib_est_from_to">
