@@ -70,10 +70,8 @@ class AnimalItemController extends Controller
         $date = $animalItem->dateRange;
         $solitaryGroup = $animalItem->dateSolitaryGroups;
 
-        $startSolitaryGroup = $animalItem->dateSolitaryGroups()
-                            ->where('end_date', '=', null)
-                            ->first();
-
+        // Početak - Solitarno, Grupa
+        $startSolitaryGroup = $animalItem->dateSolitaryGroups()->where('end_date', '=', null)->first();
         // Grupiranje - Solitarno, Grupa
         $allSolitaryGroup = collect($animalItem->dateSolitaryGroups);
         $allSolitaryGroup = $allSolitaryGroup->where('end_date', '!=', null)->groupBy('solitary_or_group')->all();
