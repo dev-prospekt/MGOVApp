@@ -189,6 +189,19 @@ class AnimalItemController extends Controller
         return response()->json(['msg' => 'success']);
     }
 
+    public function activeFullCare(Request $request, AnimalItem $animalItem)
+    {
+        if($request->id == 1){
+            $animalItem->full_care_status = true;
+        }
+        else {
+            $animalItem->full_care_status = false;
+        }
+        $animalItem->update();
+
+        return response()->json(['msg' => 'success']);
+    }
+
     public function cloneAnimalItem($animal_item_id)
     {
         $item = AnimalItem::findOrFail($animal_item_id);

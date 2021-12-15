@@ -105,9 +105,25 @@
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between">
                 <div><h6 class="card-title">Podaci o zaprimanju</h6> </div> 
-                <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-xs" type="button">
-                  Izmjeni podatke
-                </a>
+
+                <div>
+                  @if ($animalItem->animal->animalType->first()->type_code == 'ZJ')
+                    @if ($animalItem->full_care_status == 1)
+                      <a href="javascript:void(0)" data-id="0" class="fullcare btn btn-danger btn-xs" type="button">
+                        Onemogući proširenu skrb
+                      </a>
+                    @else
+                      <a href="javascript:void(0)" data-id="1" class="fullcare btn btn-warning btn-xs" type="button">
+                        Omogući proširenu skrb
+                      </a>
+                    @endif
+                  @endif
+
+                  <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-xs" type="button">
+                    Izmjeni podatke
+                  </a>
+                </div>
+
               </div> 
               @if($msg = Session::get('update_animal_item'))
               <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
@@ -314,32 +330,34 @@
 
                 </div>
 
-                <div class="row">
-                    <div class="col-md-12">
-                  
-                        <div class="form-group" id="period">
-                            <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dana)</strong></label>
-                            @if ($totalDays != 0)
-                            <div class="d-flex">
-                                <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="full_care_start" class="form-control full_care_start"
-                                    value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
-                                    <span class="input-group-addon">
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
-                                <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="full_care_end" class="form-control full_care_end"
-                                    value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
-                                    <span class="input-group-addon">
-                                        <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
-                            </div>
-                            @endif
-                        </div>
-                    </div>       
-                </div> 
+                @if ($animalItem->animal->animalType->first()->type_code == 'SZJ')
+                  <div class="row">
+                      <div class="col-md-12">
+                    
+                          <div class="form-group" id="period">
+                              <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dana)</strong></label>
+                              @if ($totalDays != 0)
+                              <div class="d-flex">
+                                  <div class="input-group date datepicker" id="datePickerExample">
+                                      <input type="text" name="full_care_start" class="form-control full_care_start"
+                                      value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
+                                      <span class="input-group-addon">
+                                          <i data-feather="calendar"></i>
+                                      </span>
+                                  </div>
+                                  <div class="input-group date datepicker" id="datePickerExample">
+                                      <input type="text" name="full_care_end" class="form-control full_care_end"
+                                      value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
+                                      <span class="input-group-addon">
+                                          <i data-feather="calendar"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                              @endif
+                          </div>
+                      </div>       
+                  </div>
+                @endif
 
                 <div class="form-group" id="hib_est_from_to">
                   <label>Hibernacija/estivacija</label>
@@ -359,7 +377,8 @@
                         </span>
                       </div>
                   </div>
-              </div>       
+                </div>       
+
                 <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>
               </form>
             </div>
@@ -407,6 +426,32 @@
           $("div#datePickerExample").find(".hib_est_from").datepicker('setDate', $("div#datePickerExample").find(".hib_est_from").val());
           $("div#datePickerExample").find(".hib_est_to").datepicker('setDate', $("div#datePickerExample").find(".hib_est_to").val());
       }
+
+      $(".fullcare").on('click', function(){
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: "{{ route('animal_item.fullcare', [$animalItem]) }}",
+            method: 'POST',
+            data: {
+                'id': $(this).attr('data-id'),
+            },
+            success: function(data) {
+              if(data.msg == 'success'){
+                  Swal.fire(
+                      'Odlično!',
+                      'Zahtjev je uspješno poslan.',
+                      'success'
+                  ).then((result) => {
+                      location.reload();
+                  });
+              }
+            }
+        });
+      });
 
     });
   </script>

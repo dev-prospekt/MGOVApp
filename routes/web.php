@@ -61,6 +61,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('animal_item/clone/{animalItem}', 'Animal\AnimalItemController@cloneAnimalItem')->name('animal_item.clone');
     // Change Shelter
 
+    Route::post('animal_item/full-care/{animalItem}', 'Animal\AnimalItemController@activeFullCare')->name('animal_item.fullcare');
+
     Route::resource('shelters.accomodations', Shelter\ShelterAccomodationController::class)->parameters([
         'accomodations' => 'shelter_accomodation'
     ]);

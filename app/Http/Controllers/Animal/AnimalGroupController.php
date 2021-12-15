@@ -91,7 +91,6 @@ class AnimalGroupController extends Controller
                         return '';
                     }
                 })
-
                 ->addColumn('animal_item_care_end_status', function ($animal_items) {
                     switch ($animal_items->animal_item_care_end_status) {
                         case true:

@@ -41,6 +41,7 @@ class CreateAnimalItemsTable extends Migration
             $table->string('location_retrieval_animal')->nullable();
             $table->string('location_animal_takeover')->nullable();
             $table->string('seized_doc');
+            $table->boolean('full_care_status')->default(false);
 
             $table->string('shelter_code');
             $table->string('animal_code');
