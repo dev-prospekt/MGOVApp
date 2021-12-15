@@ -169,7 +169,7 @@
                           <p>Početak: {{ isset($hibern->hibern_start) ? $hibern->hibern_start->format('d.m.Y') : '' }}</p>
                           <p>Kraj: {{ isset($hibern->hibern_end) ? $hibern->hibern_end->format('d.m.Y') : '' }}</p>
                         @else
-                          <p class="text-info">NE</p>
+                          <p class="text-danger">NE</p>
                         @endif
                       </div>
                   </div>   

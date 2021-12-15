@@ -191,12 +191,8 @@ class AnimalItemController extends Controller
 
     public function activeFullCare(Request $request, AnimalItem $animalItem)
     {
-        if($request->id == 1){
-            $animalItem->full_care_status = true;
-        }
-        else {
-            $animalItem->full_care_status = false;
-        }
+        $status = ($request->id == 1) ? true : false;
+        $animalItem->full_care_status = $status;
         $animalItem->update();
 
         return response()->json(['msg' => 'success']);
