@@ -42,6 +42,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <input type="hidden" id="shelter" value="{{ $shelter->id }}">
             
                             <div class="col-md-6">
                                 <div class="form-group">
@@ -92,6 +93,7 @@
                     method: 'POST',
                     data: {
                         'type_id': $(this).val(),
+                        'shelter': $("#shelter").val()
                     },
                     success: function(data) {
                         $('#founder').html(data.html);

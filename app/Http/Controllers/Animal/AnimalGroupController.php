@@ -84,7 +84,12 @@ class AnimalGroupController extends Controller
                     return $animal_items->animal_gender;
                 })
                 ->addColumn('animal_size', function ($animal_items) {
-                    return $animal_items->animalSizeAttributes->name;
+                    if(!empty($animal_items->animal_size_attributes_id)){
+                        return $animal_items->animalSizeAttributes->name;
+                    }
+                    else {
+                        return '';
+                    }
                 })
 
                 ->addColumn('animal_item_care_end_status', function ($animal_items) {

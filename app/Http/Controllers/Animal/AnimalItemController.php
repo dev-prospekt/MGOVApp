@@ -70,10 +70,18 @@ class AnimalItemController extends Controller
         $date = $animalItem->dateRange;
         $solitaryGroup = $animalItem->dateSolitaryGroups;
 
+        $startSolitaryGroup = $animalItem->dateSolitaryGroups()
+                            ->where('end_date', '=', null)
+                            ->first();
+
+        // Grupiranje - Solitarno, Grupa
+        $allSolitaryGroup = collect($animalItem->dateSolitaryGroups);
+        $allSolitaryGroup = $allSolitaryGroup->where('end_date', '!=', null)->groupBy('solitary_or_group')->all();
+
         // Hibernacija : Da ili Ne
         $hibern = $animalItem->dateRange->where('animal_item_id', '=', $animalItem->id)
             ->where('hibern_start', '!=', null)
-            ->get();
+            ->first();
 
         // Full Care
         $fullCare = $animalItem->dateFullCare;
@@ -97,6 +105,8 @@ class AnimalItemController extends Controller
             'price' => $price,
             'date' => $date,
             'solitaryGroup' => $solitaryGroup,
+            'startSolitaryGroup' => $startSolitaryGroup,
+            'allSolitaryGroup' => $allSolitaryGroup,
         ]);
     }
 

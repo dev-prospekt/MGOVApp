@@ -15,7 +15,7 @@ class AnimalItemPriceController extends Controller
     {
         $animalItem = AnimalItem::findOrFail($id);
 
-        if (!empty($animalItem->dateRange->end_date)) { // Samo ako nije završena skrb
+        if (empty($animalItem->dateRange->end_date)) { // Samo ako nije završena skrb
             // Date Range
             if (!empty($request->end_date)) {
                 $animalItem->dateRange()->update([
@@ -58,11 +58,12 @@ class AnimalItemPriceController extends Controller
                 if (!empty($request->solitary_or_group_end) && !empty($request->solitary_or_group_type) && empty($request->end_date)) {
                     // Ažuriranje zadnjeg recorda koji ima end_date null
                     $updateDate = $animalItem->dateSolitaryGroups()
+                        ->where('end_date', '=', null)
                         ->update([
                             'end_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
                         ]);
 
-                    if ($updateDate == 1) {
+                    if ($updateDate) {
                         // Novi red i novi type (Grupa, Solitarna)
                         if (!empty($request->solitary_or_group_type)) {
                             $animalItem->dateSolitaryGroups()
@@ -193,11 +194,21 @@ class AnimalItemPriceController extends Controller
                         die();
                     }
 
-                    $animalItem->dateFullCare()->create([
-                        'start_date' => $full_care_from,
-                        'end_date' => $full_care_to,
-                        'days' => $full_care_diff_in_days,
-                    ]);
+                    $update = $animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first();
+
+                    if (!empty($update)) {
+                        $animalItem->dateFullCare()->update([
+                            'start_date' => $full_care_from,
+                            'end_date' => $full_care_to,
+                            'days' => $full_care_diff_in_days,
+                        ]);
+                    } else {
+                        $animalItem->dateFullCare()->create([
+                            'start_date' => $full_care_from,
+                            'end_date' => $full_care_to,
+                            'days' => $full_care_diff_in_days,
+                        ]);
+                    }
 
                     // Cijena za proširenu skrb
                     $totalPriceFullCare = $this->getPrice($animalItem, ($fullCaretotaldays + $full_care_diff_in_days), 'fullCare');

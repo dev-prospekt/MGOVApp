@@ -18,7 +18,7 @@
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
-                        <a href="{{ route('shelters.founders.create', auth()->user()->shelter->id) }}" class="create btn btn-primary">Dodaj</a>
+                        <a href="{{ route('shelters.founders.create', $shelter->id) }}" class="create btn btn-primary">Dodaj</a>
                     </div>
                 </div>
 
@@ -75,7 +75,7 @@
         var table = $('#founder-table').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{!! route('shelters.founders.index', 'auth()->user()->shelter->id' ) !!}',
+            ajax: '{!! route('shelters.founders.index', [$shelter->id] ) !!}',
             columns: [
                 { data: 'id', name: 'id'},
                 { data: 'name', name: 'name'},

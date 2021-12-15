@@ -112,26 +112,26 @@
               @if($msg = Session::get('update_animal_item'))
               <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
               @endif       
-                  <div class="row">
-                    <div class="col-md-4">    
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv vrste: </label>
-                        <p class="text-muted">{{ $animalItem->animal->name }}</p>
-                      </div>
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv:</label>
-                        <p class="text-muted">{{ $animalItem->animal->latin_name ?? ''  }}</p>
-                      </div>
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum pronalaska:</label>
-                        <p class="text-info">{{ $animalItem->animal_date_found->format('d.m.Y') ?? '' }}</p>
-                      </div>
-                      <div class="mt-2">
-                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način držanja:</label>
-                        <p class="text-warning">{{ $animalItem->solitary_or_group ?? '' }}</p>
-                      </div>
-                    </div> 
-                    <div class="col-md-4 ">
+                <div class="row">
+                  <div class="col-md-4">    
+                    <div class="mt-2">
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv vrste: </label>
+                      <p class="text-muted">{{ $animalItem->animal->name }}</p>
+                    </div>
+                    <div class="mt-2">
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv:</label>
+                      <p class="text-muted">{{ $animalItem->animal->latin_name ?? ''  }}</p>
+                    </div>
+                    <div class="mt-2">
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum pronalaska:</label>
+                      <p class="text-info">{{ $animalItem->animal_date_found->format('d.m.Y') ?? '' }}</p>
+                    </div>
+                    <div class="mt-2">
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način držanja:</label>
+                      <p class="text-warning">{{ $animalItem->solitary_or_group ?? '' }}</p>
+                    </div>
+                  </div> 
+                  <div class="col-md-4 ">
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Razred: </label>
                         <p class="text-muted">{{ $animalItem->animal->animalCategory->animalSystemCategory->latin_name ?? '' }}</p>
@@ -148,32 +148,85 @@
                     
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija:</label>
-                        @if (!empty($hibern->first()))
+                        @if (!empty($hibern))
                           <p class="text-info">DA</p>
+                          <p>Početak: {{ isset($hibern->hibern_start) ? $hibern->hibern_start->format('d.m.Y') : '' }}</p>
+                          <p>Kraj: {{ isset($hibern->hibern_end) ? $hibern->hibern_end->format('d.m.Y') : '' }}</p>
                         @else
                           <p class="text-info">NE</p>
                         @endif
                       </div>
                   </div>   
                   <div class="col-md-4">
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Veličina:</label>
-                      <p class="text-muted">{{ $animalItem->animalSizeAttributes->name ?? '' }}</p>
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Veličina:</label>
+                        <p class="text-muted">{{ $animalItem->animalSizeAttributes->name ?? '' }}</p>
+                      </div>
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dob Jedinke:</label>
+                        <p class="text-muted">{{ $animalItem->animal_age ?? '' }}</p>
+                      </div> 
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Spol:</label>
+                        <p class="text-muted">{{ $animalItem->animal_gender ?? '' }}</p>
+                      </div>  
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Šifra jedinke:</label>
+                        <p class="text-muted">{{ $animalItem->animal_code ?? '' }}</p>
+                      </div>    
+                  </div>              
+                </div>
+
+                <div class="row">
+                  @if (!empty($fullCare->first()))
+                    <div class="col-md-4">
+                      <div class="mt-2">
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Proširena skrb:</label>
+                        @if (!empty($lastFullCare))
+                          <p class="text-muted">Početak: {{ $lastFullCare->start_date->format('d.m.Y') }}</p>
+                        @endif
+
+                        <p class="text-muted">
+                          Početak i kraj: 
+                          @foreach ($fullCare as $full)
+                            @if (!empty($full->end_date))
+                              <p>
+                                {{ $full->start_date->format('d.m.Y') .' - '. $full->end_date->format('d.m.Y') }}
+                                ({{ $full->days }} dana)
+                              </p>
+                            @endif
+                          @endforeach
+                        </p>
+                      </div>  
                     </div>
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dob Jedinke:</label>
-                      <p class="text-muted">{{ $animalItem->animal_age ?? '' }}</p>
-                    </div> 
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Spol:</label>
-                      <p class="text-muted">{{ $animalItem->animal_gender ?? '' }}</p>
-                    </div>  
-                    <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Šifra jedinke:</label>
-                      <p class="text-muted">{{ $animalItem->animal_code ?? '' }}</p>
-                    </div>    
-                </div>              
-              </div>
+                  @endif
+                </div>
+
+                <div class="row">
+                  @if (!empty($startSolitaryGroup))
+                    <div class="col-md-4">
+                      <div class="mt-2">
+                        <label>{{ $startSolitaryGroup->solitary_or_group }}</label>
+                        <p class="text-muted">Početak {{ $startSolitaryGroup->start_date->format('d.m.Y') }}</p>
+                      </div>
+                    </div>
+                  @endif
+
+                  @if (!empty($allSolitaryGroup))
+                    <div class="col-md-4">
+                      <div class="mt-2">
+                        @foreach ($allSolitaryGroup as $item => $value)
+                          <label>{{ $item }}</label>
+                          @foreach ($value as $v)
+                            <p class="text-muted">Početak {{ $v->start_date->format('d.m.Y') }}</p>
+                            <p class="text-muted">Kraj {{ $v->end_date->format('d.m.Y') }}</p>
+                          @endforeach
+                        @endforeach
+                      </div>
+                    </div>
+                  @endif
+                </div>
+
             </div>
           </div><!-- end card -->
           @if ($animalItem->animal_item_care_end_status == false)

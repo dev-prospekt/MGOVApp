@@ -15,13 +15,11 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class FounderDataController extends Controller
 {
 
-    public function index(Request $request)
+    public function index(Request $request, Shelter $shelter)
     {
-        $founders = FounderData::all();
-
+        $founders = FounderData::with('shelter')->where('shelter_id', $shelter->id)->get();
+        
         if($request->ajax()){
-            $founders = FounderData::with('shelter')->where('shelter_id', auth()->user()->shelter->id)->get();
-
             return Datatables::of($founders)
                 ->addColumn('action', function ($founder) {
                     $deleteUrl = route('shelters.founders.destroy', [$founder->shelter->id, $founder->id]);
@@ -45,6 +43,7 @@ class FounderDataController extends Controller
 
         return view('founder.index', [
             'founders' => $founders,
+            'shelter' => $shelter,
         ]);
     }
 

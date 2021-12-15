@@ -21,10 +21,8 @@ use App\Models\Animal\AnimalItemDocumentationStateType;
 class AnimalShelterCreateController extends Controller
 {
     // View
-    public function createView()
+    public function createView(Shelter $shelter)
     {
-        // auth()->user()->shelter->id
-        $shelter = Shelter::find(auth()->user()->shelter->id);
         $shelterType = $shelter->shelterTypes;
 
         return view('animal.animal.create', [
@@ -34,13 +32,16 @@ class AnimalShelterCreateController extends Controller
     }
 
     // Get Founder
-    public function getFounder(Request $req)
+    public function getFounder(Request $request)
     {
-        if (!$req->type_id) {
+        if (!$request->type_id) {
             $html = '<option value="">-----</option>';
-        } else {
+        } 
+        else {
             $html = '';
-            $founderSelect = FounderData::where('shelter_type_id', $req->type_id)->get();
+            $founderSelect = FounderData::where('shelter_type_id', $request->type_id)
+            ->where('shelter_id', $request->shelter)
+            ->get();
 
             $html = '<option value="">-----</option>';
             foreach ($founderSelect as $item) {
