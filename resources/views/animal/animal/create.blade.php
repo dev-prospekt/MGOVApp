@@ -93,7 +93,7 @@
                     method: 'POST',
                     data: {
                         'type_id': $(this).val(),
-                        'shelter': $("#shelter").val()
+                        'shelter': $("#shelter").val(),
                     },
                     success: function(data) {
                         $('#founder').html(data.html);
@@ -158,11 +158,11 @@
             // Get Form
             $("#founder").change(function(){
                 if($(this).val() > 0){
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                        }
-                    });
+                    // $.ajaxSetup({
+                    //     headers: {
+                    //         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    //     }
+                    // });
                     $.ajax({
                         url: "{{ route('shelterAnimal.getForm') }}",
                         method: 'POST',

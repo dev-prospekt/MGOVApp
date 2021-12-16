@@ -2,7 +2,7 @@
   "_args": [
     [
       "jquery.flot@0.8.3",
-      "C:\\Users\\AlenBarac\\laragon\\www\\MGOVApp"
+      "C:\\laragon\\www\\MGOVApp"
     ]
   ],
   "_from": "jquery.flot@0.8.3",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/jquery.flot/-/jquery.flot-0.8.3.tgz",
   "_spec": "0.8.3",
-  "_where": "C:\\Users\\AlenBarac\\laragon\\www\\MGOVApp",
+  "_where": "C:\\laragon\\www\\MGOVApp",
   "auther": "DerekMoe",
   "description": "## About ##",
   "devDependencies": {
