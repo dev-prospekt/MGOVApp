@@ -27,17 +27,17 @@ class PermissionsDemoSeeder extends Seeder
         Permission::firstOrCreate(['name' => 'unpublish animal data']);
 
         // create roles and assign existing permissions
-        $role1 = Role::create(['name' => 'Shelter-Admin']);
+        $role1 = Role::firstOrCreate(['name' => 'Shelter-Admin']);
         $role1->givePermissionTo('edit animal data');
         $role1->givePermissionTo('delete animal data');
         $role1->givePermissionTo('publish animal data');
         $role1->givePermissionTo('unpublish animal data');
 
 
-        $role2 = Role::create(['name' => 'Super-Admin']);
+        $role2 = Role::firstOrCreate(['name' => 'Super-Admin']);
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 
-        $role3 = Role::create(['name' => 'Shelter-User']);
+        $role3 = Role::firstOrCreate(['name' => 'Shelter-User']);
 
         // create demo users
         $user1 = User::factory()->create([
