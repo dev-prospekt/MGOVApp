@@ -21,10 +21,10 @@ class PermissionsDemoSeeder extends Seeder
         app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // create permissions
-        Permission::create(['name' => 'edit animal data']);
-        Permission::create(['name' => 'delete animal data']);
-        Permission::create(['name' => 'publish animal data']);
-        Permission::create(['name' => 'unpublish animal data']);
+        Permission::firstOrCreate(['name' => 'edit animal data']);
+        Permission::firstOrCreate(['name' => 'delete animal data']);
+        Permission::firstOrCreate(['name' => 'publish animal data']);
+        Permission::firstOrCreate(['name' => 'unpublish animal data']);
 
         // create roles and assign existing permissions
         $role1 = Role::create(['name' => 'Shelter-Admin']);
