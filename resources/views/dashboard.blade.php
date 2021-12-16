@@ -40,7 +40,7 @@
                 </h3>
                 <div class="d-flex align-items-baseline">
                   <p class="text-success">
-                    <span>+3.3%</span>
+                    <span>+3%</span>
                     <i data-feather="arrow-up" class="icon-sm mb-1"></i>
                   </p>
                 </div>
