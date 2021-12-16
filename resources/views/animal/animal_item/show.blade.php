@@ -239,6 +239,7 @@
           @endif
         </div><!--  end TAB -->
 
+        @if ($animalItem->animal_item_care_end_status == true)
         <div class="tab-pane fade {{ Session::get('error') ? 'show active' : '' }}" id="profile" role="tabpanel" aria-labelledby="profile-tab">
           <div class="card">
             <div class="card-body">
@@ -333,6 +334,7 @@
             </div>
           </div>
         </div><!-- end TAB -->
+        @endif
         
         @if ($animalItem->animal_item_care_end_status == true)
         <div class="card mt-2">
