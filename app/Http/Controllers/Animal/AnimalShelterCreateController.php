@@ -208,6 +208,8 @@ class AnimalShelterCreateController extends Controller
         $animalItem->shelter_code = $animal_group->shelter_code;
         $animalItem->animal_id = $request->animal_id;
 
+        $animalItem->animal_date_found = isset($request->date_found) ? $request->date_found : null;
+
         $animalItem->animal_gender = $request->animal_gender;
         $animalItem->animal_age = $request->animal_age;
         $animalItem->location = $request->location;
@@ -284,6 +286,9 @@ class AnimalShelterCreateController extends Controller
         $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
         $animalItem->animal_age = $request->animal_age;
         $animalItem->solitary_or_group = $request->solitary_or_group;
+
+        $animalItem->animal_date_found = isset($request->date_found) ? $request->date_found : null;
+
         $animalItem->place_seized_select = $request->place_seized_select;
         $animalItem->place_seized = $request->place_seized;
         $animalItem->date_seized_animal = Carbon::createFromFormat('m/d/Y', $request->date_seized_animal);

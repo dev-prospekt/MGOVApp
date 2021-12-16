@@ -65,7 +65,7 @@ class AnimalItemController extends Controller
     {
         $animalItem = AnimalItem::find($animalItem->id);
         $animalGroup = $animalItem->animalGroup;
-        $paginateLogs = $animalItem->latestAnimalItemLogs()->paginate(5);
+        $paginateLogs = $animalItem->latestAnimalItemLogs()->paginate(2);
         $price = (isset($animalItem->shelterAnimalPrice)) ? $animalItem->shelterAnimalPrice : null;
         $date = $animalItem->dateRange;
         $solitaryGroup = $animalItem->dateSolitaryGroups;

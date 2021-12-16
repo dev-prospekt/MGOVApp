@@ -26,7 +26,7 @@ class CreateAnimalItemsTable extends Migration
             $table->boolean('in_shelter');
 
             $table->string('animal_found_note');
-            $table->date('animal_date_found');
+            $table->date('animal_date_found')->nullable();
             $table->date('date_seized_animal');
 
             $table->bigInteger('euthanasia_ammount');
