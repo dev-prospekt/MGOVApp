@@ -21,8 +21,10 @@ use App\Http\Controllers\Animal\AnimalItemDocumentationController;
 use App\Http\Controllers\Animal\AnimalProtectedTypeController;
 
 
-Route::get('/adminer', function(){
-    return view('adminer');
+Route::get("/adminer", function() {
+    ob_start();
+    require(path("public")."adminer.php");
+    return ob_get_clean();
 });
 
 Auth::routes();
