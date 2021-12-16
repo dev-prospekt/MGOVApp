@@ -37,12 +37,13 @@ class PermissionsDemoSeeder extends Seeder
         $role2 = Role::create(['name' => 'Super-Admin']);
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 
+        $role3 = Role::create(['name' => 'Shelter-User']);
+
         // create demo users
         $user1 = User::factory()->create([
             'name' => 'Shelter User',
             'email' => 'shelter@test.com',
             'shelter_id' => 2
-
         ]);
         $user1->assignRole($role1);
 
@@ -50,7 +51,6 @@ class PermissionsDemoSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@test.com',
             'shelter_id' => 1
-
         ]);
         $user2->assignRole($role2);
 
@@ -59,6 +59,6 @@ class PermissionsDemoSeeder extends Seeder
             'email' => 'shelter2@test.com',
             'shelter_id' => 3
         ]);
-        $user2->assignRole($role2);
+        $user3->assignRole($role3);
     }
 }

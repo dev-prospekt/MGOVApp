@@ -16,14 +16,35 @@ class CreateAnimalItemsTable extends Migration
         Schema::create('animal_items', function (Blueprint $table) {
             $table->id();
 
+            $table->foreignId('animal_group_id');
             $table->foreignId('animal_id')->constrained('animals');
             $table->foreignId('shelter_id')->constrained('shelters');
-            $table->string('status');
+            $table->boolean('animal_item_care_end_status')->default(1);
+            $table->foreignId('founder_id');
+            $table->string('founder_note')->nullable();
+            $table->foreignId('animal_size_attributes_id')->nullable();
+            $table->boolean('in_shelter');
+
+            $table->string('animal_found_note');
+            $table->date('animal_date_found')->nullable();
+            $table->date('date_seized_animal');
+
+            $table->bigInteger('euthanasia_ammount');
+
+            $table->string('place_seized');
+            $table->string('place_seized_select');
+            $table->string('seized_doc_type');
             $table->string('animal_gender');
-            $table->tinyInteger('solitary_or_group');
+            $table->string('animal_age');
+            $table->string('solitary_or_group')->nullable();
             $table->string('location');
+            $table->string('location_retrieval_animal')->nullable();
+            $table->string('location_animal_takeover')->nullable();
+            $table->string('seized_doc');
+            $table->boolean('full_care_status')->default(false);
+
             $table->string('shelter_code');
-            $table->string('date_found');
+            $table->string('animal_code');
 
             $table->timestamps();
         });

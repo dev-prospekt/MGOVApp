@@ -59,6 +59,7 @@
     <script>
       setTimeout(function() {
           $('#successMessage').fadeOut('slow');
+          $('#dangerMessage').fadeOut('slow');
       }, 3000);
     </script>
 </body>

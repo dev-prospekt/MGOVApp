@@ -26,13 +26,15 @@ class ShelterFactory extends Factory
     public function definition()
     {
         return [
-            'email' => $this->faker->unique()->safeEmail,
-            'bank_name' => $this->faker->company,
-            'iban' => $this->faker->creditCardNumber,
             'telephone' => $this->faker->e164PhoneNumber,
             'mobile' => $this->faker->e164PhoneNumber,
             'fax' => $this->faker->e164PhoneNumber,
+            'email' => $this->faker->unique()->safeEmail,
             'web_address' => $this->faker->url,
+            'bank_name' => $this->faker->company,
+            'iban' => $this->faker->creditCardNumber,
+            'register_date' => $this->faker->date,
+            'shelter_code' => $this->faker->word
         ];
     }
 }

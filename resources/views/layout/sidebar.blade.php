@@ -22,6 +22,7 @@
       </li>
 
       <li class="nav-item nav-category">Jedinke</li>
+
       <li class="nav-item {{ active_class(['sz_animal_type/*']) }}">
         <a class="nav-link" data-toggle="collapse" href="#sz-tables" role="button" aria-expanded="{{ is_active_route(['/sz_animal_type/*']) }}" aria-controls="sz-tables">
           <i class="link-icon" data-feather="layout"></i>
@@ -31,7 +32,7 @@
         <div class="collapse" id="sz-tables">
           <ul class="nav sub-menu">
             <li class="nav-item">
-              <a href="{{ url('/sz_animal_type?type=1') }}" class="nav-link }}">Sisavci</a>
+              <a href="{{ url('/sz_animal_type?type=1') }}" class="nav-link">Sisavci</a>
             </li>
             <li class="nav-item">
               <a href="{{ url('/sz_animal_type?type=2') }}" class="nav-link">Ptice</a>
@@ -90,21 +91,52 @@
           <span class="link-title">Veličine jedinki</span>
         </a>
       </li>
-  
 
+      <li class="nav-item nav-category">Ustanove</li>
+      <li class="nav-item {{ active_class(['shelter/*']) }}">
+        <a class="nav-link" data-toggle="collapse" href="#shelter-tables" role="button" aria-expanded="{{ is_active_route(['/shelter/*']) }}" aria-controls="shelter-tables">
+          <i class="link-icon" data-feather="layout"></i>
+          <span class="link-title">Oporavilišta</span>
+          <i class="link-arrow" data-feather="chevron-down"></i>
+        </a>
+        <div class="collapse" id="shelter-tables">
+          <ul class="nav sub-menu">
+            <li class="nav-item">
+              <a href="{{ url('/shelter') }}" class="nav-link">Popis svih</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url('/user') }}" class="nav-link">Korisnici oporavilišta</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{ route('shelters.founders.index', auth()->user()->shelter->id) }}" class="nav-link">Nalaznici</a>
+            </li>
+
+            <li class="nav-item">
+              <a href="{{ url('/shelter/create') }}" class="nav-link">Dodaj novo</a>
+            </li>
+          
+          </ul>
+        </div>  
+      </li>
 
       <li class="nav-item nav-category">CRUD</li>
-      <li class="nav-item {{ active_class(['shelter']) }}">
-        <a href="{{ route("shelter.index") }}" class="nav-link">
-          <i class="link-icon" data-feather="box"></i>
-          <span class="link-title">Oporavilišta</span>
-        </a>
-      </li>
       <li class="nav-item {{ active_class(['user']) }}">
-        <a href="{{ route("user.index") }}" class="nav-link">
+        <a class="nav-link" data-toggle="collapse" href="#users" role="button">
           <i class="link-icon" data-feather="user"></i>
           <span class="link-title">Korisnici</span>
+          <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
+        <div class="collapse" id="users">
+          <ul class="nav sub-menu">
+            <li class="nav-item">
+              <a href="{{ url('/user') }}" class="nav-link }}">Lista</a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ url('/roleMapping') }}" class="nav-link }}">Role</a>
+            </li>
+          </ul>
+        </div>  
       </li>
 
       <li class="nav-item nav-category">Docs</li>

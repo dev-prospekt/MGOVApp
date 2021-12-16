@@ -17,19 +17,19 @@ class CreateSheltersTable extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('email');
-            $table->string('shelter_code');
-            $table->string('address');
             $table->bigInteger('oib');
+            $table->string('address');
+            $table->string('address_place')->nullable();
             $table->string('place_zip');
-            $table->string('bank_name');
             $table->bigInteger('telephone');
             $table->bigInteger('mobile');
             $table->bigInteger('fax');
+            $table->string('email');
             $table->string('web_address');
-            $table->bigInteger('iban');
-
-
+            $table->string('bank_name');
+            $table->string('iban');
+            $table->date('register_date');
+            $table->string('shelter_code');
 
             $table->timestamps();
         });

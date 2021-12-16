@@ -20,21 +20,33 @@
 
     <p><strong>Naziv:</strong> {{ $animalItems->animal->name }}</p>
     <p><strong>Latinski naziv:</strong> {{ $animalItems->animal->latin_name }}</p>
-    <p><strong>Šifra:</strong> {{ $animalItems->shelterCode }}</p>
-    <p><strong>Veličina:</strong> {{ $animalItems->animal_size }}</p>
+    <p><strong>Šifra:</strong> {{ $animalItems->shelter_code }}</p>
+    <p><strong>Veličina:</strong> {{ $animalItems->animalSizeAttributes->name ?? '' }}</p>
     <p><strong>Spol:</strong> {{ $animalItems->animal_gender }}</p>
     <p><strong>Lokacija:</strong> {{ $animalItems->location }}</p>
 
     <hr>
     <h2>Dokumenti</h2>
 
-    @if($animalItems->animalItemsFile->isEmpty())
-        <p>Trenutno, ne postoji dokument.</p>
-    @else
-        @foreach ($animalItems->animalItemsFile as $file)
+    <p><strong>Grupa</strong></p>
+    <div>
+        @foreach ($mediaFiles as $fi)
+            @foreach ($fi->getMedia('media') as $media)
+                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                        href="{{ $media->getUrl() }}">
+                        {{ $media->name }}
+                    </a>
+            @endforeach
+        @endforeach
+    </div>
+
+    <p><strong>Pojedinačni</strong></p>
+    @if ($animalItems->getMedia('media'))
+        @foreach ($animalItems->getMedia('media') as $file)
             <div>
-                <a target="_blank" href="/storage/{{ str_replace('"', "", $file->filenames) }}">
-                    {{ $file->file_name }}
+                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
+                    href="{{ $file->getUrl() }}">
+                    {{ $file->name }}
                 </a>
             </div>
         @endforeach

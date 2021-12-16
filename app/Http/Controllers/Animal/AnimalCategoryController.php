@@ -63,15 +63,6 @@ class AnimalCategoryController extends Controller
      */
     public function store(Request $request, AnimalCategory $animalCategory)
     {
-        /* AnimalCategory::create([
-            'name' => $request->category_name,
-            'animal_system_category_id' => $request->animal_system_category
-        ]);
-
-        if ($request->route()->getName('create_sz_animal_type_cat')) {
-            return redirect()->route('create_sz_animal_type')->with('msg', 'Kategorija je uspješno kreirana');
-        } */
-
 
         $validator = Validator::make($request->all(), [
             'animal_class' => 'required',

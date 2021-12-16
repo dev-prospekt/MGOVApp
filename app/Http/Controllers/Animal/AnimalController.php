@@ -3,15 +3,23 @@
 namespace App\Http\Controllers\Animal;
 
 use Carbon\Carbon;
+use App\Models\DateRange;
+use App\Models\FounderData;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
+use CreateAnimalMarkTypesTable;
 use App\Models\Animal\AnimalCode;
+use App\Models\Animal\AnimalFile;
 use App\Models\Animal\AnimalItem;
 use App\Models\Animal\AnimalSize;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\Animal\AnimalMarkType;
 use App\Http\Requests\AnimalPostRequest;
+use Database\Seeders\AnimalMarkTypeSeeder;
+use App\Models\Animal\AnimalSystemCategory;
+use BayAreaWebPro\MultiStepForms\MultiStepForm as Form;
 
 class AnimalController extends Controller
 {
@@ -34,15 +42,32 @@ class AnimalController extends Controller
      */
     public function create()
     {
-        $animals = Animal::all();
-        $animalsCode = AnimalCode::all();
-        $animalSize = AnimalSize::all();
+        // auth()->user()->shelter->id
+        // $shelter = Shelter::find(auth()->user()->shelter->id);
+        // $founder = $shelter->founder;
+        // $sysCats = $shelter->animalSystemCategory;
+        // $shelterType = $shelter->shelterTypes;
+        // $markTypes = AnimalMarkType::all();
 
-        return view('animal.animal.create', [
-            'animals' => $animals,
-            'animalsCode' => $animalsCode,
-            'animalSize' => $animalSize,
-        ]); 
+        // $pluckCat = $sysCats->pluck('id');
+        // $pluckTyp = $shelterType->pluck('code');
+
+        // $type = Animal::whereHas('animalType', function ($q) use ($pluckTyp) {
+        //         $q->whereIn('type_code', $pluckTyp);
+        //     })
+        //     ->whereHas('animalCategory.animalSystemCategory', function ($q) use ($pluckCat) {
+        //         $q->whereIn('id', $pluckCat);
+        //     })
+        //     ->orderBy('name')
+        //     ->get();
+
+        // return view('animal.animal.create', [
+        //     'typeArray' => $type,
+        //     'founder' => $founder,
+        //     'markTypes' => $markTypes,
+        //     'shelter' => $shelter,
+        //     'shelterType' => $shelterType
+        // ]);
     }
 
     /**
@@ -53,48 +78,6 @@ class AnimalController extends Controller
      */
     public function store(AnimalPostRequest $request)
     {
-        $animals = new Animal;
-        $count = $request->quantity;
-
-        // Increment ID
-        $incrementId = DB::table('animal_shelter')->orderBy('id', 'DESC')->first();
-        if(empty($incrementId->id)){
-            $increment = 1;
-        }
-        else {
-            $increment = $incrementId->id + 1;
-        }
-
-        $animals->shelters()->attach($request->animal_id, [
-            'shelter_id' => $request->shelter_id,
-            'animal_id' => $request->animal_id,
-            'shelter_code' => Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment,
-            'quantity' => $request->quantity,
-        ]);
-
-        $animals->animalCodes()->attach($request->animal_code_id, [
-            'animal_id' => $request->animal_id
-        ]);
-
-        for ($i=0; $i < $count; $i++) {
-            $animalItem = new AnimalItem;
-            $animalItem->animal_id = $request->animal_id;
-            $animalItem->shelter_id = $request->shelter_id;
-            
-            if($count != 1){
-                $animalItem->solitary_or_group = 1;
-            }
-            else {
-                $animalItem->solitary_or_group = 0;
-            }
-
-            $animalItem->shelter_code = Carbon::now()->format('Y') .''. $request->shelter_code .'-'. $increment;
-            $animalItem->status = 1;
-            $animalItem->date_found = Carbon::createFromFormat('Y-m-d', $request->date_found)->format('d.m.Y');
-            $animalItem->save();
-        }
-        
-        return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
 
     /**
@@ -122,7 +105,7 @@ class AnimalController extends Controller
     {
         $animal = Animal::find($id);
 
-        return view('animal.animal.edit')->with('animals', $animal); 
+        return view('animal.animal.edit')->with('animals', $animal);
     }
 
     /**
@@ -134,7 +117,6 @@ class AnimalController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
     }
 
     /**
@@ -146,5 +128,21 @@ class AnimalController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function getBySize(Request $request)
+    {
+        if (!$request->animal_id) {
+            $html = '<option value=""></option>';
+        } else {
+            $html = '';
+            $animalSelect = Animal::with('animalSize')->where('id', $request->animal_id)->first();
+
+            foreach ($animalSelect->animalSize->sizeAttributes as $size) {
+                $html .= '<option value="' . $size->id . '">' . $size->name . '</option>';
+            }
+        }
+
+        return response()->json(['html' => $html]);
     }
 }

@@ -14,7 +14,6 @@ class Animal extends Model
     protected $casts = ['id' => 'integer', 'animal_system_category_id' => 'integer', 'animal_size_id' => 'integer'];
     protected $fillable = ['animal_category_id', 'animal_size_id', 'name', 'latin_name'];
 
-
     public function animalCategory()
     {
         return $this->belongsTo(AnimalCategory::class)->with('animalSystemCategory');
@@ -37,11 +36,18 @@ class Animal extends Model
 
     public function shelters()
     {
-        return $this->belongsToMany(Shelter::class)->withPivot('quantity', 'shelterCode', 'id');
+        return $this->belongsToMany(Shelter::class)
+            ->withPivot('quantity', 'shelter_code', 'id')
+            ->withTimestamps();
     }
 
     public function animalType()
     {
         return $this->belongsToMany(AnimalType::class);
+    }
+
+    public function animalSize()
+    {
+        return $this->belongsTo(AnimalSize::class)->with('sizeAttributes');
     }
 }

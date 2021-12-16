@@ -14,6 +14,7 @@
 <div class="row">
   <div class="col-12 col-xl-12 stretch-card">
     <div class="row flex-grow">
+
       <div class="col-md-4 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
@@ -34,7 +35,9 @@
             </div>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
-                <h3 class="mb-2">3,897</h3>
+                <h3 class="mb-2">
+                  {{ $shelters->first()->animalItems->count() }}
+                </h3>
                 <div class="d-flex align-items-baseline">
                   <p class="text-success">
                     <span>+3.3%</span>
@@ -49,6 +52,7 @@
           </div>
         </div>
       </div>
+
       <div class="col-md-4 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
@@ -167,14 +171,14 @@
                           <td>{{ $shelter->users->first()->name ?? '' }}</td>
                           <td>
                               @foreach ($shelter->shelterTypes as $type)
-                                  <button type="button" class="btn btn-{{ $type->id == 1 ? 'warning' : 'danger' }}" data-toggle="tooltip" data-placement="top" title="{{ $type->name }}">
+                                  <button type="button" class="btn btn-xs btn-{{ $type->id == 1 ? 'warning' : 'danger' }}" data-toggle="tooltip" data-placement="top" title="{{ $type->name }}">
                                       {{ $type->code }}
                                   </button>
                               @endforeach
                           </td>
                           <td>
-                              <a href="{{ route('shelter.show', [$shelter->id]) }}" class="btn btn-info" href="#" role="button">Pregled</a>
-                              <a class="btn btn-warning" href="{{ route("shelter.edit", $shelter) }}" role="button">Uredi</a>
+                              <a href="{{ route('shelter.show', [$shelter->id]) }}" class="btn btn-xs btn-info" href="#" role="button">Pregled</a>
+                              <a class="btn btn-xs btn-warning" href="{{ route("shelter.edit", $shelter) }}" role="button">Uredi</a>
                           </td>
                       </tr>        
                   @endforeach
@@ -207,8 +211,8 @@
               </tr>
             </thead>
             <tbody>
-
-    
+              
+            </tbody>
           </table>
         </div>
       </div> 

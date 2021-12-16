@@ -4,13 +4,14 @@ namespace App\Http\Controllers\Animal;
 
 use Illuminate\Http\Request;
 
-use Yajra\Datatables\Datatables;
 use App\Models\Animal\Animal;
+use Yajra\Datatables\Datatables;
 use App\Models\Animal\AnimalCode;
 use App\Models\Animal\AnimalType;
 use App\Http\Controllers\Controller;
 use App\Models\Animal\AnimalCategory;
 use App\Models\Animal\AnimalSystemCategory;
+use App\Http\Requests\AnimalInvasiveTypeRequest;
 
 class AnimalInvaziveTypeController extends Controller
 {
@@ -88,7 +89,7 @@ class AnimalInvaziveTypeController extends Controller
     return view('animal.animal_type.ij_animal_type_create', compact('animalCodes', 'animalCategory', 'animalSystemCategory', 'animalType'));
   }
 
-  public function storeIJAnimalTypes(Request $request)
+  public function storeIJAnimalTypes(AnimalInvasiveTypeRequest $request)
   {
     $szAnimal = new Animal;
 

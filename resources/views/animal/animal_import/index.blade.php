@@ -9,7 +9,8 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-      <h4 class="mb-3 mb-md-0">Strogo Zaštićene Jedinke</h4>
+      <h4 class="mb-3 mb-md-0">Upload podataka</h4>
+      <p class="text-muted">Napomena: prije samih jedinki učitajte <span class="text-info">prvo redove</span> , <span class="text-info">zatim porodice u sustav</span> </p>
   </div>
 </div>
    
@@ -22,7 +23,7 @@
 
         <div class="card">
           <div class="card-body">
-            <p class="card-description">Dodaj popis redova preko dokumenta (.xls, .csv)</p>
+            <p class="card-description">1. Dodaj popis redova preko dokumenta (.xls, .csv)</p>
             <form action="{{ route('animal_order_import') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="form-group">
@@ -49,7 +50,7 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <p class="card-description">Dodaj popis porodica preko dokumenta (.xls, .csv)</p>
+              <p class="card-description">2. Dodaj popis porodica preko dokumenta (.xls, .csv)</p>
               <form action="{{ route('animal_category_import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
@@ -76,7 +77,7 @@
         <div class="col-md-4">
           <div class="card">
             <div class="card-body">
-              <p class="card-description">Dodaj popis strogo zaštićenih vrsta preko dokumenta (.xls, .csv)</p>
+              <p class="card-description">3. Dodaj popis strogo zaštićenih vrsta preko dokumenta (.xls, .csv)</p>
               <form action="{{ route('animal_sz_import') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
@@ -107,7 +108,7 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <p class="card-description">Dodaj popis invazivnih vrsta preko dokumenta (.xls, .csv)</p>
+            <p class="card-description">4. Dodaj popis invazivnih vrsta preko dokumenta (.xls, .csv)</p>
             <form action="{{ route('animal_invazive_import') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="form-group">
@@ -133,7 +134,7 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <p class="card-description">Dodaj zapljenjenih vrsta preko dokumenta (.xls, .csv)</p>
+            <p class="card-description">5. Dodaj zapljenjenih vrsta preko dokumenta (.xls, .csv)</p>
             <form action="{{ route('animal_seized_import') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="form-group">

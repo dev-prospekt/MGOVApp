@@ -26,45 +26,63 @@
                 @csrf
                 <div class="form-group">
                     <label>Naziv Jedinke</label>
-                    <input type="text" class="form-control" name="name" required>
+                    <input type="text" class="form-control" name="name">
+                    @error('name')
+                        <div class="text-danger">{{$errors->first('name') }} </div>
+                    @enderror
                 </div>
                   <div class="form-group">
                     <label>Latinski Naziv</label>
-                    <input type="text" class="form-control" name="latin_name" required>
+                    <input type="text" class="form-control" name="latin_name">
+                    @error('latin_name')
+                        <div class="text-danger">{{$errors->first('latin_name') }} </div>
+                    @enderror
                 </div>  
                 <div class="form-group">
                     <label>Oznaka Jedinke</label>
                     <select class="js-example-basic-multiple w-100" multiple="multiple" name="animal_code[]">
-                        <option disabled>Izbornik</option>     
+                        <option value="" >Izbornik</option>     
                         @foreach ($animalCodes as $itemCode)
                           <option value="{{ $itemCode->id }}"> {{ $itemCode->name }} - {{ $itemCode->desc }}</option>            
                         @endforeach  
                     </select>
+                    @error('animal_code')
+                        <div class="text-danger">{{$errors->first('animal_code') }} </div>
+                    @enderror
                 </div>
                 <div class="form-group">
                   <label>Tip Jedinke</label>
                   <select class="js-example-basic-multiple w-100" multiple="multiple" name="animal_type[]">
-                      <option disabled>Izbornik</option>     
+                      <option value="" >Izbornik</option>     
                         <option value="{{ $animalType->id }}" selected>{{ $animalType->type_code }} - {{ $animalType->type_name }}</option>                     
                   </select>
+                  @error('animal_type')
+                      <div class="text-danger">{{$errors->first('animal_type') }} </div>
+                  @enderror
                 </div>
                 <div class="form-group">
                   <label>Porodica</label>
                   <select class="js-example-basic-single w-100" name="animal_category" id="">   
-                    <option>----</option>       
+                    <option value="">----</option>       
                       @foreach ($animalCategory as $animalCat)
                         <option value="{{ $animalCat->id }}">{{ $animalCat->latin_name }} - {{ $animalCat->name }} </option>
                       @endforeach    
                   </select>  
+                  @error('animal_category')
+                      <div class="text-danger">{{$errors->first('animal_category') }} </div>
+                  @enderror
                 </div>    
                 <div class="form-group">
                   <label>Razred</label>
                   <select class="form-control" name="animal_system_category" id="">     
-                      <option>----</option>   
+                      <option value="">----</option>   
                       @foreach ($animalSystemCategory as $animalSystemCat)
                         <option value="{{ $animalSystemCat->id }}"> {{ $animalSystemCat->latin_name }} - {{ $animalSystemCat->name }} </option>
                       @endforeach
                   </select>
+                  @error('animal_system_category')
+                      <div class="text-danger">{{$errors->first('animal_system_category') }} </div>
+                  @enderror
                 </div>  
                 <button type="submit" class="btn btn-info mr-2 mt-2">Dodaj Jedinku</button>
               </form>
