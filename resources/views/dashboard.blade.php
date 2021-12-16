@@ -36,7 +36,7 @@
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
                 <h3 class="mb-2">
-                  10
+                  {{ $shelters->first()->animalItems->count() }}
                 </h3>
                 <div class="d-flex align-items-baseline">
                   <p class="text-success">
