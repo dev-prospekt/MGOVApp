@@ -247,7 +247,7 @@ class AnimalShelterCreateController extends Controller
 
     public function seizedStore(Request $request)
     {
-        dd($request);
+        //dd($request);
 
         // Increment ID
         $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
