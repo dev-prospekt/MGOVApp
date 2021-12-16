@@ -26,6 +26,10 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('home');
 
+    Route::get('/adminer', function(){
+        return view('adminer');
+    });
+
     Route::get('/test', function () {
         return view('sample');
     });
