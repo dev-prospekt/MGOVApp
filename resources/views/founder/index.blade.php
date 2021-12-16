@@ -8,7 +8,7 @@
 @section('content')
 
 <div class="d-flex align-items-center justify-content-between mb-3">
-    <div> <h5 class="mb-3 mb-md-0">{{ $founders[0]->shelter->name }}</h5></div>
+    <div> <h5 class="mb-3 mb-md-0">{{ isset($founders) ? $founders[0]->shelter->name : '' }}</h5></div>
     <div>      
        <a href="#" type="button" class="btn btn-primary btn-sm btn-icon-text">
           Povratak na popis
