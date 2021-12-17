@@ -205,7 +205,8 @@
                 <div class="email-title mb-2 mb-md-0"> <h6 class="card-title">Status Skrbi</h6></div>  
                 <div>
                 <a href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', 
-                          [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" type="button" class="btn btn-primary btn-xs">                
+                  [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" 
+                  type="button" class="btn btn-primary btn-xs">                
                   Pregled cijene skrbi                
                 </a> 
                 </div>
