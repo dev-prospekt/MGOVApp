@@ -216,6 +216,7 @@ class AnimalShelterCreateController extends Controller
         $animalItem->location_retrieval_animal = $request->location_retrieval_animal;
         $animalItem->founder_id = $request->founder_id;
         $animalItem->founder_note = $request->founder_note;
+        $animalItem->solitary_or_group = $request->solitary_or_group;
 
         if ($request->euthanasia_select == 'da') {
             $animalItem->euthanasia_ammount = $request->euthanasia_ammount;
@@ -234,6 +235,15 @@ class AnimalShelterCreateController extends Controller
             $date_range->animal_item_id = $animalItem->id;
             $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date);
             $date_range->save();
+        }
+
+        // Solitary/Group
+        if (!empty($animalItem->solitary_or_group)) {
+            $animalItem->dateSolitaryGroups()->create([
+                'animal_item_id' => $animalItem->id,
+                'start_date' => Carbon::createFromFormat('m/d/Y', $request->start_date),
+                'solitary_or_group' => $animalItem->solitary_or_group,
+            ]);
         }
 
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
