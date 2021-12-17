@@ -47,12 +47,13 @@ class FounderDataController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Shelter $shelter)
     {
         $type = ShelterType::all();
 
         return view('founder.create', [
-            'type' => $type
+            'type' => $type,
+            'shelter' => $shelter,
         ]);
     }
 
@@ -61,7 +62,7 @@ class FounderDataController extends Controller
         try {
 
             $founder = new FounderData;
-            $founder->shelter_id = auth()->user()->shelter->id;
+            $founder->shelter_id = $request->shelter;
             $founder->shelter_type_id = $request->shelter_type;
             $founder->name = $request->name;
             $founder->lastname = $request->lastname;
