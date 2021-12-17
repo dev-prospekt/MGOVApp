@@ -212,7 +212,7 @@ $(function() {
           { data: 'shelter_code', name: 'shelter_code'},
           { data: 'action', name: 'action'},
       ],
-      order: [[ 0, "asc" ]],
+      order: [[ 0, "desc" ]],
       language: {
           url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
       }

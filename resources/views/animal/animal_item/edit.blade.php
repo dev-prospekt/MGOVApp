@@ -23,6 +23,7 @@
         </a> 
     </div>
   </div>
+  
   <ul class="nav shelter-nav">
     <li class="nav-item">
       <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.show', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">{{ $animalItem->animal->name }} - {{ $animalItem->animal->latin_name }}</a>
@@ -78,13 +79,14 @@
                             <div class="form-group">
                                 <label>Dob jedinke</label>
                                 <select class="form-control" name="animal_dob" id="">
-                                    @if ($animalItem->animal_dob)
-                                        <option selected value="{{$animalItem->animal_dob}}">{{$animalItem->animal_dob}}</option>
+                                    @if ($animalItem->animal_age)
+                                        <option selected value="{{$animalItem->animal_age}}">{{$animalItem->animal_age}}</option>
                                     @endif
                                     <option value="">Odaberi</option>
-                                    <option value="ADL">ADL (adultna)</option>
-                                    <option value="JUV">JUV (juvenilna)</option>
-                                    <option value="SA">SA (subadultna)</option>
+                                    <option value="ADL(adultna)">ADL (adultna)</option>
+                                    <option value="JUV(juvenilna)">JUV (juvenilna)</option>
+                                    <option value="SA(subadultna)">SA (subadultna)</option>
+                                    <option value="N(neodređeno)">N (neodređeno)</option>
                                 </select>
                                 @error('animal_dob')
                                     <div class="text-danger">{{$errors->first('animal_dob') }} </div>
@@ -93,7 +95,7 @@
                             <div class="form-group">
                                 <label>Spol</label>
                                 <select class="form-control" name="animal_gender" id="">
-                                    @if ($animalItem->animal_dob)
+                                    @if ($animalItem->animal_gender)
                                         <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
                                     @endif
                                     <option value="">Odaberi</option>
@@ -115,7 +117,8 @@
                     </form>
                 </div>
             </div>                       
-        </div>                  
+        </div>             
+             
         <div class="col-md-6">    
             <div class="card">
                 <div class="card-body">
