@@ -159,8 +159,10 @@
                             <div class="form-group">
                                 <label class="control-label">Datum ovlaštenja oporavilišta</label>
                                 <div class="input-group date datepicker" id="dateRegister">
-                                    <input type="hidden" id="register_date" value="{{ $shelter->register_date }}">
-                                    <input type="text" class="form-control register_date" name="register_date" ><span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                    <input type="text" class="form-control register_date" name="register_date" 
+                                    value="{{ $shelter->register_date }}">
+                                    <span class="input-group-addon"><i data-feather="calendar"></i></span>
+
                                     @error('register_date')
                                     <div class="text-danger">{{$errors->first('register_date') }} </div>
                                     @enderror
@@ -201,7 +203,7 @@
         alwaysShow: true,
         validate: false,
         allowOverMax: true,
-        customMaxAttribute: "90"
+        customMaxAttribute: "11"
     });
     $('.iban-field').maxlength({
         alwaysShow: true,
@@ -221,7 +223,6 @@
         format: 'mm/dd/yyyy',
         autoclose: true
     });
-    $("#dateRegister").datepicker('setDate', $("input#register_date")val());
 
 </script>
 @endpush
