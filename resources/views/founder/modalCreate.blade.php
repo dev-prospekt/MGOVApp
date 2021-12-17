@@ -9,6 +9,8 @@
         <form action="" method="POST" id="founder-form" enctype="multipart/form-data">
             @csrf
             @method('POST')
+
+            <input type="hidden" name="shelter" value="{{ $shelter->id }}">
             
             <div class="modal-body">
 
