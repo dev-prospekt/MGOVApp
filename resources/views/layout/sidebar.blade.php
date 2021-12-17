@@ -127,6 +127,7 @@
           <span class="link-title">Korisnici</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
+        
         {{-- <div class="collapse" id="users">
           <ul class="nav sub-menu">
             <li class="nav-item">
@@ -137,6 +138,7 @@
             </li>
           </ul>
         </div>   --}}
+
       </li>
     </ul>
   </div>
