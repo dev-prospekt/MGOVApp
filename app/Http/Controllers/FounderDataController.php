@@ -129,7 +129,6 @@ class FounderDataController extends Controller
         $founder->delete();
 
         return response()->json(['msg' => 'success']);
-        //return redirect()->route("founder.index")->with('msg', 'Uspješno obrisano.');
     }
 
     public function fileDelete($file)
