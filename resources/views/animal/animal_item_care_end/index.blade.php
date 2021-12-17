@@ -245,6 +245,13 @@
             <h6 class="card-title">Podaci skrbi</h6>
           </div> 
 
+          <div>
+            @if ($animalItem->animal_item_care_end_status == false)
+              @if ($animalItem->animal->animalType->first()->type_code == 'IJ')
+                <p class="text-danger">Za invazivne jedinke se ne računa cijena osim ako je eutanazija</p>
+              @endif
+            @endif
+          </div>
              
           @if($msg = Session::get('update_animal_item'))
           <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>

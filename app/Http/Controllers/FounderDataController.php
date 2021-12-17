@@ -140,11 +140,11 @@ class FounderDataController extends Controller
         return response()->json(['msg' => 'success']);
     }
 
-    public function modalCreateFounder()
+    public function modalCreateFounder(Shelter $shelter)
     {
         $type = ShelterType::all();
 
-        $returnHTML = view('founder.modalCreate', ['type' => $type])->render();
+        $returnHTML = view('founder.modalCreate', ['type' => $type, 'shelter' => $shelter])->render();
 
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }

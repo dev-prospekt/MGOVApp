@@ -106,7 +106,7 @@
                 e.preventDefault();
 
                 $.ajax({
-                    url: "/founder_modal",
+                    url: "{{ route('founder.modal', [$shelter]) }}",
                     method: 'GET',
                     success: function(result) {
                         $(".modal").show();

@@ -22,6 +22,7 @@
         </a> 
     </div>
   </div>
+  
   <ul class="nav shelter-nav">
     <li class="nav-item">
       <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.show', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">{{ $animalItem->animal->name }} - {{ $animalItem->animal->latin_name }}</a>
@@ -95,9 +96,11 @@
           <a class="nav-link {{ Session::get('error') ? '' : 'active' }}" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="{{ Session::get('error') ? 'false' : 'true' }}">Informacije</a>
         </li>
         @if ($animalItem->animal_item_care_end_status == true)
-        <li class="nav-item">
-          <a class="nav-link {{ Session::get('error') ? 'active' : '' }}" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="{{ Session::get('error') ? 'true' : 'false' }}">Akcije postupanja</a>
-        </li>
+          @if ($animalItem->animal->animalType->first()->type_code != 'IJ')
+            <li class="nav-item">
+              <a class="nav-link {{ Session::get('error') ? 'active' : '' }}" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="{{ Session::get('error') ? 'true' : 'false' }}">Akcije postupanja</a>
+            </li>
+          @endif
         @endif
       </ul>
 
@@ -203,7 +206,8 @@
                 <div class="email-title mb-2 mb-md-0"> <h6 class="card-title">Status Skrbi</h6></div>  
                 <div>
                 <a href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', 
-                          [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" type="button" class="btn btn-primary btn-xs">                
+                  [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" 
+                  type="button" class="btn btn-primary btn-xs">                
                   Pregled cijene skrbi                
                 </a> 
                 </div>
@@ -279,12 +283,39 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
 
-                <div class="row">
+                @if ($animalItem->animal->animalType->first()->type_code == 'ZJ')
+                  @if ($animalItem->full_care_status == 1)
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group" id="period">
+                                <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dan/a)</strong></label>
+                                @if ($totalDays != 0)
+                                <div class="d-flex">
+                                    <div class="input-group date datepicker" id="datePickerExample">
+                                        <input type="text" name="full_care_start" class="form-control full_care_start"
+                                        value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
+                                        <span class="input-group-addon">
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                    </div>
+                                    <div class="input-group date datepicker" id="datePickerExample">
+                                        <input type="text" name="full_care_end" class="form-control full_care_end"
+                                        value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
+                                        <span class="input-group-addon">
+                                            <i data-feather="calendar"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                @endif
+                            </div>
+                        </div>       
+                    </div> 
+                  @endif
+                @else
+                  <div class="row">
                     <div class="col-md-12">
-                  
                         <div class="form-group" id="period">
                             <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dan/a)</strong></label>
                             @if ($totalDays != 0)
@@ -307,7 +338,8 @@
                             @endif
                         </div>
                     </div>       
-                </div> 
+                  </div> 
+                @endif
 
                 <div class="form-group" id="hib_est_from_to">
                   <label>Hibernacija/estivacija</label>

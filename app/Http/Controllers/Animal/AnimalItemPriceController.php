@@ -409,12 +409,17 @@ class AnimalItemPriceController extends Controller
 
     public function getPrice($animalItem, $diff_in_days, $full_care = null)
     {
-        if ($animalItem->solitary_or_group == 'Grupa') { // U grupi je
-            $groupPrice = $animalItem->animalSizeAttributes->group_price;
-            $totalPrice = ($diff_in_days * $groupPrice);
-        } else { // Nije u grupi
-            $basePrice = $animalItem->animalSizeAttributes->base_price;
-            $totalPrice = ($diff_in_days * $basePrice);
+        if($animalItem->animal->animalType->first()->type_code != 'IJ'){
+            if ($animalItem->solitary_or_group == 'Grupa') { // U grupi je
+                $groupPrice = $animalItem->animalSizeAttributes->group_price;
+                $totalPrice = ($diff_in_days * $groupPrice);
+            } else { // Nije u grupi
+                $basePrice = $animalItem->animalSizeAttributes->base_price;
+                $totalPrice = ($diff_in_days * $basePrice);
+            }
+        }
+        else {
+            $totalPrice = 0;
         }
 
         // Juvenilne jedinke - Ako su gmazovi cijena nema razlike
