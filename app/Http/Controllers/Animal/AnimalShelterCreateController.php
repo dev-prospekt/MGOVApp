@@ -208,7 +208,6 @@ class AnimalShelterCreateController extends Controller
         $animalItem->shelter_code = $animal_group->shelter_code;
         $animalItem->animal_id = $request->animal_id;
         $animalItem->animal_date_found = isset($request->date_found) ? $request->date_found : null;
-
         $animalItem->animal_gender = $request->animal_gender;
         $animalItem->animal_age = $request->animal_age;
         $animalItem->location = $request->location;
