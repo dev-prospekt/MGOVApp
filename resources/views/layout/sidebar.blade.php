@@ -47,7 +47,6 @@
           </ul>
         </div>  
       </li>
-
       
       <li class="nav-item {{ active_class(['ij_animal_type']) }}">
         <a href="{{ url('/ij_animal_type') }}" class="nav-link">
