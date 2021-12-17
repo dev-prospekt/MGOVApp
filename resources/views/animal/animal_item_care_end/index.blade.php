@@ -57,6 +57,8 @@
             @csrf
             @method('POST')  
 
+            <input type="hidden" class="shelter_id" name="shelter_id" value="{{ $shelter->id }}">
+
             <div class="form-group mt-2">
               <label>Datum prestanka skrbi o životinji</label>
               <div class="input-group date datepicker" id="dateEndcarePicker">
@@ -422,6 +424,7 @@
           if($(this).val() == 'Vanjski pružatelj usluge'){
             var staff_id = 4;
           }
+          var shelter = $("input.shelter_id").val();
 
           $.ajaxSetup({
               headers: {
@@ -433,6 +436,7 @@
               method: 'POST',
               data: {
                 'staff_id': staff_id,
+                'shelter_id': shelter,
               },
               success: function(data) {
                 $('#vetenaryStaff').html(data.html);

@@ -43,6 +43,7 @@ class AnimalItemCareEndController extends Controller
             'fullCare' => $fullCare,
             'totalDays' => $totalDays, 'date' => $date,
             'solitaryGroup' => $solitaryGroup,
+            'shelter' => $shelter
         ]);
     }
 
@@ -56,7 +57,9 @@ class AnimalItemCareEndController extends Controller
         } 
         else {
             $html = '';
-            $shelterStaff = ShelterStaff::where('shelter_staff_type_id', $request->staff_id)->get();
+            $shelterStaff = ShelterStaff::where('shelter_staff_type_id', $request->staff_id)
+                            ->where('shelter_id', $request->shelter_id)
+                            ->get();
 
             $html = '<option value="">-----</option>';
             foreach ($shelterStaff as $item) {

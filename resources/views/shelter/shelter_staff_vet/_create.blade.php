@@ -40,13 +40,13 @@
                   </div>
                  </div>
       
-                <div class="form-group doctor staff_form_group">
+                <div class="form-group">
                   <label for="name">Ime i prezime</label>
                   <input type="text" class="form-control"  name="staff_vet_name" placeholder="Ime i prezime doktora veterinarske medicine">
                   <input type="hidden" name="shelter_id" value="{{ $shelter->id }}">
                  </div>
 
-                 <div class="form-group ambulance staff_form_group">
+                 <div class="form-group">
                   <label for="name">Naziv veterinarske ambulante</label>
                   <input type="text" class="form-control"  name="staff_vet_ambulance" placeholder="Naziv veterinarske ambulante/organizacije">
                   <input type="hidden" name="shelter_id" value="{{ $shelter->id }}">
