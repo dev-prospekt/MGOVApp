@@ -102,7 +102,7 @@ class FounderDataController extends Controller
 
     public function update(Request $request, Shelter $shelter, FounderData $founder)
     {
-        $founder->shelter_id = auth()->user()->shelter->id;
+        $founder->shelter_id = $shelter->id;
         $founder->shelter_type_id = $request->shelter_type;
         $founder->name = $request->name;
         $founder->lastname = $request->lastname;
@@ -174,7 +174,7 @@ class FounderDataController extends Controller
         }
 
         $founder = new FounderData;
-        $founder->shelter_id = auth()->user()->shelter->id;
+        $founder->shelter_id = $request->shelter;
         $founder->shelter_type_id = $request->shelter_type;
         $founder->name = $request->name;
         $founder->lastname = $request->lastname;

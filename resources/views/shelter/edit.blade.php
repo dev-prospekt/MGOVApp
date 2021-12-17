@@ -159,7 +159,8 @@
                             <div class="form-group">
                                 <label class="control-label">Datum ovlaštenja oporavilišta</label>
                                 <div class="input-group date datepicker" id="dateRegister">
-                                    <input type="text" class="form-control register_date" name="register_date" value="{{ $shelter->register_date }}"><span class="input-group-addon"><i data-feather="calendar"></i></span>
+                                    <input type="hidden" id="register_date" value="{{ $shelter->register_date }}">
+                                    <input type="text" class="form-control register_date" name="register_date" ><span class="input-group-addon"><i data-feather="calendar"></i></span>
                                     @error('register_date')
                                     <div class="text-danger">{{$errors->first('register_date') }} </div>
                                     @enderror
@@ -196,32 +197,31 @@
 
 <script>
     // Setup maxlength
-  $('.oib-field').maxlength({
-      alwaysShow: true,
-      validate: false,
-      allowOverMax: true,
-      customMaxAttribute: "90"
-  });
-  $('.iban-field').maxlength({
-      alwaysShow: true,
-      validate: false,
-      allowOverMax: true,
-      customMaxAttribute: "90"
-  });
-  $('.shelter_code_field').maxlength({
-      alwaysShow: true,
-      validate: false,
-      allowOverMax: true,
-      customMaxAttribute: "90"
-  });
+    $('.oib-field').maxlength({
+        alwaysShow: true,
+        validate: false,
+        allowOverMax: true,
+        customMaxAttribute: "90"
+    });
+    $('.iban-field').maxlength({
+        alwaysShow: true,
+        validate: false,
+        allowOverMax: true,
+        customMaxAttribute: "90"
+    });
+    $('.shelter_code_field').maxlength({
+        alwaysShow: true,
+        validate: false,
+        allowOverMax: true,
+        customMaxAttribute: "90"
+    });
 
-  //edit registered date
-  var dateValue = $("div#dateRegister").find(".register_date").val();
-  console.log(dateValue);
-  $("#dateRegister").datepicker({
-    format: 'mm/dd/yyyy',
-    autoclose: true
-    }).datepicker("update", dateValue);
+    //edit registered date
+    $("#dateRegister").datepicker({
+        format: 'mm/dd/yyyy',
+        autoclose: true
+    });
+    $("#dateRegister").datepicker('setDate', $("input#register_date")val());
 
 </script>
 @endpush
