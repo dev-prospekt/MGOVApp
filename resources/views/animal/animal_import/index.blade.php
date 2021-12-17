@@ -9,7 +9,7 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center flex-wrap grid-margin">
   <div>
-      <h4 class="mb-3 mb-md-0">Upload podataka</h4>
+      <h4 class="mb-3 mb-md-0">Učitavanje podataka</h4>
       <p class="text-muted">Napomena: prije samih jedinki učitajte <span class="text-info">prvo redove</span> , <span class="text-info">zatim porodice u sustav</span> </p>
   </div>
 </div>
@@ -40,7 +40,7 @@
                 @enderror
               </div>
      
-              <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite Rezultate</button>
+              <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite rezultate</button>
             </form>
           </div>
         </div>
@@ -67,7 +67,7 @@
                   @enderror
                 </div>
        
-                <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite Rezultate</button>
+                <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite rezultate</button>
               </form>
             </div>
           </div>
@@ -94,7 +94,7 @@
                   @enderror
                 </div>
        
-                <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite Rezultate</button>
+                <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite rezultate</button>
               </form>
             </div>
           </div>
@@ -125,7 +125,7 @@
                 @enderror
               </div>
      
-              <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite Rezultate</button>
+              <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite rezultate</button>
             </form>
           </div>
         </div>
@@ -134,11 +134,11 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <p class="card-description">5. Dodaj zapljenjenih vrsta preko dokumenta (.xls, .csv)</p>
+            <p class="card-description">5. Dodaj zaplijenjenih vrsta preko dokumenta (.xls, .csv)</p>
             <form action="{{ route('animal_seized_import') }}" method="POST" enctype="multipart/form-data">
               @csrf
               <div class="form-group">
-                <label>Import Vrsta - Zaplijene</label>
+                <label>Import Vrsta - Zapljene</label>
                 <input type="file" name="animal_seized_import" class="file-upload-default">
                 <div class="input-group col-xs-12">
                   <input type="text" class="form-control file-upload-info" disabled="" placeholder="Import dokumenta">
@@ -151,7 +151,7 @@
                 @enderror
               </div>
      
-              <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite Rezultate</button>
+              <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite rezultate</button>
             </form>
           </div>
         </div>

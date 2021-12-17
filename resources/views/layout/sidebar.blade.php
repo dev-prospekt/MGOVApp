@@ -66,7 +66,7 @@
       <li class="nav-item {{ active_class(['animal_import']) }}">
         <a class="nav-link"  href="{{ url('/animal_import') }}" role="button">
           <i class="link-icon" data-feather="upload-cloud"></i>
-          <span class="link-title">Import jedinki</span>
+          <span class="link-title">Učitavanje jedinki</span>
         </a>
       </li>
       <li class="nav-item {{ active_class(['animal_order']) }}">

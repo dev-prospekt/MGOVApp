@@ -11,7 +11,7 @@
                 
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <h6 class="card-title">Zapljenjene vrste</h6>
+                        <h6 class="card-title">Zaplijenjene vrste</h6>
                        
                     </div>
                     <div>
