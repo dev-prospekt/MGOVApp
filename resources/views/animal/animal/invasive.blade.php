@@ -102,14 +102,6 @@
                 </div>  
 
                 <div class="col-md-4">
-                    <div class="form-group">
-                        <label>Način držanja - solitarno/grupa</label>
-                        <select class="form-control" name="solitary_or_group" required>
-                            <option value="">------</option>
-                            <option value="Solitarno">Solitarno</option>
-                            <option value="Grupa">Grupa</option>
-                        </select>
-                    </div>
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Eutanazija</label>
