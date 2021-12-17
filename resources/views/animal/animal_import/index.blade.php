@@ -39,7 +39,6 @@
                 <p class="text-danger mt-3">{{ $message }}</p>
                 @enderror
               </div>
-     
               <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite rezultate</button>
             </form>
           </div>
