@@ -103,9 +103,6 @@
             <li class="nav-item">
               <a href="{{ url('/shelter') }}" class="nav-link">Popis svih</a>
             </li>
-            <li class="nav-item">
-              <a href="{{ url('/user') }}" class="nav-link">Korisnici oporavilišta</a>
-            </li>
 
             <li class="nav-item">
               <a href="{{ route('shelters.founders.index', auth()->user()->shelter->id) }}" class="nav-link">Nalaznici</a>
