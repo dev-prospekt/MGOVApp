@@ -136,7 +136,8 @@ $(function() {
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
         },
-        pageLength: 10
+        pageLength: 10,
+        order: [[ 0, "desc" ]],
     });
 
     // Premještaj Item

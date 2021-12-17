@@ -27,7 +27,6 @@ class AnimalItemPostRequest extends FormRequest
         return [
             'animal_dob' => "required",
             'animal_gender' => "required",
-            'animal_size_attributes_id' => "required",
         ];
     }
 
@@ -36,7 +35,6 @@ class AnimalItemPostRequest extends FormRequest
         return [
             'animal_dob.required' => 'Dob jedinke je obavezan podatak.',
             'animal_gender.required' => 'Spol je obavezan podatak.',
-            'animal_size_attributes_id.required' => 'Veličina je obavezan podatak.',
         ];
     }
 }
