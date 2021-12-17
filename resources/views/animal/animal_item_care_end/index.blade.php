@@ -414,8 +414,8 @@
             autoclose: true,
         });
 
+        // Veterirani
         $("input.euthanasia_type").on('click',function(){
-
           if($(this).val() == 'Izvedeno u oporavilištu'){
             var staff_id = 3;
           }
@@ -439,6 +439,7 @@
               }
           });
         });
+        // Veterirani
 
         $("#releaseLocation").hide();
         $("#permanentKeepName").hide();
