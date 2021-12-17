@@ -22,6 +22,7 @@
         </a> 
     </div>
   </div>
+  
   <ul class="nav shelter-nav">
     <li class="nav-item">
       <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.show', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">{{ $animalItem->animal->name }} - {{ $animalItem->animal->latin_name }}</a>
