@@ -89,7 +89,7 @@
             <div class="form-group" id="euthanasiaShelter">
               <div class="form-check">
                 <label class="form-check-label">
-                  <input checked type="radio" class="form-check-input euthanasia_type" name="euthanasia_type" id="euthanasiaShelterType" value="Izvedeno u oporavilištu">
+                  <input type="radio" class="form-check-input euthanasia_type" name="euthanasia_type" id="euthanasiaShelterType" value="Izvedeno u oporavilištu">
                   Izvedeno u oporavilištu
                   <i class="input-frame"></i></label>
               </div>
@@ -103,10 +103,9 @@
               
               <div class="form-group">
                 <label for="">Odabir Veterinara/Službe</label>
-                <select class="form-control" name="vetenaryStaff" id="">
-                 
-                  <option value="">---</option>
-                  <option value="{{ $vetenaryStaff['id'] ?? '' }}">{{ $vetenaryStaff['name'] ?? '' }}</option>
+                <select class="form-control" id="vetenaryStaff" name="vetenaryStaff" id="">
+                  {{-- <option value="">---</option>
+                  <option value="{{ $vetenaryStaff['id'] ?? '' }}">{{ $vetenaryStaff['name'] ?? '' }}</option> --}}
                 </select>
               </div>
 
@@ -415,6 +414,32 @@
             autoclose: true,
         });
 
+        $("input.euthanasia_type").on('click',function(){
+
+          if($(this).val() == 'Izvedeno u oporavilištu'){
+            var staff_id = 3;
+          }
+          if($(this).val() == 'Vanjski pružatelj usluge'){
+            var staff_id = 4;
+          }
+
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+              }
+          });
+          $.ajax({
+              url: "{{ route('getVet') }}",
+              method: 'POST',
+              data: {
+                'staff_id': staff_id,
+              },
+              success: function(data) {
+                $('#vetenaryStaff').html(data.html);
+              }
+          });
+        });
+
         $("#releaseLocation").hide();
         $("#permanentKeepName").hide();
         $("#euthanasiaShelter").hide();
@@ -431,12 +456,14 @@
             id == 4 ?  $("#careEndOther").show() : $("#careEndOther").hide();                          
         });
 
-        $("input[name=euthanasia_type]").change(function(){
+        $("input.euthanasia_type").change(function(){
           if($("#euthanasiaOuterType").is(':checked')){
-              $("#euthanasiaPrice").show();
-          }else if($("#euthanasiaShelterType").is(':checked')){
+            $("#euthanasiaPrice").show();
+          }
+          else if($("#euthanasiaShelterType").is(':checked')){
             $("#euthanasiaPrice").hide();
-          } else {
+          } 
+          else {
             $("#euthanasiaPrice").hide();
           }
         });
