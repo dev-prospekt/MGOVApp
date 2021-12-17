@@ -12,10 +12,7 @@
         <h5 class="mb-3 mb-md-0">{{ isset($founders[0]) ? $founders[0]->shelter->name : '' }}</h5>
     </div>
     <div>      
-       <a href="#" type="button" class="btn btn-primary btn-sm btn-icon-text">
-          Povratak na popis
-          <i class="btn-icon-append" data-feather="clipboard"></i>
-        </a> 
+     
     </div>
   </div>
 <div class="row">
@@ -29,7 +26,7 @@
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
-                        <a href="{{ route('shelters.founders.create', $shelter->id) }}" class="create btn btn-primary">Dodaj</a>
+                        <a href="{{ route('shelters.founders.create', $shelter->id) }}" class="create btn btn-sm btn-primary">Dodaj novog</a>
                     </div>
                 </div>
 
@@ -56,8 +53,8 @@
                                 <th>ADRESA</th>
                                 <th>KONTAKT</th>
                                 <th>SLUŽBA</th>
-                                <th>OSTALO</th>
-                                <th>ACTION</th>
+    
+                                <th>Akcija</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -95,7 +92,6 @@
                 { data: 'address', name: 'address'},
                 { data: 'contact', name: 'contact'},
                 { data: 'service', name: 'service'},
-                { data: 'others', name: 'others'},
                 { data: 'action', name: 'action'},
             ],
             language: {
@@ -116,6 +112,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
+                cancelButtonText: 'Odustani',
                 confirmButtonText: 'Da, obriši!'
             }).then((result) => {
                 if (result.isConfirmed) {

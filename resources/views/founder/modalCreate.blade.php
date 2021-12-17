@@ -115,7 +115,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label>Ako se radi o službenoj osobi, podaci o službi-naziv institucije</label>
+                                    <label>Dokumentacija vezana za nalaznika/ustanovu</label>
                                     <input type="file" id="founder_documents" name="founder_documents[]" multiple />
                                     <div id="error_founder_documents"></div>
                                 </div>

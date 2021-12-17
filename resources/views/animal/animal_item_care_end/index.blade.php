@@ -57,6 +57,8 @@
             @csrf
             @method('POST')  
 
+            <input type="hidden" class="shelter_id" name="shelter_id" value="{{ $shelter->id }}">
+
             <div class="form-group mt-2">
               <label>Datum prestanka skrbi o životinji</label>
               <div class="input-group date datepicker" id="dateEndcarePicker">
@@ -89,7 +91,7 @@
             <div class="form-group" id="euthanasiaShelter">
               <div class="form-check">
                 <label class="form-check-label">
-                  <input checked type="radio" class="form-check-input euthanasia_type" name="euthanasia_type" id="euthanasiaShelterType" value="Izvedeno u oporavilištu">
+                  <input type="radio" class="form-check-input euthanasia_type" name="euthanasia_type" id="euthanasiaShelterType" value="Izvedeno u oporavilištu">
                   Izvedeno u oporavilištu
                   <i class="input-frame"></i></label>
               </div>
@@ -103,10 +105,9 @@
               
               <div class="form-group">
                 <label for="">Odabir Veterinara/Službe</label>
-                <select class="form-control" name="vetenaryStaff" id="">
-                 
-                  <option value="">---</option>
-                  <option value="{{ $vetenaryStaff['id'] ?? '' }}">{{ $vetenaryStaff['name'] ?? '' }}</option>
+                <select class="form-control" id="vetenaryStaff" name="vetenaryStaff" id="">
+                  {{-- <option value="">---</option>
+                  <option value="{{ $vetenaryStaff['id'] ?? '' }}">{{ $vetenaryStaff['name'] ?? '' }}</option> --}}
                 </select>
               </div>
 
@@ -244,6 +245,13 @@
             <h6 class="card-title">Podaci skrbi</h6>
           </div> 
 
+          <div>
+            @if ($animalItem->animal_item_care_end_status == false)
+              @if ($animalItem->animal->animalType->first()->type_code == 'IJ')
+                <p class="text-danger">Za invazivne jedinke se ne računa cijena osim ako je eutanazija</p>
+              @endif
+            @endif
+          </div>
              
           @if($msg = Session::get('update_animal_item'))
           <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
@@ -415,6 +423,35 @@
             autoclose: true,
         });
 
+        // Veterirani
+        $("input.euthanasia_type").on('click',function(){
+          if($(this).val() == 'Izvedeno u oporavilištu'){
+            var staff_id = 3;
+          }
+          if($(this).val() == 'Vanjski pružatelj usluge'){
+            var staff_id = 4;
+          }
+          var shelter = $("input.shelter_id").val();
+
+          $.ajaxSetup({
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+              }
+          });
+          $.ajax({
+              url: "{{ route('getVet') }}",
+              method: 'POST',
+              data: {
+                'staff_id': staff_id,
+                'shelter_id': shelter,
+              },
+              success: function(data) {
+                $('#vetenaryStaff').html(data.html);
+              }
+          });
+        });
+        // Veterirani
+
         $("#releaseLocation").hide();
         $("#permanentKeepName").hide();
         $("#euthanasiaShelter").hide();
@@ -431,12 +468,14 @@
             id == 4 ?  $("#careEndOther").show() : $("#careEndOther").hide();                          
         });
 
-        $("input[name=euthanasia_type]").change(function(){
+        $("input.euthanasia_type").change(function(){
           if($("#euthanasiaOuterType").is(':checked')){
-              $("#euthanasiaPrice").show();
-          }else if($("#euthanasiaShelterType").is(':checked')){
+            $("#euthanasiaPrice").show();
+          }
+          else if($("#euthanasiaShelterType").is(':checked')){
             $("#euthanasiaPrice").hide();
-          } else {
+          } 
+          else {
             $("#euthanasiaPrice").hide();
           }
         });

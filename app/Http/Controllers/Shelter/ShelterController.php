@@ -39,7 +39,7 @@ class ShelterController extends Controller
                     return '
                     <div class="d-flex align-items-center">
                         <a href="shelter/' . $shelter->id . '" class="btn btn-xs btn-info mr-2"> 
-                            Podatci
+                            Podaci
                         </a>
                     
                         <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-primary mr-2"> 
@@ -166,7 +166,7 @@ class ShelterController extends Controller
                     return '
                     <div class="d-flex align-items-center">
                         <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
-                            Info
+                            Podaci
                         </a>
                         <a href="javascript:void(0)" data-href="' . $deleteURL . '" id="animal_group_delete" class="btn btn-xs btn-danger" >
                             Brisanje

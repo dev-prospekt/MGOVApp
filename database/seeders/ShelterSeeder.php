@@ -33,5 +33,7 @@ class ShelterSeeder extends Seeder
             'register_date' => Carbon::now(),
             'shelter_code' => 'AQP'
         ]);
+        $shelter1->shelterTypes()->attach([1, 2, 3]);
+        $shelter1->animalSystemCategory()->attach([1, 3]);
     }
 }

@@ -18,8 +18,8 @@ class FounderDataController extends Controller
     public function index(Request $request, Shelter $shelter)
     {
         $founders = FounderData::with('shelter')->where('shelter_id', $shelter->id)->get();
-        
-        if($request->ajax()){
+
+        if ($request->ajax()) {
             return Datatables::of($founders)
                 ->addColumn('action', function ($founder) {
                     $deleteUrl = route('shelters.founders.destroy', [$founder->shelter->id, $founder->id]);
@@ -27,15 +27,16 @@ class FounderDataController extends Controller
 
                     return '
                     <div class="d-flex align-items-center">
-                        <a href="javascript:void()" class="trash btn btn-xs btn-danger mr-2" data-href="' . $deleteUrl . '">
-                            <i class="mdi mdi-tooltip-trash"></i> 
-                            Delete
-                        </a>
-
                         <a href="' . $editUrl . '" class="edit btn btn-xs btn-info mr-2">
                             <i class="mdi mdi-tooltip-edit"></i> 
-                            Edit
+                            Uredi
                         </a>
+                        <a href="javascript:void()" class="trash btn btn-xs btn-danger mr-2" data-href="' . $deleteUrl . '">
+                            <i class="mdi mdi-tooltip-trash"></i> 
+                            Brisanje
+                        </a>
+
+                       
                     </div>
                     ';
                 })->make(true);
@@ -47,21 +48,21 @@ class FounderDataController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(Shelter $shelter)
     {
         $type = ShelterType::all();
 
         return view('founder.create', [
-            'type' => $type
+            'type' => $type,
+            'shelter' => $shelter,
         ]);
     }
 
     public function store(FounderDataRequest $request)
     {
         try {
-
             $founder = new FounderData;
-            $founder->shelter_id = auth()->user()->shelter->id;
+            $founder->shelter_id = $request->shelter;
             $founder->shelter_type_id = $request->shelter_type;
             $founder->name = $request->name;
             $founder->lastname = $request->lastname;
