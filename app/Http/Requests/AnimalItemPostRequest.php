@@ -25,20 +25,16 @@ class AnimalItemPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'animal_size_attributes_id' => "required",
             'animal_dob' => "required",
             'animal_gender' => "required",
-            'location' => "required",
         ];
     }
 
     public function messages()
     {
         return [
-            'animal_size_attributes_id.required' => 'Veličina je obavezan podatak.',
             'animal_dob.required' => 'Dob jedinke je obavezan podatak.',
             'animal_gender.required' => 'Spol je obavezan podatak.',
-            'location.required' => 'Lokacija je obavezan podatak.',
         ];
     }
 }

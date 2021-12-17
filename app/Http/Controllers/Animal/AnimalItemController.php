@@ -148,10 +148,8 @@ class AnimalItemController extends Controller
     public function update(AnimalItemPostRequest $request, $id)
     {
         $animalItem = AnimalItem::findOrFail($id);
-        $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
-        $animalItem->animal_dob = $request->animal_dob;
+        $animalItem->animal_age = $request->animal_dob;
         $animalItem->animal_gender = $request->animal_gender;
-        $animalItem->location = $request->location;
         $animalItem->save();
 
         return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
