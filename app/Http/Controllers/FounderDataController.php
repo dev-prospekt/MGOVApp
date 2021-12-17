@@ -60,7 +60,6 @@ class FounderDataController extends Controller
     public function store(FounderDataRequest $request)
     {
         try {
-
             $founder = new FounderData;
             $founder->shelter_id = $request->shelter;
             $founder->shelter_type_id = $request->shelter_type;
