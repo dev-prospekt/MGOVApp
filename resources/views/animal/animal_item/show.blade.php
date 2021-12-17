@@ -283,7 +283,7 @@
                   </div>
                 </div>
 
-                @if($animalItem->full_care_status == 1)
+                @if ($animalItem->full_care_status == 1)
                   <div class="row">
                       <div class="col-md-12">
                           <div class="form-group" id="period">
