@@ -106,6 +106,9 @@ class ShelterController extends Controller
     {
         $shelter = Shelter::create($request->all());
 
+        $shelter->register_date = Carbon::createFromFormat('m/d/Y', $request->register_date);
+        $shelter->save();
+
         $shelter->shelterTypes()->attach($request->shelter_type_id, [
             'shelter_id' => $shelter->id
         ]);
