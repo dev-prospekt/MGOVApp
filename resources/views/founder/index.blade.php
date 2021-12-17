@@ -42,7 +42,7 @@
                 </div>
                 @endif
 
-                <div class="table-responsive table-responsive-sm">
+                <div class="table-responsive-sm">
                     <table class="table" id="founder-table">
                         <thead>
                             <tr>
