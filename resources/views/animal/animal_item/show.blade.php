@@ -281,7 +281,6 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
 
                 @if ($animalItem->full_care_status == 1)
