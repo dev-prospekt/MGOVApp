@@ -27,7 +27,7 @@ class ShelterPostRequest extends FormRequest
         return [
             'name' => ['required'],
             'email' => ['required', 'email'],
-            'shelter_code' => ['required', 'max:5'],
+            'shelter_code' => ['required'],
             'place_zip' => ['required'],
             'address' => ['required'],
             'telephone' => ['required'],

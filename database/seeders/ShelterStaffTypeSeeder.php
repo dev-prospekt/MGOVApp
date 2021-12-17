@@ -27,6 +27,10 @@ class ShelterStaffTypeSeeder extends Seeder
         ]);
 
         ShelterStaffType::create([
+            'name' => 'vanjski pružatelj veterinarske usluge'
+        ]);
+
+        ShelterStaffType::create([
             'name' => 'skrb-ostali'
         ]);
     }

@@ -19,8 +19,6 @@
     </div>
   </div>
 <div class="row">
-    @dump($founders)
-
     <div class="col-lg-12 col-xl-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">

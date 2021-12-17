@@ -12,7 +12,6 @@ class ShelterVetStaffController extends Controller
 {
     public function store(Request $request)
     {
-
         $validator = Validator::make($request->all(), [
             'staff_vet_oib' => 'required',
             'staff_vet_address' => 'required',
@@ -32,10 +31,10 @@ class ShelterVetStaffController extends Controller
             return response()->json(['errors' => $validator->errors()->all()]);
         }
 
-        $shelterStaffType = ShelterStaffType::where('name', 'veterinar oporavilišta')->first();
+        $shelterStaffType = ($request->staff_vet_type == 'doctor') ? 3 : 4;
 
         $shelterStaff = ShelterStaff::create([
-            'shelter_staff_type_id' => $shelterStaffType->id,
+            'shelter_staff_type_id' => $shelterStaffType,
             'shelter_id' => $request->shelter_id,
             'name' => $request->staff_vet_name ? $request->staff_vet_name : $request->staff_vet_ambulance,
             'oib' => $request->staff_vet_oib,
