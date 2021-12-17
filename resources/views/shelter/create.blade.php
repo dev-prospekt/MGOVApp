@@ -192,7 +192,6 @@
                                 </div>             
                             </div><!-- Row -->
                             
-        
                             <button type="submit" class="btn btn-primary submit">Spremi osnovne informacije</button>
                         </form>         
                     </div>
