@@ -27,7 +27,7 @@ class AnimalItemPostRequest extends FormRequest
         return [
             'animal_dob' => "required",
             'animal_gender' => "required",
-            'animal_size_attributes_id' => "required"
+            'animal_size_attributes_id' => "required",
         ];
     }
 
