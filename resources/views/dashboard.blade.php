@@ -52,7 +52,7 @@
       <div class="col-md-3 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
-            <h6 class="card-title mb-2">Podizanje podataka</h6>
+            <h6 class="card-title mb-2">Učitavanje podataka</h6>
             <p class="card-description">Učitavanje redova, porodica, jedinki (xls)</p>
               <a href="/animal_import" type="button" class="btn btn-primary btn-sm mr-2 mt-2">Pregled</a>
           </div>

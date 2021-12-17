@@ -23,8 +23,8 @@
                     <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                 </div>
                 <div>
-                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#CreateCatModal">Dodaj Novu Porodicu</button>
-                    <a href="{{ route('animal_import.index') }}" class="btn btn-sm btn-warning">Import Podataka</a>
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#CreateCatModal">Dodaj novu porodicu</button>
+                    <a href="{{ route('animal_import.index') }}" class="btn btn-sm btn-warning">Učitavanje podataka</a>
                 </div>
             </div>
                                                    
@@ -52,7 +52,7 @@
       <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Kreiraj Novu Porodicu</h4>
+              <h4 class="modal-title">Kreiraj novu porodicu</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
           <!-- Modal body -->
@@ -99,7 +99,7 @@
       <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Izmjena Porodice</h4>
+              <h4 class="modal-title">Izmjena porodice</h4>
               <button type="button" class="close modelClose" data-dismiss="modal">&times;</button>
           </div>
           <!-- Modal body -->
@@ -134,7 +134,7 @@
       <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Brisanje Porodicaa</h4>
+              <h4 class="modal-title">Brisanje porodicaa</h4>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
           
           </div>

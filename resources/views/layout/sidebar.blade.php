@@ -59,7 +59,7 @@
       <li class="nav-item {{ active_class(['zj_animal_type']) }}">
         <a class="nav-link"  href="{{ url('/zj_animal_type') }}" role="button">
           <i class="link-icon" data-feather="key"></i>
-          <span class="link-title">Zapljenjene vrste</span>
+          <span class="link-title">Zaplijenjene vrste</span>
         </a>
       </li>
 
@@ -67,7 +67,7 @@
       <li class="nav-item {{ active_class(['animal_import']) }}">
         <a class="nav-link"  href="{{ url('/animal_import') }}" role="button">
           <i class="link-icon" data-feather="upload-cloud"></i>
-          <span class="link-title">Import jedinki</span>
+          <span class="link-title">Učitavanje jedinki</span>
         </a>
       </li>
       <li class="nav-item {{ active_class(['animal_order']) }}">

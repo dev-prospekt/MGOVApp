@@ -51,7 +51,7 @@
       <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Kreiraj Cijene</h4>
+              <h4 class="modal-title">Kreiraj cijene</h4>
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
           </div>
           <!-- Modal body -->
@@ -143,7 +143,7 @@
       <div class="modal-content">
           <!-- Modal Header -->
           <div class="modal-header">
-              <h4 class="modal-title">Brisanje Cijene</h4>
+              <h4 class="modal-title">Brisanje cijene</h4>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
           
           </div>
