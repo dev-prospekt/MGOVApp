@@ -274,14 +274,16 @@ class AnimalItemController extends Controller
         $newAnimalItem->save();
         $newAnimalItem->update(['animal_code' => $newAnimalGroup->shelter_code . '-j-' . $newAnimalItem->id]);
 
-        // Duplicate solitary group date
-        $animalItemsDateSolitaryGroup = $animal_items->dateSolitaryGroups;
-        if ($animalItemsDateSolitaryGroup) {
-            $newAnimalItem->dateSolitaryGroups()->create([
-                'start_date' => Carbon::now(),
-                'end_date' => null,
-                'solitary_or_group' => $animal_items->dateSolitaryGroups()->latest()->take(1)->first()->solitary_or_group,
-            ]);
+        if($animalItem->animal->animalType->first()->type_code != 'IJ'){
+            // Duplicate solitary group date
+            $animalItemsDateSolitaryGroup = $animal_items->dateSolitaryGroups;
+            if ($animalItemsDateSolitaryGroup) {
+                $newAnimalItem->dateSolitaryGroups()->create([
+                    'start_date' => Carbon::now(),
+                    'end_date' => null,
+                    'solitary_or_group' => $animal_items->dateSolitaryGroups()->latest()->take(1)->first()->solitary_or_group,
+                ]);
+            }
         }
 
         // Copy mark_type
