@@ -41,7 +41,13 @@ class ShelterStaff extends Model implements HasMedia
     {
         return $query->where('shelter_id', $shelter_id)->get()
             ->filter(function ($item) {
-                return $item->shelter_staff_type_id == 3;
+                if($item->shelter_staff_type_id == 3){
+                    return $item;
+                }
+                
+                if($item->shelter_staff_type_id == 4) {
+                    return $item;
+                }
             });
     }
 
@@ -49,7 +55,7 @@ class ShelterStaff extends Model implements HasMedia
     {
         return $query->where('shelter_id', $shelter_id)->get()
             ->filter(function ($item) {
-                return $item->shelter_staff_type_id == 4;
+                return $item->shelter_staff_type_id == 5;
             });
     }
 

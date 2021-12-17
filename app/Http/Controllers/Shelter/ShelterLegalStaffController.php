@@ -72,7 +72,6 @@ class ShelterLegalStaffController extends Controller
             'staff_legal_phone' => 'required',
             'staff_legal_phone_cell' => 'required',
             'staff_legal_email' => 'required',
-            'staff_legal_file' => 'required',
         ], [
             'staff_legal_name.required' => 'Ime i prezime je obvezan podatak',
             'staff_legal_oib.required' => 'OIB obvezan podatak',
@@ -80,7 +79,6 @@ class ShelterLegalStaffController extends Controller
             'staff_legal_phone.required' => 'Kontakt telefon je obvezan podatak',
             'staff_legal_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
             'staff_legal_email.required' => 'Email adresa je obvezan podatak',
-            'staff_legal_file.required' => 'Uvjerenje - kazneni postupak je obvezan podatak',
         ]);
 
         if ($validator->fails()) {

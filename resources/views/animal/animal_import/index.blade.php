@@ -67,7 +67,7 @@
                   @enderror
                 </div>
        
-                <button type="submit" class="btn btn-warning mr-2 mt-2">Spremite Rezultate</button>
+                <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite Rezultate</button>
               </form>
             </div>
           </div>
@@ -94,7 +94,7 @@
                   @enderror
                 </div>
        
-                <button type="submit" class="btn btn-warning mr-2 mt-2">Spremite Rezultate</button>
+                <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite Rezultate</button>
               </form>
             </div>
           </div>
@@ -125,7 +125,7 @@
                 @enderror
               </div>
      
-              <button type="submit" class="btn btn-warning mr-2 mt-2">Spremite Rezultate</button>
+              <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite Rezultate</button>
             </form>
           </div>
         </div>
@@ -151,7 +151,7 @@
                 @enderror
               </div>
      
-              <button type="submit" class="btn btn-warning mr-2 mt-2">Spremite Rezultate</button>
+              <button type="submit" class="btn btn-sm btn-warning mr-2 mt-2">Spremite Rezultate</button>
             </form>
           </div>
         </div>

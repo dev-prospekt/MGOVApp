@@ -112,7 +112,7 @@
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Uvjerenje protiv kaznenog postupka:</label>        
                   <div class="d-md-block mt-2">
                       @if ($fileLegal)
-                      <i data-feather="paperclip" class="text-muted"></i> <a href="{{ $fileLegal->getUrl() }}"> {{ $fileLegal->file_name }}  </a>
+                      <i data-feather="paperclip" class="text-muted"></i> <a href="{{ $fileLegal->getUrl() }}" target="_blank">{{ $fileLegal->file_name }}</a>
                       @endif     
                   </div>
               </div>
@@ -342,28 +342,26 @@
                       </thead>
                       <tbody>
                         @if ($shelterPersonelStaff)
-                        
-                        @foreach($shelterPersonelStaff as $staff)   
-                        <tr>
-                          <td>{{ $staff->name }}</td>
-                          <td>{{ $staff->oib }}</td>
-                          <td>{{ $staff->address }}</td>
-                          <td>{{ $staff->address_place }}</td>
-                          <td>{{ $staff->phone }}</td>
-                          <td>{{ $staff->phone_cell }}</td>
-                          <td>{{ $staff->email }}</td>
-                          <td>{{ $staff->education }}</td>
-                        
-                          <td><button type="button" class="btn btn-sm btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
-                            <i data-feather="check-square"></i>
-                          </button>        
-                          <button type="button" id="deletePersonelStaff" type="button" class="btn btn-sm btn-danger btn-icon" 
-                            data-id="{{ $staff->id ?? ''  }}">
-                              <i data-feather="box"></i>
-                            </button></td>
-                        </tr>
-                        @endforeach
-                      
+                          @foreach($shelterPersonelStaff as $staff)   
+                          <tr>
+                            <td>{{ $staff->name }}</td>
+                            <td>{{ $staff->oib }}</td>
+                            <td>{{ $staff->address }}</td>
+                            <td>{{ $staff->address_place }}</td>
+                            <td>{{ $staff->phone }}</td>
+                            <td>{{ $staff->phone_cell }}</td>
+                            <td>{{ $staff->email }}</td>
+                            <td>{{ $staff->education }}</td>
+                          
+                            <td><button type="button" class="btn btn-sm btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
+                              <i data-feather="check-square"></i>
+                            </button>        
+                            <button type="button" id="deletePersonelStaff" type="button" class="btn btn-sm btn-danger btn-icon" 
+                              data-id="{{ $staff->id ?? ''  }}">
+                                <i data-feather="box"></i>
+                              </button></td>
+                          </tr>
+                          @endforeach
                         @endif
                       </tbody>
                   </table>

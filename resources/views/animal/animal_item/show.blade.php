@@ -142,7 +142,7 @@
                     </div>
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum pronalaska:</label>
-                      <p class="text-info">{{ $animalItem->animal_date_found->format('d.m.Y') ?? '' }}</p>
+                      <p class="text-info">{{ isset($animalItem->animal_date_found) ? $animalItem->animal_date_found->format('d.m.Y') : '' }}</p>
                     </div>
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način držanja:</label>

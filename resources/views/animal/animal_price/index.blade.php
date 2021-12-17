@@ -15,7 +15,7 @@
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
-                        <button class="btn btn-primary add-price" data-toggle="modal" data-target="#CreateSizeModal">Dodaj Cijene</button>
+                        <button class="btn btn-primary btn-sm add-price" data-toggle="modal" data-target="#CreateSizeModal">Dodaj u cjenik</button>
                     </div>
                 </div>
 

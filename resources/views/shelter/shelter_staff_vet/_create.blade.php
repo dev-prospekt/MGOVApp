@@ -28,13 +28,13 @@
                   <div class="form-check">
                     <label class="form-check-label">
                       <input type="radio" class="form-check-input staff_vet_type" name="staff_vet_type" id="staffVetType" value="doctor">
-                      Fizička osoba pri pravnoj osobi podnositelju prijave
+                      Veterinar oporavilišta
                     <i class="input-frame"></i></label>
                   </div>
 
                   <div class="form-check ambulance">
                     <label class="form-check-label">
-                      <input type="radio" class="form-check-input staff_vet_type" name="staff_vet_type" id="staffVetType" value="ambulance">
+                      <input type="radio" class="form-check-input staff_vet_type" name="staff_vet_type" id="staffVetType" value="out_doctor">
                       Vanjski pružatelj veterinarske usluge
                     <i class="input-frame"></i></label>
                   </div>

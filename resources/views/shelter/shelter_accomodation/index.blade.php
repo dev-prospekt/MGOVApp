@@ -71,14 +71,12 @@
                 <td>{{ $shelterItem->dimensions }}</td>
                 <td>
                   <div class="d-flex align-items-center">
-                    <a href="{{ route('shelters.accomodations.show', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-primary mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
-                        Pregled
+                    <a href="{{ route('shelters.accomodations.show', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-info mr-2">
+                      Podatci
                     </a>
                 
-                    <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-warning mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
-                        Uredi
+                    <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-primary mr-2">
+                      Uredi
                     </a>
                 </div>  
                 </td>

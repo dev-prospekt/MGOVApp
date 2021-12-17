@@ -39,7 +39,7 @@ class ShelterController extends Controller
                     return '
                     <div class="d-flex align-items-center">
                         <a href="shelter/' . $shelter->id . '" class="btn btn-xs btn-info mr-2"> 
-                            Info
+                            Podatci
                         </a>
                     
                         <a href="shelter/' . $shelter->id . '/edit" class="btn btn-xs btn-primary mr-2"> 
@@ -48,7 +48,7 @@ class ShelterController extends Controller
 
                         <a href="javascript:void(0)" id="shelterClick" class="btn btn-xs btn-danger" >
                             <input type="hidden" id="shelter_id" value="' . $shelter->id . '" />
-                            Brisanje
+                            Obriši
                         </a>
                     </div>
                     ';
@@ -218,7 +218,7 @@ class ShelterController extends Controller
         $shelter->oib = $request->oib;
         $shelter->place_zip = $request->place_zip;
         $shelter->bank_name = $request->bank_name;
-        $shelter->register_date =  Carbon::createFromFormat('m/d/Y', $request->register_date)->format('Y-m-d');
+        $shelter->register_date =  Carbon::createFromFormat('m/d/Y', $request->register_date);
         $shelter->telephone = $request->telephone;
         $shelter->mobile = $request->mobile;
         $shelter->fax = $request->fax;
@@ -248,29 +248,6 @@ class ShelterController extends Controller
 
         return response()->json(['msg' => 'success']);
         //return redirect()->route('shelter.index')->with('msg', 'Oporavilište je uspješno uklonjeno');
-    }
-
-    public function animalItems($shelterId, $code)
-    {
-
-        $animalItem = Shelter::with('animals')
-            ->findOrFail($shelterId)
-            ->animalItems()
-            ->where('shelter_code', $code)
-            ->where('status', 1)
-            ->get();
-
-        /*     $items = Shelter::findOrFail($shelterId)->with('animalItems')
-            ->whereHas('animalItems', function ($q) use ($code) {
-                $q->where('shelter_code', $code);
-                $q->where('status', 1);
-            })
-
-            ->get(); */
-
-        $shelters = Shelter::all();
-
-        return view('animal.animal_item.show', compact('animalItem', 'shelters'));
     }
 
     public function getShelterStaff(Shelter $shelter)
