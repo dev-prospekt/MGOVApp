@@ -127,7 +127,7 @@
           <span class="link-title">Korisnici</span>
           <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
-        <div class="collapse" id="users">
+        {{-- <div class="collapse" id="users">
           <ul class="nav sub-menu">
             <li class="nav-item">
               <a href="{{ url('/user') }}" class="nav-link }}">Lista</a>
@@ -136,7 +136,7 @@
               <a href="{{ url('/roleMapping') }}" class="nav-link }}">Role</a>
             </li>
           </ul>
-        </div>  
+        </div>   --}}
       </li>
     </ul>
   </div>
