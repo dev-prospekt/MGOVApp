@@ -15,7 +15,7 @@
                        
                     </div>
                     <div>
-                        <a href="{{ route("create_zj_animal_type") }}" class="btn btn-primary">Dodaj novu jedinku</a>
+                        <a href="{{ route("create_zj_animal_type") }}" class="btn btn-primary btn-sm">Dodaj novu jedinku</a>
                     </div>
                 </div>
 

@@ -22,8 +22,8 @@
                     <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                 </div>
                 <div>
-                    <button class="btn btn-primary" data-toggle="modal" data-target="#CreateOrderModal">Dodaj Novi Red</button>
-                    <a href="{{ route('animal_import.index') }}" class="btn btn-warning">Import Podataka</a>             
+                    <button class="btn btn-primary btn-sm" data-toggle="modal" data-target="#CreateOrderModal">Dodaj Novi Red</button>
+                    <a href="{{ route('animal_import.index') }}" class="btn btn-sm btn-warning">Import Podataka</a>             
                 </div>
             </div>
                                                    
