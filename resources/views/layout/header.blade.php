@@ -10,7 +10,7 @@
             <i data-feather="search"></i>
           </div>
         </div>
-        <input type="text" class="form-control" id="navbarForm" placeholder="Search here...">
+        <input type="text" class="form-control" id="navbarForm" placeholder="pretraga ...">
       </div>
     </form>
 

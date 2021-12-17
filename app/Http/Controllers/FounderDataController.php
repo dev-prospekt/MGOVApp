@@ -18,8 +18,8 @@ class FounderDataController extends Controller
     public function index(Request $request, Shelter $shelter)
     {
         $founders = FounderData::with('shelter')->where('shelter_id', $shelter->id)->get();
-        
-        if($request->ajax()){
+
+        if ($request->ajax()) {
             return Datatables::of($founders)
                 ->addColumn('action', function ($founder) {
                     $deleteUrl = route('shelters.founders.destroy', [$founder->shelter->id, $founder->id]);

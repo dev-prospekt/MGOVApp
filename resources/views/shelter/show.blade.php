@@ -27,7 +27,6 @@
 
     <div class="d-flex align-items-center justify-content-between mb-3">
       <div> <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5></div>
-      <a href="" class="btn btn-sm btn-warning">Korisnici aplikacije</a>
     </div>
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">

@@ -58,8 +58,8 @@
                                 <th>ADRESA</th>
                                 <th>KONTAKT</th>
                                 <th>SLUŽBA</th>
-                                <th>OSTALO</th>
-                                <th>ACTION</th>
+    
+                                <th>Akcija</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,7 +97,6 @@
                 { data: 'address', name: 'address'},
                 { data: 'contact', name: 'contact'},
                 { data: 'service', name: 'service'},
-                { data: 'others', name: 'others'},
                 { data: 'action', name: 'action'},
             ],
             language: {
