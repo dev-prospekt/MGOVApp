@@ -65,7 +65,7 @@ class AnimalSeizedTypeController extends Controller
                 $btn_class = 'light';
             }
 
-            return  '<button type="button" class="btn btn-' . ($btn_class) . '" data-toggle="tooltip" data-placement="left" title="' . ($code->desc) . '">
+            return  '<button type="button" class="btn btn-sm btn-' . ($btn_class) . '" data-toggle="tooltip" data-placement="left" title="' . ($code->desc) . '">
                            ' . $code->name . '
                           </button>';
 
@@ -76,7 +76,7 @@ class AnimalSeizedTypeController extends Controller
         ->addColumn('animal_type', function (Animal $animal) {
           return $animal->animalType->map(function ($type) {
 
-            return  '<button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="left" title="' . ($type->type_name) . '">
+            return  '<button type="button" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="left" title="' . ($type->type_name) . '">
                         ' . $type->type_code . '
                        </button>';
             //  return $type->type_code;
@@ -87,15 +87,10 @@ class AnimalSeizedTypeController extends Controller
           return '
                 <div class="d-flex align-items-center">
                 
-                    <a href="/zj_animal_type/' . $animal->id . '" class="btn btn-xs btn-primary mr-2">
-                        <i class="mdi mdi-tooltip-edit"></i> 
-                        Edit
+                    <a href="/zj_animal_type/' . $animal->id . '" class="btn btn-sm btn-primary mr-2"> 
+                        Uredi
                     </a>
-                    <a href="javascript:void(0)" id="bntDeleteUser" class="btn btn-xs btn-danger" >
-                        <i class="mdi mdi-delete"></i>
-                        <input type="hidden" id="userId" value="' . $animal->id . '" />
-                        Delete
-                    </a>
+                   
                 </div>
                 ';
         })

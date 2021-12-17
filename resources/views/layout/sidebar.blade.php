@@ -13,11 +13,11 @@
   <div class="sidebar-body">
     <ul class="nav">
 
-      <li class="nav-item nav-category">Home</li>
+      <li class="nav-item nav-category">Početna</li>
       <li class="nav-item {{ active_class(['/']) }}">
         <a href="{{ url('/') }}" class="nav-link">
           <i class="link-icon" data-feather="box"></i>
-          <span class="link-title">Dashboard</span>
+          <span class="link-title">Nadzorna ploča</span>
         </a>
       </li>
 
@@ -67,20 +67,20 @@
       <li class="nav-item {{ active_class(['animal_import']) }}">
         <a class="nav-link"  href="{{ url('/animal_import') }}" role="button">
           <i class="link-icon" data-feather="upload-cloud"></i>
-          <span class="link-title">Import životinja</span>
+          <span class="link-title">Import jedinki</span>
         </a>
       </li>
       <li class="nav-item {{ active_class(['animal_order']) }}">
         <a class="nav-link"  href="{{ url('/animal_order') }}" role="button">
           <i class="link-icon" data-feather="link"></i>
-          <span class="link-title">Redovi životinja</span>
+          <span class="link-title">Redovi jedinki</span>
         </a>
       </li>
 
       <li class="nav-item {{ active_class(['animal_category']) }}">
         <a class="nav-link"  href="{{ url('/animal_category') }}" role="button">
           <i class="link-icon" data-feather="link"></i>
-          <span class="link-title">Porodice životinja</span>
+          <span class="link-title">Porodice jedinki</span>
         </a>
       </li>
 
@@ -120,7 +120,7 @@
         </div>  
       </li>
 
-      <li class="nav-item nav-category">CRUD</li>
+      <li class="nav-item nav-category">Aplikacija</li>
       <li class="nav-item {{ active_class(['user']) }}">
         <a class="nav-link" data-toggle="collapse" href="#users" role="button">
           <i class="link-icon" data-feather="user"></i>
@@ -138,17 +138,6 @@
           </ul>
         </div>  
       </li>
-
-      <li class="nav-item nav-category">Docs</li>
-      <li class="nav-item">
-        <a href="https://www.nobleui.com/laravel/documentation/docs.html" target="_blank" class="nav-link">
-          <i class="link-icon" data-feather="hash"></i>
-          <span class="link-title">Documentation</span>
-        </a>
-      </li>
-
-      
-
     </ul>
   </div>
 </nav>
