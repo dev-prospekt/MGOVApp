@@ -167,8 +167,7 @@
                                     <div class="text-danger">{{$errors->first('register_date') }} </div>
                                     @enderror
                                 </div>
-                            </div> 
-                        
+                            </div>
                        
                         </div>    
                 
