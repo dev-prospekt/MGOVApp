@@ -11,11 +11,11 @@
 <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5>
     <div>
-        <a type="button" class="createFounder btn btn-primary btn-icon-text" href="javascript:void()">
+        <a type="button" class="createFounder btn btn-sm btn-primary btn-icon-text" href="javascript:void()">
             Dodaj nalaznika
             <i class="btn-icon-append" data-feather="user"></i>
         </a>
-        <a type="button" class="btn btn-warning btn-icon-text" href="/shelter/{{ $shelter->id }}">
+        <a type="button" class="btn btn-warning btn-sm btn-icon-text" href="/shelter/{{ $shelter->id }}">
             Povratak na popis
             <i class="btn-icon-append" data-feather="clipboard"></i>
         </a>

@@ -18,7 +18,7 @@
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
-                        <a href="javascript:void(0)" class="create btn btn-primary">Dodaj</a>
+                        <a href="javascript:void(0)" class="create btn btn-sm btn-primary">Dodaj korisnika</a>
                     </div>
                 </div>
 
@@ -42,7 +42,7 @@
                         <th>IME</th>
                         <th>EMAIL</th>
                         <th>OPORAVILIŠTE</th>
-                        <th>ACTION</th>
+                        <th>Akcija</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <div class="col-lg-8 col-xl-8 grid-margin stretch-card">
+{{--     <div class="col-lg-8 col-xl-8 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
                 <div class="table-responsive-sm">
@@ -64,7 +64,7 @@
                             <th>#</th>
                             <th>IME</th>
                             <th>EMAIL</th>
-                            <th>ACTION</th>
+                            <th>Akcija</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -83,7 +83,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 
 <!-- Users Modal -->

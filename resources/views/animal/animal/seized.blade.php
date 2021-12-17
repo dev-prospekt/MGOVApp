@@ -162,8 +162,40 @@
 
             <div class="row">
                 <div class="col-md-4">
-
                     <div class="bordered-group">
+                        <div class="form-group">
+                            <label>Nalaznik / služba</label>
+                            <select name="founder_id" class="form-control" required>
+                                <option selected value="{{$founder->id}}">
+                                    {{$founder->name}} {{$founder->lastname}} 
+                                    @if($founder->service != 'ostalo-navesti:')
+                                        ({{$founder->service}})
+                                    @else
+                                        ({{$founder->others}})
+                                    @endif
+                                </option>
+                            </select>
+                        </div>
+                    <div class="form-group">
+                        <label>Dodatna napomena</label>
+                        <input type="text" name="founder_note" class="form-control">
+                    </div>
+                    </div>
+
+                    <div class="bordered-group mt-2">                     
+                        <div class="form-group">
+                            <label>Vrsta i broj dokumenta temeljem koga je izvršena zapljena</label>
+                            <input type="text" class="form-control" name="seized_doc">
+                        </div>
+                        <div class="form-group">
+                            <label>Upload</label>
+                            <input type="file" id="vrsta_broj_dokumenta" name="seized_doc_type[]" multiple />
+                            <div id="error_vrsta_broj_dokumenta"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="bordered-group">
                         <div class="form-group">
                             <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
                             <select name="status_receiving" class="form-control" required>
@@ -197,42 +229,7 @@
                         </div> 
                     </div>
                 </div>  
-                
-                <div class="col-md-4">
-                    <div class="bordered-group">
-                        <div class="form-group">
-                            <label>Nalaznik / služba</label>
-                            <select name="founder_id" class="form-control" required>
-                                <option selected value="{{$founder->id}}">
-                                    {{$founder->name}} {{$founder->lastname}} 
-                                    @if($founder->service != 'ostalo-navesti:')
-                                        ({{$founder->service}})
-                                    @else
-                                        ({{$founder->others}})
-                                    @endif
-                                </option>
-                            </select>
-                        </div>
-                    <div class="form-group">
-                        <label>Dodatna napomena</label>
-                        <input type="text" name="founder_note" class="form-control">
-                    </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="bordered-group">                     
-                        <div class="form-group">
-                            <label>Vrsta i broj dokumenta temeljem koga je izvršena zapljena</label>
-                            <input type="text" class="form-control" name="seized_doc">
-                        </div>
-                        <div class="form-group">
-                            <label>Upload</label>
-                            <input type="file" id="vrsta_broj_dokumenta" name="seized_doc_type[]" multiple />
-                            <div id="error_vrsta_broj_dokumenta"></div>
-                        </div>
-                    </div>
-                </div>
+                 
             </div>
             <div class="row mt-3">
                 <div class="col-md-12">
