@@ -274,8 +274,8 @@ class AnimalItemController extends Controller
         $newAnimalItem->save();
         $newAnimalItem->update(['animal_code' => $newAnimalGroup->shelter_code . '-j-' . $newAnimalItem->id]);
 
+        // Duplicate solitary group date
         if($animalItem->animal->animalType->first()->type_code != 'IJ'){
-            // Duplicate solitary group date
             $animalItemsDateSolitaryGroup = $animal_items->dateSolitaryGroups;
             if ($animalItemsDateSolitaryGroup) {
                 $newAnimalItem->dateSolitaryGroups()->create([
