@@ -12,10 +12,7 @@
         <h5 class="mb-3 mb-md-0">{{ isset($founders[0]) ? $founders[0]->shelter->name : '' }}</h5>
     </div>
     <div>      
-       <a href="#" type="button" class="btn btn-primary btn-sm btn-icon-text">
-          Povratak na popis
-          <i class="btn-icon-append" data-feather="clipboard"></i>
-        </a> 
+     
     </div>
   </div>
 <div class="row">
@@ -29,7 +26,7 @@
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
                     <div>
-                        <a href="{{ route('shelters.founders.create', $shelter->id) }}" class="create btn btn-primary">Dodaj</a>
+                        <a href="{{ route('shelters.founders.create', $shelter->id) }}" class="create btn btn-sm btn-primary">Dodaj novog</a>
                     </div>
                 </div>
 
@@ -45,7 +42,7 @@
                 </div>
                 @endif
 
-                <div class="table-responsive-sm">
+                <div class="table-responsive table-responsive-sm">
                     <table class="table" id="founder-table">
                         <thead>
                             <tr>
@@ -115,6 +112,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
+                cancelButtonText: 'Odustani',
                 confirmButtonText: 'Da, obriši!'
             }).then((result) => {
                 if (result.isConfirmed) {

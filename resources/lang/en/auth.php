@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Podatci nisu točni',
+    'failed' => 'Uneseni Podaci nisu ispravni. Pokušajte opet.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];
