@@ -29,6 +29,12 @@
       <div> <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5></div>
     </div>
 
+    <div>
+      @if($msg = Session::get('update_shelter'))
+        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+      @endif
+    </div>
+
     <ul class="nav nav-tabs" id="myTab" role="tablist">
       <li class="nav-item">
         <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Jedinke</a>

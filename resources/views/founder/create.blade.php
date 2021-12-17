@@ -7,7 +7,7 @@
 @section('content')
 
 <div>
-    <a type="button" class="btn btn-warning btn-icon-text" href="{{ route('shelters.founders.index', auth()->user()->shelter->id) }}">
+    <a type="button" class="btn btn-warning btn-icon-text" href="{{ route('shelters.founders.index', $shelter) }}">
         Povratak na popis
         <i class="btn-icon-append" data-feather="clipboard"></i>
     </a>
@@ -17,13 +17,15 @@
     <div class="col-md-8">
         <div class="card">
             <div class="card-body">
-                <form action="{{ route('shelters.founders.store', auth()->user()->shelter->id) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('shelters.founders.store', $shelter->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
 
                     @if($msg = Session::get('founder'))
                     <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
                     @endif
+
+                    <input type="hidden" name="shelter" value="{{ $shelter->id }}">
                 
                     <div class="row">
                         <div class="col-md-12">

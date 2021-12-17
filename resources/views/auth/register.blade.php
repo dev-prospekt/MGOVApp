@@ -14,7 +14,9 @@
           </div>
           <div class="col-md-8 pl-md-0">
             <div class="auth-form-wrapper px-4 py-5">
-              <a href="#" class="noble-ui-logo logo-light d-block mb-2">Noble<span>UI</span></a>
+              <a href="#" class="noble-ui-logo logo-light d-block mb-2 font-weight-bold">
+                Mgov<span>App</span>
+              </a>
               <h5 class="text-muted font-weight-normal mb-4">Create a free account.</h5>
 
               <form class="forms-sample" method="POST" action="{{ route('register') }}">

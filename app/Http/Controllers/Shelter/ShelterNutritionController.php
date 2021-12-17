@@ -5,9 +5,10 @@ namespace App\Http\Controllers\Shelter;
 use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
 use App\Http\Controllers\Controller;
-use App\Models\Animal\AnimalSystemCategory;
 use App\Models\Shelter\ShelterNutrition;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Animal\AnimalSystemCategory;
+use App\Models\Shelter\ShelterAccomodationType;
 
 class ShelterNutritionController extends Controller
 {
@@ -33,8 +34,10 @@ class ShelterNutritionController extends Controller
     {
         $shelterNutritionItems = ShelterNutrition::where('shelter_id', $shelter->id)->get();
 
-
-        return view('shelter.shelter_nutrition.create', ['shelterNutritionItems' => $shelterNutritionItems, 'shelter' => $shelter->load(['animalSystemCategory'])]);
+        return view('shelter.shelter_nutrition.create', [
+            'shelterNutritionItems' => $shelterNutritionItems,
+            'shelter' => $shelter
+        ]);
     }
 
     /**
