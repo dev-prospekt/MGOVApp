@@ -112,7 +112,7 @@ class ShelterController extends Controller
 
         return redirect()->route("shelter.create")
             ->with('msg', 'Uspješno dodano.')
-            ->with('active', 'Možete izabrati životinje.')
+            ->with('active', 'Možete izabrati jedinke.')
             ->with('shelter_id', $shelter->id);
     }
 
