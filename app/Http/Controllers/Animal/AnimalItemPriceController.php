@@ -15,8 +15,6 @@ class AnimalItemPriceController extends Controller
     {
         $animalItem = AnimalItem::findOrFail($id);
 
-        //dd($request);
-
         if (empty($animalItem->dateRange->end_date)) { // Samo ako nije završena skrb
             // Date Range
             if (!empty($request->end_date)) {
