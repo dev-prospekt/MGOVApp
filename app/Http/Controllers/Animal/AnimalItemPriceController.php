@@ -288,6 +288,7 @@ class AnimalItemPriceController extends Controller
                     $euthanasia_price = $request->euthanasia_price;
                 }
             }
+
             if (!empty($totalPriceSolitaryOrGroup)) {
                 $solitaryAndGroupPrice = $animalItem->shelterAnimalPrice;
 
@@ -314,8 +315,6 @@ class AnimalItemPriceController extends Controller
                             $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                         }
                     }
-
-                    $this->updateFinishPrice($animalItem->id, $finishPrice);
                 }
 
                 if (!empty($solitaryAndGroupPrice->solitary_price)) {
@@ -339,9 +338,13 @@ class AnimalItemPriceController extends Controller
                             $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                         }
                     }
-
-                    $this->updateFinishPrice($animalItem->id, $finishPrice);
                 }
+
+                if(isset($euthanasia_price)){
+                    $finishPrice = ($finishPrice + $euthanasia_price);
+                }
+
+                $this->updateFinishPrice($animalItem->id, $finishPrice);
             }
 
             // END
