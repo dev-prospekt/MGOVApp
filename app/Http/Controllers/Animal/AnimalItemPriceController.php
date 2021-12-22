@@ -340,6 +340,7 @@ class AnimalItemPriceController extends Controller
                     }
                 }
 
+                // Ako postoji cijena za eutanaziju onda je izracunaj s ukupnom cijenom
                 if(isset($euthanasia_price)){
                     $finishPrice = ($finishPrice + $euthanasia_price);
                 }
