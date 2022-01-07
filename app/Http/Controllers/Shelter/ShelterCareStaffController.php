@@ -17,7 +17,6 @@ class ShelterCareStaffController extends Controller
             'staff_care_name' => 'required',
             'staff_care_oib' => 'required',
             'staff_care_address' => 'required',
-            'staff_care_phone' => 'required',
             'staff_care_phone_cell' => 'required',
             'staff_care_email' => 'required',
             'staff_care_education' => 'required',
@@ -26,7 +25,6 @@ class ShelterCareStaffController extends Controller
             'staff_care_name.required' => 'Ime i prezime je obvezan podatak',
             'staff_care_oib.required' => 'OIB obvezan podatak',
             'staff_care_address.required' => 'Adresa prebivališta je obvezan podatak',
-            'staff_care_phone.required' => 'Kontakt telefon je obvezan podatak',
             'staff_care_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
             'staff_care_email.required' => 'Email adresa je obvezan podatak',
             'staff_care_education.required' => 'Stručna sprema i struka je obvezan podatak',
@@ -77,7 +75,6 @@ class ShelterCareStaffController extends Controller
             'staff_care_name' => 'required',
             'staff_care_oib' => 'required',
             'staff_care_address' => 'required',
-            'staff_care_phone' => 'required',
             'staff_care_phone_cell' => 'required',
             'staff_care_email' => 'required',
 
@@ -101,7 +98,6 @@ class ShelterCareStaffController extends Controller
             'staff_care_name.required' => 'Ime i prezime je obvezan podatak',
             'staff_care_oib.required' => 'OIB obvezan podatak',
             'staff_care_address.required' => 'Adresa prebivališta je obvezan podatak',
-            'staff_care_phone.required' => 'Kontakt telefon je obvezan podatak',
             'staff_care_phone_cell.required' => 'Kontakt mobilni telefon je obvezan podatak',
             'staff_care_email.required' => 'Email adresa je obvezan podatak',
 

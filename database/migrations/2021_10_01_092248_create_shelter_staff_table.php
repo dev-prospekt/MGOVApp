@@ -23,7 +23,7 @@ class CreateShelterStaffTable extends Migration
             $table->string('oib');
             $table->string('address');
             $table->string('address_place');
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->string('phone_cell');
             $table->string('email')->unique();
             $table->string('education')->nullable();

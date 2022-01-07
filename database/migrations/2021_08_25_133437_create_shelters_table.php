@@ -21,7 +21,7 @@ class CreateSheltersTable extends Migration
             $table->string('address');
             $table->string('address_place')->nullable();
             $table->string('place_zip');
-            $table->bigInteger('telephone');
+            $table->bigInteger('telephone')->nullable();
             $table->bigInteger('mobile');
             $table->bigInteger('fax')->nullable();
             $table->string('email');
