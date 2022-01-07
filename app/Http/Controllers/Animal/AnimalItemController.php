@@ -172,8 +172,11 @@ class AnimalItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AnimalItem $animalItem)
+    public function destroy(Shelter $shelter, AnimalGroup $animalGroup, AnimalItem $animalItem)
     {
+        $animalItem->delete();
+
+        return response()->json(['msg' => 'success']);
     }
 
     public function file(AnimalItemFilePostRequest $request)

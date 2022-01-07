@@ -142,10 +142,11 @@ $(function() {
         language: "cr",
         showPreview: false,
         showUpload: false,
+        maxFileSize: 1500,
+        msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
         allowedFileExtensions: ["jpg", "png", "gif", 'doc', 'pdf', 'xls'],
         elErrorContainer: '#errorAnimalLogPhotos',
         msgInvalidFileExtension: 'Nevažeća fotografija, Podržani su "{extensions}" formati.'
-
     });
 
     tinymce.init({

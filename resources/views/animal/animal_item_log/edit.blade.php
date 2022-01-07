@@ -132,6 +132,8 @@ $(function() {
           showUpload: false,
           uploadAsync: false,
           overwriteInitial: false,
+          maxFileSize: 1500,
+          msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
           uploadUrl: $(formId).attr('data-action'),
           allowedFileExtensions: ['jpg', 'png', 'doc', 'xls'],
           elErrorContainer: '#errorLogPhotos',

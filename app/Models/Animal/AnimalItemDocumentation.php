@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
+
 
 class AnimalItemDocumentation extends Model implements HasMedia
 {
@@ -34,5 +36,12 @@ class AnimalItemDocumentation extends Model implements HasMedia
     public function stateReason()
     {
         return $this->belongsTo(AnimalItemDocumentationStateType::class, 'state_reason', 'id');
+    }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+              ->width(150)
+              ->height(100);
     }
 }

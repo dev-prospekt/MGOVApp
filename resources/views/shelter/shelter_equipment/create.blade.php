@@ -190,10 +190,11 @@ $(function() {
         language: "cr",
         showPreview: false,
         showUpload: false,
+        maxFileSize: 1500,
+        msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
         allowedFileExtensions: ["jpg", "png", "gif"],
         elErrorContainer: '#errorEquipmentPhotos',
         msgInvalidFileExtension: 'Nevažeća fotografija, Podržani su "{extensions}" formati.'
-
     });
 
     $("#equipmentDocs").fileinput({
@@ -201,10 +202,11 @@ $(function() {
         language: "cr",
         showPreview: false,
         showUpload: false,
+        maxFileSize: 1500,
+        msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
         allowedFileExtensions: ["doc", "docx", "pdf", 'jpg', 'png'],
         elErrorContainer: '#errorEquipmentDocs',
         msgInvalidFileExtension: 'Nevažeći formati, Podržani su "{extensions}" formati.'
-
     });
 
     tinymce.init({

@@ -185,7 +185,7 @@
 
 <script>
 $(function() {
-    var table = $('#animal-table').DataTable({
+    var tableActive = $('#animal-table').DataTable({
         processing: true,
         serverSide: true,
         ajax: '{!! route('shelters.animal_groups.show', [$animal_group->shelters->first()->id, $animal_group->id]) !!}',
@@ -206,7 +206,7 @@ $(function() {
         order: [[ 0, "desc" ]],
     });
 
-    var table = $('#animal-table-inactive').DataTable({
+    var tableInactive = $('#animal-table-inactive').DataTable({
         processing: true,
         serverSide: true,
         ajax: '{!! route('animal_item_inactive', [$animal_group->shelters->first()->id, $animal_group->id]) !!}',
@@ -225,6 +225,43 @@ $(function() {
         },
         pageLength: 10,
         order: [[ 0, "desc" ]],
+    });
+
+     // Delete AnimalGroup
+    $('#animal-table').on('click', '#deleteAnimalItem', function(){
+        var url = $(this).attr('data-url');
+
+        Swal.fire({
+            title: 'Jeste li sigurni?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Da, obriši!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: url,
+                    method: 'DELETE',
+                    success: function(result) {
+                        if(result.msg == 'success'){
+                            Swal.fire(
+                                'Odlično!',
+                                'Uspješno obrisano!',
+                                'success'
+                            ).then((result) => {
+                                tableActive.ajax.reload();
+                            });
+                        }
+                    }
+                }); 
+            }
+        });
     });
 
     // Premještaj Item

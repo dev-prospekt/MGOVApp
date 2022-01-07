@@ -46,6 +46,8 @@ class CreateAnimalItemsTable extends Migration
             $table->string('shelter_code');
             $table->string('animal_code');
 
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

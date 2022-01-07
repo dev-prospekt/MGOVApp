@@ -23,4 +23,11 @@ class AnimalItemLog  extends Model implements HasMedia
     {
         return $this->belongsTo(AnimalItemLogType::class, 'animal_item_log_type_id');
     }
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')
+              ->width(150)
+              ->height(100);
+    }
 }

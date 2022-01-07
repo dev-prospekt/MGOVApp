@@ -15,10 +15,11 @@ use App\Models\ShelterAnimalPrice;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AnimalItem extends Model implements HasMedia
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, InteractsWithMedia, SoftDeletes;
     use \Bkwld\Cloner\Cloneable;
 
     /* protected $cloneable_file_attributes = ['media']; */

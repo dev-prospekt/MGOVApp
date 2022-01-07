@@ -100,6 +100,7 @@
             <div class="form-group">
                 <label>Dodatne fotografije:</label>
                   <input  name="edit_accomodation_photos[]" type="file" id="updateAccomodationPhotos" multiple>
+                  <div id="errorAccomoadionPhotos"></div> 
             </div>
           <input type="submit" class="submitBtn btn btn-warning" value="Spremi">      
         </form>
@@ -128,8 +129,11 @@
           showUpload: false,
           uploadAsync: false,
           overwriteInitial: false,
+          maxFileSize: 1500,
+          msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
           uploadUrl: $(formId).attr('data-action'),
-          allowedFileExtensions: ['jpg', 'png']
+          allowedFileExtensions: ['jpg', 'png'],
+          elErrorContainer: '#errorAccomoadionPhotos',
       });
 
       tinymce.init({

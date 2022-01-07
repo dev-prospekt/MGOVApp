@@ -114,6 +114,7 @@ class AnimalGroupController extends Controller
                     $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
                     $cloneUrl = route('animal_item.clone', [$animal_items->id]);
                     $countAnimal = count($animalGroup->animalItems);
+                    $deleteURL = route('shelters.animal_groups.animal_items.destroy', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
 
                     if ($countAnimal > 1) {
                         if ($animal_items->animal_item_care_end_status == true) {
@@ -127,6 +128,9 @@ class AnimalGroupController extends Controller
                                 </a>
                                 <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
                                     Premjesti
+                                </a>
+                                <a href="javascript:void(0)" data-url="' . $deleteURL . '" id="deleteAnimalItem" class="btn btn-xs btn-danger mr-2">
+                                    Obriši
                                 </a>
                             </div>
                             ';
