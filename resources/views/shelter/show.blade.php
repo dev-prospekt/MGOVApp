@@ -67,7 +67,8 @@
                     <thead>          
                       <tr>
                         <th>#</th>
-                        <th>Količina</th>
+                        <th>Aktivne jedinke</th>
+                        <th>Kraj skrbi</th>
                         <th>Naziv</th>
                         <th>Latinski naziv</th>
                         <th>Tip jedinke</th>
@@ -205,7 +206,8 @@ $(function() {
       ajax: '{!! route('shelter.show', [$shelter->id]) !!}',
       columns: [
           { data: 'id', name: 'id'},
-          { data: 'animal_count', name: 'animal_count'},
+          { data: 'animal_count_active', name: 'animal_count_active'},
+          { data: 'animal_count_inactive', name: 'animal_count_inactive'},
           { data: 'name', name: 'name'},
           { data: 'latin_name', name: 'latin_name'},
           { data: 'animal_type', name: 'animal_type'},

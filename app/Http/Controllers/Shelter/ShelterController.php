@@ -133,8 +133,11 @@ class ShelterController extends Controller
         if ($request->ajax()) {
             return Datatables::of($animal_groups)
                 ->addIndexColumn()
-                ->addColumn('animal_count', function ($animal_groups) {
-                    return $animal_groups->animalItems->count();
+                ->addColumn('animal_count_active', function ($animal_groups) {
+                    return $animal_groups->animalItemActive->count();
+                })
+                ->addColumn('animal_count_inactive', function ($animal_groups) {
+                    return $animal_groups->animalItemInactive->count();
                 })
                 ->addColumn('name', function ($animal_groups) {
                     return $animal_groups->animal->name;
