@@ -77,10 +77,15 @@ class AnimalGroupController extends Controller
                     return isset($animal_items->animal_date_found) ? $animal_items->animal_date_found->format('d.m.Y') : '';
                 })
                 ->addColumn('animal_age', function ($animal_items) {
-                    return $animal_items->animal_age;
+                    if($animal_items->animal_age == 'ADL(adultna)'){ return 'ADL'; }
+                    if($animal_items->animal_age == 'JUV(juvenilna)'){ return 'JUV'; }
+                    if($animal_items->animal_age == 'SA(subadultna)'){ return 'SDL'; }
+                    if($animal_items->animal_age == 'N(neodređeno)'){ return 'NO'; }
                 })
                 ->addColumn('animal_gender', function ($animal_items) {
-                    return $animal_items->animal_gender;
+                    if($animal_items->animal_gender == 'M(mužjak)'){ return 'M'; }
+                    if($animal_items->animal_gender == 'Ž/F(ženka)'){ return 'F'; }
+                    if($animal_items->animal_gender == 'N(nije moguće odrediti)'){ return 'N'; }
                 })
                 ->addColumn('animal_size', function ($animal_items) {
                     if(!empty($animal_items->animal_size_attributes_id)){
@@ -187,10 +192,15 @@ class AnimalGroupController extends Controller
             return isset($animal_items->animal_date_found) ? $animal_items->animal_date_found->format('d.m.Y') : '';
         })
         ->addColumn('animal_age', function ($animal_items) {
-            return $animal_items->animal_age;
+            if($animal_items->animal_age == 'ADL(adultna)'){ return 'ADL'; }
+            if($animal_items->animal_age == 'JUV(juvenilna)'){ return 'JUV'; }
+            if($animal_items->animal_age == 'SA(subadultna)'){ return 'SDL'; }
+            if($animal_items->animal_age == 'N(neodređeno)'){ return 'NO'; }
         })
         ->addColumn('animal_gender', function ($animal_items) {
-            return $animal_items->animal_gender;
+            if($animal_items->animal_gender == 'M(mužjak)'){ return 'M'; }
+            if($animal_items->animal_gender == 'Ž/F(ženka)'){ return 'F'; }
+            if($animal_items->animal_gender == 'N(nije moguće odrediti)'){ return 'N'; }
         })
         ->addColumn('animal_size', function ($animal_items) {
             if(!empty($animal_items->animal_size_attributes_id)){

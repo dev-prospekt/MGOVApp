@@ -99,9 +99,9 @@
                                         <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
                                     @endif
                                     <option value="">Odaberi</option>
-                                    <option value="muzjak">M (mužjak)</option>
-                                    <option value="zenka">Ž/F (ženka)</option>
-                                    <option value="nije moguce odrediti">N (nije moguće odrediti)</option>
+                                    <option value="M(mužjak)">M (mužjak)</option>
+                                    <option value="Ž/F(ženka)">Ž/F (ženka)</option>
+                                    <option value="N(nije moguće odrediti)">N (nije moguće odrediti)</option>
                                 </select>
                                 @error('animal_gender')
                                     <div class="text-danger">{{$errors->first('animal_gender') }} </div>
