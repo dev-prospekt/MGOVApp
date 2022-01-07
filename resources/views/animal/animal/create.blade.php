@@ -45,15 +45,18 @@
                             </div>
                             <input type="hidden" id="shelter" value="{{ $shelter->id }}">
             
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Nalaznik</label>
                                     <select class="form-control" id="founder">
                                     </select>
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
-                        <p class="card-description">U slučaju da nalaznik već nije spremljen u sustav, <a class="createFounder" href="javascript:void()">dodajte novog nalaznika.</a></p>
+                        {{-- <p class="card-description">
+                            U slučaju da nalaznik već nije spremljen u sustav, 
+                            <a class="createFounder" href="javascript:void()">dodajte novog nalaznika.</a>
+                        </p> --}}
                     </div>       
                 </div>
             </div>
@@ -82,7 +85,7 @@
     <script>
         $(function() {
             
-            // Get Founder
+            // Get Form
             $("#shelterType").change(function(){
                 $(".template").html('');
 
@@ -92,14 +95,15 @@
                     }
                 });
                 $.ajax({
-                    url: "{{ route('shelterAnimal.getfounder') }}",
+                    url: "{{ route('shelterAnimal.getForm') }}",
                     method: 'POST',
                     data: {
-                        'type_id': $(this).val(),
+                        'type_id': $('#shelterType').val(),
                         'shelter': $("#shelter").val(),
                     },
                     success: function(data) {
-                        $('#founder').html(data.html);
+                        $(".template").html(data.html);
+                        scripts();
                     }
                 });
             });
@@ -156,30 +160,6 @@
             // Close Modal
             $(".modal").on('click', '.modal-close', function(){
                 $(".modal").hide();
-            });
-
-            // Get Form
-            $("#founder").change(function(){
-                if($(this).val() > 0){
-                    // $.ajaxSetup({
-                    //     headers: {
-                    //         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    //     }
-                    // });
-                    $.ajax({
-                        url: "{{ route('shelterAnimal.getForm') }}",
-                        method: 'POST',
-                        data: {
-                            'founder_id': $(this).val(),
-                            'type_id': $('#shelterType').val(),
-                            'shelter': $("#shelter").val(),
-                        },
-                        success: function(data) {
-                            $(".template").html(data.html);
-                            scripts();
-                        }
-                    });
-                }
             });
 
             function founderScript()
@@ -266,7 +246,7 @@
                     showPreview: false,
                     showUpload: false,
                     maxFileSize: 1500,
-                    msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
+                    msgSizeTooLarge: 'Slika "{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
                     allowedFileExtensions: ['pdf', 'doc', 'docx', 'jpg', 'png'],
                     elErrorContainer: '#error_founder_documents',
                     msgInvalidFileExtension: 'Nevažeći format "{name}". Podržani su: "{extensions}"',
@@ -286,7 +266,7 @@
                     showPreview: false,
                     showUpload: false,
                     maxFileSize: 1500,
-                    msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
+                    msgSizeTooLarge: 'Slika "{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
                     allowedFileExtensions: ["png", "jpg", "gif"],
                     elErrorContainer: '#error_reason_file',
                     msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
@@ -297,7 +277,7 @@
                     showPreview: false,
                     showUpload: false,
                     maxFileSize: 1500,
-                    msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
+                    msgSizeTooLarge: 'Slika "{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
                     allowedFileExtensions: ["png", "jpg", "gif"],
                     elErrorContainer: '#error_status_found_file',
                     msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
@@ -308,7 +288,7 @@
                     showPreview: false,
                     showUpload: false,
                     maxFileSize: 1500,
-                    msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
+                    msgSizeTooLarge: 'Slika "{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
                     allowedFileExtensions: ["png", "jpg", "gif"],
                     elErrorContainer: '#error_status_receiving_file',
                     msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
@@ -320,7 +300,7 @@
                     showPreview: false,
                     showUpload: false,
                     maxFileSize: 1500,
-                    msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
+                    msgSizeTooLarge: 'Slika "{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
                     allowedFileExtensions: ["png", "jpg", "gif"],
                     elErrorContainer: '#error_animal_mark_photos',
                     msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
@@ -332,7 +312,7 @@
                     showPreview: false,
                     showUpload: false,
                     maxFileSize: 1500,
-                    msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
+                    msgSizeTooLarge: 'Slika "{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
                     allowedFileExtensions: ["jpg", "png", "pdf", "doc", "xls"],
                     elErrorContainer: '#error_vrsta_broj_dokumenta',
                     msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
@@ -344,7 +324,7 @@
                     showPreview: false,
                     showUpload: false,
                     maxFileSize: 1500,
-                    msgSizeTooLarge: '"{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
+                    msgSizeTooLarge: 'Slika "{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
                     allowedFileExtensions: ["jpg", "png", "pdf"],
                     elErrorContainer: '#error_vrsta_broj_dokumenta',
                     msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',

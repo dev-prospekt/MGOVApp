@@ -83,15 +83,18 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Nalaznik</label>
-                            <select name="founder_id" class="form-control" required>
-                                <option selected value="{{$founder->id}}">
-                                    {{$founder->name}} {{$founder->lastname}} 
-                                    @if($founder->service != 'ostalo-navesti:')
-                                        ({{$founder->service}})
-                                    @else
-                                        ({{$founder->others}})
-                                    @endif
-                                </option>
+                            <select name="founder_id" class="form-control">
+                                <option value="">----</option>
+                                @foreach ($founders as $founder)
+                                    <option value="{{$founder->id}}">
+                                        {{$founder->name}} {{$founder->lastname}} 
+                                        @if($founder->service != 'ostalo-navesti:')
+                                            ({{$founder->service}})
+                                        @else
+                                            ({{$founder->others}})
+                                        @endif
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="form-group">
