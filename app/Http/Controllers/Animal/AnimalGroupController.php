@@ -225,6 +225,17 @@ class AnimalGroupController extends Controller
             }
             return  '<span class="badge badge-' . ($btn_class) . '">' . $btn_text . '</span>';
         })
+        ->addColumn('action', function ($animal_items){
+            $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+
+            return '
+            <div class="d-flex align-items-center">
+                <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
+                    Podaci
+                </a>
+            </div>
+            ';
+        })
         ->rawColumns(['animal_item_care_end_status', 'action'])
         ->make();
     }

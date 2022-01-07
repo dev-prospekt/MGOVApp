@@ -305,7 +305,7 @@ class AnimalItemPriceController extends Controller
                     else {
                         if ($solitaryAndGroupPrice->full_care != 0) {
                             $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
-                            $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group);
+                            $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group + $euthanasia_price);
                         } 
                         elseif ($request->end_care_type == 3) {
                             $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
@@ -330,7 +330,7 @@ class AnimalItemPriceController extends Controller
                     else {
                         if ($solitaryAndGroupPrice->full_care != 0) {
                             $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
-                            $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group);
+                            $finishPrice = ($solitaryAndGroupPrice->full_care + $sol_group + $euthanasia_price);
                         } elseif ($request->end_care_type == 3) {
                             $sol_group = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                             $finishPrice = ($sol_group + $euthanasia_price);
@@ -338,11 +338,6 @@ class AnimalItemPriceController extends Controller
                             $finishPrice = ($solitaryAndGroupPrice->group_price + $solitaryAndGroupPrice->solitary_price);
                         }
                     }
-                }
-
-                // Ako postoji cijena za eutanaziju onda je izracunaj s ukupnom cijenom
-                if(isset($euthanasia_price)){
-                    $finishPrice = ($finishPrice + $euthanasia_price);
                 }
 
                 $this->updateFinishPrice($animalItem->id, $finishPrice);

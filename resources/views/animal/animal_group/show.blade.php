@@ -118,6 +118,7 @@
                                     <th>Spol</th>
                                     <th>Veličina</th>
                                     <th>Status</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -217,6 +218,7 @@ $(function() {
             { data: 'animal_gender', name: 'animal_gender'},
             { data: 'animal_size', name: 'animal_size'},
             { data: 'animal_item_care_end_status', name: 'animal_item_care_end_status'},
+            { data: 'action', name: 'action'},
         ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
