@@ -12,7 +12,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Odabir životinjske vrste</label>
-                        <select name="animal_id" class="form-control" id="animalSelect" required>
+                        <select name="animal_id" class="js-example-basic-single w-100" id="animalSelect" required>
                             <option value="">------</option>
                             @foreach ($animal as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>

@@ -4,6 +4,7 @@
   <link href="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
   <link href="{{ asset('assets/plugins/datatables-net/dataTables.bootstrap4.css') }}" rel="stylesheet" />
+  <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
 @endpush
 
 @section('content')
@@ -67,6 +68,7 @@
 @endsection
 
 @push('plugin-scripts')
+    <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
@@ -79,6 +81,7 @@
 
     <script>
         $(function() {
+            
             // Get Founder
             $("#shelterType").change(function(){
                 $(".template").html('');
@@ -206,6 +209,10 @@
 
             function scripts()
             {
+                if ($(".js-example-basic-single").length) {
+                    $(".js-example-basic-single").select2();
+                }
+
                 if($('div#datePickerExample').length) {
                     var date = new Date();
                     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());

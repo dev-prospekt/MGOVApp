@@ -19,47 +19,112 @@
     </div>
 </div>
 
-<div class="row mt-4">
-    <div class="col-lg-12 col-xl-12 grid-margin">
-        <div class="card">
-            <div class="card-body">
-                <div class="d-flex align-items-start justify-content-between">
-                    <div><h5 class="card-title">Popis jedinki unutar grupe</h5>
-                        <p class="card-description">Napomena: unestite podatke za pojedinu jedinku, duplicirajte dokumentaciju za sve članove grupe</p>
-                    </div>
-                    <div>
-                    <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm">
-                        Premjesti grupu
-                    </a>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="active-tab" data-toggle="tab" href="#active" role="tab" aria-controls="active" aria-selected="true">
+            Aktivne jedinke
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="inactive-tab" data-toggle="tab" href="#inactive" role="tab" aria-controls="inactive" aria-selected="false">
+            Završena skrb
+        </a>
+    </li>
+</ul>
+
+<div class="tab-content border border-top-0" id="myTabContent">
+    <div class="tab-pane fade show active" id="active" role="tabpanel" aria-labelledby="active-tab">
+        <div class="row">
+            <div class="col-lg-12 col-xl-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div><h5 class="card-title">Popis jedinki unutar grupe</h5>
+                                <p class="card-description">Napomena: unestite podatke za pojedinu jedinku, duplicirajte dokumentaciju za sve članove grupe</p>
+                            </div>
+                            <div>
+                            <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm">
+                                Premjesti grupu
+                            </a>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            
+                        </div>
+                        
+        
+                        @if($msg = Session::get('msg'))
+                        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                        @endif
+        
+                        <div class="table-responsive-sm">
+                        <table class="table" id="animal-table">
+                            <thead>
+                                <tr>
+                                    <th>Šifra jedinke</th>
+                                    <th>LATINSKI NAZIV</th>
+                                    <th>Datum <br> pronalaska</th>
+                                    <th>Dob</th>
+                                    <th>Spol</th>
+                                    <th>Veličina</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="row">
-                    
-                </div>
-                
+            </div>
+        </div>
+    </div>
 
-                @if($msg = Session::get('msg'))
-                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                @endif
-
-                <div class="table-responsive-sm">
-                <table class="table" id="animal-table">
-                    <thead>
-                        <tr>
-                            <th>Šifra jedinke</th>
-                            <th>LATINSKI NAZIV</th>
-                            <th>Datum <br> pronalaska</th>
-                            <th>Dob</th>
-                            <th>Spol</th>
-                            <th>Veličina</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+    <div class="tab-pane fade" id="inactive" role="tabpanel" aria-labelledby="inactive-tab">
+        <div class="row">
+            <div class="col-lg-12 col-xl-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div><h5 class="card-title">Popis jedinki unutar grupe</h5>
+                                <p class="card-description">Napomena: unestite podatke za pojedinu jedinku, duplicirajte dokumentaciju za sve članove grupe</p>
+                            </div>
+                            <div>
+                            <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm">
+                                Premjesti grupu
+                            </a>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            
+                        </div>
+                        
+        
+                        @if($msg = Session::get('msg'))
+                        <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                        @endif
+        
+                        <div class="table-responsive-sm">
+                        <table class="table" id="animal-table-inactive" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Šifra jedinke</th>
+                                    <th>LATINSKI NAZIV</th>
+                                    <th>Datum <br> pronalaska</th>
+                                    <th>Dob</th>
+                                    <th>Spol</th>
+                                    <th>Veličina</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -132,6 +197,26 @@ $(function() {
             { data: 'animal_size', name: 'animal_size'},
             { data: 'animal_item_care_end_status', name: 'animal_item_care_end_status'},
             { data: 'action', name: 'action'},
+        ],
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
+        },
+        pageLength: 10,
+        order: [[ 0, "desc" ]],
+    });
+
+    var table = $('#animal-table-inactive').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '{!! route('animal_item_inactive', [$animal_group->shelters->first()->id, $animal_group->id]) !!}',
+        columns: [
+            { data: 'animal_code', name: 'animal_code'},
+            { data: 'latin_name', name: 'latin_name'},
+            { data: 'date_found', name: 'date_found'},
+            { data: 'animal_age', name: 'animal_age'},
+            { data: 'animal_gender', name: 'animal_gender'},
+            { data: 'animal_size', name: 'animal_size'},
+            { data: 'animal_item_care_end_status', name: 'animal_item_care_end_status'},
         ],
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'

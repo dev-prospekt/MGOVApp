@@ -61,6 +61,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('animal_items.euthanasia', Animal\EuthanasiaController::class);
     Route::resource('shelters.animal_groups.animal_items.animal_item_care_end', Animal\AnimalItemCareEndController::class)->only(['index']);
     Route::post('getVet', 'Animal\AnimalItemCareEndController@getVet')->name('getVet');
+    Route::get('shelter{shelter}/animal_group{animalGroup}', 'Animal\AnimalGroupController@animalItemInactive')->name('animal_item_inactive');
 
     // Change Shelter
     Route::post('animal_group/{animalGroup}', 'Animal\AnimalGroupController@groupChangeShelter');

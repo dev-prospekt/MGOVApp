@@ -55,11 +55,10 @@ class AnimalGroupController extends Controller
      */
     public function show(Request $request, Shelter $shelter, AnimalGroup $animalGroup)
     {
-        $animal_group = AnimalGroup::with('animalItems', 'shelters')->find($animalGroup->id);
-        $animal_items = $animal_group->animalItems;
+        $animal_items = $animalGroup->animalItemActive;
 
         // Vraca oporaviliste samo koje ima isti type
-        $animalType = $animal_group->animal->animalType->first()->type_code;
+        $animalType = $animalGroup->animal->animalType->first()->type_code;
         $shelters = Shelter::where('id', '!=', $shelter->id)
             ->whereHas('shelterTypes', function ($query) use ($animalType) {
                 $query->whereIn('code', [$animalType]);
@@ -106,10 +105,10 @@ class AnimalGroupController extends Controller
                     }
                     return  '<span class="badge badge-' . ($btn_class) . '">' . $btn_text . '</span>';
                 })
-                ->addColumn('action', function ($animal_items) use ($animal_group) {
+                ->addColumn('action', function ($animal_items) use ($animalGroup) {
                     $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
                     $cloneUrl = route('animal_item.clone', [$animal_items->id]);
-                    $countAnimal = count($animal_group->animalItems);
+                    $countAnimal = count($animalGroup->animalItems);
 
                     if ($countAnimal > 1) {
                         if ($animal_items->animal_item_care_end_status == true) {
@@ -167,10 +166,57 @@ class AnimalGroupController extends Controller
         }
 
         return view('animal.animal_group.show', [
-            'animal_group' => $animal_group,
+            'animal_group' => $animalGroup,
             'animal_items' => $animal_items,
             'shelters' => $shelters
         ]);
+    }
+
+    public function animalItemInactive(Shelter $shelter, AnimalGroup $animalGroup)
+    {
+        $animal_items = $animalGroup->animalItemInactive;
+
+        return DataTables::of($animal_items)
+        ->addColumn('animal_code', function ($animal_items) {
+            return $animal_items->animal_code;
+        })
+        ->addColumn('latin_name', function ($animal_items) {
+            return $animal_items->animal->latin_name;
+        })
+        ->addColumn('date_found', function ($animal_items) {
+            return isset($animal_items->animal_date_found) ? $animal_items->animal_date_found->format('d.m.Y') : '';
+        })
+        ->addColumn('animal_age', function ($animal_items) {
+            return $animal_items->animal_age;
+        })
+        ->addColumn('animal_gender', function ($animal_items) {
+            return $animal_items->animal_gender;
+        })
+        ->addColumn('animal_size', function ($animal_items) {
+            if(!empty($animal_items->animal_size_attributes_id)){
+                return $animal_items->animalSizeAttributes->name;
+            }
+            else {
+                return '';
+            }
+        })
+        ->addColumn('animal_item_care_end_status', function ($animal_items) {
+            switch ($animal_items->animal_item_care_end_status) {
+                case true:
+                    $btn_class = 'warning';
+                    $btn_text = 'Aktivna';
+                    break;
+                case false:
+                    $btn_class = 'danger';
+                    $btn_text = 'Završena skrb';
+                    break;
+                default:
+                    $btn_class = 'light';
+            }
+            return  '<span class="badge badge-' . ($btn_class) . '">' . $btn_text . '</span>';
+        })
+        ->rawColumns(['animal_item_care_end_status', 'action'])
+        ->make();
     }
 
     /**
