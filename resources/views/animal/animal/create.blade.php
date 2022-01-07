@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <input type="hidden" id="shelter" value="{{ $shelter->id }}">
-            
+                            
                             {{-- <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Nalaznik</label>
