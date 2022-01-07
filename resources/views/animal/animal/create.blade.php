@@ -172,6 +172,7 @@
                         data: {
                             'founder_id': $(this).val(),
                             'type_id': $('#shelterType').val(),
+                            'shelter': $("#shelter").val(),
                         },
                         success: function(data) {
                             $(".template").html(data.html);

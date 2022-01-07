@@ -64,7 +64,7 @@
                                 <tr>
                                     <th>Šifra jedinke</th>
                                     <th>LATINSKI NAZIV</th>
-                                    <th>Datum <br> pronalaska</th>
+                                    <th>Početak skrbi</th>
                                     <th>Dob</th>
                                     <th>Spol</th>
                                     <th>Veličina</th>
@@ -113,7 +113,7 @@
                                 <tr>
                                     <th>Šifra jedinke</th>
                                     <th>LATINSKI NAZIV</th>
-                                    <th>Datum <br> pronalaska</th>
+                                    <th>Početak skrbi</th>
                                     <th>Dob</th>
                                     <th>Spol</th>
                                     <th>Veličina</th>

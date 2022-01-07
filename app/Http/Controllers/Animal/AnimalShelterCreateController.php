@@ -61,22 +61,22 @@ class AnimalShelterCreateController extends Controller
             if ($request->type_id && $request->founder_id) {
 
                 if ($request->type_id == 3) {
-                    return $this->protectedCreate($request->type_id, $request->founder_id);
+                    return $this->protectedCreate($request->type_id, $request->founder_id, $request->shelter);
                 }
                 if ($request->type_id == 2) {
-                    return $this->invasiveCreate($request->type_id, $request->founder_id);
+                    return $this->invasiveCreate($request->type_id, $request->founder_id, $request->shelter);
                 }
                 if ($request->type_id == 1) {
-                    return $this->seizedCreate($request->type_id, $request->founder_id);
+                    return $this->seizedCreate($request->type_id, $request->founder_id, $request->shelter);
                 }
             }
         }
     }
 
     // Strogo zaštićene
-    public function protectedCreate($type_id, $founder_id)
+    public function protectedCreate($type_id, $founder_id, $shelter)
     {
-        return $this->viewForm($type_id, $founder_id, 'protected');
+        return $this->viewForm($type_id, $founder_id, 'protected', $shelter);
     }
 
     public function protectedStore(Request $request)
@@ -165,9 +165,9 @@ class AnimalShelterCreateController extends Controller
     }
 
     // Invazivne
-    public function invasiveCreate($type_id, $founder_id)
+    public function invasiveCreate($type_id, $founder_id, $shelter)
     {
-        return $this->viewForm($type_id, $founder_id, 'invasive');
+        return $this->viewForm($type_id, $founder_id, 'invasive', $shelter);
     }
 
     public function invasiveStore(Request $request)
@@ -248,9 +248,9 @@ class AnimalShelterCreateController extends Controller
     }
 
     // Zaplijena
-    public function seizedCreate($type_id, $founder_id)
+    public function seizedCreate($type_id, $founder_id, $shelter)
     {
-        return $this->viewForm($type_id, $founder_id, 'seized');
+        return $this->viewForm($type_id, $founder_id, 'seized', $shelter);
     }
 
     public function seizedStore(Request $request)
@@ -347,9 +347,9 @@ class AnimalShelterCreateController extends Controller
     }
 
     // View
-    public function viewForm($type_id, $founder_id, $template)
+    public function viewForm($type_id, $founder_id, $template, $shelter)
     {
-        $shelter = Shelter::find(auth()->user()->shelter->id);
+        $shelter = Shelter::find($shelter);
         $sysCats = $shelter->animalSystemCategory;
         $founder = FounderData::find($founder_id);
         $markTypes = AnimalMarkType::all();
@@ -360,8 +360,8 @@ class AnimalShelterCreateController extends Controller
         $shelterTypeCode = [$shelterType->code];
 
         $animal = Animal::whereHas('animalType', function ($q) use ($shelterTypeCode) {
-            $q->whereIn('type_code', $shelterTypeCode);
-        })
+                $q->whereIn('type_code', $shelterTypeCode);
+            })
             ->whereHas('animalCategory.animalSystemCategory', function ($q) use ($pluckSystemCat) {
                 $q->whereIn('id', $pluckSystemCat);
             })

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Animal;
 use PDF;
 use Carbon\Carbon;
 use App\Models\DateRange;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use App\Models\DateFullCare;
 use Illuminate\Http\Request;
@@ -93,6 +94,14 @@ class AnimalItemController extends Controller
         $maxDate = 10;
         $totalDays = ($maxDate - $countDays);
 
+        // Omoguci prosirenu skrb (prioritetne vrste)
+        $arrayAnimalForFullCare = [1, 3, 8, 47, 48, 49, 50, 340, 341, 342];
+        // ptice (prioritetne vrste)
+        if($animalItem->animal->animalCategory->animalSystemCategory->id == 2){
+            // Ako je ptica dodat cemo animal id u array kako bi dobio button za aktivaciju proširene skrbi
+            $arrayAnimalForFullCare = Arr::prepend($arrayAnimalForFullCare, $animalItem->animal_id);
+        }
+
         return view('animal.animal_item.show', [
             'animalItem' => $animalItem,
             'paginateLogs' => $paginateLogs,
@@ -105,6 +114,7 @@ class AnimalItemController extends Controller
             'solitaryGroup' => $solitaryGroup,
             'startSolitaryGroup' => $startSolitaryGroup,
             'allSolitaryGroup' => $allSolitaryGroup,
+            'arrayAnimalForFullCare' => $arrayAnimalForFullCare
         ]);
     }
 

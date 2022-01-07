@@ -74,7 +74,7 @@ class AnimalGroupController extends Controller
                     return $animal_items->animal->latin_name;
                 })
                 ->addColumn('date_found', function ($animal_items) {
-                    return isset($animal_items->animal_date_found) ? $animal_items->animal_date_found->format('d.m.Y') : '';
+                    return isset($animal_items->dateRange->start_date) ? $animal_items->dateRange->start_date->format('d.m.Y') : '';
                 })
                 ->addColumn('animal_age', function ($animal_items) {
                     if($animal_items->animal_age == 'ADL(adultna)'){ return 'ADL'; }

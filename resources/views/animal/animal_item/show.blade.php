@@ -124,6 +124,22 @@
                     @endif
                   @endif
 
+                  @if ($animalItem->animal->animalType->first()->type_code == 'SZJ')
+                    @foreach ($arrayAnimalForFullCare as $ii)
+                      @if($animalItem->animal_id == $ii)
+                        @if ($animalItem->full_care_status == 1)
+                          <a href="javascript:void(0)" data-id="0" class="fullcare btn btn-danger btn-xs" type="button">
+                            Onemogući proširenu skrb
+                          </a>
+                        @else
+                          <a href="javascript:void(0)" data-id="1" class="fullcare btn btn-warning btn-xs" type="button">
+                            Omogući proširenu skrb
+                          </a>
+                        @endif
+                      @endif
+                    @endforeach
+                  @endif
+
                   <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-xs" type="button">
                     Izmjeni podatke
                   </a>

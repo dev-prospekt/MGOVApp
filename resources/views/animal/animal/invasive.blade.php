@@ -10,7 +10,7 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label>Odabir životinjske vrste</label>
-                        <select name="animal_id" class="form-control" id="animalSelect" required>
+                        <select name="animal_id" class="js-example-basic-single w-100" id="animalSelect" required>
                             <option value="">------</option>
                             @foreach ($animal as $item)
                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
@@ -24,9 +24,9 @@
                         <label>Spol</label>
                         <select class="form-control" name="animal_gender" id="" required>
                             <option value="">Odaberi</option>
-                            <option value="muzjak">M (mužjak)</option>
-                            <option value="zenka">Ž/F (ženka)</option>
-                            <option value="nije moguce odrediti">N (nije moguće odrediti)</option>
+                            <option value="M(mužjak)">M (mužjak)</option>
+                            <option value="Ž/F(ženka)">Ž/F (ženka)</option>
+                            <option value="N(nije moguće odrediti)">N (nije moguće odrediti)</option>
                         </select>
                     </div>
                 </div>
@@ -36,10 +36,10 @@
                         <label>Dob jedinke</label>
                         <select class="form-control" name="animal_age" id="" required>
                             <option value="">Odaberi</option>
-                            <option value="ADL">ADL (adultna)</option>
-                            <option value="JUV">JUV (juvenilna)</option>
-                            <option value="SA">SA (subadultna)</option>
-                            <option value="N">N (neodređeno)</option>
+                            <option value="ADL(adultna)">ADL (adultna)</option>
+                            <option value="JUV(juvenilna)">JUV (juvenilna)</option>
+                            <option value="SA(subadultna)">SA (subadultna)</option>
+                            <option value="N(neodređeno)">N (neodređeno)</option>
                         </select>
                     </div>  
                 </div>
