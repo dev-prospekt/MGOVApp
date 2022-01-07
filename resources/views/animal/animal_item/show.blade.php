@@ -116,12 +116,14 @@
                     @if($animalItem->animal_id == $ii)
                       @if ($animalItem->full_care_status == 1)
                         <a href="javascript:void(0)" data-id="0" 
-                          class="{{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare' : '' }} btn btn-danger btn-xs" 
+                          class="btn {{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare btn-danger' : 'btn-light' }} btn-xs" 
                           type="button">
                           Onemogući proširenu skrb
                         </a>
                       @else
-                        <a href="javascript:void(0)" data-id="1" class="fullcare btn btn-warning btn-xs" type="button">
+                        <a href="javascript:void(0)" data-id="1" 
+                          class="btn {{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare btn-warning' : 'btn-light' }} btn-xs" 
+                          type="button">
                           Omogući proširenu skrb
                         </a>
                       @endif

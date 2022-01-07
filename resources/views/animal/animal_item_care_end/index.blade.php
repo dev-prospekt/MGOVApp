@@ -202,7 +202,7 @@
         <div class="row">
           <div class="col-md-4 grid-margin">
             <div class="mt-2">
-              <label class="tx-11 font-weight-bold mb-0 text-uppercase">Konačna cijena: </label>
+              <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupan trošak: </label>
               <p class="text-muted">
                 @if (!empty($animalItem->dateRange->end_date))
                   {{ isset($price->total_price) ? $price->total_price . 'kn' : '0kn' }}
@@ -388,7 +388,7 @@
             <div class="d-flex align-items-center justify-content-between mb-2">
               <div></div>        
                 <div class="mt-2">
-                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Konačna cijena: </label>
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Ukupan trošak: </label>
                   <p class="text-muted">
                     @if (!empty($animalItem->dateRange->end_date))
                       <h5 class="text-primary">{{ isset($price->total_price) ? $price->total_price . 'kn' : '' }}</h5>
