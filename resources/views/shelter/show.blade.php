@@ -51,6 +51,7 @@
               <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
                   <div><h6 class="card-title">Popis vrsta</h6> </div>
+
                   <div class="grid-margin">
                     <a href="{{ route('shelterAnimal.create', [$shelter->id]) }}" type="button" class="btn btn-sm btn-primary btn-icon-text">
                       Dodaj jedinku

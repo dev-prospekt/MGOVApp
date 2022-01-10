@@ -83,30 +83,31 @@
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
                       <p class="text-muted">{{ $animalItem->animalDocumentation->state_found_desc ?? '' }}</p>
                     </div>
-                    <div class="mt-2">                             
-                      @if ($animalItem->animalDocumentation && !empty($animalItem->animalDocumentation->getMedia('state_found_file')))       
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>   
-                      <div class="bordered-group mt-2">
-                        <div class="latest-photos d-flex">
-                          @foreach ($animalItem->animalDocumentation->getMedia('state_found_file') as $media)
-                            @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
-                            <div class="photo-item d-flex flex-column">
-                              <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
-                                <figure>
-                                  <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
-                                </figure>
-                              </a>
-                            </div>          
-                            @else
-                          <div class="document-item d-flex flex-column">
-                            <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>  
-                          </div>                  
-                          @endif                                  
-                          @endforeach
-                        </div>
-                      </div>
+                    <div class="mt-2">                   
                       
-                       @endif 
+                      @if (!empty($animalItem->animalDocumentation->getMedia('state_found_file')->first()))      
+                        <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>   
+                        <div class="bordered-group mt-2">
+                          <div class="latest-photos d-flex">
+                            @foreach ($animalItem->animalDocumentation->getMedia('state_found_file') as $media)
+                              @if (($media->mime_type == 'image/png') || ($media->mime_type == 'image/jpeg'))
+                                <div class="photo-item d-flex flex-column">
+                                  <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
+                                    <figure>
+                                      <img class="img-fluid" src="{{ $media->getUrl() }}" alt="">
+                                    </figure>
+                                  </a>
+                                </div>          
+                              @else
+                                <div class="document-item d-flex flex-column">
+                                  <a href="{{ $media->getUrl() }}">{{ $media->name }}</a>  
+                                </div>                  
+                              @endif                                  
+                            @endforeach
+                          </div>
+                        </div>
+                      @endif
+
                     </div>
                 </div>                   
               </div>   
@@ -136,7 +137,7 @@
                         <p class="text-muted">{{ $animalItem->animalDocumentation->state_recive_desc ?? '' }}</p>
                       </div>
                       <div class="mt-2">                  
-                        @if ($animalItem->animalDocumentation && !empty($animalItem->animalDocumentation->getMedia('state_receive_file'))) 
+                        @if ($animalItem->animalDocumentation && !empty($animalItem->animalDocumentation->getMedia('state_receive_file')->first())) 
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>           
                         <div class="bordered-group mt-2">
                           <div class="latest-photos d-flex">
@@ -186,7 +187,7 @@
                     </div>
                     <div class="mt-2">              
                        
-                      @if ($animalItem->animalDocumentation && !empty($animalItem->animalDocumentation->getMedia('state_reason_file'))) 
+                      @if ($animalItem->animalDocumentation && !empty($animalItem->animalDocumentation->getMedia('state_reason_file')->first())) 
                        
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>            
                       <div class="bordered-group mt-2">
@@ -219,7 +220,7 @@
     </div>
 
     <div class="row mt-4">
-      {{-- <div class="col-md-4">
+      <div class="col-md-4">
         <div class="card">
           <div class="card-body">
             <div><h6 class="card-description">Nalaznik</h6> </div>  
@@ -227,32 +228,35 @@
               <div class="col-md-12 grid-margin">  
                 <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Nalaznik: </label>
-                  <p class="text-muted">{{ $animalItem->founder->name }} - {{ $animalItem->founder->service }}</p>
+                  <p class="text-muted">{{ $animalItem->founder->name ?? ''}} - {{ $animalItem->founder->service ?? '' }}</p>
                 </div>
                 <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Napomena nalaznika: </label>
                   <p class="text-muted">{{ $animalItem->founder_note }}</p>
                 </div>
                   <div class="mt-2">                  
-                      
-                    @if (!empty($animalItem->founder->getMedia('founder_documents')))  
-                    <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>             
-                    <div class="bordered-group mt-2">
-                      <div class="latest-photos d-flex">
-                        @foreach ($animalItem->founder->getMedia('founder_documents') as $media)                 
-                          <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
-                            {{ $media->name }}
-                          </a>                    
-                        @endforeach
-                      </div>
-                    </div>               
+                    
+                    @if (!empty($animalItem->founder))
+                      @if (!empty($animalItem->founder->getMedia('founder_documents')->first()))  
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>             
+                      <div class="bordered-group mt-2">
+                        <div class="latest-photos d-flex">
+                          @foreach ($animalItem->founder->getMedia('founder_documents') as $media)                 
+                            <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
+                              {{ $media->name }}
+                            </a>                    
+                          @endforeach
+                        </div>
+                      </div>               
+                      @endif
                     @endif
                   </div>
               </div>                   
             </div>  
           </div>
         </div>
-      </div> --}}
+      </div>
+      
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">       
@@ -309,7 +313,7 @@
                   
                     <div class="mt-2">
                      
-                      @if ($animalItem->animalDocumentation && !empty($animalItem->animalDocumentation->getMedia('animal_mark_photos')))
+                      @if ($animalItem->animalDocumentation && !empty($animalItem->animalDocumentation->getMedia('animal_mark_photos')->first()))
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>                                 
                       <div class="bordered-group mt-2">
                         <div class="latest-photos d-flex">
