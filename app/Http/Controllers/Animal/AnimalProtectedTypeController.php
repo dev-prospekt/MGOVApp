@@ -120,7 +120,7 @@ class AnimalProtectedTypeController extends Controller
     {
         $animalCategory = AnimalCategory::all();
         $animalSystemCategory = AnimalSystemCategory::all();
-        $animalCodes = AnimalCode::all();
+        $animalCodes = AnimalCode::where('name', '=', 'PZ')->orWhere('name', '=', 'NPZ')->get();
         $animalType = AnimalType::where('type_code', 'SZJ')->first();
 
         return view('animal.animal_type.sz_animal_type_create', compact('animalCodes', 'animalCategory', 'animalSystemCategory', 'animalType'));
@@ -161,7 +161,7 @@ class AnimalProtectedTypeController extends Controller
 
         $animalCategory = AnimalCategory::all();
         $animalSystemCategory = AnimalSystemCategory::all();
-        $animalCodes = AnimalCode::all();
+        $animalCodes = AnimalCode::where('name', '=', 'PZ')->orWhere('name', '=', 'NPZ')->get();
         $animalTypes = AnimalType::all();
 
         return view('animal.animal_type.sz_animal_type_show', compact('animal', 'animalCodes', 'animalCategory', 'animalSystemCategory', 'animalTypes', 'selectedCat', 'selectedCodes', 'selectedSystemCat'));

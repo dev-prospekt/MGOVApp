@@ -16,6 +16,8 @@ class AnimalCodeSeeder extends Seeder
     {
         AnimalCode::create(['name' => 'PZ', 'desc' => 'Prioritetne za zbrinjavanje']);
 
+        AnimalCode::create(['name' => 'NPZ', 'desc' => 'Nisu prioritetne za zbrinjavanje']);
+
         AnimalCode::create(['name' => 'CR', 'desc' => 'Kritično ugrožena vrsta']);
 
         AnimalCode::create(['name' => 'DD', 'desc' => 'Nedovoljno poznata']);
