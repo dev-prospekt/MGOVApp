@@ -65,7 +65,7 @@ class AnimalSeizedTypeController extends Controller
                 $btn_class = 'light';
             }
 
-            return  '<button type="button" class="btn btn-sm btn-' . ($btn_class) . '" data-toggle="tooltip" data-placement="left" title="' . ($code->desc) . '">
+            return  '<button type="button" class="btn btn-xs btn-' . ($btn_class) . '" data-toggle="tooltip" data-placement="left" title="' . ($code->desc) . '">
                            ' . $code->name . '
                           </button>';
 
@@ -76,7 +76,7 @@ class AnimalSeizedTypeController extends Controller
         ->addColumn('animal_type', function (Animal $animal) {
           return $animal->animalType->map(function ($type) {
 
-            return  '<button type="button" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="left" title="' . ($type->type_name) . '">
+            return  '<button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left" title="' . ($type->type_name) . '">
                         ' . $type->type_code . '
                        </button>';
             //  return $type->type_code;
@@ -84,13 +84,22 @@ class AnimalSeizedTypeController extends Controller
         })
 
         ->addColumn('action', function (Animal $animal) {
+          $deleteURL = route('delete_zj_animal_type', [$animal->id]);
+          $token = csrf_token();
+
           return '
                 <div class="d-flex align-items-center">
-                
-                    <a href="/zj_animal_type/' . $animal->id . '" class="btn btn-sm btn-primary mr-2"> 
+                    <a href="/zj_animal_type/' . $animal->id . '" class="btn btn-xs btn-primary mr-2"> 
                         Uredi
                     </a>
-                   
+
+                    <form action="'. $deleteURL .'" method="POST" class="m-0">
+                      <input type="hidden" name="_token" value="'.$token.'" />
+                      <input type="hidden" name="_method" value="DELETE">
+                      <button type="submit" class="btn btn-xs btn-danger mr-2">
+                        Obriši
+                      </button>
+                    </form>
                 </div>
                 ';
         })
@@ -181,6 +190,6 @@ class AnimalSeizedTypeController extends Controller
 
     $szAnimal->delete();
 
-    return redirect()->route('zj_animal_type')->with('msg', 'Jedinka je uspješno izbrisana.');
+    return redirect()->back()->with('msg', 'Jedinka je uspješno izbrisana.');
   }
 }

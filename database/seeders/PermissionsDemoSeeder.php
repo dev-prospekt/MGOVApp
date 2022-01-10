@@ -25,8 +25,22 @@ class PermissionsDemoSeeder extends Seeder
             'password' =>  bcrypt('adminroot'), // password
             'remember_token' => Str::random(10),
         ]);
-
-        $korisnik1 = User::create([
+        
+        $administrator = User::create([
+            'name' => 'Administrator',
+            'email' => 'administrator@test.com',
+            'shelter_id' => 1,
+            'password' =>  bcrypt('administrator'), // password
+            'remember_token' => Str::random(10),
+        ]);
+        $oporaviliste = User::create([
+            'name' => 'Oporavilište',
+            'email' => 'oporaviliste@test.com',
+            'shelter_id' => 1,
+            'password' =>  bcrypt('oporaviliste'), // password
+            'remember_token' => Str::random(10),
+        ]);
+        $korisnik = User::create([
             'name' => 'Korisnik',
             'email' => 'korisnik@test.com',
             'shelter_id' => 1,
@@ -46,11 +60,15 @@ class PermissionsDemoSeeder extends Seeder
         $edit = Permission::create(['name' => 'edit']);
         $delete = Permission::create(['name' => 'delete']);
         $create = Permission::create(['name' => 'create']);
+        $generate = Permission::create(['name' => 'generate']);
 
         // assign existing permissions
         $role1->givePermissionTo([$edit, $delete, $create]);
+        $role2->givePermissionTo([$generate]);
 
-        $superAdmin->assignRole($role1);
-        $korisnik1->assignRole($role3);
+        // assignRole
+        $administrator->assignRole($role1);
+        $korisnik->assignRole($role3);
+        $oporaviliste->assignRole($role2);
     }
 }

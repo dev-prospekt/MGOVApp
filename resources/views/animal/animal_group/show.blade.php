@@ -227,7 +227,7 @@ $(function() {
         order: [[ 0, "desc" ]],
     });
 
-     // Delete AnimalGroup
+    // Delete AnimalGroup
     $('#animal-table').on('click', '#deleteAnimalItem', function(){
         var url = $(this).attr('data-url');
 

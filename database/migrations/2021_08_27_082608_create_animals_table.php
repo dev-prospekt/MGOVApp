@@ -20,6 +20,8 @@ class CreateAnimalsTable extends Migration
             $table->string('name');
             $table->string('latin_name');
 
+            $table->softDeletes();
+
             $table->timestamps();
         });
     }

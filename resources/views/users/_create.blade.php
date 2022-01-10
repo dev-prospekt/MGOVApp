@@ -40,9 +40,9 @@
                         <label>Role</label>
                         <select class="form-control role_id" name="role_id" id="">
                             <option value="">Odaberi</option>
-                            <option value="1">Shelter-Admin</option>
-                            <option value="2">Super-Admin</option>
-                            <option value="3">Shelter-User</option>
+                            <option value="1">Administrator</option>
+                            <option value="2">Oporavilište</option>
+                            <option value="3">Korisnik</option>
                         </select>
                     </div>
                     <div class="form-group">

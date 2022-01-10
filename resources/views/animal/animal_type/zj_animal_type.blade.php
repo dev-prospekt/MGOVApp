@@ -2,6 +2,7 @@
 
 <link href="{{ asset('assets/plugins/@mdi/css/materialdesignicons.min.css') }}" rel="stylesheet" />
 <link href="{{ asset('assets/plugins/datatables-net/dataTables.bootstrap4.css') }}" rel="stylesheet" />
+<link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
 
 @section('content')
 <div class="row">
@@ -63,6 +64,7 @@
 @push('plugin-scripts')
   <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
   <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
+  <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 @endpush
 
 
@@ -91,6 +93,7 @@
                  }
            
             });
+
             // Delete
             $('#users-table').on('click', '#bntDeleteUser', function(e){
                 e.preventDefault();
@@ -100,7 +103,35 @@
                         'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
                     }
                 });
-       
+            });
+
+            // Delete Animal
+            $('#animals-table').on('click', '#deleteAnimal', function(){
+                var url = $(this).attr('data-url');
+
+                Swal.fire({
+                    title: 'Jeste li sigurni?',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Da, obriši!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: url,
+                            method: 'DELETE',
+                            success: function(result) {
+                                console.log(result)
+                            }
+                        }); 
+                    }
+                });
             });
         })
   </script>

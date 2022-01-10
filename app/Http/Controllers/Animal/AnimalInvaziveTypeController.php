@@ -38,33 +38,39 @@ class AnimalInvaziveTypeController extends Controller
           $animalCategory = $animal->animalCategory;
           return $animalCategory->animalSystemCategory->latin_name ?? '';
         })
-
         ->addColumn('animal_order', function (Animal $animal) {
 
           $animalCategory = $animal->animalCategory;
           return $animalCategory->animalOrder->order_name ?? '';
         })
-
         ->addColumn('animal_type', function (Animal $animal) {
           return $animal->animalType->map(function ($type) {
 
-            return  '<button type="button" class="btn btn-sm btn-warning" data-toggle="tooltip" data-placement="left" title="' . ($type->type_name) . '">
+            return  '<button type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left" title="' . ($type->type_name) . '">
                         ' . $type->type_code . '
                        </button>';
             //  return $type->type_code;
           })->implode('<br>');
         })
-
         ->addColumn('action', function (Animal $animal) {
-          return '
-                <div class="d-flex align-items-center">
-                
-                    <a href="/ij_animal_type/' . $animal->id . '" class="btn btn-sm btn-primary mr-2">
-                        Uredi
-                    </a>
+          $deleteURL = route('delete_ij_animal_type', [$animal->id]);
+          $token = csrf_token();
 
-                </div>
-                ';
+          return '
+          <div class="d-flex align-items-center">
+              <a href="/ij_animal_type/' . $animal->id . '" class="btn btn-xs btn-primary mr-2">
+                  Uredi
+              </a>
+
+              <form action="'. $deleteURL .'" method="POST" class="m-0">
+              <input type="hidden" name="_token" value="'.$token.'" />
+              <input type="hidden" name="_method" value="DELETE">
+              <button type="submit" class="btn btn-xs btn-danger mr-2">
+                  Obriši
+              </button>
+              </form>
+          </div>
+          ';
         })
 
         ->rawColumns(['animal_type', 'action'])
@@ -153,6 +159,6 @@ class AnimalInvaziveTypeController extends Controller
 
     $szAnimal->delete();
 
-    return redirect()->route('ij_animal_type')->with('msg', 'Jedinka je uspješno izbrisana.');
+    return redirect()->back()->with('msg', 'Jedinka je uspješno izbrisana.');
   }
 }

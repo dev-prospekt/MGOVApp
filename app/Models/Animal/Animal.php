@@ -6,10 +6,11 @@ use App\Models\Shelter\Shelter;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Animal extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $casts = ['id' => 'integer', 'animal_system_category_id' => 'integer', 'animal_size_id' => 'integer'];
     protected $fillable = ['animal_category_id', 'animal_size_id', 'name', 'latin_name'];
