@@ -16,7 +16,7 @@
           <i class="btn-icon-append" data-feather="clipboard"></i>
         </a> 
         
-        <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-info btn-sm btn-icon-text">
+        <a href="/generate-pdf/{{ $animalItem->id }}" target="_blank" type="button" class="btn btn-info btn-sm btn-icon-text">
           Izvještaj jedinke
           <i class="btn-icon-append" data-feather="clipboard"></i>
         </a> 
@@ -38,7 +38,11 @@
 
   @if($msg = Session::get('care_end'))
   <div id="successMessage" class="alert alert-warning"> {{ $msg }}</div>
-  @endif  
+  @endif 
+  
+  @if($izvj = Session::get('izvj'))
+  <div id="successMessage" class="alert alert-warning"> {{ $izvj }}</div>
+  @endif 
 
   <div class="row mt-4">
     <div class="col-md-5">

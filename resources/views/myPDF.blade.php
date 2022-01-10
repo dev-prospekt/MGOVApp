@@ -1,67 +1,209 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>PDF - {{ $animalItems->animal->name }}</title>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <style>
-        body {font-family: DejaVu Sans, sans-serif;}
-        strong, h2 {color: rgb(0, 0, 0) !important;}
-        p {color: rgb(90, 108, 131);}
-        .title {text-align: center;}
-    </style>
-</head>
-<body>
+    <title>PDF</title>
+  </head>
+  <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
 
-    <div class="title">
-        <h1>Izvještaj</h1>
-    </div>
+      body {
+        font-family: 'Montserrat', sans-serif !important;
+      }
+      table, td {
+        border: 1px solid #333;
+        border-collapse: collapse;
+      }
+      td {
+        text-align: left;
+        padding: 5px;
+        padding-top: 0px;
+        font-size: 14px;
+        font-weight: 400;
+      }
+      .title {
+        font-size: 16px;
+        font-weight: 700;
+        text-align: center;
+      }
+      .subtitle {
+        font-size: 17px;
+        font-weight: 600;
+      }
+      .gray {
+        background: lightgray;
+        padding: 10px;
+        font-weight: 600;
+      }
+      .italic {
+        font-style: italic;
+        font-size: 13px;
+      }
+      .txt {
+        font-size: 14px;
+      }
+  </style>
+  <body>
 
-    <h2>Životinja</h2>
-
-    <p><strong>Naziv:</strong> {{ $animalItems->animal->name }}</p>
-    <p><strong>Latinski naziv:</strong> {{ $animalItems->animal->latin_name }}</p>
-    <p><strong>Šifra:</strong> {{ $animalItems->shelter_code }}</p>
-    <p><strong>Veličina:</strong> {{ $animalItems->animalSizeAttributes->name ?? '' }}</p>
-    <p><strong>Spol:</strong> {{ $animalItems->animal_gender }}</p>
-    <p><strong>Lokacija:</strong> {{ $animalItems->location }}</p>
-
-    <hr>
-    <h2>Dokumenti</h2>
-
-    <p><strong>Grupa</strong></p>
+    <p class="title">ZAHTJEV ZA NADOKNADU SREDSTAVA ZA OSNOVNU I PROŠIRENU SKRB ZA ŽIVOTINJE U OPORAVILIŠTU TE USMRĆIVANJE</p>
+    
     <div>
-        @foreach ($mediaFiles as $fi)
-            @foreach ($fi->getMedia('media') as $media)
-                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                        href="{{ $media->getUrl() }}">
-                        {{ $media->name }}
-                    </a>
-            @endforeach
-        @endforeach
+      <table style="width:100%">
+        <tr>
+          <td>Datum podnošenja zahtjeva</td>
+          <td>10.01.2022</td>
+        </tr>
+        <tr>
+          <td>Datum izrade izvješća u aplikaciji</td>
+          <td>10.01.2022</td>
+        </tr>
+        <tr>
+          <td>Izvješće u aplikaciji izradio/la</td>
+          <td>Pero Perić</td>
+        </tr>
+      </table>
     </div>
 
-    <p><strong>Pojedinačni</strong></p>
-    @if ($animalItems->getMedia('media'))
-        @foreach ($animalItems->getMedia('media') as $file)
+    <div>
+      <p class="subtitle">Opći podaci</p>
+
+      <table style="width:100%">
+        <tr>
+          <td>Naziv oporavilišta</td>
+          <td>{{ $animalItems->shelter->name }}</td>
+        </tr>
+        <tr>
+          <td>OIB oporavilišta</td>
+          <td>{{ $animalItems->shelter->oib }}</td>
+        </tr>
+        <tr>
+          <td>Datum ovlaštenja oporavilišta</td>
+          <td>{{ $animalItems->shelter->register_date }}</td>
+        </tr>
+        <tr>
+          <td>Ovlaštena osoba</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>IBAN računa</td>
+          <td>{{ $animalItems->shelter->iban }}</td>
+        </tr>
+        <tr>
+          <td>Naziv banke kod koje je otvoren račun</td>
+          <td>{{ $animalItems->shelter->bank_name }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div>
+      <p class="subtitle">Izvještajno razdoblje</p>
+
+      <table style="width:100%">
+        <tr>
+          <td class="gray">Kvartal</td>
+          <td class="gray">Označiti</td>
+          <td class="gray">Datum izvještajnog razdoblja (od-do)</td>
+        </tr>
+        <tr>
+          <td>I. kvartal</td>
+          <td> <input type="checkbox" /> </td>
+          <td>10.01.2022</td>
+        </tr>
+        <tr>
+          <td>II. kvartal</td>
+          <td> <input type="checkbox" /> </td>
+          <td>10.01.2022</td>
+        </tr>
+        <tr>
+          <td>III. kvartal</td>
+          <td> <input type="checkbox" /> </td>
+          <td>10.01.2022</td>
+        </tr>
+        <tr>
+          <td>IV. kvartal</td>
+          <td> <input type="checkbox" /> </td>
+          <td>10.01.2022</td>
+        </tr>
+      </table>
+    </div>
+
+    <div>
+      <p class="subtitle">Potraživani troškovi za izvještajno razdoblje:</p>
+
+      <table style="width:100%">
+        <tr>
+          <td>Za strogo zaštićene vrste iz prirode</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Za oduzete i/ili zaplijenjene jedinke</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Ukupan broj eutanazija prema paušalu</td>
+          <td>
             <div>
-                <a class="text-muted mr-2" target="_blank" data-toggle="tooltip" data-placement="top" 
-                    href="{{ $file->getUrl() }}">
-                    {{ $file->name }}
-                </a>
+              <div>Od toga:</div>
+              <div>
+                <p style="margin: 0px;"><span>test</span> za strogo zaštićene jedinke</p>
+                <p style="margin: 0px;"><span>test</span> za zaplijenjene jedinke</p>
+                <p style="margin: 0px;"><span>test</span> za jedinke stranih invazivnih vrsta</p>
+              </div>
             </div>
-        @endforeach
-    @endif
+          </td>
+        </tr>
+        <tr>
+          <td>Broj eutanazija prema dostavljenim računima</td>
+          <td>
+            <div>
+              <div>Od toga:</div>
+              <div>
+                <p style="margin: 0px;"><span>test</span> za strogo zaštićene jedinke</p>
+                <p style="margin: 0px;"><span>test</span> za zaplijenjene jedinke</p>
+                <p style="margin: 0px;"><span>test</span> za jedinke stranih invazivnih vrsta</p>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Ostalo</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Ukupno*:</td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
 
-    <hr>
-    <h2>Oporavilište</h2>
+    <div>
+      <p class="txt">
+        Svojim potpisom u svojstvu odgovorne osobe u oporavilištu te pod punom 
+        materijalnom i kaznenom odgovornošću potvrđujem da su podaci prikazani 
+        u ovom Zahtjevu za nadoknadom potpuni, vjerodostojni i pouzdani.
+      </p>
 
-    <p><strong>Oporavilište:</strong> {{ $animalItems->shelter->name }}</p>
-    <p><strong>Šifra oporavilišta:</strong> {{ $animalItems->shelter->shelterCode }}</p>
-    <p><strong>Email:</strong> {{ $animalItems->shelter->email }}</p>
-    <p><strong>Adresa:</strong> {{ $animalItems->shelter->address }}</p>
-    <p><strong>OIB:</strong> {{ $animalItems->shelter->oib }}</p>
-    <p><strong>Poštanski broj:</strong> {{ $animalItems->shelter->place_zip }}</p>
-    <p><strong>Telefon:</strong> {{ $animalItems->shelter->telephone }}</p>
+      <p class="italic">
+        *Detaljni troškovi kao temelj ovog zahtjeva iskazani su u 
+        popratnom izvješću generiranom iz elektronske evidencije za 
+        oporavilišta, koje je priloženo iz ovaj zahtjev
+      </p>
+    </div>
 
-</body>
+    <div>
+      <p style="font-weight: bold; float: left;">
+        Ime i prezime <br>
+        odgovorne osobe
+      </p>
+
+      <p style="font-weight: bold; float: right;">
+        Vlastoručni potpis odgovorne osobe <br>
+        i pečat oporavilišta
+      </p>
+    </div>
+
+
+  </body>
 </html>

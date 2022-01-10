@@ -371,15 +371,13 @@ class AnimalItemController extends Controller
     public function generatePDF($id)
     {
         $animalItems = AnimalItem::with('animal', 'shelter', 'animalSizeAttributes')->find($id);
-        $animalFiles = AnimalFile::where('shelter_code', $animalItems->shelter_code)->get();
 
-        $mediaFiles = $animalFiles->each(function ($item, $key) {
-            $item->getMedia('media');
-        });
+        $pdf = PDF::loadView('myPDF', compact('animalItems'));
 
-        $pdf = PDF::loadView('myPDF', compact('animalItems', 'mediaFiles'));
-
-        return $pdf->stream('my.pdf');
+        // Save PDF
+        // Storage::put('public/files/pdf'.$id.'.pdf', $pdf->output());
+        return $pdf->stream('myPDF');
+        // return redirect()->back()->with('izvj', 'Uspješno spremljen izvještaj');
     }
 
     // Copy Media
