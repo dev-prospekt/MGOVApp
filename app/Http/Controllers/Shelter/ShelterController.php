@@ -195,6 +195,8 @@ class ShelterController extends Controller
      */
     public function edit(Shelter $shelter)
     {
+        if(auth()->user()->hasPermissionTo('edit') == false){ return redirect()->back(); }
+
         $shelterTypes = ShelterType::all();
         $selectedShelterTypes = $shelter->shelterTypes()->get();
 
