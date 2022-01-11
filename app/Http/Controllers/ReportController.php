@@ -55,9 +55,9 @@ class ReportController extends Controller
                     ->orWhere('end_date', '>=', $startDate)
                     ->where('end_date', '<=', $endDate);
                 })
-                ->orWhereHas('careEnd', function($query) use ($request){
-                    $query->where('animal_item_care_end_type_id', $request->care_end_type);
-                })
+                // ->orWhereHas('careEnd', function($query) use ($request){
+                //     $query->where('animal_item_care_end_type_id', $request->care_end_type);
+                // })
                 ->get();
         }
 

@@ -5,8 +5,10 @@ namespace App\Exports;
 use App\Invoice;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ZnsExport implements FromQuery
+class ZnsExport implements FromQuery, WithMapping, WithHeadings
 {
     use Exportable;
 
@@ -16,9 +18,27 @@ class ZnsExport implements FromQuery
         return $this;
     }
 
-    public function query()
+    public function map($data): array
     {
-        foreach ($this->data as $item) {
+        return [
+            $data->id,
+            $data->animal->name,
+            $data->animal->latin_name,
+        ];
+    }
+
+    public function headings(): array
+    {
+        return [
+            'ID',
+            'Naziv',
+            'Latinski naziv',
+        ];
+    }
+
+    public function query()
+    {   
+        foreach ($this->data as $item) {   
             return $item;
         }
     }
