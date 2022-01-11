@@ -110,6 +110,10 @@
             <li class="nav-item">
               <a href="{{ url('/shelter/create') }}" class="nav-link">Dodaj novo</a>
             </li>
+
+            <li class="nav-item">
+              <a href="{{ url('view-reports'); }}" class="nav-link">Izvješća</a>
+            </li>
           
           </ul>
         </div>  

@@ -171,5 +171,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/roleMappingAdd", 'UserController@roleMappingAdd');
 
     // Reports
+    Route::get('view-reports', 'ReportController@viewReports');
     Route::get('reports-zns', 'ReportController@generateZNS');
+    Route::post('report-export-excel', 'ReportController@exportToExcel')->name('export-to-excel');
 });
