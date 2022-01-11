@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use PDF;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalItem;
-use Carbon\Carbon;
+use App\Models\Animal\AnimalItemCareEndType;
 
 class ReportController extends Controller
 {
@@ -15,10 +16,12 @@ class ReportController extends Controller
     {
         $animals = Animal::all();
         $shelters = Shelter::all();
+        $endCareType = AnimalItemCareEndType::all();
 
         return view('reports.exporttoexcel', [
             'animals' => $animals,
             'shelters' => $shelters,
+            'endCareType' => $endCareType,
         ]);
     }
 
@@ -37,29 +40,25 @@ class ReportController extends Controller
     public function exportToExcel(Request $request)
     {
         $animal = Animal::find($request->animal);
-        $shelter = Shelter::find($request->shelter);
 
         // Date Range
         if($request->start_date && $request->end_date){
-            $animal = $animal->animalItems()->where('shelter_id', $request->shelter)->whereHas('dateRange', function ($query) use ($request) {
-                $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-                $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+            $animals = $animal->animalItems()
+                ->whereHas('dateRange', function ($query) use ($request) {
+                    $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+                    $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
 
-                $query->where('start_date', '>=', $startDate)
-                ->where('start_date', '<=', $endDate)
-                ->orWhere('end_date', '>=', $startDate)
-                ->where('end_date', '<=', $endDate);
-            })
-            ->get();
+                    $query->where('start_date', '>=', $startDate)
+                    ->where('start_date', '<=', $endDate)
+                    ->orWhere('end_date', '>=', $startDate)
+                    ->where('end_date', '<=', $endDate);
+                })
+                ->orWhereHas('careEnd', function($query) use ($request){
+                    $query->where('animal_item_care_end_type_id', $request->care_end_type);
+                })
+                ->get();
         }
-        
-        $collection = collect([
-            'data' => [
-                'animal' => $animal,
-                'shelter' => $shelter
-            ]
-        ]);
 
-        dd($collection);
+        dd($animals);
     }
 }

@@ -46,6 +46,15 @@
                                     </span>
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label>Razlog prestanka skrbi</label>
+                                <select name="care_end_type">
+                                    <option value="">------</option>
+                                    @foreach ($endCareType as $item)
+                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="col">
                             <div class="form-group">
