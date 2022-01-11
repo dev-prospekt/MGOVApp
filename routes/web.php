@@ -165,9 +165,11 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::post('animalItem/file', 'Animal\AnimalItemController@file')->name('animaItem.addedFile');
     Route::get('animalItem/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
-    Route::get('generate-pdf/{id}', 'Animal\AnimalItemController@generatePDF');
 
     Route::get("restore/{user_id}", 'UserController@restore');
     Route::get("/roleMapping", 'UserController@roleMapping');
     Route::post("/roleMappingAdd", 'UserController@roleMappingAdd');
+
+    // Reports
+    Route::get('reports-zns', 'ReportController@generateZNS');
 });

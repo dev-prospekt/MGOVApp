@@ -16,7 +16,7 @@
           <i class="btn-icon-append" data-feather="clipboard"></i>
         </a> 
         
-        <a href="/generate-pdf/{{ $animalItem->id }}" target="_blank" type="button" class="btn btn-info btn-sm btn-icon-text">
+        <a href="#" target="_blank" type="button" class="btn btn-info btn-sm btn-icon-text">
           Izvještaj jedinke
           <i class="btn-icon-append" data-feather="clipboard"></i>
         </a> 

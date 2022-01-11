@@ -368,18 +368,6 @@ class AnimalItemController extends Controller
         ]);
     }
 
-    public function generatePDF($id)
-    {
-        $animalItems = AnimalItem::with('animal', 'shelter', 'animalSizeAttributes')->find($id);
-
-        $pdf = PDF::loadView('myPDF', compact('animalItems'));
-
-        // Save PDF
-        // Storage::put('public/files/pdf'.$id.'.pdf', $pdf->output());
-        return $pdf->stream('myPDF');
-        // return redirect()->back()->with('izvj', 'Uspješno spremljen izvještaj');
-    }
-
     // Copy Media
     public function copyMedia($model, $newModel)
     {

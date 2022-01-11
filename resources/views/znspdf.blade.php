@@ -3,47 +3,45 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <title>PDF</title>
   </head>
   <style>
-      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap');
-
-      body {
-        font-family: 'Montserrat', sans-serif !important;
-      }
-      table, td {
-        border: 1px solid #333;
-        border-collapse: collapse;
-      }
-      td {
-        text-align: left;
-        padding: 5px;
-        padding-top: 0px;
-        font-size: 14px;
-        font-weight: 400;
-      }
-      .title {
-        font-size: 16px;
-        font-weight: 700;
-        text-align: center;
-      }
-      .subtitle {
-        font-size: 17px;
-        font-weight: 600;
-      }
-      .gray {
-        background: lightgray;
-        padding: 10px;
-        font-weight: 600;
-      }
-      .italic {
-        font-style: italic;
-        font-size: 13px;
-      }
-      .txt {
-        font-size: 14px;
-      }
+    body {
+      font-family: DejaVu Sans, sans-serif !important;
+      font-size: 12px !important;
+    }
+    table, td {
+      border: 1px solid #333;
+      border-collapse: collapse;
+    }
+    td {
+      text-align: left;
+      padding: 5px;
+      padding-top: 0px;
+      font-size: 14px;
+      font-weight: 400;
+    }
+    .title {
+      font-size: 16px !important;
+      font-weight: 700 !important;
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 15px !important;
+      font-weight: 600 !important;
+    }
+    .gray {
+      background: lightgray;
+      padding: 10px;
+      font-weight: 600;
+    }
+    .italic {
+      font-style: italic;
+      font-size: 13px;
+    }
+    .txt {
+      font-size: 14px;
+    }
   </style>
   <body>
 
@@ -113,7 +111,7 @@
         </tr>
         <tr>
           <td>II. kvartal</td>
-          <td> <input type="checkbox" /> </td>
+          <td> <input type="checkbox" checked /> </td>
           <td>10.01.2022</td>
         </tr>
         <tr>
@@ -146,10 +144,10 @@
           <td>
             <div>
               <div>Od toga:</div>
-              <div>
-                <p style="margin: 0px;"><span>test</span> za strogo zaštićene jedinke</p>
-                <p style="margin: 0px;"><span>test</span> za zaplijenjene jedinke</p>
-                <p style="margin: 0px;"><span>test</span> za jedinke stranih invazivnih vrsta</p>
+              <div style="margin-left: 60px;">
+                <p style="margin: 0px;">{{ 20 }} za strogo zaštićene jedinke</p>
+                <p style="margin: 0px;">{{ 20 }} za zaplijenjene jedinke</p>
+                <p style="margin: 0px;">{{ 20 }} za jedinke stranih invazivnih vrsta</p>
               </div>
             </div>
           </td>
@@ -159,10 +157,10 @@
           <td>
             <div>
               <div>Od toga:</div>
-              <div>
-                <p style="margin: 0px;"><span>test</span> za strogo zaštićene jedinke</p>
-                <p style="margin: 0px;"><span>test</span> za zaplijenjene jedinke</p>
-                <p style="margin: 0px;"><span>test</span> za jedinke stranih invazivnih vrsta</p>
+              <div style="margin-left: 60px;">
+                <p style="margin: 0px;">{{ 20 }} za strogo zaštićene jedinke</p>
+                <p style="margin: 0px;">{{ 20 }} za zaplijenjene jedinke</p>
+                <p style="margin: 0px;">{{ 20 }} za jedinke stranih invazivnih vrsta</p>
               </div>
             </div>
           </td>
