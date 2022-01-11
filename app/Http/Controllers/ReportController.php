@@ -39,7 +39,7 @@ class ReportController extends Controller
         $animal = Animal::find($request->animal);
         $shelter = Shelter::find($request->shelter);
 
-        // Date
+        // Date Range
         if($request->start_date && $request->end_date){
             $animal = $animal->animalItems()->where('shelter_id', $request->shelter)->whereHas('dateRange', function ($query) use ($request) {
                 $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
