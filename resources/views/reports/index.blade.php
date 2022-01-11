@@ -18,7 +18,7 @@
 
         <div class="row mt-5">
             <div class="col">
-                <div class="mb-3">
+                <div class="mb-3 text-center">
                     <h5>Export to excel</h5>
                 </div>
 
@@ -86,7 +86,21 @@
                 </form>
             </div>
             <div class="col">
+                <div class="mb-3 text-center">
+                    <h5>ZNS-Zahtjev za nadoknadu sredstava</h5>
+                </div>
 
+                <form action="{{ route('reports-zns') }}" target="_blank" method="POST">
+                    @csrf
+                    @method('POST')
+
+
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary">Pogledaj</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

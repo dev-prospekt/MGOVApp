@@ -172,6 +172,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Reports
     Route::get('view-reports', 'ReportController@viewReports');
-    Route::get('reports-zns', 'ReportController@generateZNS');
+    Route::post('reports-zns', 'ReportController@generateZNS')->name('reports-zns');
     Route::post('report-export-excel', 'ReportController@exportToExcel')->name('export-to-excel');
 });

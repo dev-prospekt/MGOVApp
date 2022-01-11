@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use PDF;
 use Carbon\Carbon;
+use App\Exports\ZnsExport;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalItem;
+use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Animal\AnimalItemCareEndType;
 
 class ReportController extends Controller
@@ -18,16 +20,16 @@ class ReportController extends Controller
         $shelters = Shelter::all();
         $endCareType = AnimalItemCareEndType::all();
 
-        return view('reports.exporttoexcel', [
+        return view('reports.index', [
             'animals' => $animals,
             'shelters' => $shelters,
             'endCareType' => $endCareType,
         ]);
     }
 
-    public function generateZNS()
-    {
-        $animalItems = AnimalItem::find(1);
+    public function generateZNS(Request $request)
+    {   
+        $animalItems = AnimalItem::find(2);
 
         $pdf = PDF::loadView('reports.znspdf', compact('animalItems'));
 
@@ -58,6 +60,12 @@ class ReportController extends Controller
                 })
                 ->get();
         }
+
+        // Export
+        // $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
+        // $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('d.m.Y');
+        // $name = 'zns-'.$startDate.'-'.$endDate;
+        // return (new ZnsExport)->data($animals)->download($name.'.xlsx');
 
         dd($animals);
     }
