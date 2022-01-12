@@ -99,7 +99,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>Oporavilišta</label>
-                                <select name="shelter" class="js-example-basic-single w-100">
+                                <select name="shelter" class="js-example-basic-single w-100" required>
                                     <option value="">------</option>
                                     @foreach ($shelters as $shelter)
                                         <option value="{{ $shelter->id }}">{{ $shelter->name }}</option>

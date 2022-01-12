@@ -98,10 +98,10 @@ class ReportController extends Controller
             $data = ['kvartal' => 2, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
         }
         if($startDate > $start3 && $startDate < $end3 || $endDate > $start3 && $endDate < $end3){
-            $data = ['kvartal' => 2, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
+            $data = ['kvartal' => 3, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
         }
         if($startDate > $start4 && $startDate < $end4 || $endDate > $start4 && $endDate < $end4){
-            $data = ['kvartal' => 2, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
+            $data = ['kvartal' => 4, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
         }
 
         return $data;

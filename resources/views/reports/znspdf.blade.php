@@ -42,6 +42,9 @@
     .txt {
       font-size: 14px;
     }
+    .underline {
+      text-decoration: underline;
+    }
   </style>
   <body>
 
@@ -161,9 +164,9 @@
             <div>
               <div>Od toga:</div>
               <div style="margin-left: 60px;">
-                <p style="margin: 0px;">{{ $vetSZJ }} za strogo zaštićene jedinke</p>
-                <p style="margin: 0px;">{{ $vetZJ }} za zaplijenjene jedinke</p>
-                <p style="margin: 0px;">{{ $vetIJ }} za jedinke stranih invazivnih vrsta</p>
+                <p style="margin: 0px;"><span class="underline">{{ $vetSZJ }}</span> za strogo zaštićene jedinke</p>
+                <p style="margin: 0px;"><span class="underline">{{ $vetZJ }}</span> za zaplijenjene jedinke</p>
+                <p style="margin: 0px;"><span class="underline">{{ $vetIJ }}</span> za jedinke stranih invazivnih vrsta</p>
               </div>
             </div>
           </td>
@@ -174,9 +177,9 @@
             <div>
               <div>Od toga:</div>
               <div style="margin-left: 60px;">
-                <p style="margin: 0px;">{{ $outVetSZJ }} za strogo zaštićene jedinke</p>
-                <p style="margin: 0px;">{{ $outVetZJ }} za zaplijenjene jedinke</p>
-                <p style="margin: 0px;">{{ $outVetIJ }} za jedinke stranih invazivnih vrsta</p>
+                <p style="margin: 0px;"><span class="underline">{{ $outVetSZJ }}</span> za strogo zaštićene jedinke</p>
+                <p style="margin: 0px;"><span class="underline">{{ $outVetZJ }}</span> za zaplijenjene jedinke</p>
+                <p style="margin: 0px;"><span class="underline">{{ $outVetIJ }}</span> za jedinke stranih invazivnih vrsta</p>
               </div>
             </div>
           </td>
