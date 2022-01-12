@@ -106,23 +106,39 @@
         </tr>
         <tr>
           <td>I. kvartal</td>
-          <td> <input type="checkbox" /> </td>
-          <td>10.01.2022</td>
+          <td> <input type="checkbox" {{ $kvartal['kvartal'] == 1 ? 'checked' : '' }} /> </td>
+          <td>
+            @if ($kvartal['kvartal'] == 1)
+              {{ $kvartal['date']['startDate'] . ' - ' . $kvartal['date']['endDate'] }}
+            @endif
+          </td>
         </tr>
         <tr>
           <td>II. kvartal</td>
-          <td> <input type="checkbox" checked /> </td>
-          <td>10.01.2022</td>
+          <td> <input type="checkbox" {{ $kvartal['kvartal'] == 2 ? 'checked' : '' }} /> </td>
+          <td>
+            @if ($kvartal['kvartal'] == 2)
+              {{ $kvartal['date']['startDate'] . ' - ' . $kvartal['date']['endDate'] }}
+            @endif
+          </td>
         </tr>
         <tr>
           <td>III. kvartal</td>
-          <td> <input type="checkbox" /> </td>
-          <td>10.01.2022</td>
+          <td> <input type="checkbox" {{ $kvartal['kvartal'] == 3 ? 'checked' : '' }} /> </td>
+          <td>
+            @if ($kvartal['kvartal'] == 3)
+              {{ $kvartal['date']['startDate'] . ' - ' . $kvartal['date']['endDate'] }}
+            @endif
+          </td>
         </tr>
         <tr>
           <td>IV. kvartal</td>
-          <td> <input type="checkbox" /> </td>
-          <td>10.01.2022</td>
+          <td> <input type="checkbox" {{ $kvartal['kvartal'] == 4 ? 'checked' : '' }} /> </td>
+          <td>
+            @if ($kvartal['kvartal'] == 4)
+              {{ $kvartal['date']['startDate'] . ' - ' . $kvartal['date']['endDate'] }}
+            @endif
+          </td>
         </tr>
       </table>
     </div>

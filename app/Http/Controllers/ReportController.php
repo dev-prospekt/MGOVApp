@@ -43,6 +43,9 @@ class ReportController extends Controller
         // Ako se ne odabere raspon, provjeravat ce sve animalIteme u odabranom oporavilištu
         $data = (!empty($dateRangeAnimal)) ? $dateRangeAnimal : $animalItems;
 
+        // Kvartal
+        $kvartal = $this->kvartal($request);
+
         // Veterinar oporavilišta
         $vet = $this->vet($data);
         $vetSZJ = isset($vet['SZJ']) ? count($vet['SZJ']) : 0;
@@ -59,12 +62,49 @@ class ReportController extends Controller
             'animalItems', 'username', 'shelter',
             'vetSZJ', 'vetZJ', 'vetIJ',
             'outVetSZJ', 'outVetZJ', 'outVetIJ',
+            'kvartal'
         ));
 
         // Save PDF
         // Storage::put('public/files/pdf'.$id.'.pdf', $pdf->output());
         return $pdf->stream('reports.znspdf');
         // return redirect()->back()->with('izvj', 'Uspješno spremljen izvještaj');
+    }
+
+    public function kvartal($request)
+    {
+        $data = [];
+        $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date);
+        $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date);
+        $year = Carbon::now()->format('Y');
+
+        // 1. 1.1.xxxx - 1.3.xxxx
+        $start1 = Carbon::parse('01.01.'.$year);
+        $end1 = Carbon::parse('01.03.'.$year);
+        // 2. 1.4.xxxx - 30.6.xxxx
+        $start2 = Carbon::parse('01.04.'.$year);
+        $end2 = Carbon::parse('30.06.'.$year);
+        // 3. 1.7.xxxx - 30.9.xxxx
+        $start3 = Carbon::parse('01.07.'.$year);
+        $end3 = Carbon::parse('30.09.'.$year);
+        // 4. 1.10.xxxx - 31.12.xxxx
+        $start4 = Carbon::parse('01.10.'.$year);
+        $end4 = Carbon::parse('31.12.'.$year);
+
+        if($startDate > $start1 && $startDate < $end1 || $endDate > $start1 && $endDate < $end1){
+            $data = ['kvartal' => 1, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
+        }
+        if($startDate > $start2 && $startDate < $end2 || $endDate > $start2 && $endDate < $end2){
+            $data = ['kvartal' => 2, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
+        }
+        if($startDate > $start3 && $startDate < $end3 || $endDate > $start3 && $endDate < $end3){
+            $data = ['kvartal' => 2, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
+        }
+        if($startDate > $start4 && $startDate < $end4 || $endDate > $start4 && $endDate < $end4){
+            $data = ['kvartal' => 2, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
+        }
+
+        return $data;
     }
 
     public function dateRangeAnimal($request, $animalItems)

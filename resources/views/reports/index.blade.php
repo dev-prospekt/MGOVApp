@@ -19,7 +19,7 @@
         <div class="row mt-5">
             <div class="col">
                 <div class="mb-3 text-center">
-                    <h5>Export to excel</h5>
+                    <h4>Export to excel</h4>
                 </div>
 
                 <form action="{{ route('export-to-excel') }}" method="POST">
@@ -88,7 +88,7 @@
             </div>
             <div class="col">
                 <div class="mb-3 text-center">
-                    <h5>ZNS-Zahtjev za nadoknadu sredstava</h5>
+                    <h4>ZNS-Zahtjev za nadoknadu sredstava</h4>
                 </div>
 
                 <form action="{{ route('reports-zns') }}" target="_blank" method="POST">
@@ -165,6 +165,7 @@
                     format: "mm/dd/yyyy",
                     todayHighlight: true,
                     autoclose: true,
+                    orientation: "bottom"
                 });
             }
 
