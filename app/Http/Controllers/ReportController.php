@@ -37,14 +37,20 @@ class ReportController extends Controller
         $animalItems = $shelter->allAnimalItems;
         $username = auth()->user()->name;
 
+        // Raspon datum ce nam vratiti jedinke
+        $dateRangeAnimal = $this->dateRangeAnimal($request, $animalItems);
+        
+        // Ako se ne odabere raspon, provjeravat ce sve animalIteme u odabranom oporavilištu
+        $data = (!empty($dateRangeAnimal)) ? $dateRangeAnimal : $animalItems;
+
         // Veterinar oporavilišta
-        $vet = $this->vet($animalItems);
+        $vet = $this->vet($data);
         $vetSZJ = isset($vet['SZJ']) ? count($vet['SZJ']) : 0;
         $vetZJ = isset($vet['ZJ']) ? count($vet['ZJ']) : 0;
         $vetIJ = isset($vet['IJ']) ? count($vet['IJ']) : 0;
 
         // Vanjski veterinar
-        $outVet = $this->outVet($animalItems);
+        $outVet = $this->outVet($data);
         $outVetSZJ = isset($outVet['SZJ']) ? count($outVet['SZJ']) : 0;
         $outVetZJ = isset($outVet['ZJ']) ? count($outVet['ZJ']) : 0;
         $outVetIJ = isset($outVet['IJ']) ? count($outVet['IJ']) : 0;
@@ -59,6 +65,31 @@ class ReportController extends Controller
         // Storage::put('public/files/pdf'.$id.'.pdf', $pdf->output());
         return $pdf->stream('reports.znspdf');
         // return redirect()->back()->with('izvj', 'Uspješno spremljen izvještaj');
+    }
+
+    public function dateRangeAnimal($request, $animalItems)
+    {
+        $data = [];
+
+        if($request->start_date && $request->end_date){
+            $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+            $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+
+            foreach($animalItems as $item){
+                $data = 
+                $item->whereHas('dateRange', function ($query) use ($request) {
+                    $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+                    $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+
+                    $query->where('start_date', '>=', $startDate)
+                    ->where('start_date', '<=', $endDate)
+                    ->orWhere('end_date', '>=', $startDate)
+                    ->where('end_date', '<=', $endDate);
+                })->get();
+            }
+        }
+
+        return $data;
     }
 
     public function vet($animalItems)
