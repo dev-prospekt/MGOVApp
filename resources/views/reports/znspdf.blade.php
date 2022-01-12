@@ -46,7 +46,7 @@
   <body>
 
     <p class="title">ZAHTJEV ZA NADOKNADU SREDSTAVA ZA OSNOVNU I PROŠIRENU SKRB ZA ŽIVOTINJE U OPORAVILIŠTU TE USMRĆIVANJE</p>
-    
+
     <div>
       <table style="width:100%">
         <tr>
@@ -59,7 +59,7 @@
         </tr>
         <tr>
           <td>Izvješće u aplikaciji izradio/la</td>
-          <td>Pero Perić</td>
+          <td>{{ $username }}</td>
         </tr>
       </table>
     </div>
@@ -70,15 +70,15 @@
       <table style="width:100%">
         <tr>
           <td>Naziv oporavilišta</td>
-          <td>{{ $animalItems->shelter->name }}</td>
+          <td>{{ $shelter->name }}</td>
         </tr>
         <tr>
           <td>OIB oporavilišta</td>
-          <td>{{ $animalItems->shelter->oib }}</td>
+          <td>{{ $shelter->oib }}</td>
         </tr>
         <tr>
           <td>Datum ovlaštenja oporavilišta</td>
-          <td>{{ $animalItems->shelter->register_date }}</td>
+          <td>{{ $shelter->register_date }}</td>
         </tr>
         <tr>
           <td>Ovlaštena osoba</td>
@@ -86,11 +86,11 @@
         </tr>
         <tr>
           <td>IBAN računa</td>
-          <td>{{ $animalItems->shelter->iban }}</td>
+          <td>{{ $shelter->iban }}</td>
         </tr>
         <tr>
           <td>Naziv banke kod koje je otvoren račun</td>
-          <td>{{ $animalItems->shelter->bank_name }}</td>
+          <td>{{ $shelter->bank_name }}</td>
         </tr>
       </table>
     </div>
@@ -145,9 +145,9 @@
             <div>
               <div>Od toga:</div>
               <div style="margin-left: 60px;">
-                <p style="margin: 0px;">{{ 20 }} za strogo zaštićene jedinke</p>
-                <p style="margin: 0px;">{{ 20 }} za zaplijenjene jedinke</p>
-                <p style="margin: 0px;">{{ 20 }} za jedinke stranih invazivnih vrsta</p>
+                <p style="margin: 0px;">{{ $vetSZJ }} za strogo zaštićene jedinke</p>
+                <p style="margin: 0px;">{{ $vetZJ }} za zaplijenjene jedinke</p>
+                <p style="margin: 0px;">{{ $vetIJ }} za jedinke stranih invazivnih vrsta</p>
               </div>
             </div>
           </td>
@@ -158,9 +158,9 @@
             <div>
               <div>Od toga:</div>
               <div style="margin-left: 60px;">
-                <p style="margin: 0px;">{{ 20 }} za strogo zaštićene jedinke</p>
-                <p style="margin: 0px;">{{ 20 }} za zaplijenjene jedinke</p>
-                <p style="margin: 0px;">{{ 20 }} za jedinke stranih invazivnih vrsta</p>
+                <p style="margin: 0px;">{{ $outVetSZJ }} za strogo zaštićene jedinke</p>
+                <p style="margin: 0px;">{{ $outVetZJ }} za zaplijenjene jedinke</p>
+                <p style="margin: 0px;">{{ $outVetIJ }} za jedinke stranih invazivnih vrsta</p>
               </div>
             </div>
           </td>

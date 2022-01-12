@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Animal\AnimalItemCareEnd;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DateRange extends Model
 {

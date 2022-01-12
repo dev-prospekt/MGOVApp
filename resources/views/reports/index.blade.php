@@ -61,6 +61,7 @@
                                 <label>Oporavilišta</label>
                                 <select name="shelter" class="js-example-basic-single w-100">
                                     <option value="">------</option>
+                                    <option value="all">Sva oporavilišta</option>
                                     @foreach ($shelters as $shelter)
                                         <option value="{{ $shelter->id }}">{{ $shelter->name }}</option>
                                     @endforeach
@@ -94,6 +95,44 @@
                     @csrf
                     @method('POST')
 
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Oporavilišta</label>
+                                <select name="shelter" class="js-example-basic-single w-100">
+                                    <option value="">------</option>
+                                    @foreach ($shelters as $shelter)
+                                        <option value="{{ $shelter->id }}">{{ $shelter->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Od</label>
+                                <div class="input-group date datepicker" id="datePickerExample">
+                                    <input type="text" name="start_date" class="form-control">
+                                    <span class="input-group-addon">
+                                    <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Do</label>
+                                <div class="input-group date datepicker" id="datePickerExample">
+                                    <input type="text" name="end_date" class="form-control">
+                                    <span class="input-group-addon">
+                                    <i data-feather="calendar"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="row">
                         <div class="col">

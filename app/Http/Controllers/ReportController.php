@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use PDF;
 use Carbon\Carbon;
 use App\Exports\ZnsExport;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalItem;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Models\Animal\AnimalCategory;
 use App\Models\Animal\AnimalItemCareEndType;
 
 class ReportController extends Controller
@@ -17,6 +19,7 @@ class ReportController extends Controller
     public function viewReports()
     {
         $animals = Animal::all();
+        $animalCategory = AnimalCategory::all();
         $shelters = Shelter::all();
         $endCareType = AnimalItemCareEndType::all();
 
@@ -24,19 +27,86 @@ class ReportController extends Controller
             'animals' => $animals,
             'shelters' => $shelters,
             'endCareType' => $endCareType,
+            'animalCategory' => $animalCategory,
         ]);
     }
 
     public function generateZNS(Request $request)
-    {   
-        $animalItems = AnimalItem::find(2);
+    {
+        $shelter = Shelter::find($request->shelter);
+        $animalItems = $shelter->allAnimalItems;
+        $username = auth()->user()->name;
 
-        $pdf = PDF::loadView('reports.znspdf', compact('animalItems'));
+        // Veterinar oporavilišta
+        $vet = $this->vet($animalItems);
+        $vetSZJ = isset($vet['SZJ']) ? count($vet['SZJ']) : 0;
+        $vetZJ = isset($vet['ZJ']) ? count($vet['ZJ']) : 0;
+        $vetIJ = isset($vet['IJ']) ? count($vet['IJ']) : 0;
+
+        // Vanjski veterinar
+        $outVet = $this->outVet($animalItems);
+        $outVetSZJ = isset($outVet['SZJ']) ? count($outVet['SZJ']) : 0;
+        $outVetZJ = isset($outVet['ZJ']) ? count($outVet['ZJ']) : 0;
+        $outVetIJ = isset($outVet['IJ']) ? count($outVet['IJ']) : 0;
+
+        $pdf = PDF::loadView('reports.znspdf', compact(
+            'animalItems', 'username', 'shelter',
+            'vetSZJ', 'vetZJ', 'vetIJ',
+            'outVetSZJ', 'outVetZJ', 'outVetIJ',
+        ));
 
         // Save PDF
         // Storage::put('public/files/pdf'.$id.'.pdf', $pdf->output());
         return $pdf->stream('reports.znspdf');
         // return redirect()->back()->with('izvj', 'Uspješno spremljen izvještaj');
+    }
+
+    public function vet($animalItems)
+    {
+        $euthanasiaData = [];
+        foreach ($animalItems as $item) {
+            if(!empty($item->euthanasia)){
+                if($item->euthanasia->shelter_staff_id == 1){
+                    foreach ($item->animal->animalType as $key) {
+                        if($key->type_code == 'SZJ'){
+                            $euthanasiaData['SZJ'][] = $item->euthanasia;
+                        }
+                        if($key->type_code == 'ZJ'){
+                            $euthanasiaData['ZJ'][] = $item->euthanasia;
+                        }
+                        if($key->type_code == 'IJ'){
+                            $euthanasiaData['IJ'][] = $item->euthanasia;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $euthanasiaData;
+    }
+
+    public function outVet($animalItems)
+    {
+        $euthanasiaData = [];
+        foreach ($animalItems as $item) {
+            if(!empty($item->euthanasia)){
+                if($item->euthanasia->shelter_staff_id == 2){
+                    foreach ($item->animal->animalType as $key) {
+                        if($key->type_code == 'SZJ'){
+                            $euthanasiaData['SZJ'][] = $item->euthanasia;
+                        }
+                        if($key->type_code == 'ZJ'){
+                            $euthanasiaData['ZJ'][] = $item->euthanasia;
+                        }
+                        if($key->type_code == 'IJ'){
+                            $euthanasiaData['IJ'][] = $item->euthanasia;
+                        }
+                    }
+                }
+            }
+        }
+
+        return $euthanasiaData;
     }
 
     public function exportToExcel(Request $request)
@@ -55,9 +125,12 @@ class ReportController extends Controller
                     ->orWhere('end_date', '>=', $startDate)
                     ->where('end_date', '<=', $endDate);
                 })
-                // ->orWhereHas('careEnd', function($query) use ($request){
-                //     $query->where('animal_item_care_end_type_id', $request->care_end_type);
-                // })
+                ->orDoesntHave("shelter")->whereHas('shelter', function($query) use ($request){
+                    $query->where('id', $request->shelter);
+                })
+                ->orDoesntHave("careEnd")->whereHas('careEnd', function($query) use ($request){
+                    $query->where('animal_item_care_end_type_id', $request->care_end_type);
+                })
                 ->get();
         }
 
