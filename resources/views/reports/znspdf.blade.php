@@ -152,11 +152,11 @@
       <table style="width:100%">
         <tr>
           <td>Za strogo zaštićene vrste iz prirode</td>
-          <td></td>
+          <td>{{ $potrazivani_troskoviSZJ }}</td>
         </tr>
         <tr>
           <td>Za oduzete i/ili zaplijenjene jedinke</td>
-          <td></td>
+          <td>{{ $potrazivani_troskoviZJ }}</td>
         </tr>
         <tr>
           <td>Ukupan broj eutanazija prema paušalu</td>
