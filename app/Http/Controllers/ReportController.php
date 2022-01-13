@@ -37,11 +37,12 @@ class ReportController extends Controller
         $animalItems = $shelter->allAnimalItems;
         $username = auth()->user()->name;
 
-        // Raspon datum ce nam vratiti jedinke
-        $dateRangeAnimal = $this->dateRangeAnimal($request, $animalItems);
-        
-        // Ako se ne odabere raspon, provjeravat ce sve animalIteme u odabranom oporavilištu
-        $data = (!empty($dateRangeAnimal)) ? $dateRangeAnimal : $animalItems;
+        if(empty($request->start_date) || empty($request->end_date)){
+            return redirect()->back()->with('msg', 'Raspon datuma je obavezan');
+        }
+
+        // Raspon datuma ce nam vratiti jedinke
+        $data = $this->dateRangeAnimal($request, $animalItems);
 
         // Kvartal
         $kvartal = $this->kvartal($request);
@@ -52,13 +53,13 @@ class ReportController extends Controller
         $potrazivani_troskoviIJ = isset($potrazivani_troskovi['IJ']['data']) ? count($potrazivani_troskovi['IJ']['data']) : 0;
 
         // Veterinar oporavilišta
-        $vet = $this->vet($data);
+        $vet = $this->vet($data, 1);
         $vetSZJ = isset($vet['SZJ']['data']) ? count($vet['SZJ']['data']) : 0;
         $vetZJ = isset($vet['ZJ']['data']) ? count($vet['ZJ']['data']) : 0;
         $vetIJ = isset($vet['IJ']['data']) ? count($vet['IJ']['data']) : 0;
 
         // Vanjski veterinar
-        $outVet = $this->outVet($data);
+        $outVet = $this->vet($data, 2);
         $outVetSZJ = isset($outVet['SZJ']['data']) ? count($outVet['SZJ']['data']) : 0;
         $outVetZJ = isset($outVet['ZJ']['data']) ? count($outVet['ZJ']['data']) : 0;
         $outVetIJ = isset($outVet['IJ']['data']) ? count($outVet['IJ']['data']) : 0;
@@ -76,21 +77,24 @@ class ReportController extends Controller
         ];
 
         $totalPrice = 0;
-        foreach ($allPrice as $price) {
-            if(isset($price['price'])){
-                //$allPrice += $price["price"];
-                dump($price);
+        foreach ($allPrice as $key => $value) {
+            if(!empty($value)){
+                foreach ($value as $price) {
+                    $price = collect($price);
+                    foreach ($price as $total_price) {
+                        $totalPrice += $total_price;
+                    }
+                }
             }
         }
-
-        dd($totalPrice);
 
         $pdf = PDF::loadView('reports.znspdf', compact(
             'animalItems', 'username', 'shelter',
             'vetSZJ', 'vetZJ', 'vetIJ',
             'outVetSZJ', 'outVetZJ', 'outVetIJ',
             'kvartal',
-            'potrazivani_troskoviSZJ', 'potrazivani_troskoviZJ', 'potrazivani_troskoviIJ'
+            'potrazivani_troskoviSZJ', 'potrazivani_troskoviZJ', 'potrazivani_troskoviIJ',
+            'totalPrice'
         ));
 
         // Save PDF
@@ -107,15 +111,15 @@ class ReportController extends Controller
             foreach ($item->animal->animalType as $key) {
                 if($key->type_code == 'SZJ' && $item->animal_item_care_end_status == 0){
                     $data['SZJ']['data'][] = $item;
-                    $data['SZJ']['price'] = ['price' => $item->shelterAnimalPrice->total_price];
+                    $data['SZJ']['price'][] = ['price' => $item->shelterAnimalPrice->total_price];
                 }
                 if($key->type_code == 'ZJ' && $item->animal_item_care_end_status == 0){
                     $data['ZJ']['data'][] = $item;
-                    $data['ZJ']['price'] = ['price' => $item->shelterAnimalPrice->total_price];
+                    $data['ZJ']['price'][] = ['price' => $item->shelterAnimalPrice->total_price];
                 }
                 if($key->type_code == 'IJ' && $item->animal_item_care_end_status == 0){
                     $data['IJ']['data'][] = $item;
-                    $data['IJ']['price'] = ['price' => $item->shelterAnimalPrice->total_price];
+                    $data['IJ']['price'][] = ['price' => $item->shelterAnimalPrice->total_price];
                 }
             }
         }
@@ -184,39 +188,12 @@ class ReportController extends Controller
         return $data;
     }
 
-    public function vet($animalItems)
+    public function vet($animalItems, $number)
     {
         $euthanasiaData = [];
         foreach ($animalItems as $item) {
             if(!empty($item->euthanasia)){
-                if($item->euthanasia->shelter_staff_id == 1){
-                    foreach ($item->animal->animalType as $key) {
-                        if($key->type_code == 'SZJ'){
-                            $euthanasiaData['SZJ']['data'][] = $item->euthanasia;
-                            $euthanasiaData['SZJ']['price'] = ['price' => $item->euthanasia->price];
-                        }
-                        if($key->type_code == 'ZJ'){
-                            $euthanasiaData['ZJ']['data'][] = $item->euthanasia;
-                            $euthanasiaData['ZJ']['price'] = ['price' => $item->euthanasia->price];
-                        }
-                        if($key->type_code == 'IJ'){
-                            $euthanasiaData['IJ']['data'][] = $item->euthanasia;
-                            $euthanasiaData['IJ']['price'] = ['price' => $item->euthanasia->price];
-                        }
-                    }
-                }
-            }
-        }
-
-        return $euthanasiaData;
-    }
-
-    public function outVet($animalItems)
-    {
-        $euthanasiaData = [];
-        foreach ($animalItems as $item) {
-            if(!empty($item->euthanasia)){
-                if($item->euthanasia->shelter_staff_id == 2){
+                if($item->euthanasia->shelter_staff_id == $number){
                     foreach ($item->animal->animalType as $key) {
                         if($key->type_code == 'SZJ'){
                             $euthanasiaData['SZJ']['data'][] = $item->euthanasia;
