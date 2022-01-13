@@ -48,21 +48,36 @@ class ReportController extends Controller
         $kvartal = $this->kvartal($request);
 
         $potrazivani_troskovi = $this->potrazivani_troskovi($data);
-        $potrazivani_troskoviSZJ = isset($potrazivani_troskovi['SZJ']['data']) ? count($potrazivani_troskovi['SZJ']['data']) : 0;
-        $potrazivani_troskoviZJ = isset($potrazivani_troskovi['ZJ']['data']) ? count($potrazivani_troskovi['ZJ']['data']) : 0;
-        $potrazivani_troskoviIJ = isset($potrazivani_troskovi['IJ']['data']) ? count($potrazivani_troskovi['IJ']['data']) : 0;
+        $potrazivani_troskoviSZJ = isset($potrazivani_troskovi['SZJ']['data']) ? $potrazivani_troskovi['SZJ']['price'] : 0;
+        $potrazivani_troskoviZJ = isset($potrazivani_troskovi['ZJ']['data']) ? $potrazivani_troskovi['ZJ']['price'] : 0;
+        $potrazivani_troskoviIJ = isset($potrazivani_troskovi['IJ']['data']) ? $potrazivani_troskovi['IJ']['price'] : 0;
+
+        // Proširena skrb - ukupna cijena
+        $fullCareTotalPrice = $this->price($potrazivani_troskoviSZJ);
+        // Zaplijena skrb - ukupna cijena
+        $seizedTotalPrice = $this->price($potrazivani_troskoviZJ);
 
         // Veterinar oporavilišta
-        $vet = $this->vet($data, 1);
-        $vetSZJ = isset($vet['SZJ']['data']) ? count($vet['SZJ']['data']) : 0;
-        $vetZJ = isset($vet['ZJ']['data']) ? count($vet['ZJ']['data']) : 0;
-        $vetIJ = isset($vet['IJ']['data']) ? count($vet['IJ']['data']) : 0;
+        $vet = $this->vet($data, 3);
+        $vetSZJ = isset($vet['SZJ']['data']) ? $vet['SZJ']['price'] : 0;
+        $vetZJ = isset($vet['ZJ']['data']) ? $vet['ZJ']['price'] : 0;
+        $vetIJ = isset($vet['IJ']['data']) ? $vet['IJ']['price'] : 0;
+
+        // Cijene veterinara oporavilišta
+        $priceVetSZJ = $this->price($vetSZJ);
+        $priceVetZJ = $this->price($vetZJ);
+        $priceVetIJ = $this->price($vetIJ);
 
         // Vanjski veterinar
-        $outVet = $this->vet($data, 2);
-        $outVetSZJ = isset($outVet['SZJ']['data']) ? count($outVet['SZJ']['data']) : 0;
-        $outVetZJ = isset($outVet['ZJ']['data']) ? count($outVet['ZJ']['data']) : 0;
-        $outVetIJ = isset($outVet['IJ']['data']) ? count($outVet['IJ']['data']) : 0;
+        $outVet = $this->vet($data, 4);
+        $outVetSZJ = isset($outVet['SZJ']['data']) ? $outVet['SZJ']['price'] : 0;
+        $outVetZJ = isset($outVet['ZJ']['data']) ? $outVet['ZJ']['price'] : 0;
+        $outVetIJ = isset($outVet['IJ']['data']) ? $outVet['IJ']['price'] : 0;
+
+        // Cijene vanjskog veterinara
+        $priceVetOutSZJ = $this->price($outVetSZJ);
+        $priceVetOutZJ = $this->price($outVetZJ);
+        $priceVetOutIJ = $this->price($outVetIJ);
 
         $allPrice = [
             isset($potrazivani_troskovi['SZJ']['price']) ? $potrazivani_troskovi['SZJ']['price'] : 0,
@@ -90,10 +105,10 @@ class ReportController extends Controller
 
         $pdf = PDF::loadView('reports.znspdf', compact(
             'animalItems', 'username', 'shelter',
-            'vetSZJ', 'vetZJ', 'vetIJ',
-            'outVetSZJ', 'outVetZJ', 'outVetIJ',
+            'priceVetSZJ', 'priceVetZJ', 'priceVetIJ',
+            'priceVetOutSZJ', 'priceVetOutZJ', 'priceVetOutIJ',
             'kvartal',
-            'potrazivani_troskoviSZJ', 'potrazivani_troskoviZJ', 'potrazivani_troskoviIJ',
+            'fullCareTotalPrice', 'seizedTotalPrice', 'potrazivani_troskoviIJ',
             'totalPrice'
         ));
 
@@ -103,6 +118,20 @@ class ReportController extends Controller
         // return redirect()->back()->with('izvj', 'Uspješno spremljen izvještaj');
     }
 
+    public function price($data)
+    {
+        $price = 0;
+        if($data != 0){
+            foreach ($data as $key => $value) {
+                foreach ($value as $key => $value) {
+                    $price += $value;
+                }
+            }
+        }
+
+        return $price;
+    }
+
     public function potrazivani_troskovi($animal)
     {
         $data = [];
@@ -110,16 +139,49 @@ class ReportController extends Controller
         foreach ($animal as $item) {
             foreach ($item->animal->animalType as $key) {
                 if($key->type_code == 'SZJ' && $item->animal_item_care_end_status == 0){
+                    if(!empty($item->euthanasia)){
+                        if(isset($item->shelterAnimalPrice->total_price)){
+                            $price = ($item->shelterAnimalPrice->total_price - $item->euthanasia->price);
+                        }
+                        else {
+                            $price = 0;
+                        }
+                    }
+                    else {
+                        $price = $item->shelterAnimalPrice->total_price;
+                    }
                     $data['SZJ']['data'][] = $item;
-                    $data['SZJ']['price'][] = ['price' => $item->shelterAnimalPrice->total_price];
+                    $data['SZJ']['price'][] = ['price' => $price];
                 }
                 if($key->type_code == 'ZJ' && $item->animal_item_care_end_status == 0){
+                    if(!empty($item->euthanasia)){
+                        if(isset($item->shelterAnimalPrice->total_price)){
+                            $price = ($item->shelterAnimalPrice->total_price - $item->euthanasia->price);
+                        }
+                        else {
+                            $price = 0;
+                        }
+                    }
+                    else {
+                        $price = $item->shelterAnimalPrice->total_price;
+                    }
                     $data['ZJ']['data'][] = $item;
-                    $data['ZJ']['price'][] = ['price' => $item->shelterAnimalPrice->total_price];
+                    $data['ZJ']['price'][] = ['price' => $price];
                 }
                 if($key->type_code == 'IJ' && $item->animal_item_care_end_status == 0){
+                    if(!empty($item->euthanasia)){
+                        if($item->shelterAnimalPrice->total_price != null){
+                            $price = ($item->shelterAnimalPrice->total_price - $item->euthanasia->price);
+                        }
+                        else {
+                            $price = 0;
+                        }
+                    }
+                    else {
+                        $price = $item->shelterAnimalPrice->total_price;
+                    }
                     $data['IJ']['data'][] = $item;
-                    $data['IJ']['price'][] = ['price' => $item->shelterAnimalPrice->total_price];
+                    $data['IJ']['price'][] = ['price' => $price];
                 }
             }
         }
@@ -193,19 +255,19 @@ class ReportController extends Controller
         $euthanasiaData = [];
         foreach ($animalItems as $item) {
             if(!empty($item->euthanasia)){
-                if($item->euthanasia->shelter_staff_id == $number){
+                if($item->euthanasia->shelterStaff->shelter_staff_type_id == $number){
                     foreach ($item->animal->animalType as $key) {
                         if($key->type_code == 'SZJ'){
                             $euthanasiaData['SZJ']['data'][] = $item->euthanasia;
-                            $euthanasiaData['SZJ']['price'] = ['price' => $item->euthanasia->price];
+                            $euthanasiaData['SZJ']['price'][] = ['price' => $item->euthanasia->price];
                         }
                         if($key->type_code == 'ZJ'){
                             $euthanasiaData['ZJ']['data'][] = $item->euthanasia;
-                            $euthanasiaData['ZJ']['price'] = ['price' => $item->euthanasia->price];
+                            $euthanasiaData['ZJ']['price'][] = ['price' => $item->euthanasia->price];
                         }
                         if($key->type_code == 'IJ'){
                             $euthanasiaData['IJ']['data'][] = $item->euthanasia;
-                            $euthanasiaData['IJ']['price'] = ['price' => $item->euthanasia->price];
+                            $euthanasiaData['IJ']['price'][] = ['price' => $item->euthanasia->price];
                         }
                     }
                 }
