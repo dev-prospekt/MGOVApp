@@ -152,11 +152,11 @@
       <table style="width:100%">
         <tr>
           <td>Za strogo zaštićene vrste iz prirode</td>
-          <td>{{ $potrazivani_troskoviSZJ }}</td>
+          <td>{{ $fullCareTotalPrice . 'kn' }}</td>
         </tr>
         <tr>
           <td>Za oduzete i/ili zaplijenjene jedinke</td>
-          <td>{{ $potrazivani_troskoviZJ }}</td>
+          <td>{{ $seizedTotalPrice . 'kn' }}</td>
         </tr>
         <tr>
           <td>Ukupan broj eutanazija prema paušalu</td>
@@ -164,9 +164,9 @@
             <div>
               <div>Od toga:</div>
               <div style="margin-left: 60px;">
-                <p style="margin: 0px;"><span class="underline">{{ $vetSZJ }}</span> za strogo zaštićene jedinke</p>
-                <p style="margin: 0px;"><span class="underline">{{ $vetZJ }}</span> za zaplijenjene jedinke</p>
-                <p style="margin: 0px;"><span class="underline">{{ $vetIJ }}</span> za jedinke stranih invazivnih vrsta</p>
+                <p style="margin: 0px;"><span class="underline">{{ $priceVetSZJ . 'kn' }}</span> za strogo zaštićene jedinke</p>
+                <p style="margin: 0px;"><span class="underline">{{ $priceVetZJ . 'kn' }}</span> za zaplijenjene jedinke</p>
+                <p style="margin: 0px;"><span class="underline">{{ $priceVetIJ . 'kn' }}</span> za jedinke stranih invazivnih vrsta</p>
               </div>
             </div>
           </td>
@@ -177,9 +177,9 @@
             <div>
               <div>Od toga:</div>
               <div style="margin-left: 60px;">
-                <p style="margin: 0px;"><span class="underline">{{ $outVetSZJ }}</span> za strogo zaštićene jedinke</p>
-                <p style="margin: 0px;"><span class="underline">{{ $outVetZJ }}</span> za zaplijenjene jedinke</p>
-                <p style="margin: 0px;"><span class="underline">{{ $outVetIJ }}</span> za jedinke stranih invazivnih vrsta</p>
+                <p style="margin: 0px;"><span class="underline">{{ $priceVetOutSZJ . 'kn' }}</span> za strogo zaštićene jedinke</p>
+                <p style="margin: 0px;"><span class="underline">{{ $priceVetOutZJ . 'kn' }}</span> za zaplijenjene jedinke</p>
+                <p style="margin: 0px;"><span class="underline">{{ $priceVetOutIJ . 'kn' }}</span> za jedinke stranih invazivnih vrsta</p>
               </div>
             </div>
           </td>
@@ -190,7 +190,7 @@
         </tr>
         <tr>
           <td>Ukupno*:</td>
-          <td></td>
+          <td>{{ $totalPrice .'kn' }}</td>
         </tr>
       </table>
     </div>
