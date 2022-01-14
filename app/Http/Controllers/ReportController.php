@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use PDF;
 use Carbon\Carbon;
-use App\Exports\ZnsExport;
+use App\Exports\ReportsExport;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
@@ -277,37 +277,116 @@ class ReportController extends Controller
         return $euthanasiaData;
     }
 
+    //////////////////////////////////////
+    //////////////////////////////////////
+    // EXPORT TO EXCEL
+
     public function exportToExcel(Request $request)
     {
-        $animal = Animal::find($request->animal);
+        $shelter = ($request->shelter != 'all') ? Shelter::find($request->shelter) : 'all';
+        $animalCat = AnimalCategory::find($request->animal_category);
 
-        // Date Range
-        if($request->start_date && $request->end_date){
-            $animals = $animal->animalItems()
-                ->whereHas('dateRange', function ($query) use ($request) {
-                    $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-                    $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+        if(empty($request->start_date) || empty($request->end_date)){
+            return redirect()->back()->with('msg', 'Raspon datuma je obavezan');
+        }
 
-                    $query->where('start_date', '>=', $startDate)
-                    ->where('start_date', '<=', $endDate)
-                    ->orWhere('end_date', '>=', $startDate)
-                    ->where('end_date', '<=', $endDate);
-                })
-                ->orDoesntHave("shelter")->whereHas('shelter', function($query) use ($request){
-                    $query->where('id', $request->shelter);
-                })
-                ->orDoesntHave("careEnd")->whereHas('careEnd', function($query) use ($request){
-                    $query->where('animal_item_care_end_type_id', $request->care_end_type);
-                })
-                ->get();
+        // Get Animal
+        $data = $this->exportGetAnimal($request, $animalCat, $shelter);
+        // Get Animal Date Range
+        $dateRange = $this->exportDateRangeAnimal($request, $data, $shelter);
+        // Care End Type
+        $careEndType = $this->exportCareEndType($request, $dateRange);
+
+        if($request->care_end_type){
+            $data = $careEndType;
+        }
+        else {
+            $data = $dateRange;
         }
 
         // Export
-        // $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
-        // $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('d.m.Y');
-        // $name = 'zns-'.$startDate.'-'.$endDate;
-        // return (new ZnsExport)->data($animals)->download($name.'.xlsx');
+        $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
+        $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('d.m.Y');
+        $name = 'zns-'.$startDate.'-'.$endDate;
+        return (new ReportsExport($data))->download($name.'.xlsx');
+    }
 
-        dd($animals);
+    public function exportGetAnimal($request, $animalCat, $shelter)
+    {
+        $data = [];
+
+        if($animalCat){
+            foreach ($animalCat->animals as $animals) {
+                foreach ($animals->animalItems as $animalItems) {
+                    if($shelter == 'all'){
+                        $data[] = $animalItems;
+                    }
+                    else {
+                        if($animalItems->shelter_id == $shelter->id){
+                            $data[] = $animalItems;
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    public function exportDateRangeAnimal($request, $animalItem, $shelter)
+    {
+        $data = [];
+
+        if($animalItem){
+            foreach ($animalItem as $item) {
+                if($shelter == 'all'){
+                    $data = $item->with('careEnd')
+                    ->whereHas('dateRange', function ($query) use ($request) {
+                        $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+                        $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+    
+                        $query->where('start_date', '>=', $startDate)
+                        ->where('start_date', '<=', $endDate)
+                        ->orWhere('end_date', '>=', $startDate)
+                        ->where('end_date', '<=', $endDate);
+                    })
+                    ->get();
+                }
+                else {
+                    $data = $item->with('careEnd')
+                    ->whereHas('dateRange', function ($query) use ($request) {
+                        $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+                        $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+    
+                        $query->where('start_date', '>=', $startDate)
+                        ->where('start_date', '<=', $endDate)
+                        ->orWhere('end_date', '>=', $startDate)
+                        ->where('end_date', '<=', $endDate);
+                    })
+                    ->where('shelter_id', $shelter->id)
+                    ->get();
+                }
+            }
+        }
+
+        return $data;
+    }
+
+    public function exportCareEndType($request, $animal)
+    {
+        $data = [];
+
+        if($animal){
+            foreach ($animal as $item) {
+                if(!empty($item->careEnd)){
+                    if($request->care_end_type == $item->careEnd->animal_item_care_end_type_id){
+                        $data[] = $item;
+                    }
+                }
+            }
+        }
+
+        return $data;
     }
 }

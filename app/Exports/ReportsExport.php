@@ -3,19 +3,19 @@
 namespace App\Exports;
 
 use App\Invoice;
+use App\Models\Animal\AnimalItem;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ZnsExport implements FromQuery, WithMapping, WithHeadings
+class ReportsExport implements FromQuery, WithMapping, WithHeadings
 {
     use Exportable;
 
-    public function data($data)
+    public function __construct($data)
     {
         $this->data = $data;
-        return $this;
     }
 
     public function map($data): array
@@ -37,9 +37,11 @@ class ZnsExport implements FromQuery, WithMapping, WithHeadings
     }
 
     public function query()
-    {   
-        foreach ($this->data as $item) {   
-            return $item;
-        }
+    {
+        $collect = collect($this->data);
+        $id = $collect->pluck('id');
+        $animalItems = AnimalItem::query()->whereIn('id', $id);
+
+        return $animalItems;
     }
 }

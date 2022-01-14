@@ -30,10 +30,10 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>Jedinka</label>
-                                <select name="animal" class="js-example-basic-single w-100">
+                                <select name="animal_category" class="js-example-basic-single w-100">
                                     <option value="">------</option>
-                                    @foreach ($animals as $animal)
-                                        <option value="{{ $animal->id }}">{{ $animal->name }}</option>
+                                    @foreach ($animalCategory as $animal_category)
+                                        <option value="{{ $animal_category->id }}">{{ $animal_category->latin_name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -60,7 +60,6 @@
                             <div class="form-group">
                                 <label>Oporavilišta</label>
                                 <select name="shelter" class="js-example-basic-single w-100">
-                                    <option value="">------</option>
                                     <option value="all">Sva oporavilišta</option>
                                     @foreach ($shelters as $shelter)
                                         <option value="{{ $shelter->id }}">{{ $shelter->name }}</option>
