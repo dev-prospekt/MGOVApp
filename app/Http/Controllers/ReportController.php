@@ -62,7 +62,6 @@ class ReportController extends Controller
         $vetSZJ = isset($vet['SZJ']['data']) ? $vet['SZJ']['price'] : 0;
         $vetZJ = isset($vet['ZJ']['data']) ? $vet['ZJ']['price'] : 0;
         $vetIJ = isset($vet['IJ']['data']) ? $vet['IJ']['price'] : 0;
-
         // Cijene veterinara oporavilišta
         $priceVetSZJ = $this->price($vetSZJ);
         $priceVetZJ = $this->price($vetZJ);
@@ -73,7 +72,6 @@ class ReportController extends Controller
         $outVetSZJ = isset($outVet['SZJ']['data']) ? $outVet['SZJ']['price'] : 0;
         $outVetZJ = isset($outVet['ZJ']['data']) ? $outVet['ZJ']['price'] : 0;
         $outVetIJ = isset($outVet['IJ']['data']) ? $outVet['IJ']['price'] : 0;
-
         // Cijene vanjskog veterinara
         $priceVetOutSZJ = $this->price($outVetSZJ);
         $priceVetOutZJ = $this->price($outVetZJ);
@@ -308,6 +306,7 @@ class ReportController extends Controller
         $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
         $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('d.m.Y');
         $name = 'zns-'.$startDate.'-'.$endDate;
+
         return (new ReportsExport($data))->download($name.'.xlsx');
     }
 
