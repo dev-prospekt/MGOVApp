@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>PDF</title>
+    <title>ZAHTJEV ZA NADOKNADU SREDSTAVA ZA OSNOVNU I PROŠIRENU SKRB ZA
+      ŽIVOTINJE U OPORAVILIŠTU TE USMRĆIVANJE</title>
   </head>
   <style>
     body {
