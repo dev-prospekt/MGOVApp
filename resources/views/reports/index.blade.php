@@ -149,6 +149,7 @@
 @push('plugin-scripts')
 <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.hr.min.js') }}"></script>
 @endpush
 
 @push('custom-scripts')
@@ -164,7 +165,8 @@
                     format: "mm/dd/yyyy",
                     todayHighlight: true,
                     autoclose: true,
-                    orientation: "bottom"
+                    orientation: "bottom",
+                    language: 'hr'
                 });
             }
 

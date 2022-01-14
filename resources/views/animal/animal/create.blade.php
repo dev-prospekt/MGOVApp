@@ -73,6 +73,7 @@
 @push('plugin-scripts')
     <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.hr.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
     <script src="{{ asset('assets/plugins/datatables-net/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('assets/plugins/datatables-net-bs4/dataTables.bootstrap4.js') }}"></script>
@@ -203,6 +204,7 @@
                         format: "mm/dd/yyyy",
                         todayHighlight: true,
                         autoclose: true,
+                        language: 'hr'
                     });
                     $('div#datePickerExample').datepicker('setDate', today);
                 }
@@ -214,6 +216,7 @@
                         format: "mm/dd/yyyy",
                         todayHighlight: true,
                         autoclose: true,
+                        language: 'hr'
                     });
                     $('div#datePickerHibernation').datepicker('setDate', today);
                 }
@@ -225,6 +228,7 @@
                         format: "mm/dd/yyyy",
                         todayHighlight: true,
                         autoclose: true,
+                        language: 'hr'
                     });
                     $('div#datePickerSeizedAnimal').datepicker('setDate', today);
                 }
@@ -236,6 +240,7 @@
                         format: "mm/dd/yyyy",
                         todayHighlight: true,
                         autoclose: true,
+                        language: 'hr'
                     });
                     $('div#datePickerShleterStart').datepicker('setDate', today);
                 }

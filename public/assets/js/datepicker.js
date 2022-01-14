@@ -7,7 +7,9 @@ $(function() {
     $('#datePickerExample').datepicker({
       format: "mm/dd/yyyy",
       todayHighlight: true,
-      autoclose: true
+      autoclose: true,
+      language: 'hr',
+      orientation: "bottom",
     });
     $('#datePickerExample').datepicker('setDate', today);
   }

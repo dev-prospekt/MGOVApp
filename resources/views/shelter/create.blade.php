@@ -257,6 +257,7 @@
   <script src="{{ asset('assets/plugins/inputmask/jquery.inputmask.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.hr.min.js') }}"></script>
   <script src="{{ asset('assets/js/file-upload.js') }}"></script>
 
 @endpush

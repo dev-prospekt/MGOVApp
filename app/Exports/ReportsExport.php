@@ -18,21 +18,23 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings
         $this->data = $data;
     }
 
-    public function map($data): array
-    {
-        return [
-            $data->id,
-            $data->animal->name,
-            $data->animal->latin_name,
-        ];
-    }
-
     public function headings(): array
     {
         return [
             'ID',
             'Naziv',
             'Latinski naziv',
+            'Naziv oporavilišta',
+        ];
+    }
+
+    public function map($data): array
+    {
+        return [
+            $data->id,
+            $data->animal->name,
+            $data->animal->latin_name,
+            $data->shelter->name
         ];
     }
 

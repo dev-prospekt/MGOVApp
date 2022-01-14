@@ -295,19 +295,14 @@ class ReportController extends Controller
         // Care End Type
         $careEndType = $this->exportCareEndType($request, $dateRange);
 
-        if($request->care_end_type){
-            $data = $careEndType;
-        }
-        else {
-            $data = $dateRange;
-        }
+        $finishData = $careEndType;
 
         // Export
         $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
         $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('d.m.Y');
         $name = 'zns-'.$startDate.'-'.$endDate;
 
-        return (new ReportsExport($data))->download($name.'.xlsx');
+        return (new ReportsExport($finishData))->download($name.'.xlsx');
     }
 
     public function exportGetAnimal($request, $animalCat, $shelter)
@@ -378,10 +373,15 @@ class ReportController extends Controller
 
         if($animal){
             foreach ($animal as $item) {
-                if(!empty($item->careEnd)){
-                    if($request->care_end_type == $item->careEnd->animal_item_care_end_type_id){
-                        $data[] = $item;
+                if($request->care_end_type){
+                    if(!empty($item->careEnd)){
+                        if($request->care_end_type == $item->careEnd->animal_item_care_end_type_id){
+                            $data[] = $item;
+                        }
                     }
+                }
+                else {
+                    $data[] = $item;
                 }
             }
         }
