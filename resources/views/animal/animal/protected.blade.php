@@ -15,7 +15,7 @@
                         <select name="animal_id" class="js-example-basic-single w-100" id="animalSelect" required>
                             <option value="">------</option>
                             @foreach ($animal as $item)
-                                <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                <option value="{{ $item->id }}">{{ $item->latin_name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -192,6 +192,33 @@
                     </div>
                     </div>
                 </div>  
+
+                <div class="col-md-4">
+                    <div class="bordered-group">
+                        <div class="form-group">
+                            <label>Tko je donio</label>
+                            <select name="brought_animal" class="form-control">
+                                <option value="">----</option>
+                                @foreach ($founders as $founder)
+                                    <option value="{{$founder->id}}">
+                                        {{$founder->name}} {{$founder->lastname}} 
+                                        @if($founder->service != 'ostalo-navesti:')
+                                            ({{$founder->service}})
+                                        @else
+                                            ({{$founder->others}})
+                                        @endif
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Učitaj</label>
+                            <input type="file" id="brought_animal_file" name="brought_animal_file[]" multiple />
+                            <div id="error_brought_animal_file"></div>
+                        </div>
+                    </div>
+                </div>
                                               
             </div>
 

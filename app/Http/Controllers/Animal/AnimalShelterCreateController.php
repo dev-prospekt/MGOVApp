@@ -114,6 +114,7 @@ class AnimalShelterCreateController extends Controller
         $animalItem->animal_id = $request->animal_id;
         $animalItem->shelter_id = $request->shelter_id;
         $animalItem->founder_id = $request->founder_id;
+        $animalItem->brought_animal_id = $request->brought_animal; // Tko je donio životinju
         $animalItem->founder_note = $request->founder_note;
         $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
         $animalItem->in_shelter = true;
@@ -213,6 +214,7 @@ class AnimalShelterCreateController extends Controller
         $animalItem->location = $request->location;
         $animalItem->location_retrieval_animal = $request->location_retrieval_animal;
         $animalItem->founder_id = $request->founder_id;
+        $animalItem->brought_animal_id = $request->brought_animal; // Tko je donio životinju
         $animalItem->founder_note = $request->founder_note;
         // $animalItem->solitary_or_group = $request->solitary_or_group;
 
@@ -225,7 +227,12 @@ class AnimalShelterCreateController extends Controller
 
         $animalItem->update(['animal_code' => $animal_group->shelter_code . '-j-' . $animalItem->id]);
 
-        $this->createDocuments($request, $animalItem);
+        // AnimalDocumentation
+        $animalDocumentation = $animalItem->animalDocumentation()->create([
+            'animal_item_id' => $animalItem->id,
+        ]);
+
+        $this->createDocuments($request, $animalDocumentation);
 
         // Date Range
         if (!empty($request->start_date)) {
@@ -303,6 +310,7 @@ class AnimalShelterCreateController extends Controller
         $animalItem->location_retrieval_animal = $request->location_retrieval_animal;
         $animalItem->animal_found_note = $request->animal_found_note;
         $animalItem->founder_id = $request->founder_id;
+        $animalItem->brought_animal_id = $request->brought_animal; // Tko je donio životinju
         $animalItem->founder_note = $request->founder_note;
         $animalItem->in_shelter = true;
         $animalItem->save();
@@ -394,6 +402,13 @@ class AnimalShelterCreateController extends Controller
             $animalItem->addMultipleMediaFromRequest(['reason_file'])
                 ->each(function ($fileAdder) {
                     $fileAdder->toMediaCollection('state_reason_file');
+                });
+        }
+
+        if ($request->brought_animal_file) {
+            $animalItem->addMultipleMediaFromRequest(['brought_animal_file'])
+                ->each(function ($fileAdder) {
+                    $fileAdder->toMediaCollection('brought_animal_file');
                 });
         }
 

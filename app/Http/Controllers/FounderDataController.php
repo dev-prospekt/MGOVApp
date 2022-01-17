@@ -157,14 +157,16 @@ class FounderDataController extends Controller
                 'shelter_type' => 'required',
                 'name' => 'required',
                 'lastname' => 'required',
-                'email' => 'required',
+                'contact' => 'required',
+                'founder_documents' => 'required',
             ],
             [
                 'service.required' => 'Služba koja je izvršila zaplijenu je obvezno polje',
                 'shelter_type.required' => 'Tip jedinke je obvezno polje',
                 'name.required' => 'Ime je obvezno polje',
                 'lastname.required' => 'Prezime je obvezno polje',
-                'email.required' => 'Email je obvezno polje',
+                'contact.required' => 'Kontakt mobitel/telefon je obvezno polje',
+                'founder_documents.required' => 'Dokumentacija je obvezno polje',
             ]
         );
 

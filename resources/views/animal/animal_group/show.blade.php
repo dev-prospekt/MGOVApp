@@ -22,12 +22,12 @@
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="active-tab" data-toggle="tab" href="#active" role="tab" aria-controls="active" aria-selected="true">
-            Aktivne jedinke
+            Aktivne jedinke ({{ $animal_group->animalItemActive->count() }})
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link" id="inactive-tab" data-toggle="tab" href="#inactive" role="tab" aria-controls="inactive" aria-selected="false">
-            Završena skrb
+            Završena skrb ({{ $animal_group->animalItemInactive->count() }})
         </a>
     </li>
 </ul>

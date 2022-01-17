@@ -153,7 +153,7 @@
       <table style="width:100%">
         <tr>
           <td>Za strogo zaštićene vrste iz prirode</td>
-          <td>{{ $fullCareTotalPrice . 'kn' }}</td>
+          <td>{{ $SZJTotalPrice . 'kn' }}</td>
         </tr>
         <tr>
           <td>Za oduzete i/ili zaplijenjene jedinke</td>

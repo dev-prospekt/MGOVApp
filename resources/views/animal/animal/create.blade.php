@@ -13,7 +13,7 @@
     <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5>
     <div>
         <a type="button" class="createFounder btn btn-sm btn-primary btn-icon-text" href="javascript:void()">
-            Dodaj nalaznika
+            Dodaj
             <i class="btn-icon-append" data-feather="user"></i>
         </a>
         <a type="button" class="btn btn-warning btn-sm btn-icon-text" href="/shelter/{{ $shelter->id }}">
@@ -332,6 +332,18 @@
                     msgSizeTooLarge: 'Slika "{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
                     allowedFileExtensions: ["jpg", "png", "pdf"],
                     elErrorContainer: '#error_vrsta_broj_dokumenta',
+                    msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
+                });
+
+                $("#brought_animal_file").fileinput({
+                    language: "cr",
+                    maxFileCount: 2,
+                    showPreview: false,
+                    showUpload: false,
+                    maxFileSize: 1500,
+                    msgSizeTooLarge: 'Slika "{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
+                    allowedFileExtensions: ["jpg", "png", "pdf"],
+                    elErrorContainer: '#error_brought_animal_file',
                     msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
                 });
 

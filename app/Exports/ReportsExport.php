@@ -3,47 +3,124 @@
 namespace App\Exports;
 
 use App\Invoice;
+use Carbon\Carbon;
+use Illuminate\Support\Str;
 use App\Models\Animal\AnimalItem;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\WithMapping;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ReportsExport implements FromQuery, WithMapping, WithHeadings
+class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoSize, WithStyles
 {
     use Exportable;
 
-    public function __construct($data)
+    public function __construct($animalItem, $kvartal)
     {
-        $this->data = $data;
+        $this->animalItem = $animalItem;
+        $this->kvartal = $kvartal;
+    }
+
+    public function query()
+    {
+        $collect = collect($this->animalItem);
+        $id = $collect->pluck('id');
+        $animalItems = AnimalItem::query()->whereIn('id', $id);
+
+        return $animalItems;
+    }
+
+    public function styles(Worksheet $sheet)
+    {
+        return [
+            1 => ['font' => ['bold' => true]],
+        ];
     }
 
     public function headings(): array
     {
         return [
-            'ID',
-            'Naziv',
-            'Latinski naziv',
             'Naziv oporavilišta',
+            'Evidencijski broj životinje',
+            'Latinski naziv',
+            'Datum zaprimanja u oporavilište',
+            'Datum završetka skrbi',
+            'Ukupan broj dana proveden u oporavilištu u tom kvartalu',
+            'Broj dana osnovne skrbi',
+            'Ukupan trošak osnovne skrbi',
+            'Proširena skrb pružena',
+            'Broj dana proširene skrbi',
+            'Cijena proširene skrbi po danu',
+            'Ukupan trošak proširene skrbi',
+            'Broj dana solitarne ili grupne skrbi',
         ];
     }
 
-    public function map($data): array
+    public function map($animalItem): array
     {
+        $kvartal_end_date = Carbon::parse($this->kvartal['kvartal_end_date']);
+        $a_start_date = $animalItem->dateRange->start_date;
+        $a_end_date = $animalItem->dateRange->end_date;
+
+        // Kraj skrbi
+        $end_date = (!empty($animalItem->careEnd) && $a_end_date <= $kvartal_end_date) ? $a_end_date : 'skrb se nastavlja u sljedeće izvještajno razdoblje';
+        $check_end_date = Str::is('skrb*', $end_date); // Provjera je li vraca datum ili string
+
+        // Ukupan broj dana proveden u oporavilištu u tom kvartalu
+        $totalDays = ((!empty($a_end_date)) && $a_end_date <= $kvartal_end_date) ? $a_end_date->diffInDays($a_start_date).' dana' : 'Nije završena skrb';
+        // Ukupni broj dana osnovne skrbi
+        $totalDaysCare = (!empty($animalItem->careEnd)) ? $a_end_date->diffInDays($a_start_date).' dana' : 'Nije završena skrb';
+
+        // Trošak osnovne skrbi
+        if(!empty($animalItem->careEnd)){
+            $hibern_price = isset($animalItem->shelterAnimalPrice->hibern) ? $animalItem->shelterAnimalPrice->hibern : 0;
+            $full_care_price = isset($animalItem->shelterAnimalPrice->full_care) ? $animalItem->shelterAnimalPrice->full_care : 0;
+            $euthanasia_price = isset($animalItem->euthanasia->price) ? $animalItem->euthanasia->price : 0;
+            $solitary_price = isset($animalItem->shelterAnimalPrice->solitary_price) ? $animalItem->shelterAnimalPrice->solitary_price : 0;
+            $group_price = isset($animalItem->shelterAnimalPrice->group_price) ? $animalItem->shelterAnimalPrice->group_price : 0;
+        }
+
+        // Proširena skrb
+        $fullCareDays = 0;
+        if($animalItem->dateFullCare){
+            foreach ($animalItem->dateFullCare as $item) {
+                $totalDaysFullCareStartDate = $item->start_date;
+                $totalDaysFullCareEndDate = $item->end_date;
+                $fullCareDays = $totalDaysFullCareEndDate->diffInDays($totalDaysFullCareStartDate).' dana';
+            }
+        }
+
+        // SolitaryorGroup
+        $allSolitaryGroup = collect($animalItem->dateSolitaryGroups);
+        $solitaryGroup = $allSolitaryGroup->where('end_date', '!=', null)->groupBy('solitary_or_group')->all();
+        if (!empty($solitaryGroup)){
+            foreach ($solitaryGroup as $item => $value){
+                foreach ($value as $v){
+                    $solitaryGroupDaysFinish[] = $item.':'.$v->end_date->diffInDays($v->start_date).' dana';
+                }
+            }
+        }
+
+        // Hibernacija
+        
+
         return [
-            $data->id,
-            $data->animal->name,
-            $data->animal->latin_name,
-            $data->shelter->name
+            $animalItem->shelter->name,
+            $animalItem->animal_code, // Unikatni kod za tu jedinku
+            $animalItem->animal->latin_name,
+            $animalItem->dateRange->start_date->format('d.m.Y'),
+            ($check_end_date == true) ? $end_date : $end_date->format('d.m.Y'),
+            $totalDays,
+            $totalDaysCare,
+            (isset($solitary_price) && isset($group_price)) ? ($solitary_price + $group_price).'kn' : 0,
+            ($fullCareDays != 0) ? 'da' : 'ne',
+            $fullCareDays,
+            '200kn',
+            (isset($full_care_price)) ? $full_care_price.'kn' : 0,
+            (isset($solitaryGroupDaysFinish)) ? $solitaryGroupDaysFinish : 0,
         ];
-    }
-
-    public function query()
-    {
-        $collect = collect($this->data);
-        $id = $collect->pluck('id');
-        $animalItems = AnimalItem::query()->whereIn('id', $id);
-
-        return $animalItems;
     }
 }

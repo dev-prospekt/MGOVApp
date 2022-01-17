@@ -95,11 +95,11 @@ class AnimalItemController extends Controller
         $totalDays = ($maxDate - $countDays);
 
         // Omoguci prosirenu skrb (prioritetne vrste)
-        $arrayAnimalForFullCare = [1, 3, 8, 47, 48, 49, 50, 340, 341, 342];
-        // ptice (prioritetne vrste)
-        if($animalItem->animal->animalCategory->animalSystemCategory->id == 2){
-            // Ako je ptica dodat cemo animal id u array kako bi dobio button za aktivaciju proširene skrbi
-            $arrayAnimalForFullCare = Arr::prepend($arrayAnimalForFullCare, $animalItem->animal_id);
+        $arrayAnimalForFullCare = [];
+        foreach ($animalItem->animal->animalCodes as $item) {
+            if($item->name == 'PZ'){
+                $arrayAnimalForFullCare = Arr::prepend($arrayAnimalForFullCare, $animalItem->animal_id);
+            }
         }
 
         return view('animal.animal_item.show', [

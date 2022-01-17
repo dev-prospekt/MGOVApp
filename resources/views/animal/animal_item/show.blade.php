@@ -116,23 +116,21 @@
                 <div><h6 class="card-title">Podaci o zaprimanju</h6> </div> 
 
                 <div>
-                  @foreach ($arrayAnimalForFullCare as $ii)
-                    @if($animalItem->animal_id == $ii)
-                      @if ($animalItem->full_care_status == 1)
-                        <a href="javascript:void(0)" data-id="0" 
-                          class="btn {{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare btn-danger' : 'btn-light' }} btn-xs" 
-                          type="button">
-                          Onemogući proširenu skrb
-                        </a>
-                      @else
-                        <a href="javascript:void(0)" data-id="1" 
-                          class="btn {{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare btn-warning' : 'btn-light' }} btn-xs" 
-                          type="button">
-                          Omogući proširenu skrb
-                        </a>
-                      @endif
+                  @if ($animalItem->animal->animalType->first()->type_code == 'ZJ')
+                    @if ($animalItem->full_care_status == 1)
+                      <a href="javascript:void(0)" data-id="0" 
+                        class="btn {{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare btn-danger' : 'btn-light' }} btn-xs" 
+                        type="button">
+                        Onemogući proširenu skrb
+                      </a>
+                    @else
+                      <a href="javascript:void(0)" data-id="1" 
+                        class="btn {{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare btn-warning' : 'btn-light' }} btn-xs" 
+                        type="button">
+                        Omogući proširenu skrb
+                      </a>
                     @endif
-                  @endforeach
+                  @endif
 
                   <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-xs" type="button">
                     Izmjeni podatke
@@ -297,35 +295,63 @@
 
                 @foreach ($arrayAnimalForFullCare as $ii)
                   @if($animalItem->animal_id == $ii)
-                    @if ($animalItem->full_care_status == 1)
-                      <div class="row">
-                          <div class="col-md-12">
-                              <div class="form-group" id="period">
-                                  <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dan/a)</strong></label>
-                                  @if ($totalDays != 0)
-                                  <div class="d-flex">
-                                      <div class="input-group date datepicker" id="datePickerExample">
-                                          <input type="text" name="full_care_start" class="form-control full_care_start"
-                                          value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
-                                          <span class="input-group-addon">
-                                              <i data-feather="calendar"></i>
-                                          </span>
-                                      </div>
-                                      <div class="input-group date datepicker" id="datePickerExample">
-                                          <input type="text" name="full_care_end" class="form-control full_care_end"
-                                          value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
-                                          <span class="input-group-addon">
-                                              <i data-feather="calendar"></i>
-                                          </span>
-                                      </div>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group" id="period">
+                              <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dan/a)</strong></label>
+                              @if ($totalDays != 0)
+                              <div class="d-flex">
+                                  <div class="input-group date datepicker" id="datePickerExample">
+                                      <input type="text" name="full_care_start" class="form-control full_care_start"
+                                      value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
+                                      <span class="input-group-addon">
+                                          <i data-feather="calendar"></i>
+                                      </span>
                                   </div>
-                                  @endif
+                                  <div class="input-group date datepicker" id="datePickerExample">
+                                      <input type="text" name="full_care_end" class="form-control full_care_end"
+                                      value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
+                                      <span class="input-group-addon">
+                                          <i data-feather="calendar"></i>
+                                      </span>
+                                  </div>
                               </div>
-                          </div>       
-                      </div>
-                    @endif
+                              @endif
+                          </div>
+                      </div>       
+                  </div>
                   @endif
                 @endforeach
+
+                @if ($animalItem->animal->animalType->first()->type_code == 'ZJ')
+                  @if ($animalItem->full_care_status == 1)
+                    <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group" id="period">
+                              <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dan/a)</strong></label>
+                              @if ($totalDays != 0)
+                              <div class="d-flex">
+                                  <div class="input-group date datepicker" id="datePickerExample">
+                                      <input type="text" name="full_care_start" class="form-control full_care_start"
+                                      value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
+                                      <span class="input-group-addon">
+                                          <i data-feather="calendar"></i>
+                                      </span>
+                                  </div>
+                                  <div class="input-group date datepicker" id="datePickerExample">
+                                      <input type="text" name="full_care_end" class="form-control full_care_end"
+                                      value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
+                                      <span class="input-group-addon">
+                                          <i data-feather="calendar"></i>
+                                      </span>
+                                  </div>
+                              </div>
+                              @endif
+                          </div>
+                      </div>       
+                    </div>
+                  @endif
+                @endif
 
                 <div class="form-group" id="hib_est_from_to">
                   <label>Hibernacija/estivacija</label>

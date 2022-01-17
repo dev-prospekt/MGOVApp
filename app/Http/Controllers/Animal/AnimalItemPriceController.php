@@ -281,6 +281,7 @@ class AnimalItemPriceController extends Controller
             }
 
             // Finish Price
+            $euthanasia_price = 0;
             if(!empty($request->euthanasia_type)){
                 if ($request->euthanasia_type == 'Izvedeno u oporavilištu') {
                     $euthanasia_price = 100;

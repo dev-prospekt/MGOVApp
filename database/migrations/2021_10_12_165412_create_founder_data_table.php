@@ -21,10 +21,10 @@ class CreateFounderDataTable extends Migration
 
             $table->string('name');
             $table->string('lastname');
-            $table->string('address');
-            $table->string('country');
+            $table->string('address')->nullable();
+            $table->string('country')->nullable();
             $table->string('contact');
-            $table->string('email');
+            $table->string('email')->nullable();
             $table->string('service');
             $table->string('others')->nullable();
 

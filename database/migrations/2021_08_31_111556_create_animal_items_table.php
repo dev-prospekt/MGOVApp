@@ -21,6 +21,7 @@ class CreateAnimalItemsTable extends Migration
             $table->foreignId('shelter_id')->constrained('shelters');
             $table->boolean('animal_item_care_end_status')->default(1);
             $table->foreignId('founder_id')->nullable();
+            $table->foreignId('brought_animal_id');
             $table->string('founder_note')->nullable();
             $table->foreignId('animal_size_attributes_id')->nullable();
             $table->boolean('in_shelter');

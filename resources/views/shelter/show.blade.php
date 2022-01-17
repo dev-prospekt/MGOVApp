@@ -68,10 +68,10 @@
                     <thead>          
                       <tr>
                         <th>#</th>
-                        <th>Aktivne jedinke</th>
+                        <th>Aktivne <br> jedinke</th>
                         <th>Kraj skrbi</th>
                         <th>Naziv</th>
-                        <th>Latinski naziv</th>
+                        <th>Latinski <br> naziv</th>
                         <th>Tip jedinke</th>
                         <th>Šifra</th>
                         <th></th>

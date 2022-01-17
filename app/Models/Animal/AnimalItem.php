@@ -90,6 +90,11 @@ class AnimalItem extends Model implements HasMedia
         return $this->belongsTo(FounderData::class);
     }
 
+    public function broughtAnimal()
+    {
+        return $this->belongsTo(FounderData::class, 'brought_animal_id');
+    }
+
     public function euthanasia()
     {
         return $this->hasOne(Euthanasia::class);

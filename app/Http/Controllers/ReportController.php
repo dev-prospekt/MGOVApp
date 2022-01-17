@@ -52,8 +52,8 @@ class ReportController extends Controller
         $potrazivani_troskoviZJ = isset($potrazivani_troskovi['ZJ']['data']) ? $potrazivani_troskovi['ZJ']['price'] : 0;
         $potrazivani_troskoviIJ = isset($potrazivani_troskovi['IJ']['data']) ? $potrazivani_troskovi['IJ']['price'] : 0;
 
-        // Proširena skrb - ukupna cijena
-        $fullCareTotalPrice = $this->price($potrazivani_troskoviSZJ);
+        // Strogo zasticena - ukupna cijena
+        $SZJTotalPrice = $this->price($potrazivani_troskoviSZJ);
         // Zaplijena skrb - ukupna cijena
         $seizedTotalPrice = $this->price($potrazivani_troskoviZJ);
 
@@ -106,7 +106,7 @@ class ReportController extends Controller
             'priceVetSZJ', 'priceVetZJ', 'priceVetIJ',
             'priceVetOutSZJ', 'priceVetOutZJ', 'priceVetOutIJ',
             'kvartal',
-            'fullCareTotalPrice', 'seizedTotalPrice', 'potrazivani_troskoviIJ',
+            'SZJTotalPrice', 'seizedTotalPrice', 'potrazivani_troskoviIJ',
             'totalPrice'
         ));
 
@@ -208,16 +208,36 @@ class ReportController extends Controller
         $end4 = Carbon::parse('31.12.'.$year);
 
         if($startDate > $start1 && $startDate < $end1 || $endDate > $start1 && $endDate < $end1){
-            $data = ['kvartal' => 1, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
+            $data = [
+                'kvartal' => 1, 
+                'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')],
+                'kvartal_start_date' => $start1,
+                'kvartal_end_date' => $end1,
+            ];
         }
         if($startDate > $start2 && $startDate < $end2 || $endDate > $start2 && $endDate < $end2){
-            $data = ['kvartal' => 2, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
+            $data = [
+                'kvartal' => 2, 
+                'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')],
+                'kvartal_start_date' => $start2,
+                'kvartal_end_date' => $end2,
+            ];
         }
         if($startDate > $start3 && $startDate < $end3 || $endDate > $start3 && $endDate < $end3){
-            $data = ['kvartal' => 3, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
+            $data = [
+                'kvartal' => 3, 
+                'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')],
+                'kvartal_start_date' => $start3,
+                'kvartal_end_date' => $end3,
+            ];
         }
         if($startDate > $start4 && $startDate < $end4 || $endDate > $start4 && $endDate < $end4){
-            $data = ['kvartal' => 4, 'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')]];
+            $data = [
+                'kvartal' => 4, 
+                'date' => ['startDate' => $startDate->format('d.m.Y'), 'endDate' => $endDate->format('d.m.Y')],
+                'kvartal_start_date' => $start4,
+                'kvartal_end_date' => $end4,
+            ];
         }
 
         return $data;
@@ -302,7 +322,9 @@ class ReportController extends Controller
         $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('d.m.Y');
         $name = 'zns-'.$startDate.'-'.$endDate;
 
-        return (new ReportsExport($finishData))->download($name.'.xlsx');
+        $kvartal = $this->kvartal($request);
+
+        return (new ReportsExport($finishData, $kvartal))->download($name.'.xlsx');
     }
 
     public function exportGetAnimal($request, $animalCat, $shelter)
