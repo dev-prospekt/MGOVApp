@@ -37,6 +37,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     {
         return [
             1 => ['font' => ['bold' => true]],
+            'S' => ['font' => ['bold' => true]],
         ];
     }
 
@@ -49,13 +50,19 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
             'Datum zaprimanja u oporavilište',
             'Datum završetka skrbi',
             'Ukupan broj dana proveden u oporavilištu u tom kvartalu',
+            'Broj dana solitarne ili grupne skrbi',
             'Broj dana osnovne skrbi',
             'Ukupan trošak osnovne skrbi',
             'Proširena skrb pružena',
             'Broj dana proširene skrbi',
             'Cijena proširene skrbi po danu',
             'Ukupan trošak proširene skrbi',
-            'Broj dana solitarne ili grupne skrbi',
+            'Životinja bila u hibernaciji/estivaciji',
+            'Broj dana proveden u hibernaciji',
+            'Umanjenje troška za broj dana proveden u hibernaciji',
+            'Eutanazija izvršena',
+            'Cijena eutanazije',
+            'Ukupna cijena'
         ];
     }
 
@@ -105,7 +112,24 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
         }
 
         // Hibernacija
-        
+        $hibern = $animalItem->dateRange->hibern_start;
+        $hibern_end = $animalItem->dateRange->hibern_end;
+        $hibern_start = (isset($hibern)) ? 'da' : 'ne';
+        $hibernTotalDay = ($hibern_start == 'da') ? $hibern_end->diffInDays($hibern).' dana' : '0 dana';
+
+        if(isset($solitary_price) || isset($group_price)){
+            $totalHiberPriceIsset = (isset($hibern_price)) ? $hibern_price : 0;
+            $totalHibernPrice = ($solitary_price + $group_price) - $totalHiberPriceIsset;
+        }
+
+        // Euthanasia
+        $euthanasia = $animalItem->euthanasia;
+        $euthanasiaDaNe = (isset($euthanasia)) ? 'da' : 'ne';
+        $euthanasiaPrice = (isset($euthanasia)) ? $euthanasia->price.'kn' : '0kn';
+
+        // Total price
+        $totalPrice = $animalItem->shelterAnimalPrice;
+        $totalPrice = (isset($totalPrice)) ? $totalPrice->total_price.'kn' : '0kn';
 
         return [
             $animalItem->shelter->name,
@@ -114,13 +138,19 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
             $animalItem->dateRange->start_date->format('d.m.Y'),
             ($check_end_date == true) ? $end_date : $end_date->format('d.m.Y'),
             $totalDays,
+            (isset($solitaryGroupDaysFinish)) ? $solitaryGroupDaysFinish : 0,
             $totalDaysCare,
             (isset($solitary_price) && isset($group_price)) ? ($solitary_price + $group_price).'kn' : 0,
             ($fullCareDays != 0) ? 'da' : 'ne',
             $fullCareDays,
             '200kn',
             (isset($full_care_price)) ? $full_care_price.'kn' : 0,
-            (isset($solitaryGroupDaysFinish)) ? $solitaryGroupDaysFinish : 0,
+            $hibern_start,
+            $hibernTotalDay,
+            ($hibern_start == 'da') ? $totalHibernPrice.'kn' : '0kn',
+            $euthanasiaDaNe,
+            $euthanasiaPrice,
+            $totalPrice
         ];
     }
 }
