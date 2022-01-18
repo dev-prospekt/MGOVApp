@@ -68,6 +68,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
 
     public function map($animalItem): array
     {
+        $currency = 'kn';
         $kvartal_end_date = Carbon::parse($this->kvartal['kvartal_end_date']);
         $a_start_date = $animalItem->dateRange->start_date;
         $a_end_date = $animalItem->dateRange->end_date;
@@ -125,11 +126,11 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
         // Euthanasia
         $euthanasia = $animalItem->euthanasia;
         $euthanasiaDaNe = (isset($euthanasia)) ? 'da' : 'ne';
-        $euthanasiaPrice = (isset($euthanasia)) ? $euthanasia->price.'kn' : '0kn';
+        $euthanasiaPrice = (isset($euthanasia)) ? $euthanasia->price.$currency : '0'.$currency;
 
         // Total price
         $totalPrice = $animalItem->shelterAnimalPrice;
-        $totalPrice = (isset($totalPrice)) ? $totalPrice->total_price.'kn' : '0kn';
+        $totalPrice = (isset($totalPrice)) ? $totalPrice->total_price.$currency : '0'.$currency;
 
         return [
             $animalItem->shelter->name,
@@ -140,14 +141,14 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
             $totalDays,
             (isset($solitaryGroupDaysFinish)) ? $solitaryGroupDaysFinish : 0,
             $totalDaysCare,
-            (isset($solitary_price) && isset($group_price)) ? ($solitary_price + $group_price).'kn' : 0,
+            (isset($solitary_price) && isset($group_price)) ? ($solitary_price + $group_price).$currency : 0,
             ($fullCareDays != 0) ? 'da' : 'ne',
             $fullCareDays,
-            '200kn',
-            (isset($full_care_price)) ? $full_care_price.'kn' : 0,
+            '200'.$currency,
+            (isset($full_care_price)) ? $full_care_price.$currency : 0,
             $hibern_start,
             $hibernTotalDay,
-            ($hibern_start == 'da') ? $totalHibernPrice.'kn' : '0kn',
+            ($hibern_start == 'da') ? $totalHibernPrice . $currency : '0'.$currency,
             $euthanasiaDaNe,
             $euthanasiaPrice,
             $totalPrice
