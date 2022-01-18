@@ -37,7 +37,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
     {
         return [
             1 => ['font' => ['bold' => true]],
-            'S' => ['font' => ['bold' => true]],
+            'T' => ['font' => ['bold' => true]],
         ];
     }
 
@@ -60,6 +60,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
             'Životinja bila u hibernaciji/estivaciji',
             'Broj dana proveden u hibernaciji',
             'Umanjenje troška za broj dana proveden u hibernaciji',
+            'Eutanazija izvršena',
             'Eutanazija izvršena',
             'Cijena eutanazije',
             'Ukupna cijena'
@@ -128,6 +129,21 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
         $euthanasiaDaNe = (isset($euthanasia)) ? 'da' : 'ne';
         $euthanasiaPrice = (isset($euthanasia)) ? $euthanasia->price.$currency : '0'.$currency;
 
+        // Izvedeno
+        $staffTypeId = (isset($euthanasia)) ? $animalItem->euthanasia->shelterStaff->shelter_staff_type_id : 0;
+        $euthanasiatype = '';
+        if($staffTypeId != 0){
+            if($staffTypeId == '3'){
+                $euthanasiatype = 'Izvršeno u oporavilištu';
+            }
+            elseif($staffTypeId == '4'){
+                $euthanasiatype = 'Izvršeno izvan oporavilišta';
+            }
+            else {
+                $euthanasiatype = '';
+            }
+        }
+
         // Total price
         $totalPrice = $animalItem->shelterAnimalPrice;
         $totalPrice = (isset($totalPrice)) ? $totalPrice->total_price.$currency : '0'.$currency;
@@ -150,6 +166,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
             $hibernTotalDay,
             ($hibern_start == 'da') ? $totalHibernPrice . $currency : '0'.$currency,
             $euthanasiaDaNe,
+            $euthanasiatype,
             $euthanasiaPrice,
             $totalPrice
         ];
