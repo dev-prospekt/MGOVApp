@@ -1,13 +1,14 @@
 <?php
 
+use App\Mail\WelcomeMail;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Http;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
 */
 
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
@@ -17,8 +18,8 @@ use App\Http\Controllers\Animal\AnimalImportController;
 use App\Http\Controllers\Animal\AnimalCategoryController;
 use App\Http\Controllers\Animal\AnimalSeizedTypeController;
 use App\Http\Controllers\Animal\AnimalInvaziveTypeController;
-use App\Http\Controllers\Animal\AnimalItemDocumentationController;
 use App\Http\Controllers\Animal\AnimalProtectedTypeController;
+use App\Http\Controllers\Animal\AnimalItemDocumentationController;
 
 
 Route::get("/adminer", function() {

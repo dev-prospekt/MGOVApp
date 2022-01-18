@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Animal;
 
 use Carbon\Carbon;
+use App\Mail\WelcomeMail;
 use App\Models\DateRange;
 use App\Models\FounderData;
 use Illuminate\Http\Request;
@@ -13,6 +14,7 @@ use App\Models\Animal\AnimalMark;
 use App\Models\Animal\AnimalGroup;
 use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Animal\AnimalMarkType;
 use App\Http\Requests\AnimalProtectedCreateRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -71,6 +73,14 @@ class AnimalShelterCreateController extends Controller
                 }
             }
         }
+    }
+
+    // Slanje emaila administratoru oporavilišta
+    public function sendMail($data)
+    {
+        $email = 'email'; // Email Administrator oporavilišta
+ 
+        Mail::to($email)->send(new WelcomeMail($data));
     }
 
     // Strogo zaštićene
@@ -161,6 +171,12 @@ class AnimalShelterCreateController extends Controller
             'start_date' => Carbon::createFromFormat('m/d/Y', $request->start_date),
             'solitary_or_group' => $animalItem->solitary_or_group,
         ]);
+
+        // Send email
+        dump('Sve je spremljeno!');
+        dump('A sada');
+        dd('Šalji email.');
+        $sendEmail = $this->sendMail($animalItem);
 
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
