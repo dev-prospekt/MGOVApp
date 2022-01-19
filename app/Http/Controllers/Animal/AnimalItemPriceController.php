@@ -10,10 +10,9 @@ use App\Http\Controllers\Controller;
 
 class AnimalItemPriceController extends Controller
 {
-    public function __construct($animalItem, $animalDobOld)
+    public function __construct($animalItem)
     {
         $this->animalItem = $animalItem;
-        $this->animalDobOld = $animalDobOld;
     }
 
     // Ako bude potrebno napraviti update cijene
@@ -21,12 +20,10 @@ class AnimalItemPriceController extends Controller
     public function updateDob()
     {
         $animalItem = $this->animalItem;
-        $animalDobOld = $this->animalDobOld;
         $dateNow = Carbon::now();
 
         // JUV - 30% veća cijena
         // Za ostale se ne računa 30%
-        dump($animalDobOld);
         dd($animalItem);
     }
 
