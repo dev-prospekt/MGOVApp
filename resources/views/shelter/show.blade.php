@@ -225,6 +225,8 @@ $(function() {
   $('#shelterAnimalTable').on('click', '#animal_group_delete', function(){
     var url = $(this).attr('data-href');
 
+    console.log(url);
+
     Swal.fire({
         title: 'Jeste li sigurni?',
         text: "Obrisat će se grupa ali možete je i dalje vidjeti!",
@@ -244,15 +246,15 @@ $(function() {
                 url: url,
                 method: 'DELETE',
                 success: function(result) {
-                    if(result.msg == 'success'){
-                        Swal.fire(
-                            'Odlično!',
-                            'Uspješno obrisano!',
-                            'success'
-                        ).then((result) => {
-                            table.ajax.reload();
-                        });
-                    }
+                  if(result.msg == 'success'){
+                      Swal.fire(
+                          'Odlično!',
+                          'Uspješno obrisano!',
+                          'success'
+                      ).then((result) => {
+                          table.ajax.reload();
+                      });
+                  }
                 }
             }); 
         }

@@ -30,6 +30,8 @@ class WelcomeMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.welcome', ['data' => $this->body]);
+        return $this->markdown('email.welcome', ['data' => $this->body])
+                    ->from('admin@mgovapp.com', 'MgovApp')
+                    ->subject('Strogo zaštićena jedinka');
     }
 }

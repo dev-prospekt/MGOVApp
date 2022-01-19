@@ -273,9 +273,9 @@ class AnimalGroupController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($shelter, $animalGroup)
     {
-        $animalGroup = AnimalGroup::find($id);
+        $animalGroup = AnimalGroup::find($animalGroup);
         $animalGroup->delete();
 
         return response()->json(['msg' => 'success']);
