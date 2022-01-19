@@ -78,9 +78,10 @@ class AnimalShelterCreateController extends Controller
     // Slanje emaila administratoru oporavilišta
     public function sendMail($data)
     {
-        $email = 'kristijan.marijic@prospekt.hr'; // Email Administrator oporavilišta
+        // $adminEmail = $data->shelter->email; // Email Administrator oporavilišta
+        $adminEmail = 'kristijan.marijic@prospekt.hr';
  
-        Mail::to($email)->send(new WelcomeMail($data));
+        Mail::to($adminEmail)->send(new WelcomeMail($data));
     }
 
     // Strogo zaštićene
@@ -173,9 +174,6 @@ class AnimalShelterCreateController extends Controller
         ]);
 
         // Send email
-        // dump('Sve je spremljeno!');
-        // dump('A sada');
-        // dd('Šalji email.');
         $sendEmail = $this->sendMail($animalItem);
 
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
