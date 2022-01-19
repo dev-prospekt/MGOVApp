@@ -10,6 +10,20 @@ use App\Http\Controllers\Controller;
 
 class AnimalItemPriceController extends Controller
 {
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
+
+    // Ako bude potrebno napraviti update cijene
+    // kada se promijeni dob
+    public function updateDob()
+    {
+        // JUV - 30% veća cijena
+        // Za ostale se ne računa 30%
+        dump('tu sam');
+        dd($this->data);
+    }
 
     public function updateDateAndPrice(Request $request, $id)
     {

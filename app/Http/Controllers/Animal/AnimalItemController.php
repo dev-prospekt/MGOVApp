@@ -163,6 +163,10 @@ class AnimalItemController extends Controller
         $animalItem->animal_gender = $request->animal_gender;
         $animalItem->save();
 
+        $updateDob = (new AnimalItemPriceController($animalItem))->updateDob();
+
+        dd($updateDob);
+
         return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
     }
 
