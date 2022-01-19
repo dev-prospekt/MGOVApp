@@ -165,7 +165,8 @@ class AnimalItemController extends Controller
         $animalItem->save();
 
         // Update cijene ako više nije JUV ili obrnuto
-        if($animalDobOld != $animalItem->animal_age){ // Pokrenut ce samo ako promijenimo status dobi
+        // Pokrenut ce samo ako promijenimo status dobi
+        if($animalDobOld != $animalItem->animal_age){
             $updateDob = (new AnimalItemPriceController($animalItem))->updateDob();
         }
 

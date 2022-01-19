@@ -19,11 +19,11 @@ class AnimalItemPriceController extends Controller
     // kada se promijeni dob
     public function updateDob()
     {
-        $animalItem = $this->animalItem;
-        $dateNow = Carbon::now();
-
         // JUV - 30% veća cijena
         // Za ostale se ne računa 30%
+        $animalItem = $this->animalItem;
+        $dateNow = Carbon::now();
+        
         dd($animalItem);
     }
 
