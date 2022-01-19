@@ -376,7 +376,8 @@ class ReportController extends Controller
                     $itemStartDate = Carbon::parse($item->dateRange->start_date);
                     $itemEndDate = Carbon::parse($item->dateRange->end_date);
 
-                    if($itemStartDate >= $startDate && $itemStartDate <= $endDate || $itemEndDate >= $startDate && $itemEndDate <= $endDate)
+                    if( $itemStartDate >= $startDate && $itemStartDate <= $endDate || 
+                        $itemEndDate >= $startDate && $itemEndDate <= $endDate )
                     {
                         $data[] = $item;
                     }
@@ -387,7 +388,9 @@ class ReportController extends Controller
                     $itemStartDate = Carbon::parse($item->dateRange->start_date);
                     $itemEndDate = Carbon::parse($item->dateRange->end_date);
 
-                    if($item->shelter_id == $shelter->id && $itemStartDate >= $startDate && $itemStartDate <= $endDate || $itemEndDate >= $startDate && $itemEndDate <= $endDate)
+                    if( $item->shelter_id == $shelter->id && 
+                        $itemStartDate >= $startDate && $itemStartDate <= $endDate || 
+                        $itemEndDate >= $startDate && $itemEndDate <= $endDate )
                     {
                         $data[] = $item;
                     }
