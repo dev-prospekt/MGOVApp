@@ -314,7 +314,7 @@ class ReportController extends Controller
         $dateRange = $this->exportDateRangeAnimal($request, $data, $shelter);
         // Care End Type
         $careEndType = $this->exportCareEndType($request, $dateRange);
-
+        
         $finishData = $careEndType;
 
         // Export
@@ -346,6 +346,20 @@ class ReportController extends Controller
                 }
             }
         }
+        else {
+            $animalItems = $shelter->allAnimalItems;
+            foreach ($animalItems as $animalItem) {
+                if($shelter == 'all'){
+                    $data[] = $animalItem;
+                }
+                else {
+                    if($animalItem->shelter_id == $shelter->id){
+                        $data[] = $animalItem;
+                    }
+                }
+                
+            }
+        }
 
         return $data;
     }
@@ -357,31 +371,26 @@ class ReportController extends Controller
         if($animalItem){
             foreach ($animalItem as $item) {
                 if($shelter == 'all'){
-                    $data = $item->with('careEnd')
-                    ->whereHas('dateRange', function ($query) use ($request) {
-                        $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-                        $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
-    
-                        $query->where('start_date', '>=', $startDate)
-                        ->where('start_date', '<=', $endDate)
-                        ->orWhere('end_date', '>=', $startDate)
-                        ->where('end_date', '<=', $endDate);
-                    })
-                    ->get();
+                    $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+                    $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+                    $itemStartDate = $item->dateRange->start_date;
+                    $itemEndDate = $item->dateRange->end_date;
+
+                    if($itemStartDate >= $startDate || $itemStartDate <= $endDate || $itemEndDate >= $startDate || $itemEndDate <= $endDate)
+                    {
+                        $data[] = $item;
+                    }
                 }
                 else {
-                    $data = $item->with('careEnd')
-                    ->whereHas('dateRange', function ($query) use ($request) {
-                        $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-                        $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
-    
-                        $query->where('start_date', '>=', $startDate)
-                        ->where('start_date', '<=', $endDate)
-                        ->orWhere('end_date', '>=', $startDate)
-                        ->where('end_date', '<=', $endDate);
-                    })
-                    ->where('shelter_id', $shelter->id)
-                    ->get();
+                    $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+                    $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+                    $itemStartDate = $item->dateRange->start_date;
+                    $itemEndDate = $item->dateRange->end_date;
+
+                    if($item->shelter_id == $shelter->id && $itemStartDate >= $startDate || $itemStartDate <= $endDate || $itemEndDate >= $startDate || $itemEndDate <= $endDate)
+                    {
+                        $data[] = $item;
+                    }
                 }
             }
         }
