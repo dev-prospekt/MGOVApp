@@ -158,13 +158,14 @@ class AnimalItemController extends Controller
     public function update(AnimalItemPostRequest $request, $id)
     {
         $animalItem = AnimalItem::findOrFail($id);
+        $animalDobOld = $animalItem->animal_age;
         $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
         $animalItem->animal_age = $request->animal_dob;
         $animalItem->animal_gender = $request->animal_gender;
         $animalItem->save();
 
-        $updateDob = (new AnimalItemPriceController($animalItem))->updateDob();
-
+        // Update cijene ako više nije JUV ili obrnuto
+        $updateDob = (new AnimalItemPriceController($animalItem, $animalDobOld))->updateDob();
         dd($updateDob);
 
         return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
