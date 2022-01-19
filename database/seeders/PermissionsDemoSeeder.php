@@ -67,6 +67,7 @@ class PermissionsDemoSeeder extends Seeder
         $role2->givePermissionTo([$generate]);
 
         // assignRole
+        $superAdmin->assignRole([$role1, $role2, $role3]);
         $administrator->assignRole($role1);
         $korisnik->assignRole($role3);
         $oporaviliste->assignRole($role2);

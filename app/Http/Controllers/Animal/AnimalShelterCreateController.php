@@ -174,7 +174,7 @@ class AnimalShelterCreateController extends Controller
         ]);
 
         // Send email
-        $sendEmail = $this->sendMail($animalItem);
+        //$sendEmail = $this->sendMail($animalItem);
 
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }

@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Fax</label>
-                                <input type="number" class="form-control" name="fax" value="{{ $shelter->fax }}" required>
+                                <input type="number" class="form-control" name="fax" value="{{ $shelter->fax }}">
                                 @error('fax')
                                 <div class="text-danger">{{$errors->first('fax') }} </div>
                                 @enderror
@@ -40,7 +40,7 @@
 
                             <div class="form-group">
                                 <label>Web adresa</label>
-                                <input type="text" class="form-control" name="web_address" value="{{ $shelter->web_address }}" required>
+                                <input type="text" class="form-control" name="web_address" value="{{ $shelter->web_address }}">
                                 @error('web_address')
                                 <div class="text-danger">{{$errors->first('web_address') }} </div>
                                 @enderror
@@ -135,7 +135,7 @@
 
                             <div class="form-group">
                                 <label>Telefon</label>
-                                <input type="number" class="form-control" name="telephone" value="{{ $shelter->telephone }}" required>
+                                <input type="number" class="form-control" name="telephone" value="{{ $shelter->telephone }}">
                                 @error('telephone')
                                 <div class="text-danger">{{$errors->first('telephone') }} </div>
                                 @enderror
@@ -150,7 +150,7 @@
 
                             <div class="form-group">              
                                 <label>IBAN računa</label>
-                                <input type="number" class="form-control iban-field" name="iban" value="{{ $shelter->iban }}" required>
+                                <input class="form-control iban-field" name="iban" value="{{ $shelter->iban }}" required>
                                 @error('iban')
                                 <div class="text-danger">{{$errors->first('iban') }} </div>
                                 @enderror

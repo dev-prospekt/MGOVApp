@@ -10,8 +10,8 @@ Upisana je strogo zaštićena jedinka u oporavilište.
     <div><strong>Datum zaprimanja u oporavilište:</strong> {{ $data->dateRange->start_date->format('d.m.Y') }}</div>
 </div>
 
-@component('mail::button', ['url' => route('shelters.animal_groups.animal_items.show', [$data->shelter->id, $data->animalGroup->id, $data->id])])
-Pregled jedinke
+@component('mail::button', ['url' => route('shelters.animal_groups.show', [$data->shelter->id, $data->animalGroup->id])])
+Pregled
 @endcomponent
 
 @endcomponent

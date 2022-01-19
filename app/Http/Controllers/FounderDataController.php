@@ -28,11 +28,9 @@ class FounderDataController extends Controller
                     return '
                     <div class="d-flex align-items-center">
                         <a href="' . $editUrl . '" class="edit btn btn-xs btn-info mr-2">
-                            <i class="mdi mdi-tooltip-edit"></i> 
                             Uredi
                         </a>
                         <a href="javascript:void()" class="trash btn btn-xs btn-danger mr-2" data-href="' . $deleteUrl . '">
-                            <i class="mdi mdi-tooltip-trash"></i> 
                             Brisanje
                         </a>
 
