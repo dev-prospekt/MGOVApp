@@ -166,9 +166,9 @@ class AnimalItemController extends Controller
 
         // Update cijene ako više nije JUV ili obrnuto
         // Pokrenut ce samo ako promijenimo status dobi
-        if($animalDobOld != $animalItem->animal_age){
-            $updateDob = (new AnimalItemPriceController($animalItem))->updateDob();
-        }
+        // if($animalDobOld != $animalItem->animal_age){
+        //     $updateDob = (new AnimalItemPriceController($animalItem))->updateDob();
+        // }
 
         return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
     }

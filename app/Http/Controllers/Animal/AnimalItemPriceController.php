@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 
 class AnimalItemPriceController extends Controller
 {
-    public function __construct($animalItem)
+    public function __construct($animalItem = null)
     {
         $this->animalItem = $animalItem;
     }
