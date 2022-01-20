@@ -172,7 +172,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/roleMappingAdd", 'UserController@roleMappingAdd');
 
     // Reports
-    Route::get('view-reports', 'ReportController@viewReports');
+    Route::get('view-reports', 'ReportController@viewReports')->name("report-view");
+    Route::get('reports-modal', 'ReportController@createModal')->name("report-modal");
+    Route::delete('reports-delete/{report}', 'ReportController@deleteReport')->name("report-delete");
+    Route::post('report-save', 'ReportController@saveReport')->name("report-save");
     Route::post('reports-zns', 'ReportController@generateZNS')->name('reports-zns');
     Route::post('report-export-excel', 'ReportController@exportToExcel')->name('export-to-excel');
 });

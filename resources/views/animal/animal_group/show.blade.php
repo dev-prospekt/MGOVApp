@@ -108,22 +108,22 @@
                         @endif
         
                         <div class="table-responsive-sm">
-                        <table class="table" id="animal-table-inactive" style="width: 100%;">
-                            <thead>
-                                <tr>
-                                    <th>Šifra jedinke</th>
-                                    <th>LATINSKI NAZIV</th>
-                                    <th>Početak skrbi</th>
-                                    <th>Dob</th>
-                                    <th>Spol</th>
-                                    <th>Veličina</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+                            <table class="table" id="animal-table-inactive" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Šifra jedinke</th>
+                                        <th>LATINSKI NAZIV</th>
+                                        <th>Početak skrbi</th>
+                                        <th>Dob</th>
+                                        <th>Spol</th>
+                                        <th>Veličina</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

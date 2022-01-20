@@ -4,24 +4,63 @@ namespace App\Http\Controllers;
 
 use PDF;
 use Carbon\Carbon;
-use App\Exports\ReportsExport;
+use App\Models\Reports;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
+use App\Exports\ReportsExport;
 use App\Models\Shelter\Shelter;
+use Yajra\DataTables\DataTables;
 use App\Models\Animal\AnimalItem;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Animal\AnimalCategory;
 use App\Models\Animal\AnimalItemCareEndType;
+use Illuminate\Support\Facades\Validator;
 
 class ReportController extends Controller
 {
-    public function viewReports()
+    public function viewReports(Request $request)
     {
         $animals = Animal::all();
         $animalCategory = AnimalCategory::all();
         $shelters = Shelter::all();
         $endCareType = AnimalItemCareEndType::all();
+        $reports = Reports::all();
+
+        if ($request->ajax()) {
+            return DataTables::of($reports)
+            ->addColumn('name', function ($reports) {
+                return $reports->name;
+            })
+            ->addColumn('date', function ($reports) {
+                return $reports->date->format('d.m.Y');
+            })
+            ->addColumn('document', function ($reports) {
+                $file = $reports->getMedia('report_file')->first();
+                $url = $file->getUrl();
+                $filename = $file->file_name;
+                
+                return '
+                <div>
+                    <a class="text-muted" href="">
+                        test
+                    </a>
+                </div>
+                ';
+            })
+            ->addColumn('action', function ($reports) {
+                $deleteURL = route('report-delete', $reports->id);
+
+                return '
+                <div class="d-flex align-items-center">
+                    <a href="javascript:void(0)" data-url="' . $deleteURL . '" id="deleteReports" class="btn btn-xs btn-danger mr-2">
+                        Obriši
+                    </a>
+                </div>
+                ';
+            })
+            ->make();
+        }
 
         return view('reports.index', [
             'animals' => $animals,
@@ -29,6 +68,52 @@ class ReportController extends Controller
             'endCareType' => $endCareType,
             'animalCategory' => $animalCategory,
         ]);
+    }
+
+    // MODAL
+    public function createModal() 
+    {
+        $returnHTML = view('reports._create')->render();
+        return response()->json( array('success' => true, 'html' => $returnHTML) );
+    }
+
+    public function saveReport(Request $request)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => 'required',
+                'date' => 'required',
+                'report_file' => 'required',
+            ],
+            [
+                'name.required' => 'Naziv je obvezno polje',
+                'date.required' => 'Datum je obvezno polje',
+                'report_file.required' => 'Dokument je obvezno polje',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return response()->json([ 'status' => 'error', 'message' => $validator->errors()->all()]);
+        }
+
+        $report = new Reports;
+        $report->name = $request->name;
+        $report->date = $request->date;
+        $report->addMultipleMediaFromRequest(['report_file'])
+        ->each(function ($fileAdder) {
+            $fileAdder->toMediaCollection('report_file');
+        });
+        $report->save();
+
+        return response()->json(['status' => 'ok', 'message' => 'Uspješno dodano.']);
+    }
+
+    public function deleteReport(Reports $report)
+    {
+        $report->delete();
+
+        return response()->json(['status' => 'ok']);
     }
 
     public function generateZNS(Request $request)
@@ -347,19 +432,23 @@ class ReportController extends Controller
             }
         }
         else {
-            $animalItems = $shelter->allAnimalItems;
-            foreach ($animalItems as $animalItem) {
-                if($shelter == 'all'){
-                    $data[] = $animalItem;
+            if($shelter == 'all'){
+                $animalItems = AnimalItem::all();
+                foreach ($animalItems as $animalItem) {
+                    $data = $animalItems;
                 }
-                else {
-                    if($animalItem->shelter_id == $shelter->id){
-                        $data[] = $animalItem;
+            }
+            else {
+                $animalItems = $shelter->allAnimalItems;
+                foreach ($animalItems as $item) {
+                    if($item->shelter_id == $shelter->id){
+                        $data[] = $item;
                     }
                 }
-                
             }
         }
+
+        //dd($data);
 
         return $data;
     }
@@ -370,12 +459,12 @@ class ReportController extends Controller
 
         if($animalItem){
             foreach ($animalItem as $item) {
-                if($shelter == 'all'){
-                    $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-                    $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
-                    $itemStartDate = Carbon::parse($item->dateRange->start_date);
-                    $itemEndDate = Carbon::parse($item->dateRange->end_date);
+                $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+                $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+                $itemStartDate = Carbon::parse($item->dateRange->start_date);
+                $itemEndDate = Carbon::parse($item->dateRange->end_date);
 
+                if($shelter == 'all'){
                     if( $itemStartDate >= $startDate && $itemStartDate <= $endDate || 
                         $itemEndDate >= $startDate && $itemEndDate <= $endDate )
                     {
@@ -383,11 +472,6 @@ class ReportController extends Controller
                     }
                 }
                 else {
-                    $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-                    $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
-                    $itemStartDate = Carbon::parse($item->dateRange->start_date);
-                    $itemEndDate = Carbon::parse($item->dateRange->end_date);
-
                     if( $item->shelter_id == $shelter->id && 
                         $itemStartDate >= $startDate && $itemStartDate <= $endDate || 
                         $itemEndDate >= $startDate && $itemEndDate <= $endDate )
