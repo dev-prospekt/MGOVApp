@@ -33,7 +33,7 @@ class ReportController extends Controller
                 return $reports->name;
             })
             ->addColumn('date', function ($reports) {
-                return $reports->date->format('d.m.Y');
+                return $reports->created_at->format('d.m.Y');
             })
             ->addColumn('document', function ($reports) {
                 $file = $reports->getMedia('report_file')->first();
@@ -42,23 +42,48 @@ class ReportController extends Controller
                 
                 return '
                 <div>
-                    <a class="text-muted" href="">
-                        test
+                    <a class="" href="'.$url.'" target="_blank">
+                        '.$filename.'
                     </a>
                 </div>
                 ';
             })
+            ->addColumn('author', function ($reports) {
+                return $reports->user->name;
+            })
+            ->addColumn('status', function ($reports) {
+                switch ($reports->status) {
+                    case true:
+                        $btn_class = 'success';
+                        $btn_text = 'Odobreno';
+                        break;
+                    case false:
+                        $btn_class = 'danger';
+                        $btn_text = 'Nije odobreno';
+                        break;
+                    default:
+                        $btn_class = 'light';
+                }
+                return  '<span class="badge badge-' . ($btn_class) . '">' . $btn_text . '</span>';
+            })
             ->addColumn('action', function ($reports) {
                 $deleteURL = route('report-delete', $reports->id);
+                $status = $reports->status == true ? 0 : 1;
+                $statusUrl = route('report-status', $reports->id);
+                $statustxt = $reports->status == 1 ? 'Odustani' : 'Odobri';
 
                 return '
                 <div class="d-flex align-items-center">
                     <a href="javascript:void(0)" data-url="' . $deleteURL . '" id="deleteReports" class="btn btn-xs btn-danger mr-2">
                         Obriši
                     </a>
+                    <a href="javascript:void(0)" data-url="'.$statusUrl.'" data-id="' . $status . '" id="reportStatus" class="btn btn-xs btn-info mr-2">
+                        '.$statustxt.'
+                    </a>
                 </div>
                 ';
             })
+            ->rawColumns(['action', 'document', 'status'])
             ->make();
         }
 
@@ -77,18 +102,25 @@ class ReportController extends Controller
         return response()->json( array('success' => true, 'html' => $returnHTML) );
     }
 
+    public function changeStatus(Request $request, Reports $report)
+    {
+        $report->status = $request->status;
+        $report->save();
+
+        return response()->json(['status' => 'ok']);
+    }
+
     public function saveReport(Request $request)
     {
         $validator = Validator::make(
             $request->all(),
             [
                 'name' => 'required',
-                'date' => 'required',
+                'author' => 'required',
                 'report_file' => 'required',
             ],
             [
                 'name.required' => 'Naziv je obvezno polje',
-                'date.required' => 'Datum je obvezno polje',
                 'report_file.required' => 'Dokument je obvezno polje',
             ]
         );
@@ -99,7 +131,8 @@ class ReportController extends Controller
 
         $report = new Reports;
         $report->name = $request->name;
-        $report->date = $request->date;
+        $report->author = $request->author;
+        $report->date = Carbon::now();
         $report->addMultipleMediaFromRequest(['report_file'])
         ->each(function ($fileAdder) {
             $fileAdder->toMediaCollection('report_file');

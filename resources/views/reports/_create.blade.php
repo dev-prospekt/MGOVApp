@@ -10,6 +10,8 @@
             @csrf
             @method('POST')
 
+            <input type="hidden" name="author" value="{{ auth()->user()->id }}">
+
             <div class="modal-body">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
                     <p></p>
@@ -31,17 +33,6 @@
                         <div class="form-group">
                             <label>Naziv</label>
                             <input type="text" class="form-control name" name="name">
-                        </div>
-                        <div class="form-group" id="reportDate">
-                            <label>Datum</label>
-                            <div class="input-group" id="daterangepicker">
-                                <div class="input-group date datepicker" id="datePickerExample">
-                                    <input type="text" name="date" class="form-control">
-                                    <span class="input-group-addon">
-                                    <i data-feather="calendar"></i>
-                                    </span>
-                                </div>
-                            </div>
                         </div>
                         <div class="form-group">
                             <label>Dokument</label>

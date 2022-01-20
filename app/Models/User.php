@@ -51,4 +51,9 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->belongsTo(Shelter::class);
     }
+
+    public function reports()
+    {
+        return $this->hasMany(Reports::class);
+    }
 }

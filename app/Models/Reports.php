@@ -3,9 +3,9 @@
 namespace App\Models;
 
 use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 
 class Reports extends Model implements HasMedia
 {
@@ -13,4 +13,9 @@ class Reports extends Model implements HasMedia
 
     protected $fillable = ['date'];
     protected $casts = ['date' => 'date'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'author');
+    }
 }

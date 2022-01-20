@@ -18,6 +18,8 @@ class CreateReportsTable extends Migration
 
             $table->string("name");
             $table->date("date");
+            $table->foreignId('author')->constrained('users');
+            $table->boolean('status');
 
             $table->timestamps();
         });

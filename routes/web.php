@@ -173,6 +173,7 @@ Route::group(['middleware' => ['auth']], function () {
 
     // Reports
     Route::get('view-reports', 'ReportController@viewReports')->name("report-view");
+    Route::post('reports-status/{report}', 'ReportController@changeStatus')->name("report-status");
     Route::get('reports-modal', 'ReportController@createModal')->name("report-modal");
     Route::delete('reports-delete/{report}', 'ReportController@deleteReport')->name("report-delete");
     Route::post('report-save', 'ReportController@saveReport')->name("report-save");

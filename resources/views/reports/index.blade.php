@@ -176,9 +176,11 @@
                                 <thead>
                                     <tr>
                                         <th>Naziv</th>
-                                        <th>Datum izrade</th>
+                                        <th>Datum</th>
                                         <th>Dokument</th>
-                                        <th></th>
+                                        <th>Kreirao</th>
+                                        <th>Status</th>
+                                        <th>Akcije</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -234,6 +236,8 @@
                     { data: 'name', name: 'name'},
                     { data: 'date', name: 'date'},
                     { data: 'document', name: 'document'},
+                    { data: 'author', name: 'author'},
+                    { data: 'status', name: 'status'},
                     { data: 'action', name: 'action'},
                 ],
                 language: {
@@ -241,6 +245,36 @@
                 },
                 pageLength: 10,
                 order: [[ 0, "desc" ]],
+            });
+
+            // Status
+            $('.table').on('click', '#reportStatus', function(e){
+                e.preventDefault();
+
+                var data = $(this).attr('data-id');
+                var url = $(this).attr('data-url');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: url,
+                    method: 'POST',
+                    data: {'status': data},
+                    success: function(result) {
+                        if(result.status == 'ok'){
+                            Swal.fire(
+                                'Odlično!',
+                                'Uspješno spremljeno!',
+                                'success'
+                            ).then((result) => {
+                                reportTable.ajax.reload();
+                            });
+                        }
+                    }
+                }); 
             });
 
             //Create
