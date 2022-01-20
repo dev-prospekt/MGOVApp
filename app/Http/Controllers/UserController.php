@@ -217,14 +217,14 @@ class UserController extends Controller
         $user = User::where('email', $request['email'])->first();
         $user->roles()->detach();
 
-        if($request['role_superadmin']){
-            $user->roles()->attach(Role::where('name', 'Super-Admin')->first());
+        if($request['administrator']){
+            $user->roles()->attach(Role::where('name', 'Administrator')->first());
         }
-        if($request['role_shelteradmin']){
-            $user->roles()->attach(Role::where('name', 'Shelter-Admin')->first());
+        if($request['user']){
+            $user->roles()->attach(Role::where('name', 'Korisnik')->first());
         }
-        if($request['role_shelteruser']){
-            $user->roles()->attach(Role::where('name', 'Shelter-User')->first());
+        if($request['shelter']){
+            $user->roles()->attach(Role::where('name', 'Oporavilište')->first());
         }
 
         return redirect("/roleMapping")->with('msg', 'Uspješno spremljeno.');

@@ -32,7 +32,7 @@
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
                 <h3 class="mb-2">
-                  {{ $shelters->first()->animalItems->count() }}
+                  {{ $shelters->first()->allAnimalItems->count() }}
                 </h3>
                 <div class="d-flex align-items-baseline">
                   <p class="text-success">

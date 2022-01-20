@@ -121,6 +121,7 @@
         </div>  
       </li>
 
+      @if(auth()->user()->roles->first()->name == 'Administrator')
       <li class="nav-item nav-category">Aplikacija</li>
       <li class="nav-item {{ active_class(['user']) }}">
         <a class="nav-link" data-toggle="collapse" href="#users" role="button">
@@ -129,18 +130,18 @@
           <i class="link-arrow" data-feather="chevron-down"></i>
         </a>
         
-        {{-- <div class="collapse" id="users">
-          <ul class="nav sub-menu">
-            <li class="nav-item">
-              <a href="{{ url('/user') }}" class="nav-link }}">Lista</a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ url('/roleMapping') }}" class="nav-link }}">Role</a>
-            </li>
-          </ul>
-        </div>   --}}
-
+          <div class="collapse" id="users">
+            <ul class="nav sub-menu">
+              <li class="nav-item">
+                <a href="{{ url('/user') }}" class="nav-link }}">Lista</a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ url('/roleMapping') }}" class="nav-link }}">Role</a>
+              </li>
+            </ul>
+          </div>
       </li>
+      @endif
     </ul>
   </div>
 </nav>

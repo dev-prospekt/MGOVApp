@@ -149,6 +149,11 @@ class ReportController extends Controller
         return response()->json(['status' => 'ok']);
     }
 
+    ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+
     public function generateZNS(Request $request)
     {
         $shelter = Shelter::find($request->shelter);
@@ -230,7 +235,7 @@ class ReportController extends Controller
 
         // Save PDF
         // Storage::put('public/files/pdf'.$id.'.pdf', $pdf->output());
-        return $pdf->stream('reports.znspdf');
+        return $pdf->stream('reports.pdf');
         // return redirect()->back()->with('izvj', 'Uspješno spremljen izvještaj');
     }
 

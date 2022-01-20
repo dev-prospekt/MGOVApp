@@ -19,9 +19,9 @@
                         <th>#</th>
                         <th>Ime</th>
                         <th>Email</th>
-                        <th>Super Admin</th>
-                        <th>Shelter Admin</th>
-                        <th>Shelter User</th>
+                        <th>Administrator</th>
+                        <th>Korisnik</th>
+                        <th>Oporavilište</th>
                         <th>Action</th>
                         </tr>
                     </thead>
@@ -36,13 +36,13 @@
                                 <td>{{ $user->email }}</td>
                                 <input type="hidden" name="email" value="{{ $user->email }}">
                                 <td>
-                                    <input id="{{$user->id}}" type="checkbox" {{ $user->roles->first()->name == 'Super-Admin' ? 'checked' : '' }} name="role_superadmin" style="accent-color: #be234a; width: 15px; height: 15px;">
+                                    <input id="{{$user->id}}" type="checkbox" {{ $user->roles->first()->name == 'Administrator' ? 'checked' : '' }} name="administrator" style="accent-color: #be234a; width: 15px; height: 15px;">
                                 </td>
                                 <td>
-                                    <input id="{{$user->id}}" type="checkbox" {{ $user->roles->first()->name == 'Shelter-Admin' ? 'checked' : '' }} name="role_shelteradmin" style="accent-color: #be234a; width: 15px; height: 15px;">
+                                    <input id="{{$user->id}}" type="checkbox" {{ $user->roles->first()->name == 'Korisnik' ? 'checked' : '' }} name="user" style="accent-color: #be234a; width: 15px; height: 15px;">
                                 </td>
                                 <td>
-                                    <input id="{{$user->id}}" type="checkbox" {{ $user->roles->first()->name == 'Shelter-User' ? 'checked' : '' }} name="role_shelteruser" style="accent-color: #be234a; width: 15px; height: 15px;">
+                                    <input id="{{$user->id}}" type="checkbox" {{ $user->roles->first()->name == 'Oporavilište' ? 'checked' : '' }} name="shelter" style="accent-color: #be234a; width: 15px; height: 15px;">
                                 </td>
                                 <td>
                                     <button type="submit" class="btn btn-sm btn-primary">Spremi</button>

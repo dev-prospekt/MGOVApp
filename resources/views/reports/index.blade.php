@@ -244,7 +244,6 @@
                     url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
                 },
                 pageLength: 10,
-                order: [[ 0, "desc" ]],
             });
 
             // Status
@@ -384,7 +383,7 @@
                     showUpload: false,
                     maxFileSize: 1500,
                     msgSizeTooLarge: 'Slika "{name}" (<b>{size} KB</b>) je veća od maksimalne dopuštene veličine <b>{maxSize} KB</b>. Pokušajte ponovno!',
-                    allowedFileExtensions: ['xlsx'],
+                    allowedFileExtensions: ['xlsx', 'pdf'],
                     elErrorContainer: '#error_report_file',
                     msgInvalidFileExtension: 'Nevažeći format "{name}". Podržani su: "{extensions}"',
                 });
