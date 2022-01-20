@@ -287,7 +287,7 @@
                     success: function(result) {
                         $(".modal").show();
                         $(".modal").html(result['html']);
-                        scripts();
+                        scriptsModal();
 
                         $('.modal').find("#reports-ajax").on('submit', function(e){
                             e.preventDefault();
@@ -305,7 +305,7 @@
                                     console.log(result);
                                     if(result.status == 'ok'){
                                         $(".alert-success").show();
-                                        $(".alert-success").find('p').html(result.message);
+                                        $(".alert-success").html(result.message);
                                         
                                         setInterval(function(){
                                             location.reload();
@@ -313,7 +313,9 @@
                                     }
                                     else {
                                         $(".alert-danger").show();
-                                        $(".alert-danger").find('p').html(result.message);
+                                        $.each(result.message, function(key, value) {
+                                            $('.alert-danger').append('<p>'+value+'</p>');
+                                        });
                                     }
                                 }
                             });
@@ -364,7 +366,7 @@
                 $(".modal").hide();
             });
 
-            function scripts()
+            function scriptsModal()
             {
                 if($('div#datePickerExample').length) {
                     $('div#datePickerExample').datepicker({

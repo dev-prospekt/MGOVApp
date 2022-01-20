@@ -14,14 +14,12 @@
 
             <div class="modal-body">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">
-                    <p></p>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
     
                 <div class="alert alert-success alert-dismissible fade show" role="alert" style="display: none;">
-                    <p></p>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -48,7 +46,6 @@
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="submit" class="submitBtn btn btn-warning">Spremi</button>
-                <button type="button" class="btn btn-primary modal-close" data-dismiss="modal">Zatvori</button>
             </div>
         </form>
     </div>
