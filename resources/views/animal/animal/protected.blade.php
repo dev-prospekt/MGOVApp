@@ -177,8 +177,8 @@
                                 @foreach ($founders as $founder)
                                     <option value="{{$founder->id}}">
                                         {{$founder->name}} {{$founder->lastname}} 
-                                        @if($founder->founderService->name != 10)
-                                            ({{$founder->founderService->name}})
+                                        @if($founder->founderServices->name != 10)
+                                            ({{$founder->founderServices->name}})
                                         @else
                                             ({{$founder->others}})
                                         @endif
@@ -202,8 +202,8 @@
                                 @foreach ($founders as $founder)
                                     <option value="{{$founder->id}}">
                                         {{$founder->name}} {{$founder->lastname}} 
-                                        @if($founder->founderService->name != 10)
-                                            ({{$founder->founderService->name}})
+                                        @if($founder->founderServices->name != 10)
+                                            ({{$founder->founderServices->name}})
                                         @else
                                             ({{$founder->others}})
                                         @endif
