@@ -75,11 +75,20 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
         $a_end_date = $animalItem->dateRange->end_date;
 
         // Kraj skrbi
-        $end_date = (!empty($animalItem->careEnd) && $a_end_date <= $kvartal_end_date) ? $a_end_date : 'skrb se nastavlja u sljedeće izvještajno razdoblje';
+        $end_date = (!empty($animalItem->careEnd) && $a_end_date <= $kvartal_end_date) ? $a_end_date : 'skrb se nastavlja u sljedeće izvještajno razdoblje';        
         $check_end_date = Str::is('skrb*', $end_date); // Provjera je li vraca datum ili string
 
+        if($check_end_date != false)
+        {
+            $animal_item_end_date = (!empty($a_end_date)) ? $a_end_date->format('d.m.Y') : '';
+            $animal_item_care_end_date = $end_date .' ('. $animal_item_end_date .')';
+        }
+        else {
+            $animal_item_care_end_date = $end_date->format('d.m.Y');
+        }
+
         // Ukupan broj dana proveden u oporavilištu u tom kvartalu
-        $totalDays = ((!empty($a_end_date)) && $a_end_date <= $kvartal_end_date) ? $a_end_date->diffInDays($a_start_date).' dana' : 'Nije završena skrb';
+        $totalDays = ((!empty($a_end_date))) ? $a_end_date->diffInDays($a_start_date).' dana' : 'Nije završena skrb';
         // Ukupni broj dana osnovne skrbi
         $totalDaysCare = (!empty($animalItem->careEnd)) ? $a_end_date->diffInDays($a_start_date).' dana' : 'Nije završena skrb';
 
@@ -153,7 +162,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
             $animalItem->animal_code, // Unikatni kod za tu jedinku
             $animalItem->animal->latin_name,
             $animalItem->dateRange->start_date->format('d.m.Y'),
-            ($check_end_date == true) ? $end_date : $end_date->format('d.m.Y'),
+            $animal_item_care_end_date,
             $totalDays,
             (isset($solitaryGroupDaysFinish)) ? $solitaryGroupDaysFinish : 0,
             $totalDaysCare,

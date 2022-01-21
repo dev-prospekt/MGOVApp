@@ -176,7 +176,12 @@ class UserController extends Controller
         $user->name = $request->name;
         $user->email = $request->email;
         $user->shelter_id = $request->shelter_id;
+        $user->roles()->detach();
         $user->save();
+
+        if($request->role_id){
+            $user->roles()->attach($request->role_id);
+        }
 
         return response()->json(['success' => 'Uspješno dodano.']);
     }

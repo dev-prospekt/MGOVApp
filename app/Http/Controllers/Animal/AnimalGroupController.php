@@ -128,7 +128,6 @@ class AnimalGroupController extends Controller
                         </div>
                         ';
                     }
-
                     if(auth()->user()->hasRole('Korisnik')){
                         return '
                         <div class="d-flex align-items-center">
@@ -140,58 +139,35 @@ class AnimalGroupController extends Controller
                     }
 
                     if ($countAnimal > 1) {
-                        if ($animal_items->animal_item_care_end_status == true) {
-                            return '
-                            <div class="d-flex align-items-center">
-                                <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
-                                    Podaci
-                                </a>
-                                <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
-                                    Dupliciraj
-                                </a>
-                                <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
-                                    Premjesti
-                                </a>
-                                <a href="javascript:void(0)" data-url="' . $deleteURL . '" id="deleteAnimalItem" class="btn btn-xs btn-danger mr-2">
-                                    Obriši
-                                </a>
-                            </div>
-                            ';
-                        } else {
-                            return '
-                            <div class="d-flex align-items-center">
-                                <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
-                                    Podaci
-                                </a>
-                                <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
-                                    Premjesti
-                                </a>
-                            </div>
-                            ';
-                        }
-                    } else {
-                        if ($animal_items->animal_item_care_end_status == true) {
-                            return '
-                            <div class="d-flex align-items-center">
-                                <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
-                                    Podaci
-                                </a>
-        
-                                <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
-                                    Dupliciraj
-                                </a>
-                            </div>
-                            ';
-                        } 
-                        else {
-                            return '
-                            <div class="d-flex align-items-center">
-                                <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
-                                    Podaci
-                                </a>
-                            </div>
-                            ';
-                        }
+                        return '
+                        <div class="d-flex align-items-center">
+                            <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
+                                Podaci
+                            </a>
+                            <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
+                                Dupliciraj
+                            </a>
+                            <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
+                                Premjesti
+                            </a>
+                            <a href="javascript:void(0)" data-url="' . $deleteURL . '" id="deleteAnimalItem" class="btn btn-xs btn-danger mr-2">
+                                Obriši
+                            </a>
+                        </div>
+                        ';
+                    } 
+                    else {
+                        return '
+                        <div class="d-flex align-items-center">
+                            <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
+                                Podaci
+                            </a>
+
+                            <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
+                                Dupliciraj
+                            </a>
+                        </div>
+                        ';
                     }
                 })
                 ->rawColumns(['animal_item_care_end_status', 'action'])

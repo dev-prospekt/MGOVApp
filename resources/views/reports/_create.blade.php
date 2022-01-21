@@ -11,6 +11,7 @@
             @method('POST')
 
             <input type="hidden" name="author" value="{{ auth()->user()->id }}">
+            <input type="hidden" name="shelter" value="{{ auth()->user()->shelter->id }}">
 
             <div class="modal-body">
                 <div class="alert alert-danger alert-dismissible fade show" role="alert" style="display: none;">

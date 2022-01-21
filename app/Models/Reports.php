@@ -18,4 +18,9 @@ class Reports extends Model implements HasMedia
     {
         return $this->belongsTo(User::class, 'author');
     }
+
+    public function shelter()
+    {
+        return $this->belongsTo(Shelter::class);
+    }
 }

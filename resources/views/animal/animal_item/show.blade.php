@@ -51,12 +51,15 @@
             <div class="col-lg-12 email-content">
               <div class="email-inbox-header">
                 <div class="row justify-content-between">           
-                    <div class="email-title mb-2 mb-md-0"> Opis postupanja u oporavilištu</div>  
+                    <div class="email-title mb-2 mb-md-0"> Opis postupanja u oporavilištu</div>
+                    
+                    @can('create')
                     <div>
                       <a href="{{ route('animal_items.animal_item_logs.create', $animalItem->id) }}" type="button" class="btn btn-primary btn-xs">                
                           Dodaj zapis
                       </a> 
                     </div>
+                    @endcan
                  
                 </div>
               </div>

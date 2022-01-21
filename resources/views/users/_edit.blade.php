@@ -30,6 +30,16 @@
                         <input type="email" class="form-control email" value="{{ $user->email }}">
                     </div>
                     <div class="form-group">
+                        <label>Role</label>
+                        <select class="form-control role_id" name="role_id" id="">
+                            <option value="{{ $user->roles->first()->id }}" selected>{{ $user->roles->first()->name }}</option>
+                            <option value="">Odaberi</option>
+                            <option value="1">Administrator</option>
+                            <option value="2">Oporavilište</option>
+                            <option value="3">Korisnik</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label>Oporavilište</label>
                         <select class="form-control shelter_id" id="">
                             <option value="{{ $user->shelter->id ?? '' }}">{{ $user->shelter->name ?? '' }}</option>

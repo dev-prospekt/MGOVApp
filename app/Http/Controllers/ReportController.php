@@ -25,7 +25,10 @@ class ReportController extends Controller
         $animalCategory = AnimalCategory::all();
         $shelters = Shelter::all();
         $endCareType = AnimalItemCareEndType::all();
-        $reports = Reports::all();
+
+        $myReport = Reports::where('shelter_id', auth()->user()->shelter->id)->get();
+        $reportAdmin = Reports::all();
+        $reports = (auth()->user()->hasRole('Administrator')) ? $reportAdmin : $myReport;
 
         if ($request->ajax()) {
             return DataTables::of($reports)
@@ -47,6 +50,9 @@ class ReportController extends Controller
                     </a>
                 </div>
                 ';
+            })
+            ->addColumn('shelter', function ($reports) {
+                return $reports->user->shelter->name;
             })
             ->addColumn('author', function ($reports) {
                 return $reports->user->name;
@@ -136,6 +142,7 @@ class ReportController extends Controller
         $report = new Reports;
         $report->name = $request->name;
         $report->author = $request->author;
+        $report->shelter_id = $request->shelter;
         $report->date = Carbon::now();
         $report->addMultipleMediaFromRequest(['report_file'])
         ->each(function ($fileAdder) {
@@ -381,7 +388,7 @@ class ReportController extends Controller
                 $itemStartDate = Carbon::parse($item->dateRange->start_date);
                 $itemEndDate = Carbon::parse($item->dateRange->end_date);
                 
-                if( $itemStartDate > $startDate && $itemEndDate <= $endDate )
+                if( $itemStartDate > $startDate && $itemStartDate <= $endDate )
                 {
                     $data[] = $item;
                 }
@@ -503,14 +510,14 @@ class ReportController extends Controller
                 $itemEndDate = Carbon::parse($item->dateRange->end_date);
 
                 if($shelter == 'all'){
-                    if( $itemStartDate > $startDate && $itemEndDate <= $endDate )
+                    if( $itemStartDate > $startDate && $itemStartDate <= $endDate )
                     {
                         $data[] = $item;
                     }
                 }
                 else {
                     if( $item->shelter_id == $shelter->id && 
-                        $itemStartDate > $startDate && $itemEndDate <= $endDate )
+                        $itemStartDate > $startDate && $itemStartDate <= $endDate )
                     {
                         $data[] = $item;
                     }

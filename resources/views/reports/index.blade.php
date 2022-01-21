@@ -178,6 +178,7 @@
                                         <th>Naziv</th>
                                         <th>Datum</th>
                                         <th>Dokument</th>
+                                        <th>Oporavilište</th>
                                         <th>Kreirao</th>
                                         <th>Status</th>
                                         <th>Akcije</th>
@@ -236,6 +237,7 @@
                     { data: 'name', name: 'name'},
                     { data: 'date', name: 'date'},
                     { data: 'document', name: 'document'},
+                    { data: 'shelter', name: 'shelter'},
                     { data: 'author', name: 'author'},
                     { data: 'status', name: 'status'},
                     { data: 'action', name: 'action'},

@@ -19,6 +19,7 @@ class CreateReportsTable extends Migration
             $table->string("name");
             $table->date("date");
             $table->foreignId('author')->constrained('users');
+            $table->foreignId('shelter_id')->constrained('shelters');
             $table->boolean('status');
 
             $table->timestamps();
