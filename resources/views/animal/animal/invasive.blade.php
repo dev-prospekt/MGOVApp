@@ -3,8 +3,8 @@
         <form action="{{ route('shelterAnimal.invasiveStore') }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('POST')
-            <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
-            <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
+            <input type="hidden" name="shelter_id" value="{{ $shelter->id }}">
+            <input type="hidden" name="shelter_code" value="{{ $shelter->shelter_code }}">
 
             <div class="row">
                 <div class="col-md-4">
@@ -88,8 +88,8 @@
                                 @foreach ($founders as $founder)
                                     <option value="{{$founder->id}}">
                                         {{$founder->name}} {{$founder->lastname}} 
-                                        @if($founder->service != 'ostalo-navesti:')
-                                            ({{$founder->service}})
+                                        @if($founder->founderService->name != 10)
+                                            ({{$founder->founderService->name}})
                                         @else
                                             ({{$founder->others}})
                                         @endif
@@ -128,13 +128,13 @@
                     <div class="bordered-group mt-2">
                         <div class="form-group">
                             <label>Tko je donio</label>
-                            <select name="brought_animal" class="form-control">
+                            <select name="brought_animal" class="form-control" required>
                                 <option value="">----</option>
                                 @foreach ($founders as $founder)
                                     <option value="{{$founder->id}}">
                                         {{$founder->name}} {{$founder->lastname}} 
-                                        @if($founder->service != 'ostalo-navesti:')
-                                            ({{$founder->service}})
+                                        @if($founder->founderService->name != 10)
+                                            ({{$founder->founderService->name}})
                                         @else
                                             ({{$founder->others}})
                                         @endif

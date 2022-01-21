@@ -156,8 +156,8 @@
                                 @foreach ($founders as $founder)
                                     <option value="{{$founder->id}}">
                                         {{$founder->name}} {{$founder->lastname}} 
-                                        @if($founder->service != 'ostalo-navesti:')
-                                            ({{$founder->service}})
+                                        @if($founder->founderServices->name != 10)
+                                            ({{$founder->founderServices->name}})
                                         @else
                                             ({{$founder->others}})
                                         @endif
@@ -218,13 +218,13 @@
                     <div class="bordered-group mt-2">
                         <div class="form-group">
                             <label>Tko je donio</label>
-                            <select name="brought_animal" class="form-control">
+                            <select name="brought_animal" class="form-control" required>
                                 <option value="">----</option>
                                 @foreach ($founders as $founder)
                                     <option value="{{$founder->id}}">
                                         {{$founder->name}} {{$founder->lastname}} 
-                                        @if($founder->service != 'ostalo-navesti:')
-                                            ({{$founder->service}})
+                                        @if($founder->founderServices->name != 10)
+                                            ({{$founder->founderServices->name}})
                                         @else
                                             ({{$founder->others}})
                                         @endif

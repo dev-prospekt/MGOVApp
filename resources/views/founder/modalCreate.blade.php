@@ -34,16 +34,9 @@
                                     <label>Služba/osoba koja je izvršila predaju u oporavilište</label>
                                     <select id="sluzba" name="service" class="form-control">
                                         <option value="">------</option>
-                                        <option value="Državni inspektorat-inspekcija zaštite prirode">Državni inspektorat-inspekcija zaštite prirode</option>
-                                        <option value="Državni inspektorat-veterinarska inspekcija">Državni inspektorat-veterinarska inspekcija</option>
-                                        <option value="Ministarstvo unutarnjih poslova">Ministarstvo unutarnjih poslova</option>
-                                        <option value="Ministarstvo financija, Carinska uprava">Ministarstvo financija, Carinska uprava</option>
-                                        <option value="fizička/pravna osoba">fizička/pravna osoba</option>
-                                        <option value="komunalna služba-lokalna i regionalna samouprava">komunalna služba-lokalna i regionalna samouprava</option>
-                                        <option value="nepoznato">nepoznato</option>
-                                        <option value="djelatnici Javnih ustanova NP/PP ili županija">djelatnici Javnih ustanova NP/PP ili županija</option>
-                                        <option value="vlasnik životinje">vlasnik životinje</option>
-                                        <option value="ostalo-navesti:">ostalo-navesti:</option>
+                                        @foreach ($founderService as $item)
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

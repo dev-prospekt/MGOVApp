@@ -94,6 +94,16 @@
       </li>
       @endrole
 
+      {{-- @role('Administrator')
+      <li class="nav-item nav-category">Životinje</li>
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('animal-data') }}">
+          <i class="link-icon" data-feather="layout"></i>
+          <span class="link-title">Podatci za jedinke</span>
+        </a>
+      </li>
+      @endrole --}}
+
       @role('Administrator|Oporavilište')
       <li class="nav-item nav-category">Ustanove</li>
       <li class="nav-item {{ active_class(['shelter/*']) }}">

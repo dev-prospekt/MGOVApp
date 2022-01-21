@@ -17,4 +17,9 @@ class FounderData extends Model implements HasMedia
     {
         return $this->belongsTo(Shelter::class);
     }
+
+    public function founderServices()
+    {
+        return $this->belongsTo(FounderService::class, 'service');
+    }
 }

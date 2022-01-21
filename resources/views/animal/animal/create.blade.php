@@ -185,7 +185,7 @@
                 $("#sluzba").change(function(){
                     var id = $("#sluzba").val();
 
-                    if(id != 'ostalo-navesti:'){
+                    if(id != 10){
                         $("#ostalo").hide();
                     }
                     else {

@@ -8,6 +8,7 @@ use App\Models\DateRange;
 use App\Models\FounderData;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
+use App\Models\FounderService;
 use App\Models\Shelter\Shelter;
 use App\Models\Animal\AnimalItem;
 use App\Models\Animal\AnimalMark;
@@ -377,6 +378,14 @@ class AnimalShelterCreateController extends Controller
         $markTypes = AnimalMarkType::all();
         $shelterType = ShelterType::find($type_id);
         $stateType = AnimalItemDocumentationStateType::all();
+
+        // kod zapljena samo službena osoba
+        if($template == 'seized')
+        {
+            $founder = FounderData::whereHas('founderServices', function($query){
+                $query->whereIn('id', [1,2,3,4,6,8]);
+            })->get();
+        }
 
         $pluckSystemCat = $sysCats->pluck('id');
         $shelterTypeCode = [$shelterType->code];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FounderData;
 use Illuminate\Http\Request;
+use App\Models\FounderService;
 use App\Models\Shelter\Shelter;
 use Yajra\Datatables\Datatables;
 use App\Models\Shelter\ShelterType;
@@ -49,10 +50,12 @@ class FounderDataController extends Controller
     public function create(Shelter $shelter)
     {
         $type = ShelterType::all();
+        $founderService = FounderService::all();
 
         return view('founder.create', [
             'type' => $type,
             'shelter' => $shelter,
+            'founderService' => $founderService,
         ]);
     }
 
@@ -140,8 +143,13 @@ class FounderDataController extends Controller
     public function modalCreateFounder(Shelter $shelter)
     {
         $type = ShelterType::all();
+        $founderService = FounderService::all();
 
-        $returnHTML = view('founder.modalCreate', ['type' => $type, 'shelter' => $shelter])->render();
+        $returnHTML = view('founder.modalCreate', [
+            'type' => $type, 
+            'shelter' => $shelter, 
+            'founderService' => $founderService
+            ])->render();
 
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }

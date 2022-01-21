@@ -19,7 +19,7 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">Role</h6>
+                <h6 class="card-title">Korisnici</h6>
 
                 @if($msg = Session::get('role'))
                 <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
