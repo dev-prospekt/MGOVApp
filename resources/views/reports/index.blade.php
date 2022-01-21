@@ -144,7 +144,7 @@
         
                             <div class="row">
                                 <div class="col">
-                                    <button type="submit" class="btn btn-primary">Pogledaj</button>
+                                    <button type="submit" class="btn btn-primary">Spremi</button>
                                 </div>
                             </div>
                         </form>

@@ -25,14 +25,14 @@
                   <i class="icon-lg text-muted pb-3px" data-feather="more-horizontal"></i>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item d-flex align-items-center" href="#"><i data-feather="eye" class="icon-sm mr-2"></i> <span class="">Popis</span></a>
+                  <a class="dropdown-item d-flex align-items-center" href="{{ !empty($shelters[0]) ? route('shelter.show', $shelters->first()) : 'javascript:void' }}"><i data-feather="eye" class="icon-sm mr-2"></i> <span class="">Popis</span></a>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
                 <h3 class="mb-2">
-                  {{ $shelters->first()->allAnimalItems->count() }}
+                  {{ !empty($shelters[0]) ? $shelters->first()->allAnimalItems->count() : 0 }}
                 </h3>
                 <div class="d-flex align-items-baseline">
                   <p class="text-success">
@@ -49,6 +49,7 @@
         </div>
       </div>
 
+      @role('Administrator')
       <div class="col-md-3 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
@@ -57,9 +58,10 @@
               <a href="/animal_import" type="button" class="btn btn-primary btn-sm mr-2 mt-2">Pregled</a>
           </div>
         </div>
-
       </div>
+      @endrole
 
+      @role('Administrator')
       <div class="col-md-3 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
@@ -68,8 +70,10 @@
               <a href="/animal_size" type="button" class="btn btn-primary btn-sm mr-2 mt-2">Pregled</a>
           </div>
         </div>
-
       </div>
+      @endrole
+
+      @role('Administrator')
       <div class="col-md-3 grid-margin stretch-card">
         <div class="card">
           <div class="card-body">
@@ -78,8 +82,9 @@
               <a href="/user" type="button" class="btn btn-primary btn-sm mr-2 mt-2">Pregled</a>
           </div>
         </div>
-
       </div>
+      @endrole
+
     </div>
   </div>
 </div> <!-- row -->
@@ -95,7 +100,9 @@
                       <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                   </div>
                   <div>
+                      @role('Administrator')
                       <a href="{{ route("shelter.create") }}" class="btn btn-primary btn-sm">Dodaj oporavilište</a>
+                      @endrole
                   </div>
               </div>
 

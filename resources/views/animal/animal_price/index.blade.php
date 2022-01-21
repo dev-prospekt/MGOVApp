@@ -14,9 +14,11 @@
                         <h6 class="card-title">Oporavilišta za divlje životinje</h6>
                         <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                     </div>
+                    @can('create')
                     <div>
                         <button class="btn btn-primary btn-sm add-price" data-toggle="modal" data-target="#CreateSizeModal">Dodaj u cjenik</button>
                     </div>
+                    @endcan
                 </div>
 
                 @if($msg = Session::get('msg'))
@@ -32,7 +34,9 @@
                         <th> Veličine jedinki</th>
                         <th width="250">Solitarna skrb - cijena/dan</th>
                         <th width="250">Grupna skrb - cijena/dan</th>
-                        <th>Akcija</th> 
+                        @role('Administrator')
+                        <th>Akcija</th>
+                        @endrole
                     </tr>
                     </thead>
                     <tbody>

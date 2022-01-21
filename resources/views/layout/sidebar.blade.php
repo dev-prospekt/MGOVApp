@@ -21,6 +21,7 @@
         </a>
       </li>
 
+      @role('Administrator')
       <li class="nav-item nav-category">Jedinke</li>
 
       <li class="nav-item {{ active_class(['sz_animal_type/*']) }}">
@@ -69,6 +70,7 @@
           <span class="link-title">Učitavanje jedinki</span>
         </a>
       </li>
+
       <li class="nav-item {{ active_class(['animal_order']) }}">
         <a class="nav-link"  href="{{ url('/animal_order') }}" role="button">
           <i class="link-icon" data-feather="link"></i>
@@ -90,7 +92,9 @@
           <span class="link-title">Veličine jedinki</span>
         </a>
       </li>
+      @endrole
 
+      @role('Administrator|Oporavilište')
       <li class="nav-item nav-category">Ustanove</li>
       <li class="nav-item {{ active_class(['shelter/*']) }}">
         <a class="nav-link" data-toggle="collapse" href="#shelter-tables" role="button" aria-expanded="{{ is_active_route(['/shelter/*']) }}" aria-controls="shelter-tables">
@@ -100,28 +104,34 @@
         </a>
         <div class="collapse" id="shelter-tables">
           <ul class="nav sub-menu">
+            @role('Administrator')
             <li class="nav-item">
               <a href="{{ url('/shelter') }}" class="nav-link">Popis svih</a>
             </li>
+            @endrole
+
+            @role('Administrator')
             <li class="nav-item">
               <a href="{{ route('shelters.founders.index', auth()->user()->shelter->id) }}" class="nav-link">Nalaznici</a>
             </li>
-
+            
             <li class="nav-item">
               <a href="{{ url('/shelter/create') }}" class="nav-link">Dodaj novo</a>
             </li>
-
-            @if (auth()->user()->name == 'Super Admin')
-              <li class="nav-item">
-                <a href="{{ url('view-reports'); }}" class="nav-link">Izvješća</a>
-              </li>
-            @endif
+            @endrole
+            
+            @role('Administrator|Oporavilište')
+            <li class="nav-item">
+              <a href="{{ url('view-reports'); }}" class="nav-link">Izvješća</a>
+            </li>
+            @endrole
 
           </ul>
         </div>  
       </li>
+      @endrole
 
-      @if(auth()->user()->roles->first()->name == 'Administrator')
+      @role('Administrator')
       <li class="nav-item nav-category">Aplikacija</li>
       <li class="nav-item {{ active_class(['user']) }}">
         <a class="nav-link" data-toggle="collapse" href="#users" role="button">
@@ -133,15 +143,15 @@
           <div class="collapse" id="users">
             <ul class="nav sub-menu">
               <li class="nav-item">
-                <a href="{{ url('/user') }}" class="nav-link }}">Lista</a>
+                <a href="{{ url('/user') }}" class="nav-link">Svi korisnici</a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/roleMapping') }}" class="nav-link }}">Role</a>
+                <a href="{{ url('/roleMapping') }}" class="nav-link">Role</a>
               </li>
             </ul>
           </div>
       </li>
-      @endif
+      @endrole
     </ul>
   </div>
 </nav>

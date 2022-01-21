@@ -29,10 +29,14 @@
 <div class="d-flex align-items-center justify-content-between">
   <h5 class="mb-3 mb-md-0">Oprema oporavilišta</h5>
   <div>      
-    <a id="createEquipment" href="{{ route('shelters.equipments.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
-      Dodaj smještajnu jedinicu
-      <i class="btn-icon-append" data-feather="user-plus"></i>
-    </a>  
+    
+    @can('create')
+      <a id="createEquipment" href="{{ route('shelters.equipments.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
+        Dodaj smještajnu jedinicu
+        <i class="btn-icon-append" data-feather="user-plus"></i>
+      </a>
+    @endcan
+
     <a id="createEquipment" href="{{ route('shelters.equipments.index', $shelter->id) }}" type="button" class="btn btn-warning btn-icon-text">
       Popis svih
       <i class="btn-icon-append"  data-feather="box"></i>

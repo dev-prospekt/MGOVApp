@@ -23,8 +23,10 @@
                     <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
                 </div>
                 <div>
+                    @role('Administrator')
                     <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#CreateCatModal">Dodaj novu porodicu</button>
                     <a href="{{ route('animal_import.index') }}" class="btn btn-sm btn-warning">Učitavanje podataka</a>
+                    @endrole
                 </div>
             </div>
                                                    

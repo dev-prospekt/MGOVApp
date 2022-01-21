@@ -52,8 +52,13 @@ class AnimalSizeController extends Controller
                 })
 
                 ->addColumn('action', function (AnimalSizeAttribute $sizeAttribute) {
-                    return  '<button type="button" class="btn btn-primary btn-sm" id="getEditSizeData" data-id="' . $sizeAttribute->id . '">Uredi</button>
-                    <button type="button" data-id="' . $sizeAttribute->id . '" data-toggle="modal" data-target="#DeleteSizeModal" class="btn btn-danger btn-sm" id="getDeleteId">Briši</button>';
+                    if(auth()->user()->hasRole('Administrator')){
+                        return  '
+                        <button type="button" class="btn btn-xs btn-primary btn-sm" id="getEditSizeData" data-id="' . $sizeAttribute->id . '">Uredi</button>
+                        <button type="button" data-id="' . $sizeAttribute->id . '" data-toggle="modal" data-target="#DeleteSizeModal" class="btn btn-xs btn-danger btn-sm" id="getDeleteId">Briši</button>
+                        ';
+                    }
+                    return '';
                 })
 
                 ->rawColumns(['group_name', 'base_price', 'group_price', 'animal_size', 'action'])

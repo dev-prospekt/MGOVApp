@@ -49,6 +49,50 @@
     </div>
 </div> <!-- row -->
 
+<div class="row">
+    <div class="col-lg-12 col-xl-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="card-title">Deaktivirana oporavilišta</h6>
+                        <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
+                    </div>
+                </div>
+
+                <div class="table-responsive-sm">
+                <table class="table" id="shelterInactiveDataTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>NAZIV OPORAVILIŠTA</th>
+                            <th>ADRESA OPORAVILIŠTA</th>
+                            <th>EMAIL</th>
+                            <th>TELEFON</th>
+                            <th>AKCIJA</th>
+                        </tr>
+                    </thead>
+                        @foreach ($sheltersTrashed as $shelter)
+                            <tr>
+                                <th>{{ $shelter->id }}</th>
+                                <th>{{ $shelter->name }}</th>
+                                <th>{{ $shelter->address }}</th>
+                                <th>{{ $shelter->email }}</th>
+                                <th>{{ $shelter->telephone }}</th>
+                                <th>
+                                    <a href="{{ route('shelter-restore', $shelter) }}" class="btn btn-xs btn-sm btn-primary">Aktiviraj</a>
+                                </th>
+                            </tr>
+                        @endforeach
+                    <tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- row -->
+
 @endsection
 
 @push('plugin-scripts')
@@ -73,6 +117,12 @@
                 { data: 'telephone', name: 'telephone'},
                 { data: 'action', name: 'action'},
             ],
+            language: {
+                url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
+            }
+        });
+
+        var shelterDeleteTable = $("#shelterInactiveDataTable").DataTable({
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
             }
@@ -107,7 +157,7 @@
                                     'Uspješno obrisano!',
                                     'success'
                                 ).then((result) => {
-                                    table.ajax.reload();
+                                    location.reload();
                                 });
                             }
                         }

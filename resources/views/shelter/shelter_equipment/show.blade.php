@@ -55,15 +55,23 @@
             
                 <span class="title">Akcije</span>
                 <ul class="nav nav-pills nav-stacked">
-                  <li>
-                    <a href="{{ route('shelters.equipments.edit', [$shelter->id, $shelterEquipmentItem->id]) }}"><i data-feather="tag" class="text-warning"></i> Izmjeni entitet</a>
-                  </li>
+                  
+                  @can('edit')
+                    <li>
+                      <a href="{{ route('shelters.equipments.edit', [$shelter->id, $shelterEquipmentItem->id]) }}"><i data-feather="tag" class="text-warning"></i> Izmjeni entitet</a>
+                    </li>
+                  @endcan
+                  
                   <li><a href="{{ route('shelters.equipments.index', [$shelter->id]) }}">
                     <i data-feather="tag" class="text-primary"></i> Povratak na popis</a>
                   </li>
+                  
+                  @can('delete')
                   <li>
                     <a id="deleteEquipment" href="#" data-shelter-id="{{ $shelter->id }}" data-equipment-id="{{ $shelterEquipmentItem->id  }}"> <i data-feather="tag" class="text-danger"></i> Brisanje entiteta</a>
                   </li>
+                  @endcan
+
                 </ul>
               </div>
             </div>

@@ -72,16 +72,20 @@ class ReportController extends Controller
                 $statusUrl = route('report-status', $reports->id);
                 $statustxt = $reports->status == 1 ? 'Odustani' : 'Odobri';
 
-                return '
-                <div class="d-flex align-items-center">
-                    <a href="javascript:void(0)" data-url="' . $deleteURL . '" id="deleteReports" class="btn btn-xs btn-danger mr-2">
-                        Obriši
-                    </a>
-                    <a href="javascript:void(0)" data-url="'.$statusUrl.'" data-id="' . $status . '" id="reportStatus" class="btn btn-xs btn-info mr-2">
-                        '.$statustxt.'
-                    </a>
-                </div>
-                ';
+                if(auth()->user()->hasRole('Administrator')){
+                    return '
+                    <div class="d-flex align-items-center">
+                        <a href="javascript:void(0)" data-url="' . $deleteURL . '" id="deleteReports" class="btn btn-xs btn-danger mr-2">
+                            Obriši
+                        </a>
+                        <a href="javascript:void(0)" data-url="'.$statusUrl.'" data-id="' . $status . '" id="reportStatus" class="btn btn-xs btn-info mr-2">
+                            '.$statustxt.'
+                        </a>
+                    </div>
+                    ';
+                }
+
+                return '';
             })
             ->rawColumns(['action', 'document', 'status'])
             ->make();
@@ -371,20 +375,16 @@ class ReportController extends Controller
         $data = [];
 
         if($request->start_date && $request->end_date){
-            $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-            $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
-
             foreach($animalItems as $item){
-                $data = 
-                $item->whereHas('dateRange', function ($query) use ($request) {
-                    $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-                    $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
-
-                    $query->where('start_date', '>=', $startDate)
-                    ->where('start_date', '<=', $endDate)
-                    ->orWhere('end_date', '>=', $startDate)
-                    ->where('end_date', '<=', $endDate);
-                })->get();
+                $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
+                $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+                $itemStartDate = Carbon::parse($item->dateRange->start_date);
+                $itemEndDate = Carbon::parse($item->dateRange->end_date);
+                
+                if( $itemStartDate > $startDate && $itemEndDate <= $endDate )
+                {
+                    $data[] = $item;
+                }
             }
         }
 
@@ -503,24 +503,20 @@ class ReportController extends Controller
                 $itemEndDate = Carbon::parse($item->dateRange->end_date);
 
                 if($shelter == 'all'){
-                    if( $itemStartDate >= $startDate && $itemStartDate <= $endDate || 
-                        $itemEndDate >= $startDate && $itemEndDate <= $endDate )
+                    if( $itemStartDate > $startDate && $itemEndDate <= $endDate )
                     {
                         $data[] = $item;
                     }
                 }
                 else {
                     if( $item->shelter_id == $shelter->id && 
-                        $itemStartDate >= $startDate && $itemStartDate <= $endDate || 
-                        $itemEndDate >= $startDate && $itemEndDate <= $endDate )
+                        $itemStartDate > $startDate && $itemEndDate <= $endDate )
                     {
                         $data[] = $item;
                     }
                 }
             }
         }
-
-        // dd($data);
 
         return $data;
     }

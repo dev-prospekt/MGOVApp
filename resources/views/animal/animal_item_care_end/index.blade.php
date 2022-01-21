@@ -13,12 +13,7 @@
      <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-primary btn-sm btn-icon-text">
         Povratak na popis
         <i class="btn-icon-append" data-feather="clipboard"></i>
-      </a> 
-      
-      <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-info btn-sm btn-icon-text">
-        Izvještaj jedinke
-        <i class="btn-icon-append" data-feather="clipboard"></i>
-      </a> 
+      </a>
   </div>
 </div>
 <ul class="nav shelter-nav">
@@ -29,11 +24,13 @@
     <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Dokumentacija jedinke</a>
   </li>
 
+  @role('Administrator|Oporavilište')
   <li class="nav-item">
     <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">
     {{ $animalItem->animal_item_care_end_status ? 'Završetak skrbi' : 'Cijene skrbi' }}
     </a>
   </li>
+  @endrole
 </ul>
 @if ($animalItem->animal_item_care_end_status == true)
 <div class="row">

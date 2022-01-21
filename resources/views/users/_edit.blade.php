@@ -32,7 +32,7 @@
                     <div class="form-group">
                         <label>Oporavilište</label>
                         <select class="form-control shelter_id" id="">
-                            <option value="{{ $user->shelter->id }}">{{ $user->shelter->name }}</option>
+                            <option value="{{ $user->shelter->id ?? '' }}">{{ $user->shelter->name ?? '' }}</option>
                             <option value="">-------------</option>
                             @foreach ($shelters as $shelter)
                                 <option value="{{ $shelter->id }}">{{ $shelter->name }}</option>

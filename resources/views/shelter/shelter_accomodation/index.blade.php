@@ -32,10 +32,12 @@
 <div class="d-flex align-items-center justify-content-between">
   <h5 class="mb-3 mb-md-0">{{ $shelter->name ?? '' }}</h5>
   <div>      
-      <a id="createAccomodation" href="{{ route('shelters.accomodations.create', $shelter->id) }}" type="button" class="btn btn-sm btn-primary btn-icon-text">
-        Dodaj jedinicu
-        <i class="btn-icon-append" data-feather="user-plus"></i>
-      </a>                  
+      @can('create')
+        <a id="createAccomodation" href="{{ route('shelters.accomodations.create', $shelter->id) }}" type="button" class="btn btn-sm btn-primary btn-icon-text">
+          Dodaj jedinicu
+          <i class="btn-icon-append" data-feather="user-plus"></i>
+        </a>                  
+      @endcan
   </div>
 </div>
 <div class="row mt-4">
@@ -74,10 +76,12 @@
                     <a href="{{ route('shelters.accomodations.show', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-info mr-2">
                       Podatci
                     </a>
-                
-                    <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-primary mr-2">
-                      Uredi
-                    </a>
+                    
+                    @can('edit')
+                      <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-primary mr-2">
+                        Uredi
+                      </a>
+                    @endcan
                 </div>  
                 </td>
               </tr>

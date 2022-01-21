@@ -14,9 +14,12 @@
                         <h6 class="card-title">Strogo zaštićene životinje</h6>
                        
                     </div>
+
+                    @role('Administrator')
                     <div>
                         <a href="{{ route("create_sz_animal_type") }}" class="btn btn-sm btn-primary">Dodaj novu jedinku</a>
                     </div>
+                    @endrole
                 </div>
 
                 <div class="row align-items-start mb-4 mt-4">

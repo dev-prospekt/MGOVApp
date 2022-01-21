@@ -77,6 +77,9 @@ Route::group(['middleware' => ['auth']], function () {
         'accomodations' => 'shelter_accomodation'
     ]);
 
+    // Restore Shelter
+    Route::get("restore/{shelter}", 'Shelter\ShelterController@restore')->name('shelter-restore');
+
     // delete images
     Route::get('accomodation/thumb/{thumb}', 'Shelter\ShelterAccomodationController@deleteImage')->name('accomodation.thumbDelete');
     Route::get('animal_item_log/thumb/{thumb}', 'Animal\AnimalItemLogController@deleteImage')->name('animal_item_log.thumbDelete');
@@ -168,8 +171,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('animalItem/fileDelete/{file}', 'Animal\AnimalItemController@deleteFile')->name('animalItem.fileDelete');
 
     Route::get("restore/{user_id}", 'UserController@restore');
-    Route::get("/roleMapping", 'UserController@roleMapping');
-    Route::post("/roleMappingAdd", 'UserController@roleMappingAdd');
+    Route::get("/roleMapping", 'UserController@roleMapping')->name('roleMapping');
+    Route::post("/role-mapping-add", 'UserController@roleMappingAdd')->name("role-mapping-add");
+    Route::post("/permission-mapping", 'UserController@permissionMapping')->name("permissionAdd");
 
     // Reports
     Route::get('view-reports', 'ReportController@viewReports')->name("report-view");

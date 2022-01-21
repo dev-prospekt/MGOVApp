@@ -12,10 +12,13 @@
 <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5>
     <div>
-        <a type="button" class="createFounder btn btn-sm btn-primary btn-icon-text" href="javascript:void()">
-            Dodaj
-            <i class="btn-icon-append" data-feather="user"></i>
-        </a>
+        @role('Administrator')
+            <a type="button" class="createFounder btn btn-sm btn-primary btn-icon-text" href="javascript:void()">
+                Dodaj
+                <i class="btn-icon-append" data-feather="user"></i>
+            </a>
+        @endrole
+
         <a type="button" class="btn btn-warning btn-sm btn-icon-text" href="/shelter/{{ $shelter->id }}">
             Povratak na popis
             <i class="btn-icon-append" data-feather="clipboard"></i>

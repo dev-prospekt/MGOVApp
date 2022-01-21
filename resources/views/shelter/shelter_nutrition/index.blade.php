@@ -32,10 +32,12 @@
 <div class="d-flex align-items-center justify-content-between">
   <h5 class="mb-3 mb-md-0">{{ $shelter->name ?? '' }}</h5>
   <div>      
-      <a id="createAccomodation" href="{{ route('shelters.nutritions.create', $shelter->id) }}" type="button" class="btn btn-sm btn-primary btn-icon-text">
-        Dodaj program
-        <i class="btn-icon-append" data-feather="user-plus"></i>
-      </a>                  
+      @can('create')
+        <a id="createAccomodation" href="{{ route('shelters.nutritions.create', $shelter->id) }}" type="button" class="btn btn-sm btn-primary btn-icon-text">
+          Dodaj program
+          <i class="btn-icon-append" data-feather="user-plus"></i>
+        </a>                  
+      @endcan
   </div>
 </div>
 <div class="row mt-4">
@@ -71,11 +73,13 @@
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Pregled
                     </a>
-                
+                    
+                    @can('edit')
                     <a href="{{ route('shelters.nutritions.edit', [$shelter->id, $nutritionItem->id]) }}" class="btn btn-xs btn-primary mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Uredi
                     </a>
+                    @endcan
                 </div>  
                 </td>
               </tr>

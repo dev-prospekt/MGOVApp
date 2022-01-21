@@ -35,8 +35,14 @@ class AnimalCategoryController extends Controller
                 })
 
                 ->addColumn('action', function (AnimalCategory $animalCats) {
-                    return  '<button type="button" class="btn btn-primary btn-sm" id="getEditCatData" data-id="' . $animalCats->id . '">Uredi</button>
-                    <button type="button" data-id="' . $animalCats->id . '" data-toggle="modal" data-target="#DeleteCatModal" class="btn btn-danger btn-sm" id="getDeleteCatId">Briši</button>';
+                    if(auth()->user()->hasRole('Administrator')){
+                        return  '
+                        <button type="button" class="btn btn-xs btn-primary btn-sm" id="getEditCatData" data-id="' . $animalCats->id . '">Uredi</button>
+                        <button type="button" data-id="' . $animalCats->id . '" data-toggle="modal" data-target="#DeleteCatModal" class="btn btn-xs btn-danger btn-sm" id="getDeleteCatId">Briši</button>
+                        ';
+                    }
+
+                    return '';
                 })
                 ->rawColumns(['action'])
                 ->make();

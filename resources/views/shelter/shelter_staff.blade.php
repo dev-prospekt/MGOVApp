@@ -24,6 +24,7 @@
 
 </ul>
 
+    @can('create')
     <div class="d-flex align-items-center justify-content-between">
       <div> <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5></div>
       <div>      
@@ -45,7 +46,7 @@
           </a>               
       </div>
     </div>
-
+    @endcan
 
     <div class="row mt-4">
       <div class="col-md-12 grid-margin">
@@ -216,22 +217,28 @@
               <h6 class="card-title">Podaci o pružatelju veterinarske usluge</h6>        
             </div>
             <div>
-              @if ($shelterVetStaff)
-                @if ($fileVetAmbulance )
-                <button type="button" class="btn btn-primary btn-icon"  data-id="{{ $shelterVetStaff->id ?? ''  }}"  data-toggle="modal" data-target="#editAmbulanceModal">
-                  <i data-feather="check-square"></i>
-                </button> 
-                @else
-                <button type="button" class="btn btn-primary btn-icon"  data-id="{{ $shelterVetStaff->id ?? ''  }}"  data-toggle="modal" data-target="#editVetStaffModal">
-                  <i data-feather="check-square"></i>
-                </button> 
+
+                @if ($shelterVetStaff)
+                  @can('edit')
+                    @if ($fileVetAmbulance )
+                    <button type="button" class="btn btn-primary btn-icon"  data-id="{{ $shelterVetStaff->id ?? ''  }}"  data-toggle="modal" data-target="#editAmbulanceModal">
+                      <i data-feather="check-square"></i>
+                    </button> 
+                    @else
+                    <button type="button" class="btn btn-primary btn-icon"  data-id="{{ $shelterVetStaff->id ?? ''  }}"  data-toggle="modal" data-target="#editVetStaffModal">
+                      <i data-feather="check-square"></i>
+                    </button> 
+                    @endif
+                  @endcan
+                
+                  @can('delete')
+                  <button type="button" id="deleteVetStaff" type="button" class="btn btn-danger btn-icon" 
+                  data-id="{{ $shelterVetStaff->id ?? ''  }}">
+                    <i data-feather="box"></i>
+                  </button>
+                  @endcan
                 @endif
-               
-                <button type="button" id="deleteVetStaff" type="button" class="btn btn-danger btn-icon" 
-                data-id="{{ $shelterVetStaff->id ?? ''  }}">
-                  <i data-feather="box"></i>
-                </button>
-                @endif       
+
             </div>
           </div> 
           <div class="row">
@@ -318,10 +325,12 @@
                 <div>
                   <h6 class="card-title">Ostale osobe za skrb životinja</h6>        
                 </div>
-                <div>        
-                  <a type="button" class="btn btn-info btn-sm btn-icon-text" data-toggle="modal" data-target="#createPersonelStaffModal">
-                    Dodaj<i class="btn-icon-append" data-feather="user-plus"></i>
-                  </a>                      
+                <div> 
+                  @can('create')
+                    <a type="button" class="btn btn-info btn-sm btn-icon-text" data-toggle="modal" data-target="#createPersonelStaffModal">
+                      Dodaj<i class="btn-icon-append" data-feather="user-plus"></i>
+                    </a>
+                  @endcan      
                 </div>
               </div> 
               
@@ -353,13 +362,21 @@
                             <td>{{ $staff->email }}</td>
                             <td>{{ $staff->education }}</td>
                           
-                            <td><button type="button" class="btn btn-sm btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
-                              <i data-feather="check-square"></i>
-                            </button>        
-                            <button type="button" id="deletePersonelStaff" type="button" class="btn btn-sm btn-danger btn-icon" 
-                              data-id="{{ $staff->id ?? ''  }}">
-                                <i data-feather="box"></i>
-                              </button></td>
+                            <td>
+                              @can('edit')
+                              <button type="button" class="btn btn-sm btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
+                                <i data-feather="check-square"></i>
+                              </button>
+                              @endcan
+                              
+                              @can('delete')
+                                <button type="button" id="deletePersonelStaff" type="button" class="btn btn-sm btn-danger btn-icon" 
+                                  data-id="{{ $staff->id ?? ''  }}">
+                                  <i data-feather="box"></i>
+                                </button>
+                              @endcan
+                              
+                            </td>
                           </tr>
                           @endforeach
                         @endif

@@ -32,6 +32,7 @@ class ShelterController extends Controller
     public function index(Request $request)
     {
         $shelters = Shelter::all();
+        $sheltersTrashed = Shelter::onlyTrashed()->get();
 
         if ($request->ajax()) {
             return Datatables::of($shelters)
@@ -56,7 +57,8 @@ class ShelterController extends Controller
         }
 
         return view('shelter.index', [
-            'shelters' => $shelters
+            'shelters' => $shelters,
+            'sheltersTrashed' => $sheltersTrashed,
         ]);
     }
 
@@ -168,17 +170,30 @@ class ShelterController extends Controller
                 })
                 ->addColumn('action', function ($animal_groups) {
                     $deleteURL = route('shelters.animal_groups.destroy', [$animal_groups->pivot->shelter_id, $animal_groups->id]);
+                    $userdelete = auth()->user()->can('delete');
 
-                    return '
-                    <div class="d-flex align-items-center">
-                        <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
-                            Podaci
-                        </a>
-                        <a href="javascript:void(0)" data-href="' . $deleteURL . '" id="animal_group_delete" class="btn btn-xs btn-danger" >
-                            Brisanje
-                        </a>
-                    </div>
-                    ';
+                    if($userdelete == true){
+                        return '
+                        <div class="d-flex align-items-center">
+                            <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
+                                Podaci
+                            </a>
+                            <a href="javascript:void(0)" data-href="' . $deleteURL . '" id="animal_group_delete" class="btn btn-xs btn-danger" >
+                                Brisanje
+                            </a>
+                        </div>
+                        ';
+                    }
+                    else {
+                        return '
+                        <div class="d-flex align-items-center">
+                            <a href="/shelters/' . $animal_groups->pivot->shelter_id . '/animal_groups/' . $animal_groups->id . '" class="btn btn-xs btn-info mr-2"> 
+                                Podaci
+                            </a>
+                        </div>
+                        ';
+                    }
+
                 })
                 ->rawColumns(['animal_type', 'action'])
                 ->make();
@@ -250,12 +265,17 @@ class ShelterController extends Controller
     public function destroy($id)
     {
         $shelter = Shelter::findOrFail($id);
-        $shelter->shelterTypes()->detach();
-        $shelter->animalSystemCategory()->detach();
         $shelter->delete();
 
         return response()->json(['msg' => 'success']);
         //return redirect()->route('shelter.index')->with('msg', 'Oporavilište je uspješno uklonjeno');
+    }
+
+    public function restore($shelter)
+    {
+        Shelter::withTrashed()->find($shelter)->restore();
+
+        return redirect()->back()->with('msg', 'Uspješno spremljeno');
     }
 
     public function getShelterStaff(Shelter $shelter)

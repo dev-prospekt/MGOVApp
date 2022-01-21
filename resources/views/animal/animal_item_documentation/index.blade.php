@@ -26,7 +26,9 @@
       <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.index', [$shelter->id, $animalGroup->id, $animalItem->id]) }}">Dokumentacija</a>
     </li>
 
+    @role('Administrator|Oporavilište')
     <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Završetak skrbi</a>
+    @endrole
   </ul>
 
   <div class="d-flex align-items-center justify-content-between mb-3">
@@ -36,20 +38,26 @@
     @endif
     @if($animalItem->animalDocumentation)
     <div> 
-      <a href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.edit', 
-      [$animalItem->shelter_id, $animalItem->animal_group_id,
-       $animalItem->id, $animalItem->animalDocumentation->id]) }}" type="button" class="btn btn-warning btn-sm btn-icon-text">
-        Izmjeni
-         <i class="btn-icon-append" data-feather="edit"></i>
-       </a> 
 
-       <a id="deleteDoc" href="#" type="button" class="btn btn-danger btn-sm btn-icon-text" 
-       data-shelter-id={{ $animalItem->shelter_id }} data-group-id={{$animalItem->animal_group_id }}
-       data-item-id={{  $animalItem->id }} data-documentation-id={{ $animalItem->animalDocumentation->id }}>
+      @can('edit')
+        <a href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.edit', 
+        [$animalItem->shelter_id, $animalItem->animal_group_id,
+        $animalItem->id, $animalItem->animalDocumentation->id]) }}" type="button" class="btn btn-warning btn-sm btn-icon-text">
+          Izmjeni
+          <i class="btn-icon-append" data-feather="edit"></i>
+        </a>
+      @endcan
+
+      @can('delete')
+        <a id="deleteDoc" href="#" type="button" class="btn btn-danger btn-sm btn-icon-text" 
+        data-shelter-id={{ $animalItem->shelter_id }} data-group-id={{$animalItem->animal_group_id }}
+        data-item-id={{  $animalItem->id }} data-documentation-id={{ $animalItem->animalDocumentation->id }}>
         Brisanje
-         <i class="btn-icon-append" data-feather="edit"></i>
-       </a> 
+          <i class="btn-icon-append" data-feather="edit"></i>
+        </a>
+      @endcan
     </div>
+
          @else 
         <div> 
           <a href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.create', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" type="button" class="btn btn-warning btn-sm btn-icon-text">

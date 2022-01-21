@@ -116,6 +116,29 @@ class AnimalGroupController extends Controller
                     $countAnimal = count($animalGroup->animalItems);
                     $deleteURL = route('shelters.animal_groups.animal_items.destroy', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
 
+                    if(auth()->user()->hasRole('Oporavilište')){
+                        return '
+                        <div class="d-flex align-items-center">
+                            <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
+                                Podaci
+                            </a>
+                            <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
+                                Dupliciraj
+                            </a>
+                        </div>
+                        ';
+                    }
+
+                    if(auth()->user()->hasRole('Korisnik')){
+                        return '
+                        <div class="d-flex align-items-center">
+                            <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
+                                Podaci
+                            </a>
+                        </div>
+                        ';
+                    }
+
                     if ($countAnimal > 1) {
                         if ($animal_items->animal_item_care_end_status == true) {
                             return '
@@ -159,7 +182,8 @@ class AnimalGroupController extends Controller
                                 </a>
                             </div>
                             ';
-                        } else {
+                        } 
+                        else {
                             return '
                             <div class="d-flex align-items-center">
                                 <a href="' . $url . '" class="btn btn-xs btn-info mr-2">

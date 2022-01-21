@@ -32,8 +32,14 @@ class AnimalOrderController extends Controller
                 })
                 ->addColumn('action', function (AnimalOrder $animalOrder) {
 
-                    return  '<button type="button" class="btn btn-primary btn-sm" id="getEditOrderData" data-id="' . $animalOrder->id . '">Uredi</button>
-                    <button type="button" data-id="' . $animalOrder->id . '" data-toggle="modal" data-target="#DeleteOrderModal" class="btn btn-danger btn-sm" id="getDeleteId">Briši</button>';
+                    if(auth()->user()->hasRole('Administrator')){
+                        return  '
+                        <button type="button" class="btn btn-xs btn-primary btn-sm" id="getEditOrderData" data-id="' . $animalOrder->id . '">Uredi</button>
+                        <button type="button" data-id="' . $animalOrder->id . '" data-toggle="modal" data-target="#DeleteOrderModal" class="btn btn-xs btn-danger btn-sm" id="getDeleteId">Briši</button>
+                        ';
+                    }
+
+                    return '';
                 })
 
                 ->rawColumns(['action', 'animal_category'])

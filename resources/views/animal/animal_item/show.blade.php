@@ -15,11 +15,6 @@
           Povratak na popis
           <i class="btn-icon-append" data-feather="clipboard"></i>
         </a> 
-        
-        <a href="#" target="_blank" type="button" class="btn btn-info btn-sm btn-icon-text">
-          Izvještaj jedinke
-          <i class="btn-icon-append" data-feather="clipboard"></i>
-        </a> 
     </div>
   </div>
   
@@ -31,9 +26,12 @@
       <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Dokumentacija jedinke</a>
     </li>
 
+    @role('Administrator|Oporavilište')
     <li class="nav-item">
       <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Završetak skrbi</a>
     </li>
+    @endrole
+
   </ul>
 
   @if($msg = Session::get('care_end'))
@@ -99,13 +97,15 @@
         <li class="nav-item">
           <a class="nav-link {{ Session::get('error') ? '' : 'active' }}" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="{{ Session::get('error') ? 'false' : 'true' }}">Informacije</a>
         </li>
-        @if ($animalItem->animal_item_care_end_status == true)
-          @if ($animalItem->animal->animalType->first()->type_code != 'IJ')
-            <li class="nav-item">
-              <a class="nav-link {{ Session::get('error') ? 'active' : '' }}" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="{{ Session::get('error') ? 'true' : 'false' }}">Akcije postupanja</a>
-            </li>
+        @role('Administrator|Oporavilište')
+          @if ($animalItem->animal_item_care_end_status == true)
+            @if ($animalItem->animal->animalType->first()->type_code != 'IJ')
+              <li class="nav-item">
+                <a class="nav-link {{ Session::get('error') ? 'active' : '' }}" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="{{ Session::get('error') ? 'true' : 'false' }}">Akcije postupanja</a>
+              </li>
+            @endif
           @endif
-        @endif
+        @endrole
       </ul>
 
       <div class="tab-content  border-top-0" id="myTabContent">
@@ -116,25 +116,27 @@
                 <div><h6 class="card-title">Podaci o zaprimanju</h6> </div> 
 
                 <div>
-                  @if ($animalItem->animal->animalType->first()->type_code == 'ZJ')
-                    @if ($animalItem->full_care_status == 1)
-                      <a href="javascript:void(0)" data-id="0" 
-                        class="btn {{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare btn-danger' : 'btn-light' }} btn-xs" 
-                        type="button">
-                        Onemogući proširenu skrb
-                      </a>
-                    @else
-                      <a href="javascript:void(0)" data-id="1" 
-                        class="btn {{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare btn-warning' : 'btn-light' }} btn-xs" 
-                        type="button">
-                        Omogući proširenu skrb
-                      </a>
+                  @can('create', 'edit')
+                    @if ($animalItem->animal->animalType->first()->type_code == 'ZJ')
+                      @if ($animalItem->full_care_status == 1)
+                        <a href="javascript:void(0)" data-id="0" 
+                          class="btn {{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare btn-danger' : 'btn-light' }} btn-xs" 
+                          type="button">
+                          Onemogući proširenu skrb
+                        </a>
+                      @else
+                        <a href="javascript:void(0)" data-id="1" 
+                          class="btn {{ $animalItem->animal_item_care_end_status == 1 ? 'fullcare btn-warning' : 'btn-light' }} btn-xs" 
+                          type="button">
+                          Omogući proširenu skrb
+                        </a>
+                      @endif
                     @endif
-                  @endif
-
-                  <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-xs" type="button">
-                    Izmjeni podatke
-                  </a>
+                    
+                    <a href="{{ route('shelters.animal_groups.animal_items.edit', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}" class="btn btn-primary btn-xs" type="button">
+                      Izmjeni podatke
+                    </a>
+                  @endcan
                 </div>
 
               </div> 

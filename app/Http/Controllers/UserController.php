@@ -33,7 +33,7 @@ class UserController extends Controller
 
             return Datatables::of($users)
                 ->addColumn('shelter', function($user){
-                    return $user->shelter->name;
+                    return $user->shelter->name ?? 'Nije odabran za oporavilište';
                 })
                 ->addColumn('action', function ($user) {
                     return '
@@ -206,9 +206,11 @@ class UserController extends Controller
     public function roleMapping()
     {
         $users = User::with('roles')->get();
+        $roles = Role::with('permissions')->get();
 
         return view('users.rolemapping', [
-            'users' => $users
+            'users' => $users,
+            'roles' => $roles,
         ]);
     }
 
@@ -227,6 +229,27 @@ class UserController extends Controller
             $user->roles()->attach(Role::where('name', 'Oporavilište')->first());
         }
 
-        return redirect("/roleMapping")->with('msg', 'Uspješno spremljeno.');
+        return redirect("/roleMapping")->with('role', 'Uspješno spremljeno.');
+    }
+
+    public function permissionMapping(Request $request)
+    {
+        $role = Role::find($request->role);
+        $role->revokePermissionTo(['create', 'edit', 'delete', 'generate']);
+
+        if($request['create']){
+            $role->givePermissionTo('create');
+        }
+        if($request['edit']){
+            $role->givePermissionTo('edit');
+        }
+        if($request['delete']){
+            $role->givePermissionTo('delete');
+        }
+        if($request['generate']){
+            $role->givePermissionTo('generate');
+        }
+
+        return redirect()->back()->with('permissions', 'Uspješno spremljeno.');
     }
 }

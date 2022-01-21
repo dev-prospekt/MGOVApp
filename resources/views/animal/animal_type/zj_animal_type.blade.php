@@ -15,9 +15,11 @@
                         <h6 class="card-title">Zaplijenjene vrste</h6>
                        
                     </div>
+                    @role('Administrator')
                     <div>
                         <a href="{{ route("create_zj_animal_type") }}" class="btn btn-primary btn-sm">Dodaj novu jedinku</a>
                     </div>
+                    @endrole
                 </div>
 
                 <div class="row align-items-start mb-4 mt-4">

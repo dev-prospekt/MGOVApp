@@ -32,10 +32,12 @@
 <div class="d-flex align-items-center justify-content-between">
   <h5 class="mb-3 mb-md-0">Smještajna jedinica</h5>
   <div>      
-    <a id="createAccomodation" href="{{ route('shelters.accomodations.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
-      Dodaj smještajne jedinice
-      <i class="btn-icon-append" data-feather="user-plus"></i>
-    </a>                  
+    @can('create')
+      <a id="createAccomodation" href="{{ route('shelters.accomodations.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
+        Dodaj smještajne jedinice
+        <i class="btn-icon-append" data-feather="user-plus"></i>
+      </a>  
+    @endcan                
   </div>
 </div>
 @if($shelterAccomodationItem)
@@ -56,15 +58,23 @@
             
                 <span class="title">Akcije</span>
                 <ul class="nav nav-pills nav-stacked">
+                  @can('edit')
+                    <li>
+                      <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterAccomodationItem->id]) }}"><i data-feather="tag" class="text-warning"></i> Izmjeni jedinicu</a>
+                    </li>
+                  @endcan
+
                   <li>
-                    <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterAccomodationItem->id]) }}"><i data-feather="tag" class="text-warning"></i> Izmjeni jedinicu</a>
+                    <a href="{{ route('shelters.accomodations.index', [$shelter->id]) }}">
+                      <i data-feather="tag" class="text-primary"></i> Povratak na popis
+                    </a>
                   </li>
-                  <li><a href="{{ route('shelters.accomodations.index', [$shelter->id]) }}">
-                    <i data-feather="tag" class="text-primary"></i> Povratak na popis</a>
-                  </li>
-                  <li>
-                    <a id="deleteAccomodation" href="#" data-shelter-id="{{ $shelter->id }}" data-accomodation-id="{{ $shelterAccomodationItem->id  }}"> <i data-feather="tag" class="text-danger"></i> Brisanje jedinice</a>
-                  </li>
+                  
+                  @can('delete')
+                    <li>
+                      <a id="deleteAccomodation" href="#" data-shelter-id="{{ $shelter->id }}" data-accomodation-id="{{ $shelterAccomodationItem->id  }}"> <i data-feather="tag" class="text-danger"></i> Brisanje jedinice</a>
+                    </li>
+                  @endcan
                 </ul>
               </div>
             </div>

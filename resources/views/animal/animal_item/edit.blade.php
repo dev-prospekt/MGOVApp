@@ -15,12 +15,7 @@
        <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}/animal_items/{{ $animalItem->id }}" type="button" class="btn btn-primary btn-sm btn-icon-text">
           Povratak na popis
           <i class="btn-icon-append" data-feather="clipboard"></i>
-        </a> 
-        
-        <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-info btn-sm btn-icon-text">
-          Izvještaj jedinke
-          <i class="btn-icon-append" data-feather="clipboard"></i>
-        </a> 
+        </a>
     </div>
   </div>
   

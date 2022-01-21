@@ -56,21 +56,25 @@ class AnimalInvaziveTypeController extends Controller
           $deleteURL = route('delete_ij_animal_type', [$animal->id]);
           $token = csrf_token();
 
-          return '
-          <div class="d-flex align-items-center">
-              <a href="/ij_animal_type/' . $animal->id . '" class="btn btn-xs btn-primary mr-2">
-                  Uredi
-              </a>
+          if(auth()->user()->hasRole('Administrator')){
+            return '
+            <div class="d-flex align-items-center">
+                <a href="/ij_animal_type/' . $animal->id . '" class="btn btn-xs btn-primary mr-2">
+                    Uredi
+                </a>
+  
+                <form action="'. $deleteURL .'" method="POST" class="m-0">
+                <input type="hidden" name="_token" value="'.$token.'" />
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit" class="btn btn-xs btn-danger mr-2">
+                    Obriši
+                </button>
+                </form>
+            </div>
+            ';
+          }
 
-              <form action="'. $deleteURL .'" method="POST" class="m-0">
-              <input type="hidden" name="_token" value="'.$token.'" />
-              <input type="hidden" name="_method" value="DELETE">
-              <button type="submit" class="btn btn-xs btn-danger mr-2">
-                  Obriši
-              </button>
-              </form>
-          </div>
-          ';
+          return '';
         })
 
         ->rawColumns(['animal_type', 'action'])

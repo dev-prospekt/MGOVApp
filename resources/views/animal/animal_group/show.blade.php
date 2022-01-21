@@ -43,9 +43,12 @@
                                 <p class="card-description">Napomena: unestite podatke za pojedinu jedinku, duplicirajte dokumentaciju za sve članove grupe</p>
                             </div>
                             <div>
+
+                            @role('Administrator')
                             <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm">
                                 Premjesti grupu
                             </a>
+                            @endrole
                             </div>
                         </div>
                         
@@ -90,11 +93,6 @@
                         <div class="d-flex align-items-start justify-content-between">
                             <div><h5 class="card-title">Popis jedinki unutar grupe</h5>
                                 <p class="card-description">Napomena: unestite podatke za pojedinu jedinku, duplicirajte dokumentaciju za sve članove grupe</p>
-                            </div>
-                            <div>
-                            <a href="javascript:void(0)" data-id="{{ $animal_group->id }}" class="changeShelter btn btn-warning btn-sm">
-                                Premjesti grupu
-                            </a>
                             </div>
                         </div>
                         
