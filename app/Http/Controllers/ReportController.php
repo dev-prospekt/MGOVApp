@@ -23,8 +23,13 @@ class ReportController extends Controller
     {
         $animals = Animal::all();
         $animalCategory = AnimalCategory::all();
-        $shelters = Shelter::all();
         $endCareType = AnimalItemCareEndType::all();
+
+        if(auth()->user()->hasRole('Administrator')){
+            $shelters = Shelter::all();
+        } else {
+            $shelters = Shelter::where('id', auth()->user()->shelter_id)->get();
+        }
 
         $myReport = Reports::where('shelter_id', auth()->user()->shelter->id)->get();
         $reportAdmin = Reports::all();

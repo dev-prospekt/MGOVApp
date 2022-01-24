@@ -16,6 +16,7 @@ class AnimalItemLogTypeSeeder extends Seeder
     {
         AnimalItemLogType::create(['type_name' => 'Tekstualni opis']);
         AnimalItemLogType::create(['type_name' => 'Status - solitarno/grupa']);
+        AnimalItemLogType::create(['type_name' => 'Status dobi']);
         AnimalItemLogType::create(['type_name' => 'Način držanja - hibernacija']);
         AnimalItemLogType::create(['type_name' => 'Proširena skrb']);
         AnimalItemLogType::create(['type_name' => 'Prebacivanje u drugu ustanovu']);

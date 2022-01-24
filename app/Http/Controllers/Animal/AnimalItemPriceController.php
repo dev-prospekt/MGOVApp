@@ -23,7 +23,6 @@ class AnimalItemPriceController extends Controller
         // Za ostale se ne računa 30%
         $animalItem = $this->animalItem;
         $dateNow = Carbon::now();
-        
         dd($animalItem);
     }
 

@@ -26,10 +26,10 @@ class UserController extends Controller
         $usersTrashed = User::onlyTrashed()->get();
 
         if($request->ajax()){
-            $users = User::where('name', '!=', 'Admin User')
-                ->select('users.*')
-                ->with('shelter')
-                ->get();
+            $users = User::whereNotIn('name', ['Super Admin'])
+                    ->select('users.*')
+                    ->with('shelter')
+                    ->get();
 
             return Datatables::of($users)
                 ->addColumn('shelter', function($user){
@@ -179,8 +179,8 @@ class UserController extends Controller
         $user->roles()->detach();
         $user->save();
 
-        if($request->role_id){
-            $user->roles()->attach($request->role_id);
+        if($request->role){
+            $user->assignRole($request->role);
         }
 
         return response()->json(['success' => 'Uspješno dodano.']);
@@ -210,7 +210,12 @@ class UserController extends Controller
 
     public function roleMapping()
     {
-        $users = User::with('roles')->get();
+        if(auth()->user()->name == 'Super Admin'){
+            $users = User::with('roles')->get();
+        }
+        else {
+            $users = User::with('roles')->whereNotIn('name', ['Super Admin'])->get();
+        }
         $roles = Role::with('permissions')->get();
 
         return view('users.rolemapping', [

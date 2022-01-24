@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Naziv</label>
+                        <label>Ime i prezime</label>
                         <input type="text" class="form-control name" value="{{ $user->name }}">
                     </div>
                     <div class="form-group">
@@ -31,12 +31,14 @@
                     </div>
                     <div class="form-group">
                         <label>Role</label>
-                        <select class="form-control role_id" name="role_id" id="">
+                        <select class="form-control role" name="role" id="">
+                            @if(!empty($user->roles->first()))
                             <option value="{{ $user->roles->first()->id }}" selected>{{ $user->roles->first()->name }}</option>
+                            @endif
                             <option value="">Odaberi</option>
-                            <option value="1">Administrator</option>
-                            <option value="2">Oporavilište</option>
-                            <option value="3">Korisnik</option>
+                            <option value="Administrator">Administrator</option>
+                            <option value="Oporavilište">Oporavilište</option>
+                            <option value="Korisnik">Korisnik</option>
                         </select>
                     </div>
                     <div class="form-group">

@@ -58,7 +58,7 @@
                                     <div class="form-group">
                                         <label>Razlog prestanka skrbi</label>
                                         <select name="care_end_type">
-                                            <option value="">------</option>
+                                            <option value="">----</option>
                                             @foreach ($endCareType as $item)
                                                 <option value="{{ $item->id }}">{{ $item->name }}</option>
                                             @endforeach
@@ -69,7 +69,10 @@
                                     <div class="form-group">
                                         <label>Oporavilišta</label>
                                         <select name="shelter" class="js-example-basic-single w-100">
-                                            <option value="all">Sva oporavilišta</option>
+                                            <option value="">----</option>
+                                            @if(auth()->user()->hasRole('Administrator'))
+                                                <option value="all">Sva oporavilišta</option>
+                                            @endif
                                             @foreach ($shelters as $shelter)
                                                 <option value="{{ $shelter->id }}">{{ $shelter->name }}</option>
                                             @endforeach

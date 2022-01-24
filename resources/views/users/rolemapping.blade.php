@@ -35,7 +35,7 @@
                             <th>Administrator</th>
                             <th>Korisnik</th>
                             <th>Oporavilište</th>
-                            <th>Action</th>
+                            <th>Akcija</th>
                             </tr>
                         </thead>
                         <tbody id="user-role">
@@ -49,13 +49,13 @@
                                     <td>{{ $user->email }}</td>
                                     <input type="hidden" name="email" value="{{ $user->email }}">
                                     <td>
-                                        <input id="{{$user->id}}" type="checkbox" {{ $user->roles->first()->name == 'Administrator' ? 'checked' : '' }} name="administrator">
+                                        <input id="{{$user->id}}" type="checkbox" {{ $user->hasRole('Administrator') ? 'checked' : '' }} name="administrator">
                                     </td>
                                     <td>
-                                        <input id="{{$user->id}}" type="checkbox" {{ $user->roles->first()->name == 'Korisnik' ? 'checked' : '' }} name="user">
+                                        <input id="{{$user->id}}" type="checkbox" {{ $user->hasRole('Korisnik') ? 'checked' : '' }} name="user">
                                     </td>
                                     <td>
-                                        <input id="{{$user->id}}" type="checkbox" {{ $user->roles->first()->name == 'Oporavilište' ? 'checked' : '' }} name="shelter">
+                                        <input id="{{$user->id}}" type="checkbox" {{ $user->hasRole('Oporavilište') ? 'checked' : '' }} name="shelter">
                                     </td>
                                     <td>
                                         <button type="submit" class="btn btn-xs btn-sm btn-primary">Spremi</button>

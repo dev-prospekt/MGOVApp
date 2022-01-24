@@ -156,7 +156,7 @@
                                     setInterval(function(){
                                         $('.alert-success').hide();
                                         $('.modal').modal('hide');
-                                        table.ajax.reload();
+                                        location.reload();
                                     }, 2000);
                                 }
                             }
@@ -183,6 +183,7 @@
                             name: $(".modal").find('.name').val(),
                             email: $(".modal").find('.email').val(),
                             shelter_id: $(".modal").find('.shelter_id').val(),
+                            role: $(".modal").find('.role').val(),
                             _token: '{{csrf_token()}}'
                         };
 

@@ -25,7 +25,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Naziv</label>
+                        <label>Ime i prezime</label>
                         <input type="text" class="form-control name" name="name">
                     </div>
                     <div class="form-group">
