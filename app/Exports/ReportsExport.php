@@ -114,6 +114,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
         // SolitaryorGroup
         $allSolitaryGroup = collect($animalItem->dateSolitaryGroups);
         $solitaryGroup = $allSolitaryGroup->where('end_date', '!=', null)->groupBy('solitary_or_group')->all();
+        $solitaryGroupDaysFinish = [];
         if (!empty($solitaryGroup)){
             foreach ($solitaryGroup as $item => $value){
                 foreach ($value as $v){

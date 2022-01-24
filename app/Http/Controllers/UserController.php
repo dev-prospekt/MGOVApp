@@ -210,12 +210,7 @@ class UserController extends Controller
 
     public function roleMapping()
     {
-        if(auth()->user()->name == 'Super Admin'){
-            $users = User::with('roles')->get();
-        }
-        else {
-            $users = User::with('roles')->whereNotIn('name', ['Super Admin'])->get();
-        }
+        $users = User::with('roles')->whereNotIn('name', ['Super Admin'])->get();
         $roles = Role::with('permissions')->get();
 
         return view('users.rolemapping', [
