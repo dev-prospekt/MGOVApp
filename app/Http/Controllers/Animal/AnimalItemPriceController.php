@@ -399,7 +399,7 @@ class AnimalItemPriceController extends Controller
 
                 // Ako je invazivna jedinka
                 // za nju se racuna samo eutanazija
-                // Pa cemo spremiti totalprice eutanazije
+                // pa cemo spremiti totalprice eutanazije
                 if($animalItem->animal->animalType->first()->type_code == 'IJ'){
                     $animalItem->load(['euthanasia']);
                     if(!empty($animalItem->euthanasia)){
