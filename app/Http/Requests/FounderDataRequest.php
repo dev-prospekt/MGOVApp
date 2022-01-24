@@ -28,11 +28,11 @@ class FounderDataRequest extends FormRequest
             'service' => ['required'],
             'name' => ['required'],
             'lastname' => ['required'],
-            'address' => ['required'],
-            'country' => ['required'],
+            //'address' => ['required'],
+            //'country' => ['required'],
             'contact' => ['required'],
-            'email' => ['required'],
-            'shelter_type' => ['required'],
+            //'email' => ['required'],
+            //'shelter_type' => ['required'],
         ];
     }
 
@@ -42,11 +42,11 @@ class FounderDataRequest extends FormRequest
             'service.required' => 'Obavezan podatak',
             'name.required' => 'Obavezan podatak',
             'lastname.required' => 'Obavezan podatak',
-            'address.required' => 'Obavezan podatak',
-            'country.required' => 'Obavezan podatak',
+            //'address.required' => 'Obavezan podatak',
+            //'country.required' => 'Obavezan podatak',
             'contact.required' => 'Obavezan podatak',
-            'email.required' => 'Obavezan podatak',
-            'shelter_type.required' => 'Obavezan podatak',
+            //'email.required' => 'Obavezan podatak',
+            //'shelter_type.required' => 'Obavezan podatak',
         ];
     }
 }

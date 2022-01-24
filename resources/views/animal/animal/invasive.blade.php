@@ -130,13 +130,13 @@
                             <label>Tko je donio</label>
                             <select name="brought_animal" class="form-control" required>
                                 <option value="">----</option>
-                                @foreach ($founders as $founder)
-                                    <option value="{{$founder->id}}">
-                                        {{$founder->name}} {{$founder->lastname}} 
-                                        @if($founder->founderServices->name != 10)
-                                            ({{$founder->founderServices->name}})
+                                @foreach ($brought as $item)
+                                    <option value="{{$item->id}}">
+                                        {{$item->name}} {{$item->lastname}} 
+                                        @if($item->founderServices->name != 10)
+                                            ({{$item->founderServices->name}})
                                         @else
-                                            ({{$founder->others}})
+                                            ({{$item->others}})
                                         @endif
                                     </option>
                                 @endforeach

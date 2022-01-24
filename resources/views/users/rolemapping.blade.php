@@ -75,7 +75,7 @@
     <div class="col-md-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h6 class="card-title">Permission</h6>
+                <h6 class="card-title">Dopuštenja</h6>
 
                 @if($msg = Session::get('permissions'))
                 <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Animal;
 
 use Carbon\Carbon;
-use App\Mail\WelcomeMail;
+use App\Mail\ProtectedAnimalMail;
 use App\Models\DateRange;
 use App\Models\FounderData;
 use Illuminate\Http\Request;
@@ -35,34 +35,33 @@ class AnimalShelterCreateController extends Controller
     }
 
     // Get Founder
-    public function getFounder(Request $request)
-    {
-        if (!$request->type_id) {
-            $html = '<option value="">-----</option>';
-        } 
-        else {
-            $html = '';
-            $founderSelect = FounderData::where('shelter_type_id', $request->type_id)
-            ->where('shelter_id', $request->shelter)
-            ->get();
+    // public function getFounder(Request $request)
+    // {
+    //     if (!$request->type_id) {
+    //         $html = '<option value="">-----</option>';
+    //     } 
+    //     else {
+    //         $html = '';
+    //         $founderSelect = FounderData::where('shelter_type_id', $request->type_id)
+    //         ->where('shelter_id', $request->shelter)
+    //         ->get();
 
-            $html = '<option value="">-----</option>';
-            foreach ($founderSelect as $item) {
-                $html .= '
-                <option value="' . $item->id . '">' . $item->name . '</option>
-                ';
-            }
-        }
+    //         $html = '<option value="">-----</option>';
+    //         foreach ($founderSelect as $item) {
+    //             $html .= '
+    //             <option value="' . $item->id . '">' . $item->name . '</option>
+    //             ';
+    //         }
+    //     }
 
-        return response()->json(['html' => $html]);
-    }
+    //     return response()->json(['html' => $html]);
+    // }
 
     // Get Form
     public function getForm(Request $request)
     {
         if (isset($request)) {
             if ($request->type_id) {
-
                 if ($request->type_id == 3) {
                     return $this->protectedCreate($request->type_id, $request->shelter);
                 }
@@ -79,10 +78,8 @@ class AnimalShelterCreateController extends Controller
     // Slanje emaila administratoru oporavilišta
     public function sendMail($data)
     {
-        $adminEmail = 'kristijan.marijic@prospekt.hr';
-        // $adminEmail = $data->shelter->email;
-
-        Mail::to($adminEmail)->send(new WelcomeMail($data));
+        $adminEmail = $data->shelter->email;
+        Mail::to($adminEmail)->send(new ProtectedAnimalMail($data));
     }
 
     // Strogo zaštićene
@@ -175,7 +172,7 @@ class AnimalShelterCreateController extends Controller
         ]);
 
         // Send email
-        //$sendEmail = $this->sendMail($animalItem);
+        // $sendEmail = $this->sendMail($animalItem);
 
         return redirect()->route('shelter.show', $request->shelter_id)->with('msg', 'Uspješno dodano.');
     }
@@ -374,15 +371,15 @@ class AnimalShelterCreateController extends Controller
     {
         $shelter = Shelter::find($shelter);
         $sysCats = $shelter->animalSystemCategory;
-        $founder = FounderData::all();
         $markTypes = AnimalMarkType::all();
         $shelterType = ShelterType::find($type_id);
         $stateType = AnimalItemDocumentationStateType::all();
+        $founder = FounderData::all();
+        $brought = FounderData::whereNotIn('service', [7])->get();
 
         // kod zapljena samo službena osoba
-        if($template == 'seized')
-        {
-            $founder = FounderData::whereHas('founderServices', function($query){
+        if($template == 'seized'){
+            $brought = FounderData::whereNotIn('service', [7])->whereHas('founderServices', function($query){
                 $query->whereIn('id', [1,2,3,4,6,8]);
             })->get();
         }
@@ -402,6 +399,7 @@ class AnimalShelterCreateController extends Controller
         $returnHTML = view("animal.animal.$template", [
             'animal' => $animal,
             'founders' => $founder,
+            'brought' => $brought,
             'markTypes' => $markTypes,
             'shelter' => $shelter,
             'shelterType' => $shelterType,

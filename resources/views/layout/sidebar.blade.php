@@ -156,7 +156,7 @@
                 <a href="{{ url('/user') }}" class="nav-link">Svi korisnici</a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('/roleMapping') }}" class="nav-link">Role</a>
+                <a href="{{ url('/roleMapping') }}" class="nav-link">Korisničke role</a>
               </li>
             </ul>
           </div>

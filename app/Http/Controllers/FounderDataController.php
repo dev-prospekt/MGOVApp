@@ -34,8 +34,6 @@ class FounderDataController extends Controller
                         <a href="javascript:void()" class="trash btn btn-xs btn-danger mr-2" data-href="' . $deleteUrl . '">
                             Brisanje
                         </a>
-
-                       
                     </div>
                     ';
                 })->make(true);
@@ -64,7 +62,7 @@ class FounderDataController extends Controller
         try {
             $founder = new FounderData;
             $founder->shelter_id = $request->shelter;
-            $founder->shelter_type_id = $request->shelter_type;
+            // $founder->shelter_type_id = $request->shelter_type;
             $founder->name = $request->name;
             $founder->lastname = $request->lastname;
             $founder->address = $request->address;
@@ -104,7 +102,7 @@ class FounderDataController extends Controller
     public function update(Request $request, Shelter $shelter, FounderData $founder)
     {
         $founder->shelter_id = $shelter->id;
-        $founder->shelter_type_id = $request->shelter_type;
+        // $founder->shelter_type_id = $request->shelter_type;
         $founder->name = $request->name;
         $founder->lastname = $request->lastname;
         $founder->address = $request->address;
@@ -160,19 +158,19 @@ class FounderDataController extends Controller
             $request->all(),
             [
                 'service' => 'required',
-                'shelter_type' => 'required',
+                // 'shelter_type' => 'required',
                 'name' => 'required',
                 'lastname' => 'required',
                 'contact' => 'required',
-                'founder_documents' => 'required',
+                // 'founder_documents' => 'required',
             ],
             [
                 'service.required' => 'Služba koja je izvršila zaplijenu je obvezno polje',
-                'shelter_type.required' => 'Tip jedinke je obvezno polje',
+                // 'shelter_type.required' => 'Tip jedinke je obvezno polje',
                 'name.required' => 'Ime je obvezno polje',
                 'lastname.required' => 'Prezime je obvezno polje',
                 'contact.required' => 'Kontakt mobitel/telefon je obvezno polje',
-                'founder_documents.required' => 'Dokumentacija je obvezno polje',
+                // 'founder_documents.required' => 'Dokumentacija je obvezno polje',
             ]
         );
 
@@ -182,7 +180,7 @@ class FounderDataController extends Controller
 
         $founder = new FounderData;
         $founder->shelter_id = $request->shelter;
-        $founder->shelter_type_id = $request->shelter_type;
+        // $founder->shelter_type_id = $request->shelter_type;
         $founder->name = $request->name;
         $founder->lastname = $request->lastname;
         $founder->address = $request->address;

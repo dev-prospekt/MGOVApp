@@ -112,6 +112,7 @@
                                         <th>Šifra jedinke</th>
                                         <th>LATINSKI NAZIV</th>
                                         <th>Početak skrbi</th>
+                                        <th>Kraj skrbi</th>
                                         <th>Dob</th>
                                         <th>Spol</th>
                                         <th>Veličina</th>
@@ -190,7 +191,7 @@ $(function() {
         columns: [
             { data: 'animal_code', name: 'animal_code'},
             { data: 'latin_name', name: 'latin_name'},
-            { data: 'date_found', name: 'date_found'},
+            { data: 'date_start', name: 'date_start'},
             { data: 'animal_age', name: 'animal_age'},
             { data: 'animal_gender', name: 'animal_gender'},
             { data: 'animal_size', name: 'animal_size'},
@@ -211,7 +212,8 @@ $(function() {
         columns: [
             { data: 'animal_code', name: 'animal_code'},
             { data: 'latin_name', name: 'latin_name'},
-            { data: 'date_found', name: 'date_found'},
+            { data: 'date_start', name: 'date_start'},
+            { data: 'date_end', name: 'date_end'},
             { data: 'animal_age', name: 'animal_age'},
             { data: 'animal_gender', name: 'animal_gender'},
             { data: 'animal_size', name: 'animal_size'},

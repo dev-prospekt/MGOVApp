@@ -7,11 +7,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class WelcomeMail extends Mailable
+class ProtectedAnimalMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $body;
+    protected $body;
 
     /**
      * Create a new message instance.
@@ -30,7 +30,7 @@ class WelcomeMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('email.welcome', ['data' => $this->body])
+        return $this->markdown('email.protected_animal', ['data' => $this->body])
                     ->from('admin@mgovapp.com', 'MgovApp')
                     ->subject('Strogo zaštićena jedinka');
     }
