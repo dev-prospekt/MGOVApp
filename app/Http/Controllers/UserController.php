@@ -210,6 +210,7 @@ class UserController extends Controller
 
     public function roleMapping()
     {
+        // Vraća nam sve korisnike osim Super Admina
         $users = User::with('roles')->whereNotIn('name', ['Super Admin'])->get();
         $roles = Role::with('permissions')->get();
 
