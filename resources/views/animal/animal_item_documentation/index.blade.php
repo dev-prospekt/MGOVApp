@@ -236,7 +236,7 @@
               <div class="col-md-12 grid-margin">  
                 <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Nalaznik: </label>
-                  <p class="text-muted">{{ $animalItem->founder->name ?? ''}} - {{ $animalItem->founder->service ?? '' }}</p>
+                  <p class="text-muted">{{ $animalItem->founder->name ?? ''}} - {{ $animalItem->founder->founderServices->name ?? '' }}</p>
                 </div>
                 <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Napomena nalaznika: </label>
@@ -361,7 +361,8 @@
               <div class="col-md-12 grid-margin">  
                 <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Predao: </label>
-                  <p class="text-muted">{{ $animalItem->broughtAnimal->name ?? ''}} - {{ $animalItem->broughtAnimal->service ?? '' }}</p>
+                  <p class="text-muted">{{ $animalItem->broughtAnimal->name ?? ''}}</p>
+                  <p class="text-muted">{{ $animalItem->broughtAnimal->founderServices->name ?? '' }}</p>
                 </div>
                 <div class="mt-2">                  
                   @if (!empty($animalItem->animalDocumentation))

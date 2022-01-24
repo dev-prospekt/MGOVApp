@@ -19,6 +19,7 @@ class FounderDataController extends Controller
     public function index(Request $request, Shelter $shelter)
     {
         $founders = FounderData::with('shelter')->where('shelter_id', $shelter->id)->get();
+        $founderService = FounderService::all();
 
         if ($request->ajax()) {
             return Datatables::of($founders)
@@ -32,7 +33,7 @@ class FounderDataController extends Controller
                             Uredi
                         </a>
                         <a href="javascript:void()" class="trash btn btn-xs btn-danger mr-2" data-href="' . $deleteUrl . '">
-                            Brisanje
+                            Obriši
                         </a>
                     </div>
                     ';
@@ -41,6 +42,7 @@ class FounderDataController extends Controller
 
         return view('founder.index', [
             'founders' => $founders,
+            'founderService' => $founderService,
             'shelter' => $shelter,
         ]);
     }

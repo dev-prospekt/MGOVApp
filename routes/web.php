@@ -152,6 +152,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/founder_create', 'FounderDataController@createFounder');
     Route::get('founder/fileDelete/{file}', 'FounderDataController@fileDelete')->name('founder.fileDelete');
 
+    Route::resource('founder-service', FounderServiceController::class);
+
     // Animal create START
     Route::get('shelters/{shelter}/animal/create', 'Animal\AnimalShelterCreateController@createView')->name('shelterAnimal.create');
     Route::post('animals/getfounders', 'Animal\AnimalShelterCreateController@getFounder')->name('shelterAnimal.getfounder');
