@@ -36,7 +36,7 @@ class AnimalItemCareEndController extends Controller
         $maxDate = 10;
         $totalDays = ($maxDate - $countDays);
 
-        // Group by name solitaryorgroup
+        // Group by name solitaryorgroup and totaldays
         $solitaryGroupByName = $solitaryGroup->groupBy('solitary_or_group');
         $totalSolitaryDays = $totalGroupDays = 0;
 
