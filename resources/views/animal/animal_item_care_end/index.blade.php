@@ -266,12 +266,14 @@
                   @endif
                 </p>
                 @if (!empty($solitaryGroup))
+                  <div>
+                    <p class="text-muted">
+                      Ukupni broj dana: <span class="text-warning">{{ $totalSolitaryDays }}</span> 
+                    </p>
+                  </div>
                   @foreach ($solitaryGroup as $item)
                     @if ($item->solitary_or_group == 'Solitarno')
                       <div>
-                        <p class="text-muted">
-                          Broj dana: <span class="text-warning">{{ $item->start_date->diffInDays($item->end_date) }}</span>
-                        </p>
                         <p class="text-muted">
                           {{ $item->start_date->format('d.m.Y') . ' - ' . $item->end_date->format('d.m.Y') }}
                         </p>                
@@ -293,19 +295,21 @@
                   @endif
                 </p>
                 @if (!empty($solitaryGroup))
-                @foreach ($solitaryGroup as $item)
-                  @if ($item->solitary_or_group == 'Grupa')
-                    <div>        
-                      <p class="text-muted">
-                        Broj dana: <span class="text-warning">{{ $item->start_date->diffInDays($item->end_date) }}</span> 
-                      </p>
-                      <p class="text-muted">
-                        {{ $item->start_date->format('d.m.Y') . ' - ' . $item->end_date->format('d.m.Y') }}
-                      </p>
-                    </div>
-                  @endif
-                @endforeach
-              @endif
+                  <div>
+                    <p class="text-muted">
+                      Ukupni broj dana: <span class="text-warning">{{ $totalGroupDays }}</span> 
+                    </p>
+                  </div>
+                  @foreach ($solitaryGroup as $item)
+                    @if ($item->solitary_or_group == 'Grupa')
+                      <div>
+                        <p class="text-muted">
+                          {{ $item->start_date->format('d.m.Y') . ' - ' . $item->end_date->format('d.m.Y') }}
+                        </p>
+                      </div>
+                    @endif
+                  @endforeach
+                @endif
               </div> 
     
          

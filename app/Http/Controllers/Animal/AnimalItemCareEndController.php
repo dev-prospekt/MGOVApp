@@ -36,6 +36,19 @@ class AnimalItemCareEndController extends Controller
         $maxDate = 10;
         $totalDays = ($maxDate - $countDays);
 
+        // Group by name solitaryorgroup
+        $solitaryGroupByName = $solitaryGroup->groupBy('solitary_or_group');
+        $totalSolitaryDays = $totalGroupDays = 0;
+
+        foreach ($solitaryGroupByName['Solitarno'] as $item) {
+            $solitaryDays = $item->start_date->diffInDays($item->end_date);
+            $totalSolitaryDays += $solitaryDays;
+        }
+        foreach ($solitaryGroupByName['Grupa'] as $item) {
+            $groupDays = $item->start_date->diffInDays($item->end_date);
+            $totalGroupDays += $groupDays;
+        }
+
         return view('animal.animal_item_care_end.index', [
             'animalItem' => $animalItem, 'careEndTypes' => $careEndTypes,
             'vetenaryStaff' => $vetenaryStaff, 'price' => $price,
@@ -43,6 +56,8 @@ class AnimalItemCareEndController extends Controller
             'fullCare' => $fullCare,
             'totalDays' => $totalDays, 'date' => $date,
             'solitaryGroup' => $solitaryGroup,
+            'totalSolitaryDays' => $totalSolitaryDays,
+            'totalGroupDays' => $totalGroupDays,
             'shelter' => $shelter
         ]);
     }
