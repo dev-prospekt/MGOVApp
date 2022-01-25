@@ -69,8 +69,6 @@ class AnimalItemCareEndController extends Controller
     // Get Founder
     public function getVet(Request $request)
     {
-        //dd($request);
-
         if (!$request->staff_id) {
             $html = '<option value="">-----</option>';
         } 
