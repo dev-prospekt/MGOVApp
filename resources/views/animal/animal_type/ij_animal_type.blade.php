@@ -41,22 +41,20 @@
 
                 <table class="table" id="animals-table">
                     <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Naziv jedinke</th>
-                        <th>Hrvatski naziv</th>
-                        <th>Latinski naziv jedinke</th>
-                        <th>Razred</th>
-                        <th>Red</th>                                  
-                        <th>Porodica</th>
-                        <th>Tip jedinke</th>
-                        <th>Akcija</th>
-                        
-                    </tr>
+                        <tr>
+                            <th>#</th>
+                            <th>Naziv jedinke</th>
+                            <th>Hrvatski naziv</th>
+                            <th>Latinski naziv jedinke</th>
+                            <th>Razred</th>
+                            <th>Red</th>                                  
+                            <th>Porodica</th>
+                            <th>Tip jedinke</th>
+                            <th>Akcija</th>
+                        </tr>
                     </thead>
-                    <tbody></tbody>
-                    </table>  
-                
+                        <tbody></tbody>
+                    </table>
                 </div>      
            
             </div>
@@ -97,17 +95,6 @@
                     "url": "//cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json"
                  }
            
-            });
-            // Delete
-            $('#users-table').on('click', '#bntDeleteUser', function(e){
-                e.preventDefault();
-                var id = $(this).find('#userId').val();
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-                    }
-                });
-       
             });
         })
   </script>
