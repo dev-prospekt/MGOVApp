@@ -13,7 +13,7 @@ class Animal extends Model
     use HasFactory, SoftDeletes;
 
     protected $casts = ['id' => 'integer', 'animal_system_category_id' => 'integer', 'animal_size_id' => 'integer'];
-    protected $fillable = ['animal_category_id', 'animal_size_id', 'name', 'latin_name'];
+    protected $fillable = ['animal_category_id', 'animal_size_id', 'name', 'latin_name', 'croatian_name'];
 
     public function animalCategory()
     {
