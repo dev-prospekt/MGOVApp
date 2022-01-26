@@ -281,6 +281,8 @@ class AnimalGroupController extends Controller
     public function destroy($shelter, $animalGroup)
     {
         $animalGroup = AnimalGroup::find($animalGroup);
+
+        $animalGroup->allAnimalItems()->delete(); // Ako obrišemo grupu, trebamo obrisati i jedinke.
         $animalGroup->delete();
 
         return response()->json(['msg' => 'success']);

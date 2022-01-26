@@ -30,6 +30,11 @@ class AnimalGroup extends Model implements HasMedia
         return $this->hasMany(AnimalItem::class)->where('in_shelter', 1);
     }
 
+    public function allAnimalItems()
+    {
+        return $this->hasMany(AnimalItem::class);
+    }
+
     public function animalItemActive()
     {
         return $this->hasMany(AnimalItem::class)
