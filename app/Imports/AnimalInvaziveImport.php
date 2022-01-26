@@ -27,6 +27,7 @@ class AnimalInvaziveImport implements OnEachRow, WithHeadingRow
       'latin_name' => $row['latin_name'],
       'croatian_name' => $row['croatian_name'],
     ]);
+    
     $animal->animalType()->sync($row['type']);
   }
 
