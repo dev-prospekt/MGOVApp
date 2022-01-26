@@ -25,7 +25,6 @@ class AnimalOrdersImport implements OnEachRow, WithHeadingRow
 
         $animalSystemCategoryId = AnimalSystemCategory::where('latin_name', $row['order_class'])->pluck('id')->first();
 
-
         AnimalOrder::updateOrCreate([
             'animal_system_category_id' => $animalSystemCategoryId,
             'order_name' => $row['order_name'],

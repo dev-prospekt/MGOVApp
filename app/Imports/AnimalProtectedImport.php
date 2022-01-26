@@ -32,10 +32,10 @@ class AnimalProtectedImport implements OnEachRow, WithHeadingRow
       'animal_size_id' => $animalSizeId,
       'name' => $row['name'],
       'latin_name' => $row['latin_name'],
-
     ]);
-    $animal->animalType()->attach(1);
-    $animal->animalCodes()->attach($animalCodeId);
+
+    $animal->animalType()->sync(1);
+    $animal->animalCodes()->sync($animalCodeId);
   }
 
   public function uniqueBy()
