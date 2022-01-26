@@ -282,7 +282,7 @@ class AnimalGroupController extends Controller
     {
         $animalGroup = AnimalGroup::find($animalGroup);
 
-        $animalGroup->allAnimalItems()->delete(); // Ako obrišemo grupu, trebamo obrisati i jedinke.
+        $animalGroup->allAnimalItems()->delete(); // Ako obrišemo grupu, trebamo obrisati i sve jedinke.
         $animalGroup->delete();
 
         return response()->json(['msg' => 'success']);
