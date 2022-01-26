@@ -44,6 +44,7 @@
                     <tr>
                         <th>#</th>
                         <th>Naziv jedinke</th>
+                        <th>Hrvatski naziv</th>
                         <th>Latinski naziv jedinke</th>
                         <th>Razred</th>
                         <th>Red</th>                                  
@@ -82,6 +83,7 @@
                 columns: [
                     { data: 'id', name: 'id'},
                     { data: 'name', name: 'name'},
+                    { data: 'croatian_name', name: 'croatian_name'},
                     { data: 'latin_name', name: 'latin_name'},
                     { data: 'animal_system_category', name: 'animal_system_category.latin_name'},
                     { data: 'animal_order', name: 'animal_order.order_name'},
