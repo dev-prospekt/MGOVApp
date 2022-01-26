@@ -185,7 +185,4 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('report-save', 'ReportController@saveReport')->name("report-save");
     Route::post('reports-zns', 'ReportController@generateZNS')->name('reports-zns');
     Route::post('report-export-excel', 'ReportController@exportToExcel')->name('export-to-excel');
-
-    // AnimaData
-    //Route::get('animal-data', 'Animal\AnimalDataController@view')->name('animal-data');
 });
