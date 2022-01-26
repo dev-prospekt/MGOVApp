@@ -33,7 +33,7 @@ class AnimalInvaziveTypeController extends Controller
           return $animal->animalCategory->latin_name ?? '';
         })
         ->addColumn('croatian_name', function (Animal $animal) {
-          return $animal->acroatian_name ?? '';
+          return $animal->croatian_name ?? '';
         })
         ->addColumn('animal_system_category', function (Animal $animal) {
 
