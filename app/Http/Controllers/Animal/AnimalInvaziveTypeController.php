@@ -29,21 +29,23 @@ class AnimalInvaziveTypeController extends Controller
 
       return DataTables::of($animals)
         ->addIndexColumn()
+        ->addColumn('animal_system_category', function (Animal $animal) {
+          return $animal->latin_name ?? '';
+        })
         ->addColumn('animal_category', function (Animal $animal) {
-          return $animal->animalCategory->latin_name ?? '';
+          return $animal->name ?? '';
         })
         ->addColumn('croatian_name', function (Animal $animal) {
           return $animal->croatian_name ?? '';
         })
-        ->addColumn('animal_system_category', function (Animal $animal) {
-
-          $animalCategory = $animal->animalCategory;
-          return $animalCategory->animalSystemCategory->latin_name ?? '';
+        ->addColumn('razred', function (Animal $animal) {
+            return $animal->animalCategory->animalSystemCategory->latin_name ?? '';
         })
-        ->addColumn('animal_order', function (Animal $animal) {
-
-          $animalCategory = $animal->animalCategory;
-          return $animalCategory->animalOrder->order_name ?? '';
+        ->addColumn('red', function (Animal $animal) {
+            return $animal->animalCategory->animalOrder->order_name ?? '';
+        })
+        ->addColumn('porodica', function (Animal $animal) {
+            return $animal->animalCategory->latin_name ?? '';
         })
         ->addColumn('animal_type', function (Animal $animal) {
           return $animal->animalType->map(function ($type) {

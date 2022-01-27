@@ -38,7 +38,31 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label>Jedinka</label>
+                                        <label>Red</label>
+                                        <select name="animal_order" class="js-example-basic-single w-100">
+                                            <option value="">------</option>
+                                            @foreach ($animalOrder as $animal_order)
+                                                <option value="{{ $animal_order->id }}">{{ $animal_order->order_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Razred</label>
+                                        <select name="animal_system" class="js-example-basic-single w-100">
+                                            <option value="">------</option>
+                                            @foreach ($animalSystemCat as $animal_system)
+                                                <option value="{{ $animal_system->id }}">{{ $animal_system->latin_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Porodica</label>
                                         <select name="animal_category" class="js-example-basic-single w-100">
                                             <option value="">------</option>
                                             @foreach ($animalCategory as $animal_category)

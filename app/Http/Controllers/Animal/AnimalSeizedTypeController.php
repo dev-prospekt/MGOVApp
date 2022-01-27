@@ -30,16 +30,21 @@ class AnimalSeizedTypeController extends Controller
 
       return DataTables::of($animals)
         ->addIndexColumn()
-        ->addColumn('animal_category', function (Animal $animal) {
-
-          return $animal->animalCategory->latin_name ?? '';
+        ->addColumn('latin_name', function (Animal $animal) {
+            return $animal->latin_name ?? '';
         })
-        ->addColumn('animal_system_category', function (Animal $animal) {
-
-          $animalCategory = $animal->animalCategory;
-          return $animalCategory->animalSystemCategory->latin_name ?? '';
+        ->addColumn('name', function (Animal $animal) {
+            return $animal->name ?? '';
         })
-
+        ->addColumn('razred', function (Animal $animal) {
+            return $animal->animalCategory->animalSystemCategory->latin_name ?? '';
+        })
+        ->addColumn('red', function (Animal $animal) {
+            return $animal->animalCategory->animalOrder->order_name ?? '';
+        })
+        ->addColumn('porodica', function (Animal $animal) {
+            return $animal->animalCategory->latin_name ?? '';
+        })
         ->addColumn('animal_code', function (Animal $animal) {
           return $animal->animalCodes->map(function ($code) {
 

@@ -13,7 +13,7 @@
             <div class="card-body">
               <div class="d-flex align-items-center justify-content-between">
                 <div>              
-                    <p class="card-description">Dodaj invazivnu jedinku</p>
+                    <p class="card-description">Dodaj zaplijenjenu jedinku</p>
                 </div>
                 <div>
                     <a href="{{ url("/zj_animal_type") }}" class="btn btn-sm  btn-warning">Pregled svih</a>
@@ -24,9 +24,6 @@
                 <div class="form-group">
                     <label>Naziv Jedinke</label>
                     <input type="text" class="form-control" name="name">
-                    @error('name')
-                        <div class="text-danger">{{$errors->first('name') }} </div>
-                    @enderror
                 </div>
                   <div class="form-group">
                     <label>Latinski Naziv</label>

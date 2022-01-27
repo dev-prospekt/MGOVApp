@@ -12,10 +12,12 @@ use App\Exports\ReportsExport;
 use App\Models\Shelter\Shelter;
 use Yajra\DataTables\DataTables;
 use App\Models\Animal\AnimalItem;
+use App\Models\Animal\AnimalOrder;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Animal\AnimalCategory;
-use App\Models\Animal\AnimalItemCareEndType;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Animal\AnimalSystemCategory;
+use App\Models\Animal\AnimalItemCareEndType;
 
 class ReportController extends Controller
 {
@@ -23,6 +25,8 @@ class ReportController extends Controller
     {
         $animals = Animal::all();
         $animalCategory = AnimalCategory::all();
+        $animalOrder = AnimalOrder::all();
+        $animalSystemCat = AnimalSystemCategory::all();
         $endCareType = AnimalItemCareEndType::all();
 
         if(auth()->user()->hasRole('Administrator')){
@@ -107,6 +111,8 @@ class ReportController extends Controller
             'shelters' => $shelters,
             'endCareType' => $endCareType,
             'animalCategory' => $animalCategory,
+            'animalOrder' => $animalOrder,
+            'animalSystemCat' => $animalSystemCat,
         ]);
     }
 
@@ -438,13 +444,16 @@ class ReportController extends Controller
     {
         $shelter = ($request->shelter != 'all') ? Shelter::find($request->shelter) : 'all';
         $animalCat = AnimalCategory::find($request->animal_category);
+        $animalOrder = AnimalOrder::find($request->animal_order);
+        $animalSysteCat = AnimalSystemCategory::find($request->animal_system);
 
         if(empty($request->start_date) || empty($request->end_date)){
             return redirect()->back()->with('msg', 'Raspon datuma je obavezan');
         }
 
         // Get Animal
-        $data = $this->exportGetAnimal($request, $animalCat, $shelter);
+        $data = $this->exportGetAnimal($request, $animalCat, $animalOrder, $animalSysteCat, $shelter);
+        dd($data);
         // Get Animal Date Range
         $dateRange = $this->exportDateRangeAnimal($request, $data, $shelter);
         // Care End Type
@@ -462,7 +471,7 @@ class ReportController extends Controller
         return (new ReportsExport($finishData, $kvartal))->download($name.'.xlsx');
     }
 
-    public function exportGetAnimal($request, $animalCat, $shelter)
+    public function exportGetAnimal($request, $animalCat, $animalOrder = null, $animalSysteCat = null, $shelter)
     {
         $data = [];
 
@@ -476,10 +485,44 @@ class ReportController extends Controller
                         if($animalItems->shelter_id == $shelter->id){
                             $data[] = $animalItems;
                         }
-                    }
-                    
+                    }   
                 }
             }
+            return $data;
+        }
+        elseif($animalOrder){
+            foreach ($animalOrder->animalCategory as $animalcat) {
+                foreach ($animalcat->animals as $animal) {
+                    foreach ($animal->animalItems as $item) {
+                        if($shelter == 'all'){
+                            $data[] = $item;
+                        }
+                        else {
+                            if($item->shelter_id == $shelter->id){
+                                $data[] = $item;
+                            }
+                        }
+                    }
+                }
+            }
+            return $data;
+        }
+        elseif($animalSysteCat){
+            foreach ($animalSysteCat->animalCategory as $animalcat) {
+                foreach ($animalcat->animals as $animal) {
+                    foreach ($animal->animalItems as $item) {
+                        if($shelter == 'all'){
+                            $data[] = $item;
+                        }
+                        else {
+                            if($item->shelter_id == $shelter->id){
+                                $data[] = $item;
+                            }
+                        }
+                    }
+                }
+            }
+            return $data;
         }
         else {
             if($shelter == 'all'){
@@ -496,11 +539,9 @@ class ReportController extends Controller
                     }
                 }
             }
+    
+            return $data;
         }
-
-        //dd($data);
-
-        return $data;
     }
 
     public function exportDateRangeAnimal($request, $animalItem, $shelter)

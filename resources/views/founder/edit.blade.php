@@ -34,20 +34,14 @@
                             <div class="form-group">
                                 <label>Služba koja je izvršila zaplijenu</label>
                                 <select id="sluzba" name="service" class="form-control">
-                                    @if ($founder->service)
-                                        <option selected value="{{$founder->service}}">{{$founder->service}}</option>
-                                    @endif
                                     <option value="">------</option>
-                                    <option value="Državni inspektorat-inspekcija zaštite prirode">Državni inspektorat-inspekcija zaštite prirode</option>
-                                    <option value="Državni inspektorat-veterinarska inspekcija">Državni inspektorat-veterinarska inspekcija</option>
-                                    <option value="Ministarstvo unutarnjih poslova">Ministarstvo unutarnjih poslova</option>
-                                    <option value="Ministarstvo financija, Carinska uprava">Ministarstvo financija, Carinska uprava</option>
-                                    <option value="fizička/pravna osoba">fizička/pravna osoba</option>
-                                    <option value="komunalna služba-lokalna i regionalna samouprava">komunalna služba-lokalna i regionalna samouprava</option>
-                                    <option value="nepoznato">nepoznato</option>
-                                    <option value="djelatnici Javnih ustanova NP/PP ili županija">djelatnici Javnih ustanova NP/PP ili županija</option>
-                                    <option value="vlasnik životinje">vlasnik životinje</option>
-                                    <option value="ostalo-navesti:">ostalo-navesti:</option>
+                                    @foreach ($founderService as $item)
+                                        @if($founder->service == $item->id)
+                                            <option selected value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @else
+                                            <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                         </div>

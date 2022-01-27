@@ -17,7 +17,7 @@ class CreateAnimalsTable extends Migration
             $table->id();
             $table->foreignId('animal_category_id');
             $table->foreignId('animal_size_id')->nullable();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->string('latin_name');
             $table->string('croatian_name');
 

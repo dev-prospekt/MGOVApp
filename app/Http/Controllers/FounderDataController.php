@@ -23,6 +23,9 @@ class FounderDataController extends Controller
 
         if ($request->ajax()) {
             return Datatables::of($founders)
+                ->addColumn('service', function($founder){
+                    return $founder->founderServices->name;
+                })
                 ->addColumn('action', function ($founder) {
                     $deleteUrl = route('shelters.founders.destroy', [$founder->shelter->id, $founder->id]);
                     $editUrl = route('shelters.founders.edit', [$founder->shelter->id, $founder->id]);
@@ -93,11 +96,13 @@ class FounderDataController extends Controller
     {
         $mediaFiles = $founder->getMedia('founder_documents');
         $type = ShelterType::all();
+        $founderService = FounderService::all();
 
         return view('founder.edit', [
             'founder' => $founder,
             'mediaFiles' => $mediaFiles,
-            'type' => $type
+            'type' => $type,
+            'founderService' => $founderService,
         ]);
     }
 

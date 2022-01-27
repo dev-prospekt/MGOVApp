@@ -51,7 +51,6 @@
                                 <th>PREZIME</th>
                                 <th>KONTAKT</th>
                                 <th>SLUŽBA</th>
-    
                                 <th>Akcija</th>
                             </tr>
                         </thead>

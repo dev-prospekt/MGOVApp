@@ -25,7 +25,6 @@ class AnimalSeizedTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required'],
             'latin_name' => ['required'],
             'animal_type' => ['required'],
             'animal_category' => ['required'],
@@ -36,7 +35,6 @@ class AnimalSeizedTypeRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Obavezan podatak',
             'latin_name.required' => 'Obavezan podatak',
             'animal_type.required' => 'Obavezan podatak',
             'animal_category.required' => 'Obavezan podatak',

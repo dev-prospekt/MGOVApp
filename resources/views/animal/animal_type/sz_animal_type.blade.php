@@ -54,25 +54,22 @@
                 @endif
 
                 <div class="table-responsive-sm">
-
-                <table class="table" id="animals-table">
-                    <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Naziv jedinke</th>
-                        <th>Latinski naziv jedinke</th>
-                        <th>Razred</th>                                  
-                        <th>Red</th>                                  
-                        <th>Porodica</th>
-                        <th>Oznaka</th>
-                        <th>Tip jedinke</th>
-                        <th>Akcija</th>
-                        
-                    </tr>
-                    </thead>
-                    <tbody></tbody>
-                    </table>  
-                
+                    <table class="table" id="animals-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Latinski naziv</th>
+                                <th>Naziv</th>
+                                <th>Razred</th>                                  
+                                <th>Red</th>                                  
+                                <th>Porodica</th>
+                                <th>Oznaka</th>
+                                <th>Tip jedinke</th>
+                                <th>Akcija</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
                 </div>      
            
             </div>
@@ -98,11 +95,11 @@
         
                 columns: [
                     { data: 'id', name: 'id'},
-                    { data: 'name', name: 'name'},
                     { data: 'latin_name', name: 'latin_name'},
-                    { data: 'animal_system_category', name: 'animal_system_category.latin_name'},
-                    { data: 'animal_order', name: 'animal_order.order_name'},
-                    { data: 'animal_category', name: 'animal_category.latin_name'},                  
+                    { data: 'name', name: 'name'},
+                    { data: 'razred', name: 'razred'},
+                    { data: 'red', name: 'red'},
+                    { data: 'porodica', name: 'porodica'},
                     { data: 'animal_code', name: 'animal_code.name'},                  
                     { data: 'animal_type', name: 'animal_type.type_name'},                  
                     { data: 'action', name: 'action'},   
