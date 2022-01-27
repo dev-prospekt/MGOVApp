@@ -53,7 +53,6 @@
           <form action="/animalItem/update/{{$animalItem->id}}" method="POST" enctype="multipart/form-data" autocomplete="off">
             @csrf
             @method('POST')  
-
             <input type="hidden" class="shelter_id" name="shelter_id" value="{{ $shelter->id }}">
 
             <div class="form-group mt-2">
