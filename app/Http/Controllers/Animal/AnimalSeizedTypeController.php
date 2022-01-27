@@ -71,8 +71,8 @@ class AnimalSeizedTypeController extends Controller
             }
 
             return  '<button type="button" class="btn btn-xs btn-' . ($btn_class) . '" data-toggle="tooltip" data-placement="left" title="' . ($code->desc) . '">
-                           ' . $code->name . '
-                          </button>';
+                      ' . $code->name . '
+                    </button>';
 
             // return $code->name;
           })->implode('<br>');

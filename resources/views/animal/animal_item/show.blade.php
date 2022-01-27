@@ -478,6 +478,7 @@
   <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/lightbox2/lightbox.min.js') }}"></script> 
   <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.hr.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/fileinput.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-fileinput/lang/cr.js') }}"></script>
 @endpush
@@ -491,6 +492,8 @@
               format: "mm/dd/yyyy",
               todayHighlight: true,
               autoclose: true,
+              orientation: "bottom",
+              language: 'hr',
           });
           $("div#datePickerExample").find(".hib_est_from").datepicker('setDate', $("div#datePickerExample").find(".hib_est_from").val());
           $("div#datePickerExample").find(".hib_est_to").datepicker('setDate', $("div#datePickerExample").find(".hib_est_to").val());

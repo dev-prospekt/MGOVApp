@@ -453,7 +453,7 @@ class ReportController extends Controller
 
         // Get Animal
         $data = $this->exportGetAnimal($request, $animalCat, $animalOrder, $animalSysteCat, $shelter);
-        dd($data);
+        //dd($data);
         // Get Animal Date Range
         $dateRange = $this->exportDateRangeAnimal($request, $data, $shelter);
         // Care End Type
