@@ -492,7 +492,6 @@ class ReportController extends Controller
                 }
             }
         }
-
         if($animalCat){
             foreach ($animalCat->animals as $animals) {
                 foreach ($animals->animalItems as $animalItems) {
