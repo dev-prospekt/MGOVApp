@@ -60,7 +60,7 @@
               <label>Datum prestanka skrbi o životinji</label>
               <div class="input-group date datepicker" id="dateEndcarePicker">
                   <input type="text" name="end_date" class="form-control end_date" 
-                  value="{{ $animalItem->dateRange->end_date ? $animalItem->dateRange->end_date->format('m/d/Y') : null }}">
+                  value="{{ $animalItem->dateRange->end_date ? $animalItem->dateRange->end_date->format('d/m/Y') : null }}">
                   <span class="input-group-addon">
                       <i data-feather="calendar"></i>
                   </span>
@@ -420,7 +420,7 @@
   <script>  
       $(function() {
         $('div#dateEndcarePicker input').datepicker({
-            format: "mm/dd/yyyy",
+            format: "dd/mm/yyyy",
             todayHighlight: true,
             autoclose: true,
             language: 'hr'

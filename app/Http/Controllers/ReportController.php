@@ -335,8 +335,8 @@ class ReportController extends Controller
     public function kvartal($request)
     {
         $data = [];
-        $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date);
-        $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date);
+        $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date);
+        $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date);
         $year = Carbon::now()->format('Y');
 
         // 1. 1.1.xxxx - 1.3.xxxx
@@ -394,8 +394,8 @@ class ReportController extends Controller
 
         if($request->start_date && $request->end_date){
             foreach($animalItems as $item){
-                $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-                $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+                $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('Y-m-d');
+                $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('Y-m-d');
                 $itemStartDate = Carbon::parse($item->dateRange->start_date);
                 $itemEndDate = Carbon::parse($item->dateRange->end_date);
                 
@@ -462,8 +462,8 @@ class ReportController extends Controller
         $finishData = $careEndType;
 
         // Export
-        $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('d.m.Y');
-        $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('d.m.Y');
+        $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('d.m.Y');
+        $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('d.m.Y');
         $name = 'zns-'.$startDate.'-'.$endDate;
 
         $kvartal = $this->kvartal($request);
@@ -548,8 +548,8 @@ class ReportController extends Controller
 
         if($animalItem){
             foreach ($animalItem as $item) {
-                $startDate = Carbon::createFromFormat('m/d/Y', $request->start_date)->format('Y-m-d');
-                $endDate = Carbon::createFromFormat('m/d/Y', $request->end_date)->format('Y-m-d');
+                $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('Y-m-d');
+                $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('Y-m-d');
                 $itemStartDate = Carbon::parse($item->dateRange->start_date);
                 $itemEndDate = Carbon::parse($item->dateRange->end_date);
 

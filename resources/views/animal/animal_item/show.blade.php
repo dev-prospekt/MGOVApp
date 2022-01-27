@@ -308,14 +308,14 @@
                               <div class="d-flex">
                                   <div class="input-group date datepicker" id="datePickerExample">
                                       <input type="text" name="full_care_start" class="form-control full_care_start"
-                                      value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
+                                      value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('d/m/Y') : null }}">
                                       <span class="input-group-addon">
                                           <i data-feather="calendar"></i>
                                       </span>
                                   </div>
                                   <div class="input-group date datepicker" id="datePickerExample">
                                       <input type="text" name="full_care_end" class="form-control full_care_end"
-                                      value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
+                                      value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('d/m/Y') : null }}">
                                       <span class="input-group-addon">
                                           <i data-feather="calendar"></i>
                                       </span>
@@ -338,14 +338,14 @@
                               <div class="d-flex">
                                   <div class="input-group date datepicker" id="datePickerExample">
                                       <input type="text" name="full_care_start" class="form-control full_care_start"
-                                      value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('m/d/Y') : null }}">
+                                      value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('d/m/Y') : null }}">
                                       <span class="input-group-addon">
                                           <i data-feather="calendar"></i>
                                       </span>
                                   </div>
                                   <div class="input-group date datepicker" id="datePickerExample">
                                       <input type="text" name="full_care_end" class="form-control full_care_end"
-                                      value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('m/d/Y') : null }}">
+                                      value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('d/m/Y') : null }}">
                                       <span class="input-group-addon">
                                           <i data-feather="calendar"></i>
                                       </span>
@@ -363,14 +363,14 @@
                   <div class="d-flex">
                       <div class="input-group date datepicker" id="datePickerExample">
                         <input type="text" name="hib_est_from" class="form-control hib_est_from" 
-                        value="{{ $date->hibern_start ? $date->hibern_start->format('m/d/Y') : null }}">
+                        value="{{ $date->hibern_start ? $date->hibern_start->format('d/m/Y') : null }}">
                         <span class="input-group-addon">
                             <i data-feather="calendar"></i>
                         </span>
                       </div>
                       <div class="input-group date datepicker" id="datePickerExample">
                         <input type="text" name="hib_est_to" class="form-control hib_est_to" 
-                        value="{{ $date->hibern_end ? $date->hibern_end->format('m/d/Y') : null }}">
+                        value="{{ $date->hibern_end ? $date->hibern_end->format('d/m/Y') : null }}">
                         <span class="input-group-addon">
                             <i data-feather="calendar"></i>
                         </span>
@@ -489,7 +489,7 @@
 
       if($('div#datePickerExample').length) {
           $('div#datePickerExample input').datepicker({
-              format: "mm/dd/yyyy",
+              format: "dd/mm/yyyy",
               todayHighlight: true,
               autoclose: true,
               orientation: "bottom",

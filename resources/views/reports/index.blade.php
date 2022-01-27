@@ -40,7 +40,7 @@
                                     <div class="form-group">
                                         <label>Red</label>
                                         <select name="animal_order" class="js-example-basic-single w-100">
-                                            <option value="">------</option>
+                                            <option value="">Svi</option>
                                             @foreach ($animalOrder as $animal_order)
                                                 <option value="{{ $animal_order->id }}">{{ $animal_order->order_name }}</option>
                                             @endforeach
@@ -51,7 +51,7 @@
                                     <div class="form-group">
                                         <label>Razred</label>
                                         <select name="animal_system" class="js-example-basic-single w-100">
-                                            <option value="">------</option>
+                                            <option value="">Svi</option>
                                             @foreach ($animalSystemCat as $animal_system)
                                                 <option value="{{ $animal_system->id }}">{{ $animal_system->latin_name }}</option>
                                             @endforeach
@@ -64,7 +64,7 @@
                                     <div class="form-group">
                                         <label>Porodica</label>
                                         <select name="animal_category" class="js-example-basic-single w-100">
-                                            <option value="">------</option>
+                                            <option value="">Svi</option>
                                             @foreach ($animalCategory as $animal_category)
                                                 <option value="{{ $animal_category->id }}">{{ $animal_category->latin_name }}</option>
                                             @endforeach
@@ -247,7 +247,7 @@
 
             if($('div#datePickerExample').length) {
                 $('div#datePickerExample').datepicker({
-                    format: "mm/dd/yyyy",
+                    format: "dd/mm/yyyy",
                     todayHighlight: true,
                     autoclose: true,
                     orientation: "bottom",
@@ -397,7 +397,7 @@
             {
                 if($('div#datePickerExample').length) {
                     $('div#datePickerExample').datepicker({
-                        format: "mm/dd/yyyy",
+                        format: "dd/mm/yyyy",
                         todayHighlight: true,
                         autoclose: true,
                         language: 'hr'

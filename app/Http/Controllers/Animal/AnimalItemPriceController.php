@@ -34,12 +34,12 @@ class AnimalItemPriceController extends Controller
             // Date Range
             if (!empty($request->end_date)) {
                 $animalItem->dateRange()->update([
-                    'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date)
+                    'end_date' => Carbon::createFromFormat('d/m/Y', $request->end_date)
                 ]);
 
                 // Standard
                 $from = Carbon::parse($animalItem->dateRange->start_date);
-                $to = Carbon::createFromFormat('m/d/Y', $request->end_date);
+                $to = Carbon::createFromFormat('d/m/Y', $request->end_date);
                 $diff_in_days = $to->diffInDays($from);
 
                 // Standardna cijena
@@ -55,7 +55,7 @@ class AnimalItemPriceController extends Controller
                     $animalItem->dateSolitaryGroups()
                         ->where('end_date', '=', null)
                         ->update([
-                            'end_date' => Carbon::createFromFormat('m/d/Y', $request->end_date),
+                            'end_date' => Carbon::createFromFormat('d/m/Y', $request->end_date),
                         ]);
                 }
 
@@ -75,7 +75,7 @@ class AnimalItemPriceController extends Controller
                     $updateDate = $animalItem->dateSolitaryGroups()
                         ->where('end_date', '=', null)
                         ->update([
-                            'end_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
+                            'end_date' => Carbon::createFromFormat('d/m/Y', $request->solitary_or_group_end),
                         ]);
 
                     if ($updateDate) {
@@ -83,7 +83,7 @@ class AnimalItemPriceController extends Controller
                         if (!empty($request->solitary_or_group_type)) {
                             $animalItem->dateSolitaryGroups()
                                 ->create([
-                                    'start_date' => Carbon::createFromFormat('m/d/Y', $request->solitary_or_group_end),
+                                    'start_date' => Carbon::createFromFormat('d/m/Y', $request->solitary_or_group_end),
                                     'solitary_or_group' => $request->solitary_or_group_type,
                                 ]);
                         }
@@ -113,7 +113,7 @@ class AnimalItemPriceController extends Controller
                 // Spremamo početak hibernacije
                 if (!empty($request->hib_est_from) && empty($request->end_date)) {
                     $animalItem->dateRange()->update([
-                        'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('m/d/Y', $request->hib_est_from) : null,
+                        'hibern_start' => (isset($request->hib_est_from)) ? Carbon::createFromFormat('d/m/Y', $request->hib_est_from) : null,
                     ]);
                 }
 
@@ -121,7 +121,7 @@ class AnimalItemPriceController extends Controller
                 if (empty($animalItem->dateRange->hibern_end)) {
                     if (!empty($request->end_date) && !empty($animalItem->dateRange->hibern_start)) {
                         $updateAnimalItemHibern = $animalItem->dateRange()->update([
-                            'hibern_end' => (isset($request->end_date)) ? Carbon::createFromFormat('m/d/Y', $request->end_date) : null
+                            'hibern_end' => (isset($request->end_date)) ? Carbon::createFromFormat('d/m/Y', $request->end_date) : null
                         ]);
                     }
                 }
@@ -129,8 +129,8 @@ class AnimalItemPriceController extends Controller
                 // update hibernacije - spremamo kraj hibernacije
                 if (!empty($request->hib_est_to)) {
                     $animalItem->dateRange()->update([
-                        'hibern_start' => Carbon::createFromFormat('m/d/Y', $request->hib_est_from),
-                        'hibern_end' => Carbon::createFromFormat('m/d/Y', $request->hib_est_to),
+                        'hibern_start' => Carbon::createFromFormat('d/m/Y', $request->hib_est_from),
+                        'hibern_end' => Carbon::createFromFormat('d/m/Y', $request->hib_est_to),
                     ]);
                 }
 
@@ -152,7 +152,7 @@ class AnimalItemPriceController extends Controller
                         }
                         else {
                             $hib_from = Carbon::parse($animalItem->dateRange->hibern_start);
-                            $hib_to = Carbon::createFromFormat('m/d/Y', $request->end_date);
+                            $hib_to = Carbon::createFromFormat('d/m/Y', $request->end_date);
                             $hib_diff_days = $hib_to->diffInDays($hib_from);
     
                             $hib_day = ((int)$diff_in_days - (int)$hib_diff_days);
@@ -169,8 +169,8 @@ class AnimalItemPriceController extends Controller
             $startDateFull = $animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first();
             // Proširena skrb
             if (!empty($request->full_care_start)) {
-                $full_care_from = Carbon::createFromFormat('m/d/Y', $request->full_care_start);
-                $full_care_to = (isset($request->full_care_end)) ? Carbon::createFromFormat('m/d/Y', $request->full_care_end) : '';
+                $full_care_from = Carbon::createFromFormat('d/m/Y', $request->full_care_start);
+                $full_care_to = (isset($request->full_care_end)) ? Carbon::createFromFormat('d/m/Y', $request->full_care_end) : '';
 
                 if (!empty($full_care_from) && empty($full_care_to)) {
                     if (!empty($animalItem->dateFullCare->first())) {
@@ -231,7 +231,7 @@ class AnimalItemPriceController extends Controller
             } 
             elseif (!empty($startDateFull->start_date) && !empty($request->end_date)) {
                 $full_care_from = Carbon::parse($startDateFull->start_date);
-                $full_care_to = (isset($request->end_date)) ? Carbon::createFromFormat('m/d/Y', $request->end_date) : '';
+                $full_care_to = (isset($request->end_date)) ? Carbon::createFromFormat('d/m/Y', $request->end_date) : '';
                 $full_care_diff_in_days = $full_care_to->diffInDays($full_care_from);
 
                 $fullCaretotaldays = 0;

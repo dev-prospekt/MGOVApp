@@ -108,7 +108,7 @@ class ShelterController extends Controller
     {
         $shelter = Shelter::create($request->all());
 
-        $shelter->register_date = Carbon::createFromFormat('m/d/Y', $request->register_date);
+        $shelter->register_date = Carbon::createFromFormat('d/m/Y', $request->register_date);
         $shelter->save();
 
         $shelter->shelterTypes()->attach($request->shelter_type_id, [
@@ -241,7 +241,7 @@ class ShelterController extends Controller
         $shelter->oib = $request->oib;
         $shelter->place_zip = $request->place_zip;
         $shelter->bank_name = $request->bank_name;
-        $shelter->register_date =  Carbon::createFromFormat('m/d/Y', $request->register_date);
+        $shelter->register_date =  Carbon::createFromFormat('d/m/Y', $request->register_date);
         $shelter->telephone = $request->telephone;
         $shelter->mobile = $request->mobile;
         $shelter->fax = $request->fax;

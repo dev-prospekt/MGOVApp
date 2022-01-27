@@ -157,9 +157,9 @@ class AnimalShelterCreateController extends Controller
         if (!empty($request->start_date)) {
             $date_range = new DateRange;
             $date_range->animal_item_id = $animalItem->id;
-            $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date);
+            $date_range->start_date = Carbon::createFromFormat('d/m/Y', $request->start_date);
             if ($request->hib_est == 'da') {
-                $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start);
+                $date_range->hibern_start = Carbon::createFromFormat('d/m/Y', $request->hibern_start);
             }
             $date_range->save();
         }
@@ -167,7 +167,7 @@ class AnimalShelterCreateController extends Controller
         // Solitary/Group
         $animalItem->dateSolitaryGroups()->create([
             'animal_item_id' => $animalItem->id,
-            'start_date' => Carbon::createFromFormat('m/d/Y', $request->start_date),
+            'start_date' => Carbon::createFromFormat('d/m/Y', $request->start_date),
             'solitary_or_group' => $animalItem->solitary_or_group,
         ]);
 
@@ -250,7 +250,7 @@ class AnimalShelterCreateController extends Controller
         if (!empty($request->start_date)) {
             $date_range = new DateRange;
             $date_range->animal_item_id = $animalItem->id;
-            $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date);
+            $date_range->start_date = Carbon::createFromFormat('d/m/Y', $request->start_date);
             $date_range->save();
         }
 
@@ -258,7 +258,7 @@ class AnimalShelterCreateController extends Controller
         // if (!empty($animalItem->solitary_or_group)) {
         //     $animalItem->dateSolitaryGroups()->create([
         //         'animal_item_id' => $animalItem->id,
-        //         'start_date' => Carbon::createFromFormat('m/d/Y', $request->start_date),
+        //         'start_date' => Carbon::createFromFormat('d/m/Y', $request->start_date),
         //         'solitary_or_group' => $animalItem->solitary_or_group,
         //     ]);
         // }
@@ -318,7 +318,7 @@ class AnimalShelterCreateController extends Controller
 
         $animalItem->place_seized_select = $request->place_seized_select;
         $animalItem->place_seized = $request->place_seized;
-        $animalItem->date_seized_animal = Carbon::createFromFormat('m/d/Y', $request->date_seized_animal);
+        $animalItem->date_seized_animal = Carbon::createFromFormat('d/m/Y', $request->date_seized_animal);
         $animalItem->location_retrieval_animal = $request->location_retrieval_animal;
         $animalItem->animal_found_note = $request->animal_found_note;
         $animalItem->founder_id = $request->founder_id;
@@ -347,9 +347,9 @@ class AnimalShelterCreateController extends Controller
         if (!empty($request->start_date)) {
             $date_range = new DateRange;
             $date_range->animal_item_id = $animalItem->id;
-            $date_range->start_date = Carbon::createFromFormat('m/d/Y', $request->start_date);
+            $date_range->start_date = Carbon::createFromFormat('d/m/Y', $request->start_date);
             if ($request->hib_est == 'da') {
-                $date_range->hibern_start = Carbon::createFromFormat('m/d/Y', $request->hibern_start);
+                $date_range->hibern_start = Carbon::createFromFormat('d/m/Y', $request->hibern_start);
             }
             $date_range->save();
         }
@@ -358,7 +358,7 @@ class AnimalShelterCreateController extends Controller
         if (!empty($animalItem->solitary_or_group)) {
             $animalItem->dateSolitaryGroups()->create([
                 'animal_item_id' => $animalItem->id,
-                'start_date' => Carbon::createFromFormat('m/d/Y', $request->start_date),
+                'start_date' => Carbon::createFromFormat('d/m/Y', $request->start_date),
                 'solitary_or_group' => $animalItem->solitary_or_group,
             ]);
         }

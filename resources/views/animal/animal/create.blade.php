@@ -204,7 +204,7 @@
                     var date = new Date();
                     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
                     $('div#datePickerExample').datepicker({
-                        format: "mm/dd/yyyy",
+                        format: "dd/mm/yyyy",
                         todayHighlight: true,
                         autoclose: true,
                         language: 'hr'
@@ -216,7 +216,7 @@
                     var date = new Date();
                     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
                     $('div#datePickerHibernation').datepicker({
-                        format: "mm/dd/yyyy",
+                        format: "dd/mm/yyyy",
                         todayHighlight: true,
                         autoclose: true,
                         language: 'hr'
@@ -228,7 +228,7 @@
                     var date = new Date();
                     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
                     $('div#datePickerSeizedAnimal').datepicker({
-                        format: "mm/dd/yyyy",
+                        format: "dd/mm/yyyy",
                         todayHighlight: true,
                         autoclose: true,
                         language: 'hr'
@@ -240,7 +240,7 @@
                     var date = new Date();
                     var today = new Date(date.getFullYear(), date.getMonth(), date.getDate());
                     $('div#datePickerShleterStart').datepicker({
-                        format: "mm/dd/yyyy",
+                        format: "dd/mm/yyyy",
                         todayHighlight: true,
                         autoclose: true,
                         language: 'hr'
