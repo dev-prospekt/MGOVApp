@@ -475,56 +475,8 @@ class ReportController extends Controller
     {
         $data = [];
 
-        if($animalCat){
-            foreach ($animalCat->animals as $animals) {
-                foreach ($animals->animalItems as $animalItems) {
-                    if($shelter == 'all'){
-                        $data[] = $animalItems;
-                    }
-                    else {
-                        if($animalItems->shelter_id == $shelter->id){
-                            $data[] = $animalItems;
-                        }
-                    }   
-                }
-            }
-            return $data;
-        }
-        elseif($animalOrder){
-            foreach ($animalOrder->animalCategory as $animalcat) {
-                foreach ($animalcat->animals as $animal) {
-                    foreach ($animal->animalItems as $item) {
-                        if($shelter == 'all'){
-                            $data[] = $item;
-                        }
-                        else {
-                            if($item->shelter_id == $shelter->id){
-                                $data[] = $item;
-                            }
-                        }
-                    }
-                }
-            }
-            return $data;
-        }
-        elseif($animalSysteCat){
-            foreach ($animalSysteCat->animalCategory as $animalcat) {
-                foreach ($animalcat->animals as $animal) {
-                    foreach ($animal->animalItems as $item) {
-                        if($shelter == 'all'){
-                            $data[] = $item;
-                        }
-                        else {
-                            if($item->shelter_id == $shelter->id){
-                                $data[] = $item;
-                            }
-                        }
-                    }
-                }
-            }
-            return $data;
-        }
-        else {
+        if(empty($animalCat) && empty($animalOrder) && empty($animalSysteCat))
+        {
             if($shelter == 'all'){
                 $animalItems = AnimalItem::all();
                 foreach ($animalItems as $animalItem) {
@@ -539,8 +491,56 @@ class ReportController extends Controller
                     }
                 }
             }
-            return $data;
         }
+
+        if($animalCat){
+            foreach ($animalCat->animals as $animals) {
+                foreach ($animals->animalItems as $animalItems) {
+                    if($shelter == 'all'){
+                        $data[] = $animalItems;
+                    }
+                    else {
+                        if($animalItems->shelter_id == $shelter->id){
+                            $data[] = $animalItems;
+                        }
+                    }   
+                }
+            }
+        }
+        if($animalOrder){
+            foreach ($animalOrder->animalCategory as $animalcat) {
+                foreach ($animalcat->animals as $animal) {
+                    foreach ($animal->animalItems as $item) {
+                        if($shelter == 'all'){
+                            $data[] = $item;
+                        }
+                        else {
+                            if($item->shelter_id == $shelter->id){
+                                $data[] = $item;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if($animalSysteCat){
+            foreach ($animalSysteCat->animalCategory as $animalcat) {
+                foreach ($animalcat->animals as $animal) {
+                    foreach ($animal->animalItems as $item) {
+                        if($shelter == 'all'){
+                            $data[] = $item;
+                        }
+                        else {
+                            if($item->shelter_id == $shelter->id){
+                                $data[] = $item;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $data;
     }
 
     public function exportDateRangeAnimal($request, $animalItem, $shelter)

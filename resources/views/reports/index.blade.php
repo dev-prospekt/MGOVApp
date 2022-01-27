@@ -206,13 +206,12 @@
                                         <th>Datum</th>
                                         <th>Dokument</th>
                                         <th>Oporavilište</th>
-                                        <th>Kreirao</th>
+                                        <th>Dodao</th>
                                         <th>Status</th>
                                         <th>Akcije</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-
                                 </tbody>
                             </table>
                         </div>
