@@ -149,8 +149,12 @@
                 <div class="row">
                   <div class="col-md-4">    
                     <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv vrste: </label>
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hrvatski naziv: </label>
                       <p class="text-muted">{{ $animalItem->animal->name }}</p>
+                    </div>
+                    <div class="mt-2">
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Engleski naziv: </label>
+                      <p class="text-muted">{{ $animalItem->animal->english_name ?? '' }}</p>
                     </div>
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv:</label>

@@ -50,7 +50,6 @@
                                 <th>IME</th>
                                 <th>PREZIME</th>
                                 <th>KONTAKT</th>
-                                <th>SLUŽBA</th>
                                 <th>Akcija</th>
                             </tr>
                         </thead>
@@ -132,7 +131,6 @@
                 { data: 'name', name: 'name'},
                 { data: 'lastname', name: 'lastname'},
                 { data: 'contact', name: 'contact'},
-                { data: 'service', name: 'service'},
                 { data: 'action', name: 'action'},
             ],
             language: {

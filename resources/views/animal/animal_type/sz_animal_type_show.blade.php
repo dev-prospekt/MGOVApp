@@ -19,15 +19,20 @@
       <div class="card-body">
         <form action="{{ route('update_sz_animal_type', $animal) }}" method="POST">
           @csrf
-          @method('PATCH')       
+          @method('PATCH')  
             <div class="form-group">
-                <label>Naziv Jedinke</label>
+              <label>Latinski Naziv</label>
+              <input type="text" class="form-control" name="latin_name" value="{{ $animal->latin_name }}" required>
+            </div>       
+            <div class="form-group">
+                <label>Hrvatski naziv</label>
                 <input type="text" class="form-control" name="name" value="{{ $animal->name }}" required>
             </div>
             <div class="form-group">
-                <label>Latinski Naziv</label>
-                <input type="text" class="form-control" name="latin_name" value="{{ $animal->latin_name }}" required>
-            </div>  
+              <label>Engleski naziv</label>
+              <input type="text" class="form-control" name="english_name" value="{{ $animal->english_name }}" required>
+            </div>
+
             <div class="form-group">
                 <label>Oznaka Jedinke</label>
                 <select class="js-example-basic-multiple w-100" multiple="multiple" name="animal_code[]">

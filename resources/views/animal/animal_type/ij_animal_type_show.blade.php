@@ -21,13 +21,17 @@
           @method('PATCH')
                 
             <div class="form-group">
-                <label>Naziv Jedinke</label>
-                <input type="text" class="form-control" name="name" value="{{ $animal->name }}" required>
-            </div>
-            <div class="form-group">
                 <label>Latinski Naziv</label>
                 <input type="text" class="form-control" name="latin_name" value="{{ $animal->latin_name }}" required>
             </div>  
+            <div class="form-group">
+                <label>Hrvatski naziv</label>
+                <input type="text" class="form-control" name="name" value="{{ $animal->name }}" required>
+            </div>
+            <div class="form-group">
+              <label>Engleski naziv</label>
+              <input type="text" class="form-control" name="english_name" value="{{ $animal->english_name }}" required>
+            </div>
             <div class="form-group">
                 <label>Oznaka Jedinke</label>
                 <select class="js-example-basic-multiple w-100" multiple="multiple" name="animal_code[]">

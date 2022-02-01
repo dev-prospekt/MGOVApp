@@ -74,12 +74,11 @@
                     <thead>          
                       <tr>
                         <th>#</th>
-                        <th>Aktivne <br> jedinke</th>
-                        <th>Kraj skrbi</th>
-                        <th>Naziv</th>
-                        <th>Latinski <br> naziv</th>
+                        <th>Latinski naziv</th>
+                        <th>Hrvatski naziv</th>
                         <th>Tip jedinke</th>
                         <th>Šifra</th>
+                        <th>Broj jedinki</th>
                         <th></th>
                       </tr>
                     </thead>
@@ -221,12 +220,11 @@ $(function() {
       ajax: '{!! route('shelter.show', [$shelter->id]) !!}',
       columns: [
           { data: 'id', name: 'id'},
-          { data: 'animal_count_active', name: 'animal_count_active'},
-          { data: 'animal_count_inactive', name: 'animal_count_inactive'},
-          { data: 'name', name: 'name'},
           { data: 'latin_name', name: 'latin_name'},
+          { data: 'name', name: 'name'},
           { data: 'animal_type', name: 'animal_type'},
           { data: 'shelter_code', name: 'shelter_code'},
+          { data: 'animal_count', name: 'animal_count'},
           { data: 'action', name: 'action'},
       ],
       order: [[ 0, "desc" ]],

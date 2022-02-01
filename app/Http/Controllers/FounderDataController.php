@@ -159,6 +159,22 @@ class FounderDataController extends Controller
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
+    public function getFounder(Request $request)
+    {
+        $founders = FounderData::where('service', $request->id)->get();
+        $html = '';
+
+        $html .= '<option value="">----</option>'; 
+        
+        if(isset($founders)){
+            foreach ($founders as $founder) {
+                $html .= '<option value="' . $founder->id . '">' . $founder->name . '</option>';
+            }
+        }
+
+        return response()->json(['html' => $html]);
+    }
+
     public function createFounder(Request $request)
     {
         $validator = Validator::make(

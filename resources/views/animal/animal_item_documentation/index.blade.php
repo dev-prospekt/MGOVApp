@@ -236,29 +236,12 @@
               <div class="col-md-12 grid-margin">  
                 <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Nalaznik: </label>
-                  <p class="text-muted">{{ $animalItem->founder->name ?? ''}} - {{ $animalItem->founder->founderServices->name ?? '' }}</p>
+                  <p class="text-muted">{{ $animalItem->founderService->name ?? ''}}</p>
                 </div>
                 <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Napomena nalaznika: </label>
                   <p class="text-muted">{{ $animalItem->founder_note }}</p>
                 </div>
-                  <div class="mt-2">                  
-                    
-                    @if (!empty($animalItem->founder))
-                      @if (!empty($animalItem->founder->getMedia('founder_documents')->first()))  
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>             
-                      <div class="bordered-group mt-2">
-                        <div class="latest-photos d-flex">
-                          @foreach ($animalItem->founder->getMedia('founder_documents') as $media)                 
-                            <a href="{{ $media->getUrl() }}" data-lightbox='image-{{ $media->id }}'>
-                              {{ $media->name }}
-                            </a>                    
-                          @endforeach
-                        </div>
-                      </div>               
-                      @endif
-                    @endif
-                  </div>
               </div>                   
             </div>  
           </div>

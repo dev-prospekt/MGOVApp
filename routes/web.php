@@ -150,6 +150,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('shelters.founders', FounderDataController::class);
     Route::get('shelters/{shelter}/founder_modal', 'FounderDataController@modalCreateFounder')->name('founder.modal');
     Route::post('/founder_create', 'FounderDataController@createFounder');
+    Route::post('/reload_founder', 'FounderDataController@getFounder')->name('reload_founder');
     Route::get('founder/fileDelete/{file}', 'FounderDataController@fileDelete')->name('founder.fileDelete');
 
     Route::resource('founder-service', FounderServiceController::class);

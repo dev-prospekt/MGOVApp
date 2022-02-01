@@ -19,7 +19,7 @@ class CreateAnimalsTable extends Migration
             $table->foreignId('animal_size_id')->nullable();
             $table->string('name')->nullable();
             $table->string('latin_name');
-            $table->string('croatian_name');
+            $table->string('english_name')->nullable();
 
             $table->softDeletes();
 

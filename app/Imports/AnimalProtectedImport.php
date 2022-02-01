@@ -32,6 +32,7 @@ class AnimalProtectedImport implements OnEachRow, WithHeadingRow
       'animal_size_id' => $animalSizeId,
       'name' => $row['name'],
       'latin_name' => $row['latin_name'],
+      'english_name' => $row['english_name'],
     ]);
 
     $animal->animalType()->sync(1);

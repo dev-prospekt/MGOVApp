@@ -12,13 +12,6 @@
 <div class="d-flex align-items-center justify-content-between">
     <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5>
     <div>
-        @role('Administrator')
-            <a type="button" class="createFounder btn btn-sm btn-primary btn-icon-text" href="javascript:void()">
-                Dodaj
-                <i class="btn-icon-append" data-feather="user"></i>
-            </a>
-        @endrole
-
         <a type="button" class="btn btn-warning btn-sm btn-icon-text" href="/shelter/{{ $shelter->id }}">
             Povratak na popis
             <i class="btn-icon-append" data-feather="clipboard"></i>
@@ -112,55 +105,6 @@
                 });
             });
 
-            // Create founder
-            $(".createFounder").click(function(e){
-                e.preventDefault();
-
-                $.ajax({
-                    url: "{{ route('founder.modal', [$shelter]) }}",
-                    method: 'GET',
-                    success: function(result) {
-                        $(".modal").show();
-                        $(".modal").html(result['html']);
-                        founderScript();
-
-                        $('.modal').find("#founder-form").on('submit', function(e){
-                            e.preventDefault();
-
-                            var formData = this;
-
-                            $.ajax({
-                                url: "/founder_create",
-                                method: 'POST',
-                                data: new FormData(formData),
-                                processData: false,
-                                dataType: 'json',
-                                contentType: false,
-                                success: function(result) {
-                                    if(result.errors) {
-                                        $('.alert-danger').html('');
-                                        $.each(result.errors, function(key, value) {
-                                            $('.alert-danger').show();
-                                            $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
-                                        });
-                                    } 
-                                    else {
-                                        $('.alert-danger').hide();
-                                        $('.alert-success').show();
-
-                                        setInterval(function(){
-                                            $('.alert-success').hide();
-                                            $('.modal').modal('hide');
-                                            location.reload();
-                                        }, 1000);
-                                    }
-                                }
-                            });
-                        });
-                    }
-                });
-            });
-
             // Close Modal
             $(".modal").on('click', '.modal-close', function(){
                 $(".modal").hide();
@@ -199,6 +143,82 @@
                 if ($(".js-example-basic-single").length) {
                     $(".js-example-basic-single").select2();
                 }
+
+                $("#founder_service").on('change', function(){
+
+                    var id = $(this).val();
+                    url = $(this).children(":selected").attr('data-href');
+
+                    console.log(url)
+
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: url,
+                        method: 'POST',
+                        data: {
+                            'id': id,
+                        },
+                        success: function(data) {
+                            $('#brought_animal').html(data.html);
+                        }
+                    });
+                });
+
+                // Create founder
+                $(".createFounder").click(function(e){
+                    e.preventDefault();
+
+                    $.ajax({
+                        url: "{{ route('founder.modal', [$shelter]) }}",
+                        method: 'GET',
+                        success: function(result) {
+                            $(".modal").show();
+                            $(".modal").html(result['html']);
+                            founderScript();
+
+                            $('.modal').find("#founder-form").on('submit', function(e){
+                                e.preventDefault();
+
+                                var formData = this;
+
+                                $.ajax({
+                                    url: "/founder_create",
+                                    method: 'POST',
+                                    data: new FormData(formData),
+                                    processData: false,
+                                    dataType: 'json',
+                                    contentType: false,
+                                    success: function(result) {
+                                        if(result.errors) {
+                                            $('.alert-danger').html('');
+                                            $.each(result.errors, function(key, value) {
+                                                $('.alert-danger').show();
+                                                $('.alert-danger').append('<strong><li>'+value+'</li></strong>');
+                                            });
+                                        } 
+                                        else {
+                                            $('.alert-danger').hide();
+                                            $('.alert-success').show();
+
+                                            var refresh = setInterval(function(){
+                                                $('.alert-success').hide();
+                                                $('.modal').hide();
+                                                //location.reload();
+                                                $('.modal').find('#brought_animal').selectmenu('refresh');
+                                                
+                                                clearInterval(refresh);
+                                            }, 1000);
+                                        }
+                                    }
+                                });
+                            });
+                        }
+                    });
+                });
 
                 if($('div#datePickerExample').length) {
                     var date = new Date();

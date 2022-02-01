@@ -35,8 +35,8 @@ class AnimalInvaziveTypeController extends Controller
         ->addColumn('animal_category', function (Animal $animal) {
           return $animal->name ?? '';
         })
-        ->addColumn('croatian_name', function (Animal $animal) {
-          return $animal->croatian_name ?? '';
+        ->addColumn('english_name', function (Animal $animal) {
+          return $animal->english_name ?? '';
         })
         ->addColumn('razred', function (Animal $animal) {
             return $animal->animalCategory->animalSystemCategory->latin_name ?? '';
@@ -106,6 +106,7 @@ class AnimalInvaziveTypeController extends Controller
     $szAnimalSystemcat = AnimalSystemCategory::findOrFail($request->animal_system_category);
 
     $szAnimal->name = $request->name;
+    $szAnimal->english_name = $request->english_name;
     $szAnimal->latin_name = $request->latin_name;
 
     $szAnimal->animalCategory()->associate($szAnimalCat);
@@ -147,6 +148,7 @@ class AnimalInvaziveTypeController extends Controller
 
     $animal = Animal::find($id);
     $animal->name = $request->name;
+    $animal->english_name = $request->english_name;
     $animal->latin_name = $request->latin_name;
     $animal->animalCategory()->associate($category); // animal belongs to animalCategory
     $systemCategory->animalCategory()->save($category); // systemCat hasMany animalCats

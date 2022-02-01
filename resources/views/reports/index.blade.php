@@ -71,15 +71,6 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>Od</label>
-                                        <div class="input-group date datepicker" id="datePickerExample">
-                                            <input type="text" name="start_date" class="form-control">
-                                            <span class="input-group-addon">
-                                            <i data-feather="calendar"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <label>Razlog prestanka skrbi</label>
                                         <select name="care_end_type">
                                             <option value="">----</option>
@@ -88,8 +79,27 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Od</label>
+                                        <div class="input-group date datepicker" id="datePickerExample">
+                                            <input type="text" name="start_date" class="form-control">
+                                            <span class="input-group-addon">
+                                            <i data-feather="calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col">
+                                    <div class="form-group">
+                                        <label>Vrsta</label>
+                                        <select name="vrsta" class="js-example-basic-single w-100">
+                                            <option value="">Filter je u izradi</option>
+                                            {{-- <option value="">Svi</option>
+                                            @foreach ($animals as $animal)
+                                                <option value="{{ $animal->id }}">{{ $animal->latin_name }}</option>
+                                            @endforeach --}}
+                                        </select>
+                                    </div>
                                     <div class="form-group">
                                         <label>Oporavilišta</label>
                                         <select name="shelter" class="js-example-basic-single w-100">
@@ -121,6 +131,7 @@
                             </div>
                         </form>
                     </div>
+
                     <div class="col">
                         <div class="mb-3 text-center">
                             <h4>ZNS-Zahtjev za nadoknadu sredstava</h4>

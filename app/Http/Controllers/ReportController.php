@@ -255,6 +255,7 @@ class ReportController extends Controller
             'totalPrice'
         ));
 
+        $nameZNSReport = '';
         // Save PDF
         // Storage::put('public/files/pdf'.$id.'.pdf', $pdf->output());
         return $pdf->stream('reports.pdf');
@@ -438,6 +439,8 @@ class ReportController extends Controller
 
     //////////////////////////////////////
     //////////////////////////////////////
+    //////////////////////////////////////
+    //////////////////////////////////////
     // EXPORT TO EXCEL
 
     public function exportToExcel(Request $request)
@@ -471,7 +474,7 @@ class ReportController extends Controller
         return (new ReportsExport($finishData, $kvartal))->download($name.'.xlsx');
     }
 
-    public function exportGetAnimal($request, $animalCat, $animalOrder = null, $animalSysteCat = null, $shelter)
+    public function exportGetAnimal($request, $animalCat = null, $animalOrder = null, $animalSysteCat = null, $shelter)
     {
         $data = [];
 

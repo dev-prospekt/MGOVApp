@@ -59,7 +59,8 @@
                             <tr>
                                 <th>#</th>
                                 <th>Latinski naziv</th>
-                                <th>Naziv</th>
+                                <th>Hrvatski naziv</th>
+                                <th>Engleski naziv</th>
                                 <th>Razred</th>                                  
                                 <th>Red</th>                                  
                                 <th>Porodica</th>
@@ -97,6 +98,7 @@
                     { data: 'id', name: 'id'},
                     { data: 'latin_name', name: 'latin_name'},
                     { data: 'name', name: 'name'},
+                    { data: 'english_name', name: 'english_name'},
                     { data: 'razred', name: 'razred'},
                     { data: 'red', name: 'red'},
                     { data: 'porodica', name: 'porodica'},

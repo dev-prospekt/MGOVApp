@@ -375,6 +375,7 @@ class AnimalShelterCreateController extends Controller
         $shelterType = ShelterType::find($type_id);
         $stateType = AnimalItemDocumentationStateType::all();
         $founder = FounderData::all();
+        $founderServices = FounderService::all();
         $brought = FounderData::whereNotIn('service', [7])->get();
 
         // kod zapljena samo službena osoba
@@ -399,6 +400,7 @@ class AnimalShelterCreateController extends Controller
         $returnHTML = view("animal.animal.$template", [
             'animal' => $animal,
             'founders' => $founder,
+            'founderServices' => $founderServices,
             'brought' => $brought,
             'markTypes' => $markTypes,
             'shelter' => $shelter,

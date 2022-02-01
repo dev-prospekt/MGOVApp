@@ -85,15 +85,8 @@
                             <label>Nalaznik</label>
                             <select name="founder_id" class="form-control">
                                 <option value="">----</option>
-                                @foreach ($founders as $founder)
-                                    <option value="{{$founder->id}}">
-                                        {{$founder->name}} {{$founder->lastname}} 
-                                        @if($founder->founderServices->name != 10)
-                                            ({{$founder->founderServices->name}})
-                                        @else
-                                            ({{$founder->others}})
-                                        @endif
-                                    </option>
+                                @foreach ($founderServices as $service)
+                                    <option value="{{ $service->id }}">{{ $service->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -127,19 +120,25 @@
 
                     <div class="bordered-group mt-2">
                         <div class="form-group">
+                            <div class="d-flex justify-content-end" style="margin-bottom: -20px;">
+                                <a type="button" class="createFounder btn btn-sm btn-primary btn-icon-text" href="javascript:void()">
+                                    Dodaj
+                                </a>
+                            </div>
                             <label>Tko je donio</label>
-                            <select name="brought_animal" class="form-control" required>
+                            <select class="form-control" id="founder_service" required>
                                 <option value="">----</option>
-                                @foreach ($brought as $item)
-                                    <option value="{{$item->id}}">
-                                        {{$item->name}} {{$item->lastname}} 
-                                        @if($item->founderServices->name != 10)
-                                            ({{$item->founderServices->name}})
-                                        @else
-                                            ({{$item->others}})
-                                        @endif
+                                @foreach ($founderServices as $item)
+                                    <option value="{{$item->id}}" data-href={{ route('reload_founder') }}>
+                                        {{$item->name}}
                                     </option>
                                 @endforeach
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <select name="brought_animal" class="form-control" id="brought_animal" required>
+                                
                             </select>
                         </div>
 

@@ -135,17 +135,11 @@ class ShelterController extends Controller
         if ($request->ajax()) {
             return Datatables::of($animal_groups)
                 ->addIndexColumn()
-                ->addColumn('animal_count_active', function ($animal_groups) {
-                    return $animal_groups->animalItemActive->count();
-                })
-                ->addColumn('animal_count_inactive', function ($animal_groups) {
-                    return $animal_groups->animalItemInactive->count();
+                ->addColumn('latin_name', function ($animal_groups) {
+                    return $animal_groups->animal->latin_name;
                 })
                 ->addColumn('name', function ($animal_groups) {
                     return $animal_groups->animal->name;
-                })
-                ->addColumn('latin_name', function ($animal_groups) {
-                    return $animal_groups->animal->latin_name;
                 })
                 ->addColumn('animal_type', function ($animal_groups) {
                     return $animal_groups->animal->animalType->map(function ($type) {
@@ -167,6 +161,9 @@ class ShelterController extends Controller
                         ' . $type->type_code . '
                        </button>';
                     })->implode('<br>');
+                })
+                ->addColumn('animal_count', function($animal_groups){
+                    return count($animal_groups->allAnimalItems);
                 })
                 ->addColumn('action', function ($animal_groups) {
                     $deleteURL = route('shelters.animal_groups.destroy', [$animal_groups->pivot->shelter_id, $animal_groups->id]);

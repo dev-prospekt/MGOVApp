@@ -24,20 +24,29 @@
             </div>
               <form action="{{ route('store_ij_animal_type') }}" method="POST">
                 @csrf
+
                 <div class="form-group">
-                    <label>Naziv Jedinke</label>
+                  <label>Latinski Naziv</label>
+                  <input type="text" class="form-control" name="latin_name">
+                  @error('latin_name')
+                      <div class="text-danger">{{$errors->first('latin_name') }} </div>
+                  @enderror
+                </div>
+                <div class="form-group">
+                    <label>Hrvatski naziv</label>
                     <input type="text" class="form-control" name="name">
                     @error('name')
                         <div class="text-danger">{{$errors->first('name') }} </div>
                     @enderror
                 </div>
-                  <div class="form-group">
-                    <label>Latinski Naziv</label>
-                    <input type="text" class="form-control" name="latin_name">
-                    @error('latin_name')
-                        <div class="text-danger">{{$errors->first('latin_name') }} </div>
-                    @enderror
-                </div>  
+                <div class="form-group">
+                  <label>Engleski naziv</label>
+                  <input type="text" class="form-control" name="english_name">
+                  @error('english_name')
+                      <div class="text-danger">{{$errors->first('english_name') }} </div>
+                  @enderror
+                </div>
+
                 <div class="form-group">
                     <label>Oznaka Jedinke</label>
                     <select class="js-example-basic-multiple w-100" multiple="multiple" name="animal_code[]">

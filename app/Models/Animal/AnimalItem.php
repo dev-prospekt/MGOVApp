@@ -7,6 +7,7 @@ use App\Models\DateRange;
 use App\Models\FounderData;
 use App\Models\DateFullCare;
 
+use App\Models\FounderService;
 use App\Models\Shelter\Shelter;
 use App\Models\DateSolitaryGroup;
 use Spatie\MediaLibrary\HasMedia;
@@ -14,8 +15,8 @@ use App\Models\Animal\AnimalGroup;
 use App\Models\ShelterAnimalPrice;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AnimalItem extends Model implements HasMedia
 {
@@ -88,6 +89,11 @@ class AnimalItem extends Model implements HasMedia
     public function founder()
     {
         return $this->belongsTo(FounderData::class);
+    }
+
+    public function founderService()
+    {
+        return $this->belongsTo(FounderService::class, 'founder_id');
     }
 
     public function broughtAnimal()
