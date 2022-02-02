@@ -76,6 +76,7 @@
                         <th>#</th>
                         <th>Latinski naziv</th>
                         <th>Hrvatski naziv</th>
+                        <th>Engleski naziv</th>
                         <th>Tip jedinke</th>
                         <th>Šifra</th>
                         <th>Broj jedinki</th>
@@ -222,6 +223,7 @@ $(function() {
           { data: 'id', name: 'id'},
           { data: 'latin_name', name: 'latin_name'},
           { data: 'name', name: 'name'},
+          { data: 'english_name', name: 'english_name'},
           { data: 'animal_type', name: 'animal_type'},
           { data: 'shelter_code', name: 'shelter_code'},
           { data: 'animal_count', name: 'animal_count'},

@@ -141,6 +141,9 @@ class ShelterController extends Controller
                 ->addColumn('name', function ($animal_groups) {
                     return $animal_groups->animal->name;
                 })
+                ->addColumn('english_name', function ($animal_groups) {
+                    return $animal_groups->animal->english_name;
+                })
                 ->addColumn('animal_type', function ($animal_groups) {
                     return $animal_groups->animal->animalType->map(function ($type) {
                         switch ($type->type_code) {
