@@ -93,9 +93,7 @@
                                     <div class="form-group">
                                         <label>Vrsta</label>
                                         <select name="species" class="js-example-basic-single w-100">
-                                            @if(auth()->user()->hasRole('Administrator'))
-                                                <option value="all">Svi</option>
-                                            @endif
+                                            <option value="">Svi</option>
                                             @foreach ($animals as $animal)
                                                 <option value="{{ $animal->id }}">{{ $animal->latin_name }}</option>
                                             @endforeach
