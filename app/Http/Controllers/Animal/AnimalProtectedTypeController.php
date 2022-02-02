@@ -192,7 +192,6 @@ class AnimalProtectedTypeController extends Controller
         $systemCategory->animalCategory()->save($category); // systemCat hasMany animalCats
 
         $animal->animalCodes()->sync($request->animal_code); // manyToMany
-
         $animal->save();
 
         return redirect('sz_animal_type?type='.$systemCategory->id)->with('msg', 'Jedinka je uspješno izmjenjena.');
