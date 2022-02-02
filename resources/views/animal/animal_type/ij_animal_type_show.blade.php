@@ -30,7 +30,7 @@
             </div>
             <div class="form-group">
               <label>Engleski naziv</label>
-              <input type="text" class="form-control" name="english_name" value="{{ $animal->english_name }}" required>
+              <input type="text" class="form-control" name="english_name" value="{{ $animal->english_name }}">
             </div>
             <div class="form-group">
                 <label>Oznaka Jedinke</label>

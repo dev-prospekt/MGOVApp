@@ -195,7 +195,7 @@ class AnimalProtectedTypeController extends Controller
 
         $animal->save();
 
-        return redirect()->route('sz_animal_type')->with('msg', 'Jedinka je uspješno izmjenjena.');
+        return redirect('sz_animal_type?type='.$systemCategory->id)->with('msg', 'Jedinka je uspješno izmjenjena.');
     }
 
     public function deleteSZAnimalType($id)
