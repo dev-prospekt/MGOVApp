@@ -23,15 +23,19 @@ class FounderDataController extends Controller
 
         if ($request->ajax()) {
             return Datatables::of($founders)
-                ->addColumn('service', function($founder){
-                    return $founder->founderServices->name;
-                })
+                // ->addColumn('service', function($founder){
+                //     return $founder->founderServices->name;
+                // })
                 ->addColumn('action', function ($founder) {
                     $deleteUrl = route('shelters.founders.destroy', [$founder->shelter->id, $founder->id]);
                     $editUrl = route('shelters.founders.edit', [$founder->shelter->id, $founder->id]);
+                    $infoUrl = route('shelters.founders.show', [$founder->shelter->id, $founder->id]);
 
                     return '
                     <div class="d-flex align-items-center">
+                        <a href="javascript:void(0)" data-href="'.$infoUrl.'" class="info btn btn-xs btn-primary mr-2">
+                            Info
+                        </a>
                         <a href="' . $editUrl . '" class="edit btn btn-xs btn-info mr-2">
                             Uredi
                         </a>
@@ -128,6 +132,15 @@ class FounderDataController extends Controller
         }
 
         return redirect()->back()->with('msg_update', 'Uspješno ažurirano.');
+    }
+
+    public function show(Shelter $shelter, FounderData $founder)
+    {
+        $returnHTML = view('founder.modalInfo', [
+            'founder' => $founder,
+        ])->render();
+
+        return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
     public function destroy(Shelter $shelter, FounderData $founder)
