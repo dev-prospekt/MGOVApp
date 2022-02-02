@@ -44,7 +44,6 @@ class ReportController extends Controller
             ->addColumn('name', function ($reports) {
                 $file = $reports->getMedia('report_file')->first();
                 $name = $file->name;
-                
                 return $name;
             })
             ->addColumn('date', function ($reports) {
