@@ -93,7 +93,6 @@
                                     <div class="form-group">
                                         <label>Vrsta</label>
                                         <select name="species" class="js-example-basic-single w-100">
-                                            <option value="">----</option>
                                             @if(auth()->user()->hasRole('Administrator'))
                                                 <option value="all">Svi</option>
                                             @endif

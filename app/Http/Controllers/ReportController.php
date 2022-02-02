@@ -483,7 +483,7 @@ class ReportController extends Controller
         if(empty($species) && empty($animalCat) && empty($animalOrder) && empty($animalSysteCat))
         {
             if($shelter == 'all'){
-                $animalItems = AnimalItem::all();
+                $animalItems = AnimalItem::where('in_shelter', 1)->get();
                 foreach ($animalItems as $animalItem) {
                     $data = $animalItems;
                 }
@@ -500,12 +500,14 @@ class ReportController extends Controller
         
         if($species){
             foreach ($species->animalItems as $item) {
-                if($shelter == 'all'){
-                    $data[] = $item;
-                }
-                else {
-                    if($item->shelter_id == $shelter->id){
+                if($item->in_shelter == 1){
+                    if($shelter == 'all'){
                         $data[] = $item;
+                    }
+                    else {
+                        if($item->shelter_id == $shelter->id){
+                            $data[] = $item;
+                        }
                     }
                 }
             }
@@ -513,14 +515,16 @@ class ReportController extends Controller
         if($animalCat){
             foreach ($animalCat->animals as $animals) {
                 foreach ($animals->animalItems as $animalItems) {
-                    if($shelter == 'all'){
-                        $data[] = $animalItems;
-                    }
-                    else {
-                        if($animalItems->shelter_id == $shelter->id){
+                    if($animalItems->in_shelter == 1){
+                        if($shelter == 'all'){
                             $data[] = $animalItems;
                         }
-                    }   
+                        else {
+                            if($animalItems->shelter_id == $shelter->id){
+                                $data[] = $animalItems;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -528,12 +532,14 @@ class ReportController extends Controller
             foreach ($animalOrder->animalCategory as $animalcat) {
                 foreach ($animalcat->animals as $animal) {
                     foreach ($animal->animalItems as $item) {
-                        if($shelter == 'all'){
-                            $data[] = $item;
-                        }
-                        else {
-                            if($item->shelter_id == $shelter->id){
+                        if($item->in_shelter == 1){
+                            if($shelter == 'all'){
                                 $data[] = $item;
+                            }
+                            else {
+                                if($item->shelter_id == $shelter->id){
+                                    $data[] = $item;
+                                }
                             }
                         }
                     }
@@ -544,12 +550,14 @@ class ReportController extends Controller
             foreach ($animalSysteCat->animalCategory as $animalcat) {
                 foreach ($animalcat->animals as $animal) {
                     foreach ($animal->animalItems as $item) {
-                        if($shelter == 'all'){
-                            $data[] = $item;
-                        }
-                        else {
-                            if($item->shelter_id == $shelter->id){
+                        if($item->in_shelter == 1){
+                            if($shelter == 'all'){
                                 $data[] = $item;
+                            }
+                            else {
+                                if($item->shelter_id == $shelter->id){
+                                    $data[] = $item;
+                                }
                             }
                         }
                     }
