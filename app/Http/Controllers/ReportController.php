@@ -449,13 +449,15 @@ class ReportController extends Controller
         $animalCat = AnimalCategory::find($request->animal_category);
         $animalOrder = AnimalOrder::find($request->animal_order);
         $animalSysteCat = AnimalSystemCategory::find($request->animal_system);
+        $animalSysteCat = AnimalSystemCategory::find($request->animal_system);
+        $species = Animal::find($request->species);
 
         if(empty($request->start_date) || empty($request->end_date)){
             return redirect()->back()->with('msg', 'Raspon datuma je obavezan');
         }
 
         // Get Animal
-        $data = $this->exportGetAnimal($request, $animalCat, $animalOrder, $animalSysteCat, $shelter);
+        $data = $this->exportGetAnimal($request, $species, $animalCat, $animalOrder, $animalSysteCat, $shelter);
         //dd($data);
         // Get Animal Date Range
         $dateRange = $this->exportDateRangeAnimal($request, $data, $shelter);
@@ -467,18 +469,18 @@ class ReportController extends Controller
         // Export
         $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('d.m.Y');
         $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('d.m.Y');
-        $name = 'zns-'.$startDate.'-'.$endDate;
+        $name = 'excel-'.$startDate.'-'.$endDate;
 
         $kvartal = $this->kvartal($request);
 
         return (new ReportsExport($finishData, $kvartal))->download($name.'.xlsx');
     }
 
-    public function exportGetAnimal($request, $animalCat = null, $animalOrder = null, $animalSysteCat = null, $shelter)
+    public function exportGetAnimal($request, $species = null, $animalCat = null, $animalOrder = null, $animalSysteCat = null, $shelter)
     {
         $data = [];
 
-        if(empty($animalCat) && empty($animalOrder) && empty($animalSysteCat))
+        if(empty($species) && empty($animalCat) && empty($animalOrder) && empty($animalSysteCat))
         {
             if($shelter == 'all'){
                 $animalItems = AnimalItem::all();
@@ -489,6 +491,18 @@ class ReportController extends Controller
             else {
                 $animalItems = $shelter->allAnimalItems;
                 foreach ($animalItems as $item) {
+                    if($item->shelter_id == $shelter->id){
+                        $data[] = $item;
+                    }
+                }
+            }
+        }
+        if($species){
+            foreach ($species->animalItems as $item) {
+                if($shelter == 'all'){
+                    $data[] = $item;
+                }
+                else {
                     if($item->shelter_id == $shelter->id){
                         $data[] = $item;
                     }

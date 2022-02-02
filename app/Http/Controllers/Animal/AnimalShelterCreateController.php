@@ -380,9 +380,7 @@ class AnimalShelterCreateController extends Controller
 
         // kod zapljena samo službena osoba
         if($template == 'seized'){
-            $brought = FounderData::whereNotIn('service', [7])->whereHas('founderServices', function($query){
-                $query->whereIn('id', [1,2,3,4,6,8]);
-            })->get();
+            $founderServices = FounderService::whereNotIn('id', [7, 10, 9, 5])->get();
         }
 
         $pluckSystemCat = $sysCats->pluck('id');

@@ -92,12 +92,14 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Vrsta</label>
-                                        <select name="vrsta" class="js-example-basic-single w-100">
-                                            <option value="">Filter je u izradi</option>
-                                            {{-- <option value="">Svi</option>
+                                        <select name="species" class="js-example-basic-single w-100">
+                                            <option value="">----</option>
+                                            @if(auth()->user()->hasRole('Administrator'))
+                                                <option value="all">Svi</option>
+                                            @endif
                                             @foreach ($animals as $animal)
                                                 <option value="{{ $animal->id }}">{{ $animal->latin_name }}</option>
-                                            @endforeach --}}
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -261,7 +263,6 @@
                     format: "dd/mm/yyyy",
                     todayHighlight: true,
                     autoclose: true,
-                    orientation: "bottom",
                     language: 'hr'
                 });
             }

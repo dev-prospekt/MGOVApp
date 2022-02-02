@@ -135,7 +135,7 @@
             ],
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
-            }
+            },
         });
 
         var founderService = $("#founder-service").DataTable({
@@ -144,6 +144,22 @@
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
             }
+        });
+
+        // Info 
+        $("#founder-table").on('click', '.info', function(e){
+            e.preventDefault();
+
+            var url = $(this).attr('data-href');
+
+            $.ajax({
+                url: url,
+                method: 'GET',
+                success: function(result) {
+                    $(".modal").show();
+                    $(".modal").html(result['html']);
+                }
+            });
         });
 
         // Add
