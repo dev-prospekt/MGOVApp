@@ -158,7 +158,7 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Od</label>
-                                        <div class="input-group date datepicker" id="datePickerExample">
+                                        <div class="input-group date datepicker" id="datePickerExamplee">
                                             <input type="text" name="start_date" class="form-control">
                                             <span class="input-group-addon">
                                             <i data-feather="calendar"></i>
@@ -169,7 +169,7 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Do</label>
-                                        <div class="input-group date datepicker" id="datePickerExample">
+                                        <div class="input-group date datepicker" id="datePickerExamplee">
                                             <input type="text" name="end_date" class="form-control">
                                             <span class="input-group-addon">
                                             <i data-feather="calendar"></i>
@@ -260,6 +260,16 @@
                     format: "dd/mm/yyyy",
                     todayHighlight: true,
                     autoclose: true,
+                    language: 'hr'
+                });
+            }
+
+            if($('div#datePickerExamplee').length) {
+                $('div#datePickerExamplee').datepicker({
+                    format: "dd/mm/yyyy",
+                    todayHighlight: true,
+                    autoclose: true,
+                    orientation: 'bottom',
                     language: 'hr'
                 });
             }
@@ -404,15 +414,6 @@
 
             function scriptsModal()
             {
-                if($('div#datePickerExample').length) {
-                    $('div#datePickerExample').datepicker({
-                        format: "dd/mm/yyyy",
-                        todayHighlight: true,
-                        autoclose: true,
-                        language: 'hr'
-                    });
-                }
-
                 $("#report_file").fileinput({
                     language: "cr",
                     maxFileCount: 2,

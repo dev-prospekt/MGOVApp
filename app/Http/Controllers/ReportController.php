@@ -42,7 +42,10 @@ class ReportController extends Controller
         if ($request->ajax()) {
             return DataTables::of($reports)
             ->addColumn('name', function ($reports) {
-                return $reports->name;
+                $file = $reports->getMedia('report_file')->first();
+                $name = $file->name;
+                
+                return $name;
             })
             ->addColumn('date', function ($reports) {
                 return $reports->created_at->format('d.m.Y');
@@ -136,12 +139,10 @@ class ReportController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'name' => 'required',
                 'author' => 'required',
                 'report_file' => 'required',
             ],
             [
-                'name.required' => 'Naziv je obvezno polje',
                 'report_file.required' => 'Dokument je obvezno polje',
             ]
         );
@@ -151,7 +152,6 @@ class ReportController extends Controller
         }
 
         $report = new Reports;
-        $report->name = $request->name;
         $report->author = $request->author;
         $report->shelter_id = $request->shelter;
         $report->date = Carbon::now();
@@ -255,10 +255,12 @@ class ReportController extends Controller
             'totalPrice'
         ));
 
-        $nameZNSReport = '';
+        $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('d.m.Y');
+        $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('d.m.Y');
+        $nameZNSReport = $shelter->shelter_code.'-'.$startDate.'-'.$endDate;
         // Save PDF
         // Storage::put('public/files/pdf'.$id.'.pdf', $pdf->output());
-        return $pdf->stream('reports.pdf');
+        return $pdf->stream($nameZNSReport.'.pdf');
         // return redirect()->back()->with('izvj', 'Uspješno spremljen izvještaj');
     }
 

@@ -30,10 +30,6 @@
                     <div class="col-md-12">
 
                         <div class="form-group">
-                            <label>Naziv</label>
-                            <input type="text" class="form-control name" name="name">
-                        </div>
-                        <div class="form-group">
                             <label>Dokument</label>
                             <input type="file" id="report_file" name="report_file[]" multiple />
                             <div id="error_report_file"></div>
