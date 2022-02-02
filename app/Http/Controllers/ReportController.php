@@ -257,6 +257,7 @@ class ReportController extends Controller
         $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('d.m.Y');
         $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('d.m.Y');
         $nameZNSReport = $shelter->shelter_code.'-'.$startDate.'-'.$endDate;
+        
         // Save PDF
         // Storage::put('public/files/pdf'.$id.'.pdf', $pdf->output());
         return $pdf->stream($nameZNSReport.'.pdf');
