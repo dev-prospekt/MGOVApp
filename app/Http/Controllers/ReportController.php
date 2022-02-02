@@ -497,6 +497,7 @@ class ReportController extends Controller
                 }
             }
         }
+        
         if($species){
             foreach ($species->animalItems as $item) {
                 if($shelter == 'all'){
