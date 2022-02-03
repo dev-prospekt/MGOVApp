@@ -79,15 +79,6 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Od</label>
-                                        <div class="input-group date datepicker" id="datePickerExample">
-                                            <input type="text" name="start_date" class="form-control">
-                                            <span class="input-group-addon">
-                                            <i data-feather="calendar"></i>
-                                            </span>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="col">
                                     <div class="form-group">
@@ -111,6 +102,22 @@
                                             @endforeach
                                         </select>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label>Od</label>
+                                        <div class="input-group date datepicker" id="datePickerExample">
+                                            <input type="text" name="start_date" class="form-control">
+                                            <span class="input-group-addon">
+                                            <i data-feather="calendar"></i>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col">
                                     <div class="form-group">
                                         <label>Do</label>
                                         <div class="input-group date datepicker" id="datePickerExample">
@@ -166,6 +173,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col">
                                     <div class="form-group">
                                         <label>Do</label>
@@ -260,7 +268,8 @@
                     format: "dd/mm/yyyy",
                     todayHighlight: true,
                     autoclose: true,
-                    language: 'hr'
+                    orientation: 'top',
+                    language: 'hr',
                 });
             }
 
@@ -270,7 +279,7 @@
                     todayHighlight: true,
                     autoclose: true,
                     orientation: 'bottom',
-                    language: 'hr'
+                    language: 'hr',
                 });
             }
 
