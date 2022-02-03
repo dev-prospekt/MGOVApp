@@ -117,74 +117,120 @@
         <div class="col-md-6">    
             <div class="card">
                 <div class="card-body">
-                    <form action="/animalItem/update/{{$animalItem->id}}" method="POST">
-                            @csrf
-                            @method('POST')
-                            <div class="form-group" id="hib_est_from_to">
-                                <label>Hibernacija/estivacija</label>
-                                <div class="d-flex">
-                                    <div class="input-group date datepicker" id="datePickerExample">
-                                        <input type="text" name="hib_est_from" class="form-control hib_est_from" value="{{ $animalItem->dateRange->hibern_start }}">
-                                        <span class="input-group-addon">
-                                            <i data-feather="calendar"></i>
-                                        </span>
-                                    </div>
-                                    <div class="input-group date datepicker" id="datePickerExample">
-                                        <input type="text" name="hib_est_to" class="form-control hib_est_to" value="{{ $animalItem->dateRange->hibern_end }}">
-                                        <span class="input-group-addon">
-                                            <i data-feather="calendar"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group" id="period">
-                                @if ($totalDays != 0)
-                                <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{ $totalDays }} dana)</strong></label>
-                                <div class="d-flex">
-                                    <div class="input-group date datepicker" id="datePickerExample">
-                                        <input type="text" name="full_care_start" class="form-control full_care_start">
-                                        <span class="input-group-addon">
-                                            <i data-feather="calendar"></i>
-                                        </span>
-                                    </div>
-                                    <div class="input-group date datepicker" id="datePickerExample">
-                                        <input type="text" name="full_care_end" class="form-control full_care_end">
-                                        <span class="input-group-addon">
-                                            <i data-feather="calendar"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                @endif
-                            </div>
+                    <form action="/animalItem/update/{{$animalItem->id}}" method="POST" autocomplete="off">
+                        @csrf
+                        @method('POST')
+        
+                        <div class="row">
+                          <div class="col-md-6">
                             <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <label>Promjena Solitarna ili Grupa</label>
-                                        <select class="form-control" name="solitary_or_group_type" id="">
-                                            <option value="">---</option>
-                                            <option value="Grupa">Grupa</option>
-                                            <option value="Solitarno">Solitarno</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label>Odabir datuma za promjenu stanja</label>
-                                        <div class="input-group date datepicker" id="datePickerExample">
-                                            <input type="text" name="solitary_or_group_end" class="form-control end_date" >
-                                            <span class="input-group-addon">
-                                                <i data-feather="calendar"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>                      
+                                <label>Promjena Solitarna ili Grupa</label>
+                                <select class="form-control" name="solitary_or_group_type" id="">
+                                  <option value="">---</option>
+                                  @if ($animalItem->solitary_or_group == 'Grupa')
+                                    <option value="Solitarno">Solitarno</option>
+                                  @else
+                                    <option value="Grupa">Grupa</option>
+                                  @endif
+                                </select>     
                             </div> 
-                        <div class="row mt-3">
-                            <div class="col-md-12">
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-warning  mr-2">Ažuriraj podatke</button>
-                                </div>
+                          </div>
+                          
+                          <div class="col-md-6">
+                            <div class="form-group">
+                              <label for="">Datum</label>
+                              <div class="input-group date datepicker" id="datePickerExample">
+                                <input type="text" name="solitary_or_group_end" class="form-control end_date" >
+                                  <span class="input-group-addon">
+                                    <i data-feather="calendar"></i>
+                                  </span>
+                              </div>
                             </div>
+                          </div>
                         </div>
-                    </form>
+        
+                        @foreach ($arrayAnimalForFullCare as $ii)
+                          @if($animalItem->animal_id == $ii)
+                          <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group" id="period">
+                                      <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dan/a)</strong></label>
+                                      @if ($totalDays != 0)
+                                      <div class="d-flex">
+                                          <div class="input-group date datepicker" id="datePickerExample">
+                                              <input type="text" name="full_care_start" class="form-control full_care_start"
+                                              value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('d/m/Y') : null }}">
+                                              <span class="input-group-addon">
+                                                  <i data-feather="calendar"></i>
+                                              </span>
+                                          </div>
+                                          <div class="input-group date datepicker" id="datePickerExample">
+                                              <input type="text" name="full_care_end" class="form-control full_care_end"
+                                              value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('d/m/Y') : null }}">
+                                              <span class="input-group-addon">
+                                                  <i data-feather="calendar"></i>
+                                              </span>
+                                          </div>
+                                      </div>
+                                      @endif
+                                  </div>
+                              </div>       
+                          </div>
+                          @endif
+                        @endforeach
+        
+                        @if ($animalItem->animal->animalType->first()->type_code == 'ZJ')
+                          @if ($animalItem->full_care_status == 1)
+                            <div class="row">
+                              <div class="col-md-12">
+                                  <div class="form-group" id="period">
+                                      <label>Razdoblje provođenja proširene skrbi <strong class="text-warning">(ostalo {{  $totalDays }} dan/a)</strong></label>
+                                      @if ($totalDays != 0)
+                                      <div class="d-flex">
+                                          <div class="input-group date datepicker" id="datePickerExample">
+                                              <input type="text" name="full_care_start" class="form-control full_care_start"
+                                              value="{{ isset($lastFullCare->start_date) ? $lastFullCare->start_date->format('d/m/Y') : null }}">
+                                              <span class="input-group-addon">
+                                                  <i data-feather="calendar"></i>
+                                              </span>
+                                          </div>
+                                          <div class="input-group date datepicker" id="datePickerExample">
+                                              <input type="text" name="full_care_end" class="form-control full_care_end"
+                                              value="{{ isset($lastFullCare->end_date) ? $lastFullCare->end_date->format('d/m/Y') : null }}">
+                                              <span class="input-group-addon">
+                                                  <i data-feather="calendar"></i>
+                                              </span>
+                                          </div>
+                                      </div>
+                                      @endif
+                                  </div>
+                              </div>       
+                            </div>
+                          @endif
+                        @endif
+        
+                        <div class="form-group" id="hib_est_from_to">
+                          <label>Hibernacija/estivacija</label>
+                          <div class="d-flex">
+                              <div class="input-group date datepicker" id="datePickerExample">
+                                <input type="text" name="hib_est_from" class="form-control hib_est_from" 
+                                value="{{ $date->hibern_start ? $date->hibern_start->format('d/m/Y') : null }}">
+                                <span class="input-group-addon">
+                                    <i data-feather="calendar"></i>
+                                </span>
+                              </div>
+                              <div class="input-group date datepicker" id="datePickerExample">
+                                <input type="text" name="hib_est_to" class="form-control hib_est_to" 
+                                value="{{ $date->hibern_end ? $date->hibern_end->format('d/m/Y') : null }}">
+                                <span class="input-group-addon">
+                                    <i data-feather="calendar"></i>
+                                </span>
+                              </div>
+                          </div>
+                        </div>       
+        
+                        <button type="submit" id="submit" class="btn btn-primary mr-2 mt-3">Ažuriraj</button>
+                      </form>
                 </div>
             </div>                   
         </div>                                     
@@ -230,6 +276,18 @@
                 elErrorContainer: '#error_file',
                 msgInvalidFileExtension: 'Nevažeći dokument "{name}". Podržani su samo "{extensions}"',
             });
+
+            if($('div#datePickerExample').length) {
+                $('div#datePickerExample input').datepicker({
+                    format: "dd/mm/yyyy",
+                    todayHighlight: true,
+                    autoclose: true,
+                    orientation: "bottom",
+                    language: 'hr',
+                });
+                $("div#datePickerExample").find(".hib_est_from").datepicker('setDate', $("div#datePickerExample").find(".hib_est_from").val());
+                $("div#datePickerExample").find(".hib_est_to").datepicker('setDate', $("div#datePickerExample").find(".hib_est_to").val());
+            }
 
             // Delete files
             $(".deleteFile").on('click', function(e){

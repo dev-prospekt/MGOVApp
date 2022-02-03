@@ -129,7 +129,7 @@ class AnimalItemController extends Controller
         $mediaItems = $animalItem->getMedia('status_receiving_file');
 
         $size = $animalItem->animal->animalSize;
-        $dateRange = $animalItem->dateRange;
+        $date = $animalItem->dateRange;
         $dateFullCare_total = $animalItem->dateFullCare;
 
         $countDays = 0;
@@ -139,12 +139,21 @@ class AnimalItemController extends Controller
         $maxDate = 10;
         $totalDays = ($maxDate - $countDays);
 
+        // Omoguci prosirenu skrb (prioritetne vrste)
+        $arrayAnimalForFullCare = [];
+        foreach ($animalItem->animal->animalCodes as $item) {
+            if($item->name == 'PZ'){
+                $arrayAnimalForFullCare = Arr::prepend($arrayAnimalForFullCare, $animalItem->animal_id);
+            }
+        }
+
         return view('animal.animal_item.edit', [
             'animalItem' => $animalItem,
             'mediaItems' => $mediaItems,
             'size' => $size,
-            'dateRange' => $dateRange,
+            'date' => $date,
             'totalDays' => $totalDays,
+            'arrayAnimalForFullCare' => $arrayAnimalForFullCare,
         ]);
     }
 
