@@ -137,7 +137,6 @@
                             </div>
                         </form>
                     </div>
-
                     <div class="col">
                         <div class="mb-3 text-center">
                             <h4>ZNS-Zahtjev za nadoknadu sredstava</h4>
@@ -435,7 +434,6 @@
                     msgInvalidFileExtension: 'Nevažeći format "{name}". Podržani su: "{extensions}"',
                 });
             }
-
         });
     </script>
 @endpush
