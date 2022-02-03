@@ -117,6 +117,7 @@
         <div class="col-md-6">    
             <div class="card">
                 <div class="card-body">
+                    
                     <form action="/animalItem/update/{{$animalItem->id}}" method="POST" autocomplete="off">
                         @csrf
                         @method('POST')
