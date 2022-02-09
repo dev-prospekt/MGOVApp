@@ -17,13 +17,13 @@ class CreateSheltersTable extends Migration
             $table->id();
 
             $table->string('name');
-            $table->bigInteger('oib');
+            $table->string('oib');
             $table->string('address');
             $table->string('address_place')->nullable();
             $table->string('place_zip');
-            $table->bigInteger('telephone')->nullable();
-            $table->bigInteger('mobile');
-            $table->bigInteger('fax')->nullable();
+            $table->string('telephone')->nullable();
+            $table->string('mobile');
+            $table->string('fax')->nullable();
             $table->string('email');
             $table->string('web_address')->nullable();
             $table->string('bank_name');
