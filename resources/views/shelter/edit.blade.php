@@ -219,7 +219,7 @@
 
     //edit registered date
     $("#dateRegister").datepicker({
-        format: 'mm/dd/yyyy',
+        format: 'dd/mm/yyyy',
         autoclose: true
     });
 
