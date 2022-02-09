@@ -185,7 +185,7 @@
     
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">DATUM REGISTRACIJE: </label>
-                      <p class="text-muted">{{ $shelter->register_date ?? '' }}</p>  
+                      <p class="text-muted">{{ Carbon\Carbon::parse($shelter->register_date)->format('d.m.Y') ?? '' }}</p>  
                     </div>
     
                     <div class="mt-2">

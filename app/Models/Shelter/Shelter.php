@@ -18,6 +18,10 @@ class Shelter extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'register_date' => 'date',
+    ];
+
     public function shelterTypes()
     {
         return $this->belongsToMany(ShelterType::class);

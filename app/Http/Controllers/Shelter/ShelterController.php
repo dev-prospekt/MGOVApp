@@ -208,7 +208,7 @@ class ShelterController extends Controller
      * @param  \App\Models\Shelter  $shelter
      * @return \Illuminate\Http\Response
      */
-    public function edit(Shelter $shelter)
+    public function edit(Shelter $shelter)  
     {
         if(auth()->user()->hasPermissionTo('edit') == false){ return redirect()->back(); }
 

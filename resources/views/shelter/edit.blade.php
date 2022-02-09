@@ -160,7 +160,7 @@
                                 <label class="control-label">Datum ovlaštenja oporavilišta</label>
                                 <div class="input-group date datepicker" id="dateRegister">
                                     <input type="text" class="form-control register_date" name="register_date" 
-                                    value="{{ $shelter->register_date }}">
+                                    value="{{ Carbon\Carbon::parse($shelter->register_date)->format('d/m/Y') }}">
                                     <span class="input-group-addon"><i data-feather="calendar"></i></span>
 
                                     @error('register_date')
@@ -187,6 +187,7 @@
   <script src="{{ asset('assets/plugins/inputmask/jquery.inputmask.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+  <script src="{{ asset('assets/plugins/bootstrap-datepicker/locales/bootstrap-datepicker.hr.min.js') }}"></script>
   <script src="{{ asset('assets/js/file-upload.js') }}"></script>
 @endpush
 
@@ -220,7 +221,8 @@
     //edit registered date
     $("#dateRegister").datepicker({
         format: 'dd/mm/yyyy',
-        autoclose: true
+        autoclose: true,
+        language: 'hr',
     });
 
 </script>
