@@ -32,7 +32,6 @@ class CreateSheltersTable extends Migration
             $table->string('shelter_code');
 
             $table->softDeletes();
-
             $table->timestamps();
         });
     }
