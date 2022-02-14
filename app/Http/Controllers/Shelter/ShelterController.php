@@ -106,9 +106,21 @@ class ShelterController extends Controller
      */
     public function store(ShelterPostRequest $request)
     {
-        $shelter = Shelter::create($request->all());
-
-        $shelter->register_date = Carbon::createFromFormat('d/m/Y', $request->register_date);
+        $shelter = new Shelter;
+        $shelter->name = $request->name;
+        $shelter->shelter_code = $request->shelter_code;
+        $shelter->email = $request->email;
+        $shelter->address = $request->address;
+        $shelter->address_place = $request->address_place;
+        $shelter->oib = $request->oib;
+        $shelter->place_zip = $request->place_zip;
+        $shelter->bank_name = $request->bank_name;
+        $shelter->register_date =  Carbon::createFromFormat('d/m/Y', $request->register_date);
+        $shelter->telephone = $request->telephone;
+        $shelter->mobile = $request->mobile;
+        $shelter->fax = $request->fax;
+        $shelter->web_address = $request->web_address;
+        $shelter->iban = $request->iban;
         $shelter->save();
 
         $shelter->shelterTypes()->attach($request->shelter_type_id, [

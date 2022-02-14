@@ -266,7 +266,7 @@
   <script src="{{ asset('assets/js/bootstrap-maxlength.js') }}"></script>
   <script src="{{ asset('assets/js/inputmask.js') }}"></script>
   <script src="{{ asset('assets/js/select2.js') }}"></script>
-  <script src="{{ asset('assets/js/datepicker.js') }}"></script> 
+  {{-- <script src="{{ asset('assets/js/datepicker.js') }}"></script>  --}}
 
   <script>
       // Setup maxlength
@@ -287,6 +287,13 @@
         validate: false,
         allowOverMax: true,
         customMaxAttribute: "90"
+    });
+
+    $('div#datePickerExample').datepicker({
+        format: "dd/mm/yyyy",
+        todayHighlight: true,
+        autoclose: true,
+        language: 'hr'
     });
 
     $("input#optionsRadios").each(function(){
