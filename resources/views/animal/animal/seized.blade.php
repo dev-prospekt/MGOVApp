@@ -234,6 +234,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label>Dodatna napomena</label>
+                            <input type="text" name="brought_animal_note" class="form-control">
+                        </div>
+
+                        <div class="form-group">
                             <label>Učitaj</label>
                             <input type="file" id="brought_animal_file" name="brought_animal_file[]" multiple />
                             <div id="error_brought_animal_file"></div>
