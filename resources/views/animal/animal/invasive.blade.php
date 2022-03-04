@@ -120,11 +120,7 @@
 
                     <div class="bordered-group mt-2">
                         <div class="form-group">
-                            <div class="d-flex justify-content-end" style="margin-bottom: -20px;">
-                                <a type="button" class="createFounder btn btn-sm btn-primary btn-icon-text" href="javascript:void()">
-                                    Dodaj
-                                </a>
-                            </div>
+                            
                             <label>Tko je donio</label>
                             <select class="form-control" id="founder_service" required>
                                 <option value="">----</option>
