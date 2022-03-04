@@ -206,7 +206,7 @@
                         </div>
 
                         <div class="form-group">
-                            <select name="brought_animal" class="form-control" id="brought_animal" required>
+                            <select name="brought_animal" class="form-control" id="brought_animal">
                                 
                             </select>
                         </div>

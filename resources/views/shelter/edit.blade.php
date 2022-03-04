@@ -32,7 +32,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Fax</label>
-                                <input type="number" class="form-control" name="fax" value="{{ $shelter->fax }}">
+                                <input type="text" class="form-control" name="fax" value="{{ $shelter->fax }}">
                                 @error('fax')
                                 <div class="text-danger">{{$errors->first('fax') }} </div>
                                 @enderror
@@ -101,7 +101,7 @@
 
                             <div class="form-group">
                                 <label>Mobitel</label>
-                                <input type="number" class="form-control" name="mobile" value="{{ $shelter->mobile }}" required>
+                                <input type="text" class="form-control" name="mobile" value="{{ $shelter->mobile }}" required>
                                 @error('mobile')
                                 <div class="text-danger">{{$errors->first('mobile') }} </div>
                                 @enderror
@@ -135,7 +135,7 @@
 
                             <div class="form-group">
                                 <label>Telefon</label>
-                                <input type="number" class="form-control" name="telephone" value="{{ $shelter->telephone }}">
+                                <input type="text" class="form-control" name="telephone" value="{{ $shelter->telephone }}">
                                 @error('telephone')
                                 <div class="text-danger">{{$errors->first('telephone') }} </div>
                                 @enderror
