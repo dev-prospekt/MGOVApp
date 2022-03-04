@@ -206,9 +206,8 @@
                         </div>
 
                         <div class="form-group">
-                            <select name="brought_animal" class="form-control" id="brought_animal">
-                                
-                            </select>
+                            <label>Dodatna napomena</label>
+                            <input type="text" name="brought_animal_note" class="form-control">
                         </div>
 
                         <div class="form-group">

@@ -123,7 +123,8 @@ class AnimalShelterCreateController extends Controller
         $animalItem->animal_id = $request->animal_id;
         $animalItem->shelter_id = $request->shelter_id;
         $animalItem->founder_id = $request->founder_id;
-        $animalItem->brought_animal_id = $request->brought_animal; // Tko je donio životinju
+        $animalItem->brought_animal_id = null; // Tko je donio životinju
+        $animalItem->brought_animal_note = $request->brought_animal_note;
         $animalItem->founder_note = $request->founder_note;
         $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
         $animalItem->in_shelter = true;
@@ -226,7 +227,8 @@ class AnimalShelterCreateController extends Controller
         $animalItem->location = $request->location;
         $animalItem->location_retrieval_animal = $request->location_retrieval_animal;
         $animalItem->founder_id = $request->founder_id;
-        $animalItem->brought_animal_id = $request->brought_animal; // Tko je donio životinju
+        $animalItem->brought_animal_id = null; // Tko je donio životinju
+        $animalItem->brought_animal_note = $request->brought_animal_note;
         $animalItem->founder_note = $request->founder_note;
         // $animalItem->solitary_or_group = $request->solitary_or_group;
 

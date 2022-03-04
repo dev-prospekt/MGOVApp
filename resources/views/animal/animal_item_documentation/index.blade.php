@@ -345,6 +345,7 @@
                 <div class="mt-2">
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Predao: </label>
                   <p class="text-muted">{{ $animalItem->broughtAnimal->name ?? ''}}</p>
+                  <p class="text-muted">{{ $animalItem->brought_animal_note ?? ''}}</p>
                   <p class="text-muted">{{ $animalItem->broughtAnimal->founderServices->name ?? '' }}</p>
                 </div>
                 <div class="mt-2">                  
