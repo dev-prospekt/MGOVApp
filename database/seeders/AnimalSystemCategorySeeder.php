@@ -34,6 +34,10 @@ class AnimalSystemCategorySeeder extends Seeder
             'name' => 'ribe',
             'latin_name' => 'Pisces'
         ]);
+        $animalSystemCategory5 = AnimalSystemCategory::create([
+            'name' => 'beskralješnjaci',
+            'latin_name' => 'Avertebrata'
+        ]);
 
         $animalSystemCategory1->shelterType()->attach([1,2,3,4]);
         $animalSystemCategory2->shelterType()->attach([2,3,4]);
