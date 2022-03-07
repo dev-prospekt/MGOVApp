@@ -227,10 +227,19 @@ class ShelterController extends Controller
         $shelterTypes = ShelterType::all();
         $selectedShelterTypes = $shelter->shelterTypes()->get();
 
+        $type = array('shelterType' => $shelter->shelterTypes);
+        foreach ($shelter->shelterTypes as $item) {
+            $type['type'] = $item->animalSystemCategory;
+        }
+
+        $shelterAnimalSystemCategory = $shelter->animalSystemCategory->pluck('id')->toArray();;
+
         return view('shelter.edit', [
             'shelterTypes' => $shelterTypes,
             'selectedShelterTypes' => $selectedShelterTypes,
-            'shelter' => $shelter
+            'shelter' => $shelter,
+            'type' => $type,
+            'shelterAnimalSystemCategory' => $shelterAnimalSystemCategory
         ]);
     }
 
@@ -260,6 +269,12 @@ class ShelterController extends Controller
         $shelter->web_address = $request->web_address;
         $shelter->iban = $request->iban;
         $shelter->save();
+
+        $shelter->animalSystemCategory()->detach();
+
+        $shelter->animalSystemCategory()->attach($request->animal_system_category_id, [
+            'shelter_id' => $shelter->id
+        ]);
 
         $shelter->shelterTypes()->sync($request->shelter_type_id, [
             'shelter_id' => $shelter->id

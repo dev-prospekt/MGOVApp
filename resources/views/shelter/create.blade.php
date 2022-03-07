@@ -221,7 +221,7 @@
                                         </div>
 
                                         <input type="hidden" name="shelter_id" value="{{Session::get('shelter_id')}}">
-    
+                                        
                                         <div class="form-group">
                                             @foreach ($type['type'] as $res)
                                                 <div class="form-check">

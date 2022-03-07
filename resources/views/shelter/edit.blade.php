@@ -172,6 +172,29 @@
                         </div>    
                 
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Kategorije razreda za oporavilište</label>
+                                @foreach ($type['type'] as $res)
+                                    <div class="form-check">
+                                        <label class="form-check-label">
+                                            <input type="checkbox" name="animal_system_category_id[]" 
+                                            class="form-check-input"
+                                            {{ in_array($res->id, $shelterAnimalSystemCategory) ? 'checked' : '' }}
+                                            value="{{ $res->id }}">
+                                            
+                                            {{ $res->name }}
+                                            
+                                            <i class="input-frame"></i>
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
                     <button type="submit" class="btn btn-primary mr-2">Ažuriraj</button>
                 </form>
             </div>
