@@ -14,26 +14,26 @@ class AnimalSystemCategorySeeder extends Seeder
      */
     public function run()
     {
-        $animalSystemCategory1 = AnimalSystemCategory::create([
-            'name' => 'sisavci',
-            'latin_name' => 'Mammalia'
-        ]);
-        $animalSystemCategory2 = AnimalSystemCategory::create([
-            'name' => 'ptice',
-            'latin_name' => 'Aves'
-        ]);
-        $animalSystemCategory3 = AnimalSystemCategory::create([
-            'name' => 'gmazovi',
-            'latin_name' => 'Reptilia'
-        ]);
-        $animalSystemCategory4 = AnimalSystemCategory::create([
-            'name' => 'vodozemci',
-            'latin_name' => 'Amphibia'
-        ]);
-        $animalSystemCategory5 = AnimalSystemCategory::create([
-            'name' => 'ribe',
-            'latin_name' => 'Pisces'
-        ]);
+        // $animalSystemCategory1 = AnimalSystemCategory::create([
+        //     'name' => 'sisavci',
+        //     'latin_name' => 'Mammalia'
+        // ]);
+        // $animalSystemCategory2 = AnimalSystemCategory::create([
+        //     'name' => 'ptice',
+        //     'latin_name' => 'Aves'
+        // ]);
+        // $animalSystemCategory3 = AnimalSystemCategory::create([
+        //     'name' => 'gmazovi',
+        //     'latin_name' => 'Reptilia'
+        // ]);
+        // $animalSystemCategory4 = AnimalSystemCategory::create([
+        //     'name' => 'vodozemci',
+        //     'latin_name' => 'Amphibia'
+        // ]);
+        // $animalSystemCategory5 = AnimalSystemCategory::create([
+        //     'name' => 'ribe',
+        //     'latin_name' => 'Pisces'
+        // ]);
         $animalSystemCategory5 = AnimalSystemCategory::create([
             'name' => 'beskralješnjaci',
             'latin_name' => 'Avertebrata'

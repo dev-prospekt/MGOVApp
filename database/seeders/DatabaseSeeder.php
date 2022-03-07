@@ -28,21 +28,21 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(PermissionsDemoSeeder::class);
-        $this->call(ShelterSeeder::class);
-        $this->call(ShelterTypeSeeder::class);
-        $this->call(ShelterStaffTypeSeeder::class);
+        // $this->call(PermissionsDemoSeeder::class);
+        // $this->call(ShelterSeeder::class);
+        // $this->call(ShelterTypeSeeder::class);
+        // $this->call(ShelterStaffTypeSeeder::class);
         $this->call(AnimalSystemCategorySeeder::class);
-        $this->call(ShelterAccomodationTypeSeeder::class);
-        $this->call(AnimalTypeSeeder::class);
-        $this->call(AnimalCodeSeeder::class);
-        $this->call(AnimalSizeSeeder::class);
-        $this->call(AnimalSizeAttributeSeeder::class);
-        $this->call(ShelterEquipmentTypeSeeder::class);
-        $this->call(AnimalMarkTypeSeeder::class);
-        $this->call(AnimalItemLogTypeSeeder::class);
-        $this->call(AnimalItemDocumentationStateTypeSeeder::class);
-        $this->call(AnimalItemCareEndTypeSeeder::class);
-        $this->call(FounderServiceSeeder::class);
+        // $this->call(ShelterAccomodationTypeSeeder::class);
+        // $this->call(AnimalTypeSeeder::class);
+        // $this->call(AnimalCodeSeeder::class);
+        // $this->call(AnimalSizeSeeder::class);
+        // $this->call(AnimalSizeAttributeSeeder::class);
+        // $this->call(ShelterEquipmentTypeSeeder::class);
+        // $this->call(AnimalMarkTypeSeeder::class);
+        // $this->call(AnimalItemLogTypeSeeder::class);
+        // $this->call(AnimalItemDocumentationStateTypeSeeder::class);
+        // $this->call(AnimalItemCareEndTypeSeeder::class);
+        // $this->call(FounderServiceSeeder::class);
     }
 }
