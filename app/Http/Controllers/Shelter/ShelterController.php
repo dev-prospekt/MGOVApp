@@ -83,7 +83,7 @@ class ShelterController extends Controller
             }
         }
 
-        $type = collect($type)->groupBy('name');
+        $type = collect($type)->sortBy('id')->groupBy('name');
 
         return view("shelter.create", [
             'shelterType' => $shelterType,
@@ -239,7 +239,7 @@ class ShelterController extends Controller
             }
         }
 
-        $type = collect($type)->groupBy('name');
+        $type = collect($type)->sortBy('id')->groupBy('name');
 
         $shelterAnimalSystemCategory = $shelter->animalSystemCategory->pluck('id')->toArray();;
 
