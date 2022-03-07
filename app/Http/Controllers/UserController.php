@@ -23,7 +23,6 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $users = User::all();
-        $usersTrashed = User::onlyTrashed()->get();
 
         if($request->ajax()){
             $users = User::whereNotIn('name', ['Super Admin'])
@@ -53,7 +52,6 @@ class UserController extends Controller
 
         return view("users.index", [
             'users' => $users,
-            'usersTrashed' => $usersTrashed
         ]);
     }
 
