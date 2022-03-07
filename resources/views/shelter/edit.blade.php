@@ -177,19 +177,16 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label>Kategorije razreda za oporavilište</label>
-                                @foreach ($type['type'] as $res)
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input type="checkbox" name="animal_system_category_id[]" 
-                                            class="form-check-input"
-                                            {{ in_array($res->id, $shelterAnimalSystemCategory) ? 'checked' : '' }}
-                                            value="{{ $res->id }}">
-                                            
-                                            {{ $res->name }}
-                                            
-                                            <i class="input-frame"></i>
-                                        </label>
-                                    </div>
+                                @foreach ($type as $key => $value)
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" name="animal_system_category_id[]" class="form-check-input"
+                                        {{ in_array($value->first()->id, $shelterAnimalSystemCategory) ? 'checked' : '' }}
+                                        value="{{ $value->first()->id }}">
+                                        {{ $key }}
+                                        <i class="input-frame"></i>
+                                    </label>
+                                </div>
                                 @endforeach
                             </div>
                         </div>

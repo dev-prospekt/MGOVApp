@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shelter;
 use Carbon\Carbon;
 
 use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\Shelter\Shelter;
@@ -75,10 +76,14 @@ class ShelterController extends Controller
         $shelterID = DB::table('shelters')->orderBy('id', 'DESC')->first();
         $shelter = Shelter::with('shelterTypes')->findOrFail($shelterID->id);
 
-        $type = array('shelterType' => $shelter->shelterTypes);
+        $type = array();
         foreach ($shelter->shelterTypes as $item) {
-            $type['type'] = $item->animalSystemCategory;
+            foreach ($item->animalSystemCategory as $key) {
+                $type[] = $key;
+            }
         }
+
+        $type = collect($type)->groupBy('name');
 
         return view("shelter.create", [
             'shelterType' => $shelterType,
@@ -227,10 +232,14 @@ class ShelterController extends Controller
         $shelterTypes = ShelterType::all();
         $selectedShelterTypes = $shelter->shelterTypes()->get();
 
-        $type = array('shelterType' => $shelter->shelterTypes);
+        $type = array();
         foreach ($shelter->shelterTypes as $item) {
-            $type['type'] = $item->animalSystemCategory;
+            foreach ($item->animalSystemCategory as $key) {
+                $type[] = $key;
+            }
         }
+
+        $type = collect($type)->groupBy('name');
 
         $shelterAnimalSystemCategory = $shelter->animalSystemCategory->pluck('id')->toArray();;
 

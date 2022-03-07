@@ -223,14 +223,14 @@
                                         <input type="hidden" name="shelter_id" value="{{Session::get('shelter_id')}}">
                                         
                                         <div class="form-group">
-                                            @foreach ($type['type'] as $res)
-                                                <div class="form-check">
-                                                    <label class="form-check-label">
-                                                        <input type="checkbox" name="animal_system_category_id[]" class="form-check-input" value="{{ $res->id }}">
-                                                        {{ $res->name }}
-                                                        <i class="input-frame"></i>
-                                                    </label>
-                                                </div>
+                                            @foreach ($type as $key => $value)
+                                            <div class="form-check">
+                                                <label class="form-check-label">
+                                                    <input type="checkbox" name="animal_system_category_id[]" class="form-check-input" value="{{ $value->first()->id }}">
+                                                    {{ $key }}
+                                                    <i class="input-frame"></i>
+                                                </label>
+                                            </div>
                                             @endforeach
                                         </div>
                                     </div><!-- Col -->               
