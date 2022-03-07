@@ -110,11 +110,7 @@
                     </a>
                   @endcan
 
-                </div> 
-
-                @if($msg = Session::get('update_shelter'))
-                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                @endif 
+                </div>
                      
                 <div class="row">
                   <div class="col-md-4 grid-margin">    

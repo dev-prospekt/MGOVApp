@@ -271,7 +271,6 @@ class ShelterController extends Controller
         $shelter->save();
 
         $shelter->animalSystemCategory()->detach();
-
         $shelter->animalSystemCategory()->attach($request->animal_system_category_id, [
             'shelter_id' => $shelter->id
         ]);
