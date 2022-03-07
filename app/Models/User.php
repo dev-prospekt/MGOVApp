@@ -19,7 +19,6 @@ class User extends Authenticatable implements HasMedia
     use Notifiable;
     use HasRoles;
     use HasFactory;
-    use SoftDeletes;
     use InteractsWithMedia;
 
     /**
