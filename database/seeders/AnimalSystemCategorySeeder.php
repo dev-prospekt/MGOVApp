@@ -39,10 +39,10 @@ class AnimalSystemCategorySeeder extends Seeder
             'latin_name' => 'Avertebrata'
         ]);
 
-        $animalSystemCategory1->shelterType()->attach([1,2,3,4]);
-        $animalSystemCategory2->shelterType()->attach([2,3,4]);
-        $animalSystemCategory3->shelterType()->attach([1,2,3]);
-        $animalSystemCategory4->shelterType()->attach([1,2,3]);
+        // $animalSystemCategory1->shelterType()->attach([1,2,3,4]);
+        // $animalSystemCategory2->shelterType()->attach([2,3,4]);
+        // $animalSystemCategory3->shelterType()->attach([1,2,3]);
+        // $animalSystemCategory4->shelterType()->attach([1,2,3]);
         $animalSystemCategory5->shelterType()->attach([1,2,4]);
     }
 }
