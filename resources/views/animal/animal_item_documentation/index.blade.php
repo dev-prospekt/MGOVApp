@@ -93,6 +93,7 @@
                     </div>
                     <div class="mt-2">                   
                       
+                      @if (!empty($animalItem->animalDocumentation))
                       @if (!empty($animalItem->animalDocumentation->getMedia('state_found_file')->first()))      
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dokumentacija: </label>   
                         <div class="bordered-group mt-2">
@@ -114,6 +115,7 @@
                             @endforeach
                           </div>
                         </div>
+                      @endif
                       @endif
 
                     </div>
@@ -346,7 +348,7 @@
                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Predao: </label>
                   <p class="text-muted">{{ $animalItem->broughtAnimal->name ?? ''}}</p>
                   <p class="text-muted">{{ $animalItem->brought_animal_note ?? ''}}</p>
-                  <p class="text-muted">{{ $animalItem->broughtAnimal->founderServices->name ?? '' }}</p>
+                  <p class="text-muted">{{ $animalItem->founderService->name ?? '' }}</p>
                 </div>
                 <div class="mt-2">                  
                   @if (!empty($animalItem->animalDocumentation))

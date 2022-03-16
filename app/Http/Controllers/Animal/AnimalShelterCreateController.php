@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Animal;
 
 use Carbon\Carbon;
-use App\Mail\ProtectedAnimalMail;
 use App\Models\DateRange;
 use App\Models\FounderData;
 use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\FounderService;
 use App\Models\Shelter\Shelter;
+use App\Mail\ProtectedAnimalMail;
 use App\Models\Animal\AnimalItem;
 use App\Models\Animal\AnimalMark;
 use App\Models\Animal\AnimalGroup;
@@ -17,6 +17,7 @@ use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Animal\AnimalMarkType;
+use App\Http\Requests\AnimalItemSeizedStoreRequest;
 use App\Http\Requests\AnimalProtectedCreateRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use App\Models\Animal\AnimalItemDocumentationStateType;
@@ -129,7 +130,7 @@ class AnimalShelterCreateController extends Controller
         $animalItem->animal_size_attributes_id = $request->animal_size_attributes_id;
         $animalItem->in_shelter = true;
         $animalItem->animal_found_note = $request->animal_found_note;
-        $animalItem->animal_date_found =  $request->date_found;
+        $animalItem->animal_date_found = Carbon::createFromFormat('d/m/Y', $request->date_found);
         $animalItem->animal_gender = $request->animal_gender;
         $animalItem->animal_age = $request->animal_age;
         $animalItem->location = $request->location;

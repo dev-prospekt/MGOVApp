@@ -30,7 +30,7 @@ class ShelterSeeder extends Seeder
             'web_address' => 'www.test.com',
             'bank_name' => 'bank name',
             'iban' => '0384648297427498',
-            'register_date' => Carbon::now()->format('d/m/Y'),
+            'register_date' => Carbon::now(),
             'shelter_code' => 'AQP'
         ]);
         $shelter1->shelterTypes()->attach([1, 2, 3]);

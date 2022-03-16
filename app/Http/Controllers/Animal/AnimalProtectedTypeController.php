@@ -18,7 +18,7 @@ class AnimalProtectedTypeController extends Controller
 
     public function getSZAnimalTypes(Request $request)
     {
-        $animalSystemCategory = AnimalSystemCategory::all();
+        $animalSystemCategory = AnimalSystemCategory::whereNotIn('name', ['ribe', 'beskralješnjaci'])->get();
         $type = $request->type;
 
         $animals = Animal::with('animalType', 'animalCategory', 'animalCodes')

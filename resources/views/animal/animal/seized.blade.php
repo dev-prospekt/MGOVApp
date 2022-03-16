@@ -203,7 +203,7 @@
                         <div class="form-group">
                             <label>Okolnosti i način pronalaska životinje</label>
                             <div class="form-group">
-                            <textarea class="form-control" id="exampleFormControlTextarea1" name="animal_found_note" rows="5"></textarea>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="animal_found_note" rows="5" required></textarea>
                             </div>              
                         </div> 
                     </div>

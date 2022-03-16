@@ -859,9 +859,8 @@
                           processData: false,
                           dataType: 'json',
                           contentType: false,
-
                           success: function(result) {
-                            console.log(result);
+                              console.log(result);
                             
                               if(result.errors) {
                                   alertDanger.html('');

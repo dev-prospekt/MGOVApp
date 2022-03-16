@@ -25,7 +25,6 @@ class AnimalItemPostRequest extends FormRequest
     public function rules()
     {
         return [
-            //'animal_dob' => "required",
             'animal_gender' => "required",
         ];
     }
@@ -33,7 +32,6 @@ class AnimalItemPostRequest extends FormRequest
     public function messages()
     {
         return [
-            //'animal_dob.required' => 'Dob jedinke je obavezan podatak.',
             'animal_gender.required' => 'Spol je obavezan podatak.',
         ];
     }
