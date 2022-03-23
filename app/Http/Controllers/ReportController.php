@@ -245,13 +245,18 @@ class ReportController extends Controller
             }
         }
 
+        // Now Date
+        $nowDate = Carbon::now()->format('d.m.Y');
+        $year = Carbon::now()->format('Y');
+
         $pdf = PDF::loadView('reports.znspdf', compact(
             'animalItems', 'username', 'shelter',
             'priceVetSZJ', 'priceVetZJ', 'priceVetIJ',
             'priceVetOutSZJ', 'priceVetOutZJ', 'priceVetOutIJ',
             'kvartal',
             'SZJTotalPrice', 'seizedTotalPrice', 'potrazivani_troskoviIJ',
-            'totalPrice'
+            'totalPrice',
+            'nowDate', 'year'
         ));
 
         $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('d.m.Y');
@@ -344,7 +349,7 @@ class ReportController extends Controller
 
         // 1. 1.1.xxxx - 1.3.xxxx
         $start1 = Carbon::parse('01.01.'.$year);
-        $end1 = Carbon::parse('01.03.'.$year);
+        $end1 = Carbon::parse('31.03.'.$year);
         // 2. 1.4.xxxx - 30.6.xxxx
         $start2 = Carbon::parse('01.04.'.$year);
         $end2 = Carbon::parse('30.06.'.$year);

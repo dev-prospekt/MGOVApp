@@ -1,52 +1,55 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>ZAHTJEV ZA NADOKNADU SREDSTAVA ZA OSNOVNU I PROŠIRENU SKRB ZA
       ŽIVOTINJE U OPORAVILIŠTU TE USMRĆIVANJE</title>
+
+    <style>
+      body {
+        font-family: DejaVu Sans, sans-serif !important;
+        font-size: 12px !important;
+      }
+      table, td {
+        border: 1px solid #333;
+        border-collapse: collapse;
+      }
+      td {
+        text-align: left;
+        padding: 5px;
+        padding-top: 0px;
+        font-size: 14px;
+        font-weight: 400;
+      }
+      .title {
+        font-size: 16px !important;
+        font-weight: 700 !important;
+        text-align: center;
+      }
+      .subtitle {
+        font-size: 15px !important;
+        font-weight: 700 !important;
+        text-align: left;
+      }
+      .gray {
+        background: lightgray;
+        padding: 10px;
+        font-weight: 600;
+      }
+      .italic {
+        font-style: italic;
+        font-size: 13px;
+      }
+      .txt {
+        font-size: 14px;
+      }
+      .underline {
+        text-decoration: underline;
+      }
+    </style>
   </head>
-  <style>
-    body {
-      font-family: DejaVu Sans, sans-serif !important;
-      font-size: 12px !important;
-    }
-    table, td {
-      border: 1px solid #333;
-      border-collapse: collapse;
-    }
-    td {
-      text-align: left;
-      padding: 5px;
-      padding-top: 0px;
-      font-size: 14px;
-      font-weight: 400;
-    }
-    .title {
-      font-size: 16px !important;
-      font-weight: 700 !important;
-      text-align: center;
-    }
-    .subtitle {
-      font-size: 15px !important;
-      font-weight: 600 !important;
-    }
-    .gray {
-      background: lightgray;
-      padding: 10px;
-      font-weight: 600;
-    }
-    .italic {
-      font-style: italic;
-      font-size: 13px;
-    }
-    .txt {
-      font-size: 14px;
-    }
-    .underline {
-      text-decoration: underline;
-    }
-  </style>
   <body>
 
     <p class="title">ZAHTJEV ZA NADOKNADU SREDSTAVA ZA OSNOVNU I PROŠIRENU SKRB ZA ŽIVOTINJE U OPORAVILIŠTU TE USMRĆIVANJE</p>
@@ -55,11 +58,11 @@
       <table style="width:100%">
         <tr>
           <td>Datum podnošenja zahtjeva</td>
-          <td>10.01.2022</td>
+          <td>{{ $nowDate }}</td>
         </tr>
         <tr>
           <td>Datum izrade izvješća u aplikaciji</td>
-          <td>10.01.2022</td>
+          <td>{{ $nowDate }}</td>
         </tr>
         <tr>
           <td>Izvješće u aplikaciji izradio/la</td>
@@ -110,38 +113,42 @@
         </tr>
         <tr>
           <td>I. kvartal</td>
-          <td> <input type="checkbox" {{ $kvartal['kvartal'] == 1 ? 'checked' : '' }} /> </td>
+          <td> <input type="checkbox" {{ $kvartal['kvartal'] == 1 ? 'checked' : '' }}  /> </td>
           <td>
-            @if ($kvartal['kvartal'] == 1)
+            1.1.{{$year}}. - 31.3.{{$year}}.
+            {{-- @if ($kvartal['kvartal'] == 1)
               {{ $kvartal['date']['startDate'] . ' - ' . $kvartal['date']['endDate'] }}
-            @endif
+            @endif --}}
           </td>
         </tr>
         <tr>
           <td>II. kvartal</td>
-          <td> <input type="checkbox" {{ $kvartal['kvartal'] == 2 ? 'checked' : '' }} /> </td>
+          <td> <input type="checkbox" {{ $kvartal['kvartal'] == 2 ? 'checked' : '' }}  /> </td>
           <td>
-            @if ($kvartal['kvartal'] == 2)
+            1.4.{{$year}}. - 30.6.{{$year}}.
+            {{-- @if ($kvartal['kvartal'] == 2)
               {{ $kvartal['date']['startDate'] . ' - ' . $kvartal['date']['endDate'] }}
-            @endif
+            @endif --}}
           </td>
         </tr>
         <tr>
           <td>III. kvartal</td>
-          <td> <input type="checkbox" {{ $kvartal['kvartal'] == 3 ? 'checked' : '' }} /> </td>
+          <td> <input type="checkbox" {{ $kvartal['kvartal'] == 3 ? 'checked' : '' }}  /> </td>
           <td>
-            @if ($kvartal['kvartal'] == 3)
+            1.7.{{$year}}. - 30.9.{{$year}}.
+            {{-- @if ($kvartal['kvartal'] == 3)
               {{ $kvartal['date']['startDate'] . ' - ' . $kvartal['date']['endDate'] }}
-            @endif
+            @endif --}}
           </td>
         </tr>
         <tr>
           <td>IV. kvartal</td>
           <td> <input type="checkbox" {{ $kvartal['kvartal'] == 4 ? 'checked' : '' }} /> </td>
           <td>
-            @if ($kvartal['kvartal'] == 4)
+            1.10.{{$year}}. - 31.12.{{$year}}.
+            {{-- @if ($kvartal['kvartal'] == 4)
               {{ $kvartal['date']['startDate'] . ' - ' . $kvartal['date']['endDate'] }}
-            @endif
+            @endif --}}
           </td>
         </tr>
       </table>
