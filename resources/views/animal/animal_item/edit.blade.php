@@ -71,7 +71,7 @@
                                 @enderror
                             </div>
                             @endif
-                            {{-- <div class="form-group">
+                            <div class="form-group">
                                 <label>Dob jedinke</label>
                                 <select class="form-control" name="animal_dob" id="">
                                     @if ($animalItem->animal_age)
@@ -86,7 +86,7 @@
                                 @error('animal_dob')
                                     <div class="text-danger">{{$errors->first('animal_dob') }} </div>
                                 @enderror
-                            </div> --}}
+                            </div>
                             <div class="form-group">
                                 <label>Spol</label>
                                 <select class="form-control" name="animal_gender" id="">
@@ -101,7 +101,7 @@
                                 @error('animal_gender')
                                     <div class="text-danger">{{$errors->first('animal_gender') }} </div>
                                 @enderror
-                            </div>  
+                            </div>
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-end">
