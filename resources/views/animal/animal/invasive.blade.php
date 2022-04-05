@@ -83,7 +83,7 @@
                     <div class="bordered-group">
                         <div class="form-group">
                             <label>Nalaznik</label>
-                            <select name="founder_id" class="form-control">
+                            <select name="founder_id" class="form-control" required >
                                 <option value="">----</option>
                                 @foreach ($founderServices as $service)
                                     <option value="{{ $service->id }}">{{ $service->name }}</option>
