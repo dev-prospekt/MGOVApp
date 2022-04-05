@@ -22,6 +22,12 @@
           <div class="dropdown-body">
             <ul class="profile-nav p-0 pt-3">
               <li class="nav-item">
+                <a href="{{ route('user.show', auth()->user()) }}" class="nav-link">
+                  <i data-feather="user"></i>
+                  <span>Profile</span>
+                </a>
+              </li>
+              <li class="nav-item">
                 <a href="/logout" class="nav-link">
                   <i data-feather="log-out"></i>
                   <span>Log Out</span>

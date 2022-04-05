@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
@@ -27,4 +29,17 @@ class ResetPasswordController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+    public function reset(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users',
+            'password' => 'required|string|min:6|confirmed',
+            'password_confirmation' => 'required'
+        ]);
+
+        $user = User::where('email', $request->email)->update(['password' => bcrypt($request->password)]);
+
+        return redirect()->route('user.show', $request->user_id)->with('msg_pass', 'Vaša lozinka je uspješno ažurirana!');
+    }
 }
