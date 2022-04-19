@@ -118,8 +118,17 @@ class AnimalShelterCreateController extends Controller
             'active_group' => true,
         ]);
 
+        // UniqueID
+        $incrementUniqueID = AnimalItem::orderBy('id', 'DESC')->first();
+        if (empty($incrementUniqueID->id)) {
+            $incrementID = 1;
+        } else {
+            $incrementID = $incrementUniqueID->id + 1;
+        }
+
         // Create AnimalItem
         $animalItem = new AnimalItem;
+        $animalItem->unique_id = $incrementID;
         $animalItem->animal_group_id = $animal_group->id;
         $animalItem->animal_id = $request->animal_id;
         $animalItem->shelter_id = $request->shelter_id;
@@ -216,8 +225,17 @@ class AnimalShelterCreateController extends Controller
             'active_group' => true,
         ]);
 
+        // UniqueID
+        $incrementUniqueID = AnimalItem::orderBy('id', 'DESC')->first();
+        if (empty($incrementUniqueID->id)) {
+            $incrementID = 1;
+        } else {
+            $incrementID = $incrementUniqueID->id + 1;
+        }
+
         // Create AnimalItem
         $animalItem = new AnimalItem;
+        $animalItem->unique_id = $incrementID;
         $animalItem->shelter_id = $request->shelter_id;
         $animalItem->animal_group_id = $animal_group->id;
         $animalItem->shelter_code = $animal_group->shelter_code;
@@ -306,8 +324,17 @@ class AnimalShelterCreateController extends Controller
             'active_group' => true,
         ]);
 
+        // UniqueID
+        $incrementUniqueID = AnimalItem::orderBy('id', 'DESC')->first();
+        if (empty($incrementUniqueID->id)) {
+            $incrementID = 1;
+        } else {
+            $incrementID = $incrementUniqueID->id + 1;
+        }
+
         // Create AnimalItem
         $animalItem = new AnimalItem;
+        $animalItem->unique_id = $incrementID;
         $animalItem->shelter_id = $request->shelter_id;
         $animalItem->shelter_code = $animal_group->shelter_code;
         $animalItem->animal_id = $request->animal_id;

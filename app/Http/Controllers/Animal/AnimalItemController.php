@@ -102,8 +102,13 @@ class AnimalItemController extends Controller
             }
         }
 
+        // Oporavilišze iz kojeg je doslo
+        $animalItemShelter = $animalItem->where('unique_id', $animalItem->unique_id)
+        ->where('id', '!=', $animalItem->id)->orderBy('id', 'DESC')->first();
+
         return view('animal.animal_item.show', [
             'animalItem' => $animalItem,
+            'animalItemShelter' => $animalItemShelter,
             'paginateLogs' => $paginateLogs,
             'hibern' => $hibern,
             'fullCare' => $fullCare,
@@ -228,7 +233,17 @@ class AnimalItemController extends Controller
 
     public function cloneAnimalItem($animal_item_id)
     {
+        // UniqueID
+        $incrementUniqueID = AnimalItem::orderBy('id', 'DESC')->first();
+        if (empty($incrementUniqueID->id)) {
+            $incrementID = 1;
+        } else {
+            $incrementID = $incrementUniqueID->id + 1;
+        }
+        
         $item = AnimalItem::findOrFail($animal_item_id);
+        $item->unique_id = $incrementID;
+
         $newItem = $item->duplicate();
         $newItem->save();
 

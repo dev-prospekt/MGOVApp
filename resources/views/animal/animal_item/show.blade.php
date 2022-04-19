@@ -168,6 +168,15 @@
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način držanja:</label>
                       <p class="text-warning">{{ $animalItem->solitary_or_group ?? '' }}</p>
                     </div>
+
+                    @if (!empty($animalItemShelter))
+                    {{-- Ako je stigla iz drugog oporavilišta --}}
+                    <div class="mt-2">
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dolazak iz oporavilišta:</label>
+                      <p class="text-muted">{{ $animalItemShelter->shelter->name }}</p>
+                    </div>
+                    {{-- Ako je stigla iz drugog oporavilišta --}}
+                    @endif
                   </div> 
                   <div class="col-md-4 ">
                       <div class="mt-2">
