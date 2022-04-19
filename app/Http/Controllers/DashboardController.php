@@ -10,15 +10,9 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        $shelters = Shelter::with('users', 'animalItems')
-            ->whereHas('users', function ($q) {
-                $q->where('email', auth()->user()->email);
-            })
-            ->get();
-
-        $shelters = Shelter::with('users', 'animalItems')
-            ->whereHas('users', function ($q) {
-                $q->where('email', auth()->user()->email);
+        $shelters = Shelter::with('users', 'allAnimalItems')
+            ->whereHas('users', function ($query) {
+                $query->where('email', auth()->user()->email);
             })
             ->get();
 

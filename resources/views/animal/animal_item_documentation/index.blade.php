@@ -300,7 +300,7 @@
                     <div class="mt-2">
                       @isset($animalItem->animalDocumentation->animalMark->animal_mark_note)
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv oznake: </label>
-                      <p class="text-muted">{{ $animalItem->animalDocumentation->state_recive_desc ?? '' }}</p>
+                      <p class="text-muted">{{ $animalItem->animalDocumentation->animalMark->animal_mark_note ?? '' }}</p>
                       @endisset    
                     </div>        
                   
@@ -365,6 +365,23 @@
                     </div>               
                     @endif
                   @endif
+                </div>
+              </div>                   
+            </div>  
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <div><h6 class="card-description">Lokacija pronalska</h6> </div>  
+            <div class="separator separator--small"></div> 
+            <div class="row">
+              <div class="col-md-12 grid-margin">  
+                <div class="mt-2">
+                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Lokacija: </label>
+                  <p class="text-muted">{{ $animalItem->location ?? ''}}</p>
                 </div>
               </div>                   
             </div>  

@@ -224,6 +224,29 @@
                 <div class="col-md-4">
                     <div class="bordered-group">
                         <div class="form-group">
+                            <label>Stanje u kojem je životinja pronađena</label>
+                            <select name="status_found" class="form-control" required>
+                                <option value="">----</option>
+                                @foreach ($stateType as $item)
+                                    <option value="{{$item->id}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Opis</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" name="status_found_desc" rows="5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Učitaj</label>
+                            <input type="file" id="status_found_file" name="status_found_file[]" multiple />
+                            <div id="error_status_found_file"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-4">
+                    <div class="bordered-group">
+                        <div class="form-group">
                             <label>Stanje životinje u trenutku zaprimanja u oporavilište</label>
                             <select name="status_receiving" class="form-control" required>
                                 <option value="">----</option>
@@ -241,28 +264,6 @@
                             <label>Učitaj</label>
                             <input type="file" id="status_receiving_file" name="status_receiving_file[]" multiple />
                             <div id="error_status_receiving_file"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="bordered-group">
-                        <div class="form-group">
-                            <label>Stanje u kojem je životinja pronađena</label>
-                            <select name="status_found" class="form-control" required>
-                                <option value="">----</option>
-                                @foreach ($stateType as $item)
-                                    <option value="{{$item->id}}">{{$item->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Opis</label>
-                            <textarea class="form-control" id="exampleFormControlTextarea1" name="status_found_desc" rows="5"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Učitaj</label>
-                            <input type="file" id="status_found_file" name="status_found_file[]" multiple />
-                            <div id="error_status_found_file"></div>
                         </div>
                     </div>
                 </div>

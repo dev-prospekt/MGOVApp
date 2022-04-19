@@ -29,11 +29,11 @@
 </ul>
 
 <div class="d-flex align-items-center justify-content-between">
-  <h5 class="mb-3 mb-md-0">Smještajna jedinica</h5>
+  <h5 class="mb-3 mb-md-0">Program prehrane</h5>
   <div>      
     @can('create')
-      <a id="createAccomodation" href="{{ route('shelters.accomodations.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
-        Dodaj smještajne jedinice
+      <a id="createAccomodation" href="{{ route('shelters.nutritions.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
+        Dodaj program prehrane
         <i class="btn-icon-append" data-feather="user-plus"></i>
       </a> 
     @endcan                 

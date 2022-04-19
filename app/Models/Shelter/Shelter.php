@@ -69,6 +69,14 @@ class Shelter extends Model
 
     public function allAnimalItems()
     {
+        return $this->hasMany(AnimalItem::class)
+        ->where('in_shelter', 1)
+        ->where('shelter_id', auth()->user()->shelter_id)
+        ->where('animal_item_care_end_status', 1);
+    }
+
+    public function excelAnimalItems()
+    {
         return $this->hasMany(AnimalItem::class);
     }
 

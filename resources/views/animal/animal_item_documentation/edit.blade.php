@@ -15,16 +15,7 @@
        <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-primary btn-sm btn-icon-text">
           Povratak na popis
           <i class="btn-icon-append" data-feather="clipboard"></i>
-        </a> 
-        
-        <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-warning btn-sm btn-icon-text">
-          Premještaj jedinke
-          <i class="btn-icon-append" data-feather="clipboard"></i>
-        </a> 
-        <a href="/shelters/{{ $animalItem->shelter_id }}/animal_groups/{{ $animalItem->animal_group_id }}" type="button" class="btn btn-info btn-sm btn-icon-text">
-          Izvještaj jedinke
-          <i class="btn-icon-append" data-feather="clipboard"></i>
-        </a> 
+        </a>
     </div>
   </div>
 
@@ -36,9 +27,9 @@
       <a class="nav-link active" href="{{ route('shelters.animal_groups.animal_items.animal_item_documentations.index', [$shelter->id, $animalGroup->id, $animalItem->id]) }}">Dokumentacija</a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link" href="#">Eutanazija</a>
-    </li>
+    @role('Administrator|Oporavilište')
+    <a class="nav-link" href="{{ route('shelters.animal_groups.animal_items.animal_item_care_end.index', [$animalItem->shelter_id, $animalItem->animal_group_id, $animalItem->id]) }}">Završetak skrbi</a>
+    @endrole
   </ul>
 
   <div class="card">
@@ -228,6 +219,9 @@
               <div class="bordered-group">        
                   <div class="form-group">
                       <label>Vrsta oznake</label>
+                      @role('Administrator')
+                      <a href="javascript:void(0)" class="create_mark_type">Dodaj</a>
+                      @endrole
                       <select name="animal_mark" class="form-control">
                          @foreach ($markTypes as $markType)
                           <option value="{{ $markType->id}}" {{ ( $markType->id == $selectedMark) ? 'selected' : '' }}>{{ $markType->name }} ({{ $markType->desc }})</option>
@@ -289,6 +283,7 @@
     </div>
   </div>
   
+  <div class="modal"></div>
 
 @endsection
 
@@ -304,6 +299,26 @@
 
   <script>
       $(function() {
+
+        $(".create_mark_type").on('click', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                url: '{{ route('animalMarkType_ShowModal') }}',
+                method: 'GET',
+                success: function(result) {
+                  if(result.success == true){
+                    $(".modal").show();
+                    $(".modal").html(result['html']);
+                  }
+                }
+            });
+        });
+
+        // Close Modal
+        $(".modal").on('click', '.modal-close', function(){
+            $(".modal").hide();
+        });
                      
             
         $("#stateFoundFile").fileinput({

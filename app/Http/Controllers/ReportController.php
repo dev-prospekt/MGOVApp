@@ -178,7 +178,7 @@ class ReportController extends Controller
     public function generateZNS(Request $request)
     {
         $shelter = Shelter::find($request->shelter);
-        $animalItems = $shelter->allAnimalItems->where('animal_item_care_end_status', 0);
+        $animalItems = $shelter->excelAnimalItems->where('animal_item_care_end_status', 0);
         $username = auth()->user()->name;
 
         if(empty($request->start_date) || empty($request->end_date)){
@@ -496,7 +496,7 @@ class ReportController extends Controller
                 }
             }
             else {
-                $animalItems = $shelter->allAnimalItems;
+                $animalItems = $shelter->excelAnimalItems;
                 foreach ($animalItems as $item) {
                     if($item->shelter_id == $shelter->id){
                         $data[] = $item;

@@ -49,6 +49,10 @@
           @if($msg = Session::get('euthanasiaMsg'))
             <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
           @endif   
+          
+          @if($msg = Session::get('animalItemCareEndTypeMsg'))
+            <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+          @endif   
 
           <form action="/animalItem/update/{{$animalItem->id}}" method="POST" enctype="multipart/form-data" autocomplete="off">
             @csrf
@@ -67,6 +71,9 @@
             </div>    
             <div class="form-group">
               <label>Razlog prestanka skrbi</label>
+              @role('Administrator')
+              <a href="javascript:void(0)" class="create_care_end_type">Dodaj</a>
+              @endrole
               <select class="form-control end_care_type" name="end_care_type" id="endCareType" required>
                 <option value="">----</option>
                 @foreach ($careEndTypes as $careEndType)
@@ -400,9 +407,10 @@
       </div>
     </div>
   </div><!-- end row -->
-
 @endif
   
+
+<div class="modal"></div>
 @endsection
 
 @push('plugin-scripts')
@@ -423,6 +431,26 @@
             todayHighlight: true,
             autoclose: true,
             language: 'hr'
+        });
+
+        $(".create_care_end_type").on('click', function(e){
+            e.preventDefault();
+
+            $.ajax({
+                url: '{{ route('animalItemCareEndTypeStore_ShowModal') }}',
+                method: 'GET',
+                success: function(result) {
+                  if(result.success == true){
+                    $(".modal").show();
+                    $(".modal").html(result['html']);
+                  }
+                }
+            });
+        });
+
+        // Close Modal
+        $(".modal").on('click', '.modal-close', function(){
+            $(".modal").hide();
         });
 
         // Veterirani

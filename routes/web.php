@@ -16,9 +16,11 @@ use App\Http\Controllers\Shelter\ShelterController;
 use App\Http\Controllers\Animal\AnimalSizeController;
 use App\Http\Controllers\Animal\AnimalImportController;
 use App\Http\Controllers\Animal\AnimalCategoryController;
+use App\Http\Controllers\Animal\AnimalMarkTypeController;
 use App\Http\Controllers\Animal\AnimalSeizedTypeController;
 use App\Http\Controllers\Animal\AnimalInvaziveTypeController;
 use App\Http\Controllers\Animal\AnimalProtectedTypeController;
+use App\Http\Controllers\Animal\AnimalItemCareEndTypeController;
 use App\Http\Controllers\Animal\AnimalItemDocumentationController;
 
 
@@ -177,6 +179,18 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get("/roleMapping", 'UserController@roleMapping')->name('roleMapping');
     Route::post("/role-mapping-add", 'UserController@roleMappingAdd')->name("role-mapping-add");
     Route::post("/permission-mapping", 'UserController@permissionMapping')->name("permissionAdd");
+
+    // MODAL
+    //
+    // AnimalItemCareEndType
+    Route::get('animal-item-care-end-type-modal', [AnimalItemCareEndTypeController::class, 'showModal'])->name('animalItemCareEndTypeStore_ShowModal');
+    Route::post("animal-item-care-end-type", [AnimalItemCareEndTypeController::class, 'store'])->name('animalItemCareEndTypeStore');
+
+    // MarkType
+    Route::get('mark-type-modal', [AnimalMarkTypeController::class, 'showModal'])->name('animalMarkType_ShowModal');
+    Route::post('mark-type', [AnimalMarkTypeController::class, 'store'])->name('animalMarkTypeStore');
+    //
+    // MODAL
 
     // Reports
     Route::get('view-reports', 'ReportController@viewReports')->name("report-view");

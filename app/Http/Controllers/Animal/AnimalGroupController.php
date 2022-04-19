@@ -168,6 +168,9 @@ class AnimalGroupController extends Controller
                             <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
                                 Podaci
                             </a>
+                            <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
+                                Dupliciraj
+                            </a>
                         </div>
                         ';
                     }
