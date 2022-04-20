@@ -11,6 +11,11 @@
         <div class="card">
             <div class="card-body">
                 <h6 class="card-title">Izmjenite podatke oporavilišta - {{  $shelter->name }}</h6>
+
+                @if($msg = Session::get('update_shelter'))
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
+
                 <form action="{{ route("shelter.update", $shelter->id) }}" method="POST" multiple>
                     @csrf
                     @method('PATCH')

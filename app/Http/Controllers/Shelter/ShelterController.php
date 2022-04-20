@@ -288,7 +288,8 @@ class ShelterController extends Controller
             'shelter_id' => $shelter->id
         ]);
 
-        return redirect()->route("shelter.show", $shelter->id)->with('update_shelter', 'Uspješno ažurirano.');
+        // return redirect()->route("shelter.show", $shelter->id)->with('update_shelter', 'Uspješno ažurirano.');
+        return redirect()->back()->with('update_shelter', 'Uspješno ažurirano.');
     }
 
     /**
