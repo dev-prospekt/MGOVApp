@@ -190,6 +190,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/animal-care-end-status", [PodaciController::class, 'animal_care_end_status'])->name('animal-care-end-status');
     Route::post("/podaci-location-animal-takeover", [PodaciController::class, 'location_animal_takeover'])->name('podaci-location-animal-takeover');
 
+    Route::get("/podaci-create/{model}", [PodaciController::class, 'podaci_create'])->name('podaci-create');
+    Route::get("/podaci-edit/{id}/{model}", [PodaciController::class, 'podaci_edit'])->name('podaci-edit');
+    Route::post("/podaci-update/{id}", [PodaciController::class, 'podaci_update'])->name('podaci-update');
+    Route::delete("/podaci-delete/{id}/{model}", [PodaciController::class, 'podaci_delete'])->name('podaci-delete');
+
     // Reports
     Route::get('view-reports', 'ReportController@viewReports')->name("report-view");
     Route::post('reports-status/{report}', 'ReportController@changeStatus')->name("report-status");

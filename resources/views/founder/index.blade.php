@@ -16,51 +16,6 @@
     </div>
   </div>
 <div class="row">
-    <div class="col-md-7 stretch-card">
-        <div class="card">
-            <div class="card-body">
-                
-                <div class="d-flex align-items-center justify-content-between">
-                    <div>
-                        <h6 class="card-title">Nalaznici</h6>
-                        <p class="card-description">Ministarstvo gospodarstva i održivog razvoja</p>
-                    </div>
-                    <div>
-                        <a href="{{ route('shelters.founders.create', $shelter->id) }}" class="create btn btn-sm btn-primary">Dodaj novog</a>
-                    </div>
-                </div>
-
-                @if($msg = Session::get('msg'))
-                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
-                @endif
-
-                @if($error = Session::get('error'))
-                <div id="dangerMessage" class="alert alert-danger">
-                    @foreach ($error as $err)
-                        <p>{{ $err }}</p>
-                    @endforeach
-                </div>
-                @endif
-
-                <div class="table-responsive-sm">
-                    <table class="table" id="founder-table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>IME</th>
-                                <th>PREZIME</th>
-                                <th>KONTAKT</th>
-                                <th>Akcija</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <div class="col-md-5">
         <div class="card">
@@ -122,44 +77,12 @@
 @push('custom-scripts')
   <script>
       $(function() {
-        var table = $('#founder-table').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: '{!! route('shelters.founders.index', [$shelter->id] ) !!}',
-            columns: [
-                { data: 'id', name: 'id'},
-                { data: 'name', name: 'name'},
-                { data: 'lastname', name: 'lastname'},
-                { data: 'contact', name: 'contact'},
-                { data: 'action', name: 'action'},
-            ],
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
-            },
-        });
-
         var founderService = $("#founder-service").DataTable({
             pageLength: 5,
             lengthChange: false,
             language: {
                 url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
             }
-        });
-
-        // Info 
-        $("#founder-table").on('click', '.info', function(e){
-            e.preventDefault();
-
-            var url = $(this).attr('data-href');
-
-            $.ajax({
-                url: url,
-                method: 'GET',
-                success: function(result) {
-                    $(".modal").show();
-                    $(".modal").html(result['html']);
-                }
-            });
         });
 
         // Add
@@ -222,35 +145,6 @@
                 success: function(result) {
                     $(".modal").show();
                     $(".modal").html(result['html']);
-                }
-            });
-        });
-
-        // Delete
-        $('#founder-table').on('click', '.trash', function(e){
-            e.preventDefault();
-
-            url = $(this).attr('data-href');
-
-            Swal.fire({
-                title: 'Jeste li sigurni?',
-                text: "Želite obrisati nalaznika i više neće biti dostupan!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                cancelButtonText: 'Odustani',
-                confirmButtonText: 'Da, obriši!'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'DELETE',
-                        url: url,
-                        data: {_token: '{{csrf_token()}}'},
-                        success: function (results) {
-                            table.ajax.reload();
-                        }
-                    });
                 }
             });
         });
