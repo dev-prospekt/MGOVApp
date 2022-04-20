@@ -236,7 +236,6 @@ class AnimalGroupController extends Controller
         })
         ->addColumn('action', function ($animal_items){
             $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
-            $cloneUrl = route('animal_item.clone', [$animal_items->id]);
 
             if(auth()->user()->hasRole('Oporavilište') && auth()->user()->hasRole('Administrator') ){
                 return '
@@ -244,8 +243,8 @@ class AnimalGroupController extends Controller
                     <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
                         Podaci
                     </a>
-                    <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
-                        Dupliciraj
+                    <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
+                        Premjesti
                     </a>
                 </div>
                 ';
