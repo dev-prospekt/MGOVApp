@@ -252,7 +252,7 @@ class AnimalGroupController extends Controller
         ->make();
     }
 
-    public function animalAnotherShelter(AnimalGroup $animalGroup)
+    public function animalAnotherShelter(Shelter $shelter, AnimalGroup $animalGroup)
     {
         $animal_items = $animalGroup->animalAnotherShelter;
 
