@@ -24,7 +24,6 @@ use App\Http\Controllers\Animal\AnimalProtectedTypeController;
 use App\Http\Controllers\Animal\AnimalItemCareEndTypeController;
 use App\Http\Controllers\Animal\AnimalItemDocumentationController;
 
-
 Route::get("/adminer", function() {
     ob_start();
     require(path("public")."adminer.php");
