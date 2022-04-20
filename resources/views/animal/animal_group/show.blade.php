@@ -32,7 +32,7 @@
     </li>
     <li class="nav-item">
         <a class="nav-link" id="anotherShelter-tab" data-toggle="tab" href="#anotherShelter" role="tab" aria-controls="anotherShelter" aria-selected="false">
-            Poslane u drugo oporavilište
+            Poslane u drugo oporavilište ({{ $animal_group->animalAnotherShelter->count() }})
         </a>
     </li>
 </ul>
