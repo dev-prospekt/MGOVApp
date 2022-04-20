@@ -102,13 +102,19 @@ class AnimalItemController extends Controller
             }
         }
 
-        // Oporavilišze iz kojeg je doslo
+        // Poslano u oporavilište
         $animalItemShelter = $animalItem->where('unique_id', $animalItem->unique_id)
-        ->where('id', '!=', $animalItem->id)->orderBy('id', 'DESC')->first();
+        ->where('id', '>', $animalItem->id)->orderBy('id', 'DESC')->first();
+
+        // Oporavilište iz kojeg je doslo
+        $animalItemShelterdoslo = $animalItem->where('unique_id', $animalItem->unique_id)
+        ->where('id', '<', $animalItem->id)
+        ->first();
 
         return view('animal.animal_item.show', [
             'animalItem' => $animalItem,
             'animalItemShelter' => $animalItemShelter,
+            'animalItemShelterdoslo' => $animalItemShelterdoslo,
             'paginateLogs' => $paginateLogs,
             'hibern' => $hibern,
             'fullCare' => $fullCare,
@@ -119,7 +125,7 @@ class AnimalItemController extends Controller
             'solitaryGroup' => $solitaryGroup,
             'startSolitaryGroup' => $startSolitaryGroup,
             'allSolitaryGroup' => $allSolitaryGroup,
-            'arrayAnimalForFullCare' => $arrayAnimalForFullCare
+            'arrayAnimalForFullCare' => $arrayAnimalForFullCare,
         ]);
     }
 

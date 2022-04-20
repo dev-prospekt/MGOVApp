@@ -30,6 +30,11 @@
             Završena skrb ({{ $animal_group->animalItemInactive->count() }})
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" id="anotherShelter-tab" data-toggle="tab" href="#anotherShelter" role="tab" aria-controls="anotherShelter" aria-selected="false">
+            Poslane u drugo oporavilište
+        </a>
+    </li>
 </ul>
 
 <div class="tab-content border border-top-0" id="myTabContent">
@@ -91,8 +96,8 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex align-items-start justify-content-between">
-                            <div><h5 class="card-title">Popis jedinki unutar grupe</h5>
-                                <p class="card-description">Napomena: unestite podatke za pojedinu jedinku, duplicirajte dokumentaciju za sve članove grupe</p>
+                            <div>
+                                <h5 class="card-title">Završena skrb</h5>
                             </div>
                         </div>
                         
@@ -107,6 +112,46 @@
         
                         <div class="table-responsive-sm">
                             <table class="table" id="animal-table-inactive" style="width: 100%;">
+                                <thead>
+                                    <tr>
+                                        <th>Šifra jedinke</th>
+                                        <th>LATINSKI NAZIV</th>
+                                        <th>Početak skrbi</th>
+                                        <th>Kraj skrbi</th>
+                                        <th>Dob</th>
+                                        <th>Spol</th>
+                                        <th>Veličina</th>
+                                        <th>Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="anotherShelter" role="tabpanel" aria-labelledby="anotherShelter-tab">
+        <div class="row">
+            <div class="col-lg-12 col-xl-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start justify-content-between">
+                            <div>
+                                <h5 class="card-title">Jedinke koje su poslane u drugo oporavilište</h5>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            
+                        </div>
+        
+                        <div class="table-responsive-sm">
+                            <table class="table" id="animal-table-another-shelter" style="width: 100%;">
                                 <thead>
                                     <tr>
                                         <th>Šifra jedinke</th>
@@ -162,8 +207,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="sendGroup" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                    <button type="button" id="sendGroup" class="btn btn-primary">Pošalji</button>
                 </div>
             </div>
         </div>
@@ -209,6 +254,28 @@ $(function() {
         processing: true,
         serverSide: true,
         ajax: '{!! route('animal_item_inactive', [$animal_group->shelters->first()->id, $animal_group->id]) !!}',
+        columns: [
+            { data: 'animal_code', name: 'animal_code'},
+            { data: 'latin_name', name: 'latin_name'},
+            { data: 'date_start', name: 'date_start'},
+            { data: 'date_end', name: 'date_end'},
+            { data: 'animal_age', name: 'animal_age'},
+            { data: 'animal_gender', name: 'animal_gender'},
+            { data: 'animal_size', name: 'animal_size'},
+            { data: 'animal_item_care_end_status', name: 'animal_item_care_end_status'},
+            { data: 'action', name: 'action'},
+        ],
+        language: {
+            url: 'https://cdn.datatables.net/plug-ins/1.11.1/i18n/hr.json'
+        },
+        pageLength: 10,
+        order: [[ 0, "desc" ]],
+    });
+
+    var tableAnotherShelter = $('#animal-table-another-shelter').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: '{!! route('animal_item_another_shelter', [$animal_group->shelters->first()->id, $animal_group->id]) !!}',
         columns: [
             { data: 'animal_code', name: 'animal_code'},
             { data: 'latin_name', name: 'latin_name'},

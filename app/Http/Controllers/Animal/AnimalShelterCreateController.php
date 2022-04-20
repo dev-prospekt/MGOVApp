@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Animal\Animal;
 use App\Models\FounderService;
 use App\Models\Shelter\Shelter;
+use App\Models\Animal\AnimalDob;
 use App\Mail\ProtectedAnimalMail;
 use App\Models\Animal\AnimalItem;
 use App\Models\Animal\AnimalMark;
@@ -17,6 +18,9 @@ use App\Models\Shelter\ShelterType;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Animal\AnimalMarkType;
+use App\Models\Animal\AnimalSolitaryGroup;
+use App\Models\Animal\AnimalItemCareEndType;
+use App\Models\Animal\AnimalLocationTakeover;
 use App\Http\Requests\AnimalItemSeizedStoreRequest;
 use App\Http\Requests\AnimalProtectedCreateRequest;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
@@ -405,8 +409,14 @@ class AnimalShelterCreateController extends Controller
         $shelterType = ShelterType::find($type_id);
         $stateType = AnimalItemDocumentationStateType::all();
         $founder = FounderData::all();
-        $founderServices = FounderService::all();
         $brought = FounderData::whereNotIn('service', [7])->get();
+        
+        $founderServices = FounderService::all();
+        $animalDob = AnimalDob::all();
+        $animalSolitaryGroup = AnimalSolitaryGroup::all();
+        $animalStatus = AnimalItemDocumentationStateType::all();
+        $animalItemCareEndType = AnimalItemCareEndType::all();
+        $animalLocationTakeover = AnimalLocationTakeover::all();
 
         // kod zapljena samo službena osoba
         if($template == 'seized'){
@@ -429,6 +439,11 @@ class AnimalShelterCreateController extends Controller
             'animal' => $animal,
             'founders' => $founder,
             'founderServices' => $founderServices,
+            'animalDob' => $animalDob,
+            'animalSolitaryGroup' => $animalSolitaryGroup,
+            'animalStatus' => $animalStatus,
+            'animalItemCareEndType' => $animalItemCareEndType,
+            'animalLocationTakeover' => $animalLocationTakeover,
             'brought' => $brought,
             'markTypes' => $markTypes,
             'shelter' => $shelter,

@@ -252,6 +252,72 @@ class AnimalGroupController extends Controller
         ->make();
     }
 
+    public function animalAnotherShelter(AnimalGroup $animalGroup)
+    {
+        $animal_items = $animalGroup->animalAnotherShelter;
+
+        return DataTables::of($animal_items)
+        ->addColumn('animal_code', function ($animal_items) {
+            return $animal_items->animal_code;
+        })
+        ->addColumn('latin_name', function ($animal_items) {
+            return $animal_items->animal->latin_name;
+        })
+        ->addColumn('date_start', function ($animal_items) {
+            return isset($animal_items->dateRange->start_date) ? $animal_items->dateRange->start_date->format('d.m.Y') : '';
+        })
+        ->addColumn('date_end', function ($animal_items) {
+            return isset($animal_items->dateRange->end_date) ? $animal_items->dateRange->end_date->format('d.m.Y') : '';
+        })
+        ->addColumn('animal_age', function ($animal_items) {
+            if($animal_items->animal_age == 'ADL(adultna)'){ return 'ADL'; }
+            if($animal_items->animal_age == 'JUV(juvenilna)'){ return 'JUV'; }
+            if($animal_items->animal_age == 'SA(subadultna)'){ return 'SDL'; }
+            if($animal_items->animal_age == 'N(neodređeno)'){ return 'NO'; }
+        })
+        ->addColumn('animal_gender', function ($animal_items) {
+            if($animal_items->animal_gender == 'M(mužjak)'){ return 'M'; }
+            if($animal_items->animal_gender == 'Ž/F(ženka)'){ return 'F'; }
+            if($animal_items->animal_gender == 'N(nije moguće odrediti)'){ return 'N'; }
+        })
+        ->addColumn('animal_size', function ($animal_items) {
+            if(!empty($animal_items->animal_size_attributes_id)){
+                return $animal_items->animalSizeAttributes->name;
+            }
+            else {
+                return '';
+            }
+        })
+        ->addColumn('animal_item_care_end_status', function ($animal_items) {
+            switch ($animal_items->animal_item_care_end_status) {
+                case true:
+                    $btn_class = 'warning';
+                    $btn_text = 'Aktivna';
+                    break;
+                case false:
+                    $btn_class = 'danger';
+                    $btn_text = 'Završena skrb';
+                    break;
+                default:
+                    $btn_class = 'light';
+            }
+            return  '<span class="badge badge-' . ($btn_class) . '">' . $btn_text . '</span>';
+        })
+        ->addColumn('action', function ($animal_items){
+            $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+
+            return '
+            <div class="d-flex align-items-center">
+                <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
+                    Podaci
+                </a>
+            </div>
+            ';
+        })
+        ->rawColumns(['animal_item_care_end_status', 'action'])
+        ->make();
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

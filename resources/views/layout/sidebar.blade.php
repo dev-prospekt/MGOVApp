@@ -85,6 +85,13 @@
         </a>
       </li>
 
+      <li class="nav-item {{ active_class(['podaci']) }}">
+        <a class="nav-link"  href="{{ url('podaci') }}" role="button">
+          <i class="link-icon" data-feather="link"></i>
+          <span class="link-title">Podaci za padajući izbornik</span>
+        </a>
+      </li>
+
       <li class="nav-item nav-category">Cjenik</li>
       <li class="nav-item {{ active_class(['animal_size']) }}">
         <a class="nav-link"  href="{{ url('/animal_size') }}" role="button">

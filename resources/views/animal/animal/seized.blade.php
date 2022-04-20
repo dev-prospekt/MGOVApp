@@ -24,9 +24,9 @@
                         <label>Spol</label>
                         <select class="form-control" name="animal_gender" id="" required>
                             <option value="">Odaberi</option>
-                            <option value="M(mužjak)">M (mužjak)</option>
-                            <option value="Ž/F(ženka)">Ž/F (ženka)</option>
-                            <option value="N(nije moguće odrediti)">N (nije moguće odrediti)</option>
+                            @foreach ($animalDob as $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -59,8 +59,9 @@
                         <label>Način držanja - solitarno/grupa</label>
                         <select class="form-control" name="solitary_or_group" required>
                             <option value="">------</option>
-                            <option value="Solitarno">Solitarno</option>
-                            <option value="Grupa">Grupa</option>
+                            @foreach ($animalSolitaryGroup as $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -134,10 +135,9 @@
                             <label>Lokacija preuzimanja životinje</label>
                             <select class="form-control" name="location_retrieval_animal" required>
                                 <option value="">Odaberi</option>
-                                <option value="U oporavilištu">U oporavilištu</option>
-                                <option value="Izvan oporavilišta">Izvan oporavilišta</option>
-                                <option value="Preuzeli djelatnici oporavilišta">Preuzeli djelatnici oporavilišta</option>
-                                <option value="Preuzela druga služba">Preuzela druga služba</option>
+                                @foreach ($animalLocationTakeover as $item)
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
                             </select>
                         </div> 
                     </div>

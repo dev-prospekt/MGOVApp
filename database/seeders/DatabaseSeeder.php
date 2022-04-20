@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\ShelterSeeder;
+use Database\Seeders\AnimalDobSeeder;
 use Database\Seeders\AnimalCodeSeeder;
 use Database\Seeders\AnimalSizeSeeder;
 use Database\Seeders\AnimalTypeSeeder;
@@ -12,9 +13,11 @@ use Database\Seeders\PermissionsDemoSeeder;
 use Database\Seeders\ShelterStaffTypeSeeder;
 use Database\Seeders\AnimalItemLogTypeSeeder;
 use Database\Seeders\AnimalSizeAttributeSeeder;
+use Database\Seeders\AnimalSolitaryGroupSeeder;
 use Database\Seeders\AnimalSystemCategorySeeder;
 use Database\Seeders\ShelterEquipmentTypeSeeder;
 use Database\Seeders\AnimalItemCareEndTypeSeeder;
+use Database\Seeders\AnimalLocationTakeoverSeeder;
 use Database\Seeders\ShelterAccomodationTypeSeeder;
 use Database\Seeders\AnimalItemDocumentationStateTypeSeeder;
 
@@ -44,5 +47,8 @@ class DatabaseSeeder extends Seeder
         $this->call(AnimalItemDocumentationStateTypeSeeder::class);
         $this->call(AnimalItemCareEndTypeSeeder::class);
         $this->call(FounderServiceSeeder::class);
+        $this->call(AnimalDobSeeder::class);
+        $this->call(AnimalSolitaryGroupSeeder::class);
+        $this->call(AnimalLocationTakeoverSeeder::class);
     }
 }

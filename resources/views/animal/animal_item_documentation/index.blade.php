@@ -72,8 +72,9 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">  
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="">
               <div><h6 class="card-description">Stanje u trenutku pronalaska</h6> </div> 
+              <div class="separator separator--small"></div> 
               <div>     
               </div>
             </div>     
@@ -86,7 +87,6 @@
                     <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje jedinke: </label>
                     <p class="text-muted">{{ $animalItem->animalDocumentation->stateFound->name ?? '' }}</p>
                   </div> 
-                  <div class="separator separator--small"></div> 
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
                       <p class="text-muted">{{ $animalItem->animalDocumentation->state_found_desc ?? '' }}</p>
@@ -127,8 +127,9 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-              <div class="d-flex align-items-center justify-content-between">
+              <div class="">
                 <div><h6 class="card-description">Stanje u trenutku zaprimanja</h6> </div> 
+                <div class="separator separator--small"></div> 
                 <div>      
                 </div>
               </div> 
@@ -141,7 +142,6 @@
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje jedinke: </label>
                       <p class="text-muted">{{ $animalItem->animalDocumentation->stateRecived->name ?? '' }}</p>
                     </div> 
-                    <div class="separator separator--small"></div> 
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
                         <p class="text-muted">{{ $animalItem->animalDocumentation->state_recive_desc ?? '' }}</p>
@@ -178,8 +178,9 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-              <div class="d-flex align-items-center justify-content-between">
-                <div><h6 class="card-description">Razlog zaprimanja</h6> </div>        
+              <div class="">
+                <div><h6 class="card-description">Razlog zaprimanja</h6> </div>   
+                <div class="separator separator--small"></div>      
               </div> 
               @if($msg = Session::get('update_animal_item'))
               <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
@@ -190,7 +191,6 @@
                     <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje jedinke: </label>
                     <p class="text-muted">{{ $animalItem->animalDocumentation->stateReason->name ?? '' }}</p>
                   </div> 
-                  <div class="separator separator--small"></div> 
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Opis: </label>
                       <p class="text-muted">{{ $animalItem->animalDocumentation->state_reason_desc ?? '' }}</p>
@@ -233,7 +233,8 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <div><h6 class="card-description">Nalaznik</h6> </div>  
+            <div><h6 class="card-description">Nalaznik</h6> </div> 
+            <div class="separator separator--small"></div>  
             <div class="row">
               <div class="col-md-12 grid-margin">  
                 <div class="mt-2">
@@ -281,10 +282,9 @@
       <div class="col-md-4">
         <div class="card">
           <div class="card-body">
-            <div class="d-flex align-items-center justify-content-between">
+            <div class="">
               <div><h6 class="card-description">Oznaka jedinke</h6> </div> 
-              <div>      
-              </div>
+              <div class="separator separator--small"></div> 
             </div>      
               <div class="row">
                 <div class="col-md-12 grid-margin">  
@@ -295,8 +295,8 @@
                       ({{ $animalItem->animalDocumentation->animalMark->animalMarkType->desc ?? '' }})
                     </p>
                     @endisset 
-                  </div> 
-                  <div class="separator separator--small"></div> 
+                  </div>
+
                     <div class="mt-2">
                       @isset($animalItem->animalDocumentation->animalMark->animal_mark_note)
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv oznake: </label>
@@ -342,6 +342,7 @@
         <div class="card">
           <div class="card-body">
             <div><h6 class="card-description">Tko je predao</h6> </div>  
+            <div class="separator separator--small"></div> 
             <div class="row">
               <div class="col-md-12 grid-margin">  
                 <div class="mt-2">

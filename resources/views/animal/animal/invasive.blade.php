@@ -24,9 +24,9 @@
                         <label>Spol</label>
                         <select class="form-control" name="animal_gender" id="" required>
                             <option value="">Odaberi</option>
-                            <option value="M(mužjak)">M (mužjak)</option>
-                            <option value="Ž/F(ženka)">Ž/F (ženka)</option>
-                            <option value="N(nije moguće odrediti)">N (nije moguće odrediti)</option>
+                            @foreach ($animalDob as $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
@@ -61,10 +61,9 @@
                             <label>Lokacija preuzimanja životinje</label>
                             <select class="form-control" name="location_retrieval_animal" id="" required>
                                 <option value="">Odaberi</option>
-                                <option value="u_oporavilistu">U oporavilištu</option>
-                                <option value="izvan_oporavilista">Izvan oporavilišta</option>
-                                <option value="preuzeli_djelatnici_oporavilista">Preuzeli djelatnici oporavilišta</option>
-                                <option value="preuzela_druga_sluzba">Preuzela druga služba</option>
+                                @foreach ($animalLocationTakeover as $item)
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
                             </select>
                         </div> 
 

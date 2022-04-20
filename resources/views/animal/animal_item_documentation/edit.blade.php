@@ -219,9 +219,6 @@
               <div class="bordered-group">        
                   <div class="form-group">
                       <label>Vrsta oznake</label>
-                      @role('Administrator')
-                      <a href="javascript:void(0)" class="create_mark_type">Dodaj</a>
-                      @endrole
                       <select name="animal_mark" class="form-control">
                          @foreach ($markTypes as $markType)
                           <option value="{{ $markType->id}}" {{ ( $markType->id == $selectedMark) ? 'selected' : '' }}>{{ $markType->name }} ({{ $markType->desc }})</option>
@@ -282,8 +279,6 @@
         </form>
     </div>
   </div>
-  
-  <div class="modal"></div>
 
 @endsection
 
@@ -300,27 +295,6 @@
   <script>
       $(function() {
 
-        $(".create_mark_type").on('click', function(e){
-            e.preventDefault();
-
-            $.ajax({
-                url: '{{ route('animalMarkType_ShowModal') }}',
-                method: 'GET',
-                success: function(result) {
-                  if(result.success == true){
-                    $(".modal").show();
-                    $(".modal").html(result['html']);
-                  }
-                }
-            });
-        });
-
-        // Close Modal
-        $(".modal").on('click', '.modal-close', function(){
-            $(".modal").hide();
-        });
-                     
-            
         $("#stateFoundFile").fileinput({
                   language: "cr",
                   //required: true,

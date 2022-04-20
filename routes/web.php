@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PodaciController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Shelter\ShelterController;
@@ -65,6 +66,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('shelters.animal_groups.animal_items.animal_item_care_end', Animal\AnimalItemCareEndController::class)->only(['index']);
     Route::post('getVet', 'Animal\AnimalItemCareEndController@getVet')->name('getVet');
     Route::get('shelter{shelter}/animal_group{animalGroup}', 'Animal\AnimalGroupController@animalItemInactive')->name('animal_item_inactive');
+    Route::get('animal_group{animalGroup}', 'Animal\AnimalGroupController@animalAnotherShelter')->name('animal_item_another_shelter');
 
     // Change Shelter
     Route::post('animal_group/{animalGroup}', 'Animal\AnimalGroupController@groupChangeShelter');
@@ -180,17 +182,14 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post("/role-mapping-add", 'UserController@roleMappingAdd')->name("role-mapping-add");
     Route::post("/permission-mapping", 'UserController@permissionMapping')->name("permissionAdd");
 
-    // MODAL
-    //
-    // AnimalItemCareEndType
-    Route::get('animal-item-care-end-type-modal', [AnimalItemCareEndTypeController::class, 'showModal'])->name('animalItemCareEndTypeStore_ShowModal');
-    Route::post("animal-item-care-end-type", [AnimalItemCareEndTypeController::class, 'store'])->name('animalItemCareEndTypeStore');
-
-    // MarkType
-    Route::get('mark-type-modal', [AnimalMarkTypeController::class, 'showModal'])->name('animalMarkType_ShowModal');
-    Route::post('mark-type', [AnimalMarkTypeController::class, 'store'])->name('animalMarkTypeStore');
-    //
-    // MODAL
+    // Podaci
+    Route::get("/podaci", [PodaciController::class, 'index'])->name('podaci-index');
+    Route::post("/podaci-animal-dob", [PodaciController::class, 'animal_dob'])->name('podaci-animal-dob');
+    Route::post("/animal-solitary-group", [PodaciController::class, 'animal_solitary_group'])->name('animal-solitary-group');
+    Route::post("/podaci-founder-services", [PodaciController::class, 'founder_services'])->name('podaci-founder-services');
+    Route::post("/podaci-animal-status", [PodaciController::class, 'animal_status'])->name('podaci-animal-status');
+    Route::post("/animal-care-end-status", [PodaciController::class, 'animal_care_end_status'])->name('animal-care-end-status');
+    Route::post("/podaci-location-animal-takeover", [PodaciController::class, 'location_animal_takeover'])->name('podaci-location-animal-takeover');
 
     // Reports
     Route::get('view-reports', 'ReportController@viewReports')->name("report-view");

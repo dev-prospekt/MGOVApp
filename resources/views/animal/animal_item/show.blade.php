@@ -1,6 +1,7 @@
 @extends('layout.master')
 
 @push('plugin-styles')
+  <link href="{{ asset('assets/plugins/prismjs/prism.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/select2/select2.min.css') }}" rel="stylesheet" />
   <link href="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.min.css" crossorigin="anonymous">
@@ -172,11 +173,82 @@
                     @if (!empty($animalItemShelter))
                     {{-- Ako je stigla iz drugog oporavilišta --}}
                     <div class="mt-2">
-                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Dolazak iz oporavilišta:</label>
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Poslano u oporavilište:</label>
                       <p class="text-muted">{{ $animalItemShelter->shelter->name }}</p>
                     </div>
                     {{-- Ako je stigla iz drugog oporavilišta --}}
                     @endif
+
+                    @if (!empty($animalItemShelterdoslo))
+                    {{-- Ako je stigla iz drugog oporavilišta --}}
+                    <div class="mt-2">
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Došlo iz oporavilišta:</label>
+                      <p>
+                        <a href="javascript:void(0)" class="text-muted" data-toggle="modal" data-target=".bd-example-modal-lg">
+                          {{ $animalItemShelterdoslo->shelter->name }}
+                        </a>
+                      </p>
+                    </div>
+                    {{-- Ako je stigla iz drugog oporavilišta --}}
+                    <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                    
+                          <div class="modal-header">
+                            <h5 class="modal-title h4" id="myLargeModalLabel">{{ $animalItemShelterdoslo->shelter->name }}</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">×</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            
+                            <div class="row">
+                              <div class="col-md-4">
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hrvatski naziv: </label>
+                                  <p class="text-muted">{{ $animalItemShelterdoslo->animal->name }}</p>
+                                </div>
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Engleski naziv: </label>
+                                  <p class="text-muted">{{ $animalItemShelterdoslo->animal->english_name ?? '' }}</p>
+                                </div>
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Latinski naziv:</label>
+                                  <p class="text-muted">{{ $animalItemShelterdoslo->animal->latin_name ?? ''  }}</p>
+                                </div>
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Šifra jedinke:</label>
+                                  <p class="text-muted">{{ $animalItemShelterdoslo->animal_code  }}</p>
+                                </div>
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum pronalaska:</label>
+                                  <p class="text-info">{{ isset($animalItemShelterdoslo->animal_date_found) ? $animalItemShelterdoslo->animal_date_found->format('d.m.Y') : '' }}</p>
+                                </div>
+
+                              </div>
+                              <div class="col-md-6">
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Okolnosti i način pronalaska životinje: </label>
+                                  <p class="text-muted">{{ $animalItemShelterdoslo->animal_found_note }}</p>
+                                </div>
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Lokacija pronalska: </label>
+                                  <p class="text-muted">{{ $animalItemShelterdoslo->location }}</p>
+                                </div>
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način držanja:</label>
+                                  <p class="text-warning">{{ $animalItemShelterdoslo->solitary_or_group ?? '' }}</p>
+                                </div>
+                                
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @endif
+
                   </div> 
                   <div class="col-md-4 ">
                       <div class="mt-2">
@@ -487,6 +559,8 @@
 @endsection
 
 @push('plugin-scripts')
+  <script src="{{ asset('assets/plugins/prismjs/prism.js') }}"></script>
+  <script src="{{ asset('assets/plugins/clipboard/clipboard.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/select2/select2.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
   <script src="{{ asset('assets/plugins/lightbox2/lightbox.min.js') }}"></script> 
