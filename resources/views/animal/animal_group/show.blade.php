@@ -332,6 +332,39 @@ $(function() {
     });
 
     // Premještaj Item
+    $("#animal-table-inactive").on('click','#changeShelterItem', function(){
+        $("#openModal").trigger('click');
+        id = $(this).attr("data-id");
+
+        $("#sendGroup").click(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "/animal_item/" + id,
+                method: 'POST',
+                data: {
+                    selectedShelter: $("#shelters").val(),
+                    currentShelter: $("#currentShelter").val()
+                },
+                success: function(data) {
+                    if(data.msg == 'success'){
+                        Swal.fire(
+                            'Odlično!',
+                            'Uspješno ste poslali jedinku u oporavilište <br>' + data.newShelter.name + '.',
+                            'success'
+                        ).then((result) => {
+                            location.href = '/shelter/'+data.back;
+                        });
+                    }
+                }
+            });
+        });
+    });
+
+    // Premještaj Item
     $("#animal-table").on('click','#changeShelterItem', function(){
         $("#openModal").trigger('click');
         id = $(this).attr("data-id");
