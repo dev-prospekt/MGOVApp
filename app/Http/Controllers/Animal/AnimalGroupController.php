@@ -236,6 +236,7 @@ class AnimalGroupController extends Controller
         })
         ->addColumn('action', function ($animal_items){
             $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
+            $cloneUrl = route('animal_item.clone', [$animal_items->id]);
 
             if(auth()->user()->hasRole('Oporavilište') && auth()->user()->hasRole('Administrator') ){
                 return '
