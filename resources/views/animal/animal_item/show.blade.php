@@ -171,12 +171,12 @@
                     </div>
 
                     @if (!empty($animalItemShelter))
-                    {{-- Ako je stigla iz drugog oporavilišta --}}
+                    {{-- Ako je poslano u oporavilište --}}
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Poslano u oporavilište:</label>
                       <p class="text-muted">{{ $animalItemShelter->shelter->name }}</p>
                     </div>
-                    {{-- Ako je stigla iz drugog oporavilišta --}}
+                    {{-- Ako je poslano u oporavilište --}}
                     @endif
 
                     @if (!empty($animalItemShelterdoslo))
@@ -184,7 +184,7 @@
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Došlo iz oporavilišta:</label>
                       <p>
-                        <a href="javascript:void(0)" class="text-muted" data-toggle="modal" data-target=".bd-example-modal-lg">
+                        <a href="javascript:void(0)" data-toggle="modal" data-target=".bd-example-modal-lg">
                           {{ $animalItemShelterdoslo->shelter->name }}
                         </a>
                       </p>
