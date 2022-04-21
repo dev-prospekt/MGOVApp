@@ -25,6 +25,10 @@
                     </div>
                 </div>
 
+                @if($msg = Session::get('animalDobMsg'))
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
+
                 <div class="table-responsive-sm">
                     <table class="table" id="datatable">
                         <thead>
@@ -75,6 +79,10 @@
                         </a>
                     </div>
                 </div>
+
+                @if($msg = Session::get('animal_solitary_or_group_msg'))
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
 
                 <div class="table-responsive-sm">
                     <table class="table" id="datatable">
@@ -127,6 +135,10 @@
                     </div>
                 </div>
 
+                @if($msg = Session::get('animal_status_msg'))
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
+
                 <div class="table-responsive-sm">
                     <table class="table" id="datatable">
                         <thead>
@@ -177,6 +189,10 @@
                         </a>
                     </div>
                 </div>
+
+                @if($msg = Session::get('location_animal_takeover_msg'))
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
 
                 <div class="table-responsive-sm">
                     <table class="table" id="datatable">
@@ -235,6 +251,10 @@
                     </div>
                 </div>
 
+                @if($msg = Session::get('animal_care_end_status_msg'))
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
+
                 <div class="table-responsive-sm">
                     <table class="table" id="datatable">
                         <thead>
@@ -257,6 +277,61 @@
                                     </a>
                                     <a href="javascript:void(0)" class="delete btn btn-xs btn-danger" 
                                     data-href="{{ route('podaci-delete', [$item->id, $model['animal_care_end_type']]) }}"
+                                    >
+                                    Obriši
+                                    </a>
+                                </th>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-xl-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="card-title">Nalaznici</h6>
+                    </div>
+                    <div>
+                        <a href="javascript:void(0)" class="data-table-add btn btn-sm btn-primary" 
+                        data-href="{{ route('podaci-create', [$model['founder']]) }}"
+                        >
+                            Dodaj
+                        </a>
+                    </div>
+                </div>
+
+                @if($msg = Session::get('founder_services_msg'))
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
+
+                <div class="table-responsive-sm">
+                    <table class="table" id="datatable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>IME</th>
+                                <th>Akcija</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($founderService as $item)
+                            <tr>
+                                <th>{{ $item->id }}</th>
+                                <th>{{ $item->name }}</th>
+                                <th>
+                                    <a href="javascript:void(0)" class="edit btn btn-xs btn-info" 
+                                    data-href="{{ route('podaci-edit', [$item->id, $model['founder']]) }}"
+                                    >
+                                        Uredi
+                                    </a>
+                                    <a href="javascript:void(0)" class="delete btn btn-xs btn-danger" 
+                                    data-href="{{ route('podaci-delete', [$item->id, $model['founder']]) }}"
                                     >
                                     Obriši
                                     </a>

@@ -26,7 +26,8 @@ class PodaciController extends Controller
             'solitary_group' => 'Način držanja',
             'animal_status' => 'Stanje jedinke',
             'location_takeover' => 'Lokacija preuzimanja životinje',
-            'animal_care_end_type' => 'Razlog prestanka skrbi'
+            'animal_care_end_type' => 'Razlog prestanka skrbi',
+            'founder' => 'Nalaznici',
         ];
 
         return view('podaci.index', [
@@ -38,46 +39,6 @@ class PodaciController extends Controller
             'animalLocationTakeover' => $animalLocationTakeover,
             'model' => $model,
         ]);
-    }
-
-    public function check_model($params)
-    {
-        switch ($params) {
-            case "AnimalDob":
-                $data = [
-                    'model' => new AnimalDob,
-                    'route' => route('podaci-animal-dob'),
-                ];
-                break;
-            case "Način držanja":
-                $data = [
-                    'model' => new AnimalSolitaryGroup,
-                    'route' => route('animal-solitary-group'),
-                ];
-                break;
-            case "Stanje jedinke":
-                $data = [
-                    'model' => new AnimalItemDocumentationStateType,
-                    'route' => route('podaci-animal-status'),
-                ];
-                break;
-            case "Lokacija preuzimanja životinje":
-                $data = [
-                    'model' => new AnimalLocationTakeover,
-                    'route' => route('podaci-location-animal-takeover'),
-                ];
-                break;
-            case "Razlog prestanka skrbi":
-                $data = [
-                    'model' => new AnimalItemCareEndType,
-                    'route' => route('animal-care-end-status'),
-                ];
-                break;
-            default:
-                $data = null;
-        }
-
-        return $data;
     }
 
     /**
@@ -187,5 +148,51 @@ class PodaciController extends Controller
         $data->save();
 
         return redirect()->back()->with('location_animal_takeover_msg', 'Uspješno dodano.');
+    }
+
+    public function check_model($params)
+    {
+        switch ($params) {
+            case "AnimalDob":
+                $data = [
+                    'model' => new AnimalDob,
+                    'route' => route('podaci-animal-dob'),
+                ];
+                break;
+            case "Način držanja":
+                $data = [
+                    'model' => new AnimalSolitaryGroup,
+                    'route' => route('animal-solitary-group'),
+                ];
+                break;
+            case "Stanje jedinke":
+                $data = [
+                    'model' => new AnimalItemDocumentationStateType,
+                    'route' => route('podaci-animal-status'),
+                ];
+                break;
+            case "Lokacija preuzimanja životinje":
+                $data = [
+                    'model' => new AnimalLocationTakeover,
+                    'route' => route('podaci-location-animal-takeover'),
+                ];
+                break;
+            case "Razlog prestanka skrbi":
+                $data = [
+                    'model' => new AnimalItemCareEndType,
+                    'route' => route('animal-care-end-status'),
+                ];
+                break;
+            case "Nalaznici":
+                $data = [
+                    'model' => new FounderService,
+                    'route' => route('podaci-founder-services'),
+                ];
+                break;
+            default:
+                $data = null;
+        }
+
+        return $data;
     }
 }

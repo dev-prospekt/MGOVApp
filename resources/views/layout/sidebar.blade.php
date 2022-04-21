@@ -129,10 +129,6 @@
 
             @role('Administrator')
             <li class="nav-item">
-              <a href="{{ route('shelters.founders.index', auth()->user()->shelter->id) }}" class="nav-link">Nalaznici</a>
-            </li>
-            
-            <li class="nav-item">
               <a href="{{ url('/shelter/create') }}" class="nav-link">Dodaj novo</a>
             </li>
             @endrole
