@@ -53,55 +53,61 @@
                     <form action="{{ route("animal_item.update", $animalItem->id) }}" method="POST">
                         @csrf
                         @method('PATCH')                
-                            @if ($size)
-                            <div class="form-group">
-                                <label>Veličina</label>
-                                <select class="form-control" name="animal_size_attributes_id" id="">
-                                    <option value="">Odaberi</option>
-                                    @foreach ($size->sizeAttributes as $siz)
-                                        @if ($animalItem->animal_size_attributes_id == $siz->id)
-                                            <option selected value="{{$siz->id}}">{{ $siz->name }}</option>
-                                        @else
-                                            <option value="{{ $siz->id }}">{{ $siz->name }}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                                @error('animal_size_attributes_id')
-                                    <div class="text-danger">{{$errors->first('animal_size_attributes_id') }} </div>
-                                @enderror
-                            </div>
-                            @endif
-                            <div class="form-group">
-                                <label>Dob jedinke</label>
-                                <select class="form-control" name="animal_dob" id="">
-                                    @if ($animalItem->animal_age)
-                                        <option selected value="{{$animalItem->animal_age}}">{{$animalItem->animal_age}}</option>
+                        @if ($size)
+                        <div class="form-group">
+                            <label>Veličina</label>
+                            <select class="form-control" name="animal_size_attributes_id" id="">
+                                <option value="">Odaberi</option>
+                                @foreach ($size->sizeAttributes as $siz)
+                                    @if ($animalItem->animal_size_attributes_id == $siz->id)
+                                        <option selected value="{{$siz->id}}">{{ $siz->name }}</option>
+                                    @else
+                                        <option value="{{ $siz->id }}">{{ $siz->name }}</option>
                                     @endif
-                                    <option value="">Odaberi</option>
-                                    <option value="ADL(adultna)">ADL (adultna)</option>
-                                    <option value="JUV(juvenilna)">JUV (juvenilna)</option>
-                                    <option value="SA(subadultna)">SA (subadultna)</option>
-                                    <option value="N(neodređeno)">N (neodređeno)</option>
-                                </select>
-                                @error('animal_dob')
-                                    <div class="text-danger">{{$errors->first('animal_dob') }} </div>
-                                @enderror
-                            </div>
-                            <div class="form-group">
-                                <label>Spol</label>
-                                <select class="form-control" name="animal_gender" id="">
-                                    @if ($animalItem->animal_gender)
-                                        <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
-                                    @endif
-                                    <option value="">Odaberi</option>
-                                    <option value="M(mužjak)">M (mužjak)</option>
-                                    <option value="Ž/F(ženka)">Ž/F (ženka)</option>
-                                    <option value="N(nije moguće odrediti)">N (nije moguće odrediti)</option>
-                                </select>
-                                @error('animal_gender')
-                                    <div class="text-danger">{{$errors->first('animal_gender') }} </div>
-                                @enderror
-                            </div>
+                                @endforeach
+                            </select>
+                            @error('animal_size_attributes_id')
+                                <div class="text-danger">{{$errors->first('animal_size_attributes_id') }} </div>
+                            @enderror
+                        </div>
+                        @endif
+                        <div class="form-group">
+                            <label>Dob jedinke</label>
+                            <select class="form-control" name="animal_dob" id="">
+                                @if ($animalItem->animal_age)
+                                    <option selected value="{{$animalItem->animal_age}}">{{$animalItem->animal_age}}</option>
+                                @endif
+                                <option value="">Odaberi</option>
+                                <option value="ADL(adultna)">ADL (adultna)</option>
+                                <option value="JUV(juvenilna)">JUV (juvenilna)</option>
+                                <option value="SA(subadultna)">SA (subadultna)</option>
+                                <option value="N(neodređeno)">N (neodređeno)</option>
+                            </select>
+                            @error('animal_dob')
+                                <div class="text-danger">{{$errors->first('animal_dob') }} </div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Spol</label>
+                            <select class="form-control" name="animal_gender" id="">
+                                @if ($animalItem->animal_gender)
+                                    <option selected value="{{$animalItem->animal_gender}}">{{$animalItem->animal_gender}}</option>
+                                @endif
+                                <option value="">Odaberi</option>
+                                <option value="M(mužjak)">M (mužjak)</option>
+                                <option value="Ž/F(ženka)">Ž/F (ženka)</option>
+                                <option value="N(nije moguće odrediti)">N (nije moguće odrediti)</option>
+                            </select>
+                            @error('animal_gender')
+                                <div class="text-danger">{{$errors->first('animal_gender') }} </div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label>Interni naziv</label>
+                            <input type="text" class="form-control" name="interni_naziv" value="{{ $animalItem->interni_naziv }}">
+                        </div>
+
                         <div class="row mt-3">
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-end">

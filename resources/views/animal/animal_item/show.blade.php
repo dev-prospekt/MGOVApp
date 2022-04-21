@@ -147,6 +147,16 @@
               @if($msg = Session::get('update_animal_item'))
               <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
               @endif       
+
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="mt-2">
+                      <label class="tx-11 font-weight-bold mb-0 text-uppercase">Interni naziv: </label>
+                      <p class="text-muted">{{ $animalItem->interni_naziv }}</p>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="row">
                   <div class="col-md-4">    
                     <div class="mt-2">
