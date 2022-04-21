@@ -390,10 +390,14 @@ class AnimalGroupController extends Controller
         // Animal Items - Dupliciranje i promjena Id Sheltera
         $animalItems = AnimalItem::with('dateRange')->where('animal_group_id', $animal_group->id)->get();
         foreach ($animalItems as $item) {
+            $item->in_shelter = 0;
+            $item->save();
+
             $newAnimalItems = $item->replicate();
             $newAnimalItems->animal_group_id = $newAnimalGroup->id;
             $newAnimalItems->shelter_id = $newShelter->id;
             $newAnimalItems->shelter_code = $newAnimalGroup->shelter_code;
+            $newAnimalItems->in_shelter = 1;
             $newAnimalItems->save();
             $newAnimalItems->update(['animal_code' => $newAnimalGroup->shelter_code . '-j-' . $newAnimalItems->id]);
 

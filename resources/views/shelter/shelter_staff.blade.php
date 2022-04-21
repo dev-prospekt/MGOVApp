@@ -24,7 +24,7 @@
 
 </ul>
 
-    @can('create')
+    @role('Administrator')
     <div class="d-flex align-items-center justify-content-between">
       <div> <h5 class="mb-3 mb-md-0">{{ $shelter->name }}</h5></div>
       <div>      
@@ -46,7 +46,7 @@
           </a>               
       </div>
     </div>
-    @endcan
+    @endrole
 
     <div class="row mt-4">
       <div class="col-md-12 grid-margin">
@@ -57,6 +57,7 @@
               <h6 class="card-title">Pravno Odgovorna osoba </h6>        
             </div>
             <div>
+              @role('Administrator')
               @if ($shelterLegalStaff)
               <button type="button" class="btn btn-primary btn-icon"  data-id="{{ $shelterLegalStaff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffLegalModal">
                 <i data-feather="check-square"></i>
@@ -65,7 +66,8 @@
                 data-id="{{ $shelterLegalStaff->id ?? ''  }}">
                   <i data-feather="box"></i>
                 </button>
-                @endif       
+              @endif       
+              @endrole
             </div>
           </div> 
           <div class="row">
@@ -129,6 +131,7 @@
               <h6 class="card-title">Osoba odgovorna za skrb životinja</h6>        
             </div>
             <div>
+              @role('Administrator')
               @if ($shelterCareStaff)
               <button type="button" class="btn btn-primary btn-icon"  data-id="{{ $shelterCareStaff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffCareModal">
                 <i data-feather="check-square"></i>
@@ -137,7 +140,8 @@
                 data-id="{{ $shelterCareStaff->id ?? ''  }}">
                   <i data-feather="box"></i>
                 </button>
-                @endif       
+                @endif   
+              @endrole
             </div>
           </div> 
           <div class="row">
@@ -218,6 +222,7 @@
             </div>
             <div>
 
+                @role('Administrator')
                 @if ($shelterVetStaff)
                   @can('edit')
                     @if ($fileVetAmbulance )
@@ -238,6 +243,7 @@
                   </button>
                   @endcan
                 @endif
+                @endrole
 
             </div>
           </div> 
@@ -326,11 +332,11 @@
                   <h6 class="card-title">Ostale osobe za skrb životinja</h6>        
                 </div>
                 <div> 
-                  @can('create')
+                  @role('Administrator')
                     <a type="button" class="btn btn-info btn-sm btn-icon-text" data-toggle="modal" data-target="#createPersonelStaffModal">
                       Dodaj<i class="btn-icon-append" data-feather="user-plus"></i>
                     </a>
-                  @endcan      
+                  @endrole      
                 </div>
               </div> 
               
@@ -363,6 +369,7 @@
                             <td>{{ $staff->education }}</td>
                           
                             <td>
+                              @role('Administrator')
                               @can('edit')
                               <button type="button" class="btn btn-sm btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
                                 <i data-feather="check-square"></i>
@@ -375,7 +382,7 @@
                                   <i data-feather="box"></i>
                                 </button>
                               @endcan
-                              
+                              @endrole
                             </td>
                           </tr>
                           @endforeach

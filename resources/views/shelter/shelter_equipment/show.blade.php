@@ -31,10 +31,12 @@
 <div class="d-flex align-items-center justify-content-between">
   <h5 class="mb-3 mb-md-0">Oprema oporavilišta</h5>
   <div>      
+    @role('Administrators')
     <a id="createEquipment" href="{{ route('shelters.equipments.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
       Dodaj opremu oporavilišta
       <i class="btn-icon-append" data-feather="user-plus"></i>
-    </a>                  
+    </a> 
+    @endrole
   </div>
 </div>
 @if($shelterEquipmentItem)
