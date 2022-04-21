@@ -174,7 +174,15 @@
                     {{-- Ako je poslano u oporavilište --}}
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Poslano u oporavilište:</label>
-                      <p class="text-muted">{{ $animalItemShelter->shelter->name }}</p>
+                      <p class="text-muted">
+                        @role('Administrator')
+                        <a href="{{ route('shelters.animal_groups.animal_items.show', [$animalItemShelter->shelter->id, $animalItemShelter->animalGroup->id, $animalItemShelter->id]) }}" target="_blank">
+                          {{ $animalItemShelter->shelter->name }}
+                        </a>
+                        @elserole('Oporavilište')
+                        {{ $animalItemShelter->shelter->name }}
+                        @endrole
+                      </p>
                     </div>
                     {{-- Ako je poslano u oporavilište --}}
                     @endif

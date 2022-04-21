@@ -103,11 +103,18 @@ class AnimalItemController extends Controller
         }
 
         // Poslano u oporavilište
-        $animalItemShelter = $animalItem->where('unique_id', $animalItem->unique_id)
-        ->where('id', '>', $animalItem->id)->orderBy('id', 'DESC')->first();
+        $animalItemShelter = $animalItem->with('shelter')->where('unique_id', $animalItem->unique_id)
+        ->whereHas('shelter', function($query) use ($animalItem){
+            $query->where('id', '!=', $animalItem->shelter->id);
+        })
+        ->where('id', '>', $animalItem->id)
+        ->orderBy('created_at', 'DESC')->first();
 
         // Oporavilište iz kojeg je doslo
-        $animalItemShelterdoslo = $animalItem->where('unique_id', $animalItem->unique_id)
+        $animalItemShelterdoslo = $animalItem->with('shelter')->where('unique_id', $animalItem->unique_id)
+        ->whereHas('shelter', function($query) use ($animalItem){
+            $query->where('id', '!=', $animalItem->shelter->id);
+        })
         ->where('id', '<', $animalItem->id)
         ->first();
 
