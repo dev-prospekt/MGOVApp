@@ -73,12 +73,14 @@
                         Pregled
                     </a>
                     
+                    @role('Administrator')
                     @can('edit')
                     <a href="{{ route('shelters.equipments.edit', [$shelter->id, $equipmentItem->id]) }}" class="btn btn-xs btn-warning mr-2">
                         <i class="mdi mdi-tooltip-edit"></i> 
                         Uredi
                     </a>
                     @endcan
+                    @endrole
                 </div>  
                 </td>
               </tr>

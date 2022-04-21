@@ -143,9 +143,11 @@
                           <td>
                               <a href="{{ route('shelter.show', [$shelter->id]) }}" class="btn btn-xs btn-info" href="#" role="button">Pregled</a>
                               
+                              @role('Administrator')
                               @can('edit')
                                 <a class="btn btn-xs btn-warning" href="{{ route("shelter.edit", $shelter) }}" role="button">Uredi</a>
                               @endcan
+                              @endrole
                           </td>
                       </tr>        
                   @endforeach

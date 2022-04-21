@@ -60,11 +60,13 @@
             
                 <span class="title">Akcije</span>
                 <ul class="nav nav-pills nav-stacked">
+                  @role('Administrator')
                   @can('edit')
                     <li>
                       <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterAccomodationItem->id]) }}"><i data-feather="tag" class="text-warning"></i> Izmjeni jedinicu</a>
                     </li>
                   @endcan
+                  @endrole
 
                   <li>
                     <a href="{{ route('shelters.accomodations.index', [$shelter->id]) }}">

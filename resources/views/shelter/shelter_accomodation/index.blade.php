@@ -77,11 +77,13 @@
                       Podatci
                     </a>
                     
+                    @role('Administrator')
                     @can('edit')
                       <a href="{{ route('shelters.accomodations.edit', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-primary mr-2">
                         Uredi
                       </a>
                     @endcan
+                    @endrole
                 </div>  
                 </td>
               </tr>

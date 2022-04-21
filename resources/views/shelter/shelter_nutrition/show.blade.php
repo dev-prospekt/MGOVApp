@@ -58,11 +58,13 @@
             
                 <span class="title">Akcije</span>
                 <ul class="nav nav-pills nav-stacked">
+                  @role('Administrator')
                   @can('edit')
                     <li>
                       <a href="{{ route('shelters.nutritions.edit', [$shelter->id, $shelterNutritionItem->id]) }}"><i data-feather="tag" class="text-warning"></i> Izmjeni jedinicu</a>
                     </li>
                   @endcan
+                  @endrole
 
                   <li>
                     <a href="{{ route('shelters.nutritions.index', [$shelter->id]) }}">

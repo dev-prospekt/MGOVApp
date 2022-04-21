@@ -31,7 +31,7 @@
 <div class="d-flex align-items-center justify-content-between">
   <h5 class="mb-3 mb-md-0">Oprema oporavilišta</h5>
   <div>      
-    @role('Administrators')
+    @role('Administrator')
     <a id="createEquipment" href="{{ route('shelters.equipments.create', $shelter->id) }}" type="button" class="btn btn-primary btn-icon-text">
       Dodaj opremu oporavilišta
       <i class="btn-icon-append" data-feather="user-plus"></i>
@@ -58,11 +58,13 @@
                 <span class="title">Akcije</span>
                 <ul class="nav nav-pills nav-stacked">
                   
+                  @role('Administrator')
                   @can('edit')
                     <li>
                       <a href="{{ route('shelters.equipments.edit', [$shelter->id, $shelterEquipmentItem->id]) }}"><i data-feather="tag" class="text-warning"></i> Izmjeni entitet</a>
                     </li>
                   @endcan
+                  @endrole
                   
                   <li><a href="{{ route('shelters.equipments.index', [$shelter->id]) }}">
                     <i data-feather="tag" class="text-primary"></i> Povratak na popis</a>

@@ -158,6 +158,9 @@ class AnimalGroupController extends Controller
                             <a href="' . $cloneUrl . '" class="btn btn-xs btn-primary mr-2">
                                 Dupliciraj
                             </a>
+                            <a href="javascript:void(0)" id="changeShelterItem" data-id="' . $animal_items->id . '" class="btn btn-xs btn-warning mr-2">
+                                Premjesti
+                            </a>
                         </div>
                         ';
                     }
