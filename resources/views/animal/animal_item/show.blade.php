@@ -225,6 +225,13 @@
                                   <p class="text-info">{{ isset($animalItemShelterdoslo->animal_date_found) ? $animalItemShelterdoslo->animal_date_found->format('d.m.Y') : '' }}</p>
                                 </div>
 
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Datum završetka skrbi:</label>
+                                  <p class="text-info">
+                                    {{ isset($animalItemShelterdoslo->dateRange->end_date) ? $animalItemShelterdoslo->dateRange->end_date->format('d.m.Y') : '' }}
+                                  </p>
+                                </div>
+
                               </div>
                               <div class="col-md-6">
                                 <div class="mt-2">
@@ -238,6 +245,25 @@
                                 <div class="mt-2">
                                   <label class="tx-11 font-weight-bold mb-0 text-uppercase">Način držanja:</label>
                                   <p class="text-warning">{{ $animalItemShelterdoslo->solitary_or_group ?? '' }}</p>
+                                </div>
+
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje u kojem je životinja pronađena:</label>
+                                  <p class="text-muted">
+                                  {{ $animalItemShelterdoslo->animalDocumentation->stateFound->name ?? '' }}
+                                  </p>
+                                </div>
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Stanje životinje u trenutku zaprimanja u oporavilište:</label>
+                                  <p class="text-muted">
+                                    {{ $animalItemShelterdoslo->animalDocumentation->stateRecived->name ?? '' }}
+                                  </p>
+                                </div>
+                                <div class="mt-2">
+                                  <label class="tx-11 font-weight-bold mb-0 text-uppercase">Razlog zaprimanja životinje u oporavilište:</label>
+                                  <p class="text-muted">
+                                    {{ $animalItemShelterdoslo->animalDocumentation->stateReason->name ?? '' }}
+                                  </p>
                                 </div>
                                 
                               </div>
