@@ -46,6 +46,15 @@
             </div>
 
             <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Interni naziv (Ime)</label>
+                        <input type="text" class="form-control" name="interni_naziv">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
                 <div class="separator"></div>
             </div> 
 

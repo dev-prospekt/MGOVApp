@@ -72,6 +72,7 @@
                                 <tr>
                                     <th>Šifra jedinke</th>
                                     <th>LATINSKI NAZIV</th>
+                                    <th>Interni naziv</th>
                                     <th>Početak skrbi</th>
                                     <th>Dob</th>
                                     <th>Spol</th>
@@ -116,6 +117,7 @@
                                     <tr>
                                         <th>Šifra jedinke</th>
                                         <th>LATINSKI NAZIV</th>
+                                        <th>Interni naziv</th>
                                         <th>Početak skrbi</th>
                                         <th>Kraj skrbi</th>
                                         <th>Dob</th>
@@ -156,6 +158,7 @@
                                     <tr>
                                         <th>Šifra jedinke</th>
                                         <th>LATINSKI NAZIV</th>
+                                        <th>Interni naziv</th>
                                         <th>Početak skrbi</th>
                                         <th>Kraj skrbi</th>
                                         <th>Dob</th>
@@ -236,6 +239,7 @@ $(function() {
         columns: [
             { data: 'animal_code', name: 'animal_code'},
             { data: 'latin_name', name: 'latin_name'},
+            { data: 'interni_naziv', name: 'interni_naziv'},
             { data: 'date_start', name: 'date_start'},
             { data: 'animal_age', name: 'animal_age'},
             { data: 'animal_gender', name: 'animal_gender'},
@@ -257,6 +261,7 @@ $(function() {
         columns: [
             { data: 'animal_code', name: 'animal_code'},
             { data: 'latin_name', name: 'latin_name'},
+            { data: 'interni_naziv', name: 'interni_naziv'},
             { data: 'date_start', name: 'date_start'},
             { data: 'date_end', name: 'date_end'},
             { data: 'animal_age', name: 'animal_age'},
@@ -279,6 +284,7 @@ $(function() {
         columns: [
             { data: 'animal_code', name: 'animal_code'},
             { data: 'latin_name', name: 'latin_name'},
+            { data: 'interni_naziv', name: 'interni_naziv'},
             { data: 'date_start', name: 'date_start'},
             { data: 'date_end', name: 'date_end'},
             { data: 'animal_age', name: 'animal_age'},

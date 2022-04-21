@@ -73,6 +73,9 @@ class AnimalGroupController extends Controller
                 ->addColumn('latin_name', function ($animal_items) {
                     return $animal_items->animal->latin_name;
                 })
+                ->addColumn('interni_naziv', function ($animal_items) {
+                    return $animal_items->interni_naziv ?? '';
+                })
                 ->addColumn('date_start', function ($animal_items) {
                     return isset($animal_items->dateRange->start_date) ? $animal_items->dateRange->start_date->format('d.m.Y') : '';
                 })
@@ -197,6 +200,9 @@ class AnimalGroupController extends Controller
         ->addColumn('latin_name', function ($animal_items) {
             return $animal_items->animal->latin_name;
         })
+        ->addColumn('interni_naziv', function ($animal_items) {
+            return $animal_items->interni_naziv ?? '';
+        })
         ->addColumn('date_start', function ($animal_items) {
             return isset($animal_items->dateRange->start_date) ? $animal_items->dateRange->start_date->format('d.m.Y') : '';
         })
@@ -267,6 +273,9 @@ class AnimalGroupController extends Controller
         })
         ->addColumn('latin_name', function ($animal_items) {
             return $animal_items->animal->latin_name;
+        })
+        ->addColumn('interni_naziv', function ($animal_items) {
+            return $animal_items->interni_naziv ?? '';
         })
         ->addColumn('date_start', function ($animal_items) {
             return isset($animal_items->dateRange->start_date) ? $animal_items->dateRange->start_date->format('d.m.Y') : '';
