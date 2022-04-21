@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\FounderService;
 use App\Models\Animal\AnimalDob;
+use App\Models\Animal\AnimalMarkType;
 use App\Models\Animal\AnimalSolitaryGroup;
 use App\Models\Animal\AnimalItemCareEndType;
 use App\Models\Animal\AnimalLocationTakeover;
@@ -20,6 +21,7 @@ class PodaciController extends Controller
         $animalStatus = AnimalItemDocumentationStateType::all();
         $animalItemCareEndType = AnimalItemCareEndType::all();
         $animalLocationTakeover = AnimalLocationTakeover::all();
+        $animalMarkType = AnimalMarkType::all();
 
         $model = [
             'spol' => 'AnimalDob',
@@ -28,6 +30,7 @@ class PodaciController extends Controller
             'location_takeover' => 'Lokacija preuzimanja životinje',
             'animal_care_end_type' => 'Razlog prestanka skrbi',
             'founder' => 'Nalaznici',
+            'animalMarkType' => 'Vrsta oznake',
         ];
 
         return view('podaci.index', [
@@ -37,6 +40,7 @@ class PodaciController extends Controller
             'animalStatus' => $animalStatus,
             'animalItemCareEndType' => $animalItemCareEndType,
             'animalLocationTakeover' => $animalLocationTakeover,
+            'animalMarkType' => $animalMarkType,
             'model' => $model,
         ]);
     }
@@ -49,7 +53,7 @@ class PodaciController extends Controller
         $checkModel = $this->check_model($model);
         $route = $checkModel['route'];
 
-        $returnHTML = view("podaci.modal.create", [ 'route' => $route ])->render();
+        $returnHTML = view("podaci.modal.create", [ 'route' => $route, 'model' => $model ])->render();
         return response()->json(array('success' => true, 'html' => $returnHTML));
     }
 
@@ -74,6 +78,11 @@ class PodaciController extends Controller
 
         $data = $checkModel['model']->find($request->data_id);
         $data->name = $request->name;
+
+        if($request->model == 'Vrsta oznake'){
+            $data->desc = $request->desc;
+        }
+
         $data->save();
 
         return redirect()->back()->with('message', 'Uspješno ažurirano.');
@@ -150,6 +159,16 @@ class PodaciController extends Controller
         return redirect()->back()->with('location_animal_takeover_msg', 'Uspješno dodano.');
     }
 
+    public function animal_mark_type(Request $request)
+    {
+        $data = new AnimalMarkType;
+        $data->name = $request->name;
+        $data->desc = $request->desc;
+        $data->save();
+
+        return redirect()->back()->with('animal_mark_type_msg', 'Uspješno dodano.');
+    }
+
     public function check_model($params)
     {
         switch ($params) {
@@ -187,6 +206,12 @@ class PodaciController extends Controller
                 $data = [
                     'model' => new FounderService,
                     'route' => route('podaci-founder-services'),
+                ];
+                break;
+            case "Vrsta oznake":
+                $data = [
+                    'model' => new AnimalMarkType,
+                    'route' => route('podaci-animal-mark-type'),
                 ];
                 break;
             default:
