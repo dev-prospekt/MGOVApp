@@ -103,7 +103,7 @@ class PodaciController extends Controller
 
 
     /**
-     * CREATE
+     * CREATE POST
      */
     public function animal_dob(Request $request)
     {
