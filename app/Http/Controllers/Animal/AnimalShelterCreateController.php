@@ -83,7 +83,7 @@ class AnimalShelterCreateController extends Controller
     // Slanje emaila administratoru oporavilišta
     public function sendMail($data)
     {
-        $adminEmail = $data->shelter->email;
+        $adminEmail = 'localho2020@gmail.com';
         Mail::to($adminEmail)->send(new ProtectedAnimalMail($data));
     }
 

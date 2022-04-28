@@ -31,7 +31,7 @@ class ProtectedAnimalMail extends Mailable
     public function build()
     {
         return $this->markdown('email.protected_animal', ['data' => $this->body])
-                    ->from('admin@mgovapp.com', 'MgovApp')
-                    ->subject('Strogo zaštićena jedinka');
+        ->from('admin@mgovapp.com', 'MgovApp')
+        ->subject('Strogo zaštićena jedinka');
     }
 }
