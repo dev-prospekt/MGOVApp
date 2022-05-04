@@ -1,6 +1,6 @@
 <nav class="sidebar">
   <div class="sidebar-header">
-    <a href="#" class="sidebar-brand font-weight-bold">
+    <a href="{{ url('/') }}" class="sidebar-brand font-weight-bold">
       Mgov<span>App</span>
     </a>
     <div class="sidebar-toggler not-active">
