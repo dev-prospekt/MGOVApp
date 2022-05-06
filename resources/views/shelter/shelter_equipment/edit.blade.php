@@ -69,9 +69,9 @@
               <div class="form-group">
                 <label class="control-label">Tip entiteta:</label>
                 <select class="js-example-basic w-100" name="equipment_type">
-                    <option selected disabled>---</option>
+                    <option>---</option>
                     @foreach ($equipment_types as $equipmentType)
-                        <option disabled value="{{ $equipmentType['id']}}" {{ ( $equipmentType['id'] == $selectedEquipmentType) ? 'selected' : '' }}>{{ $equipmentType['name'] }}</option>
+                        <option value="{{ $equipmentType['id']}}" {{ ( $equipmentType['id'] == $selectedEquipmentType) ? 'selected' : '' }}>{{ $equipmentType['name'] }}</option>
                     @endforeach
                 </select>   
             </div>

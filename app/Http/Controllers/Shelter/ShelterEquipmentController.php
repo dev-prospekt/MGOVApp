@@ -107,7 +107,9 @@ class ShelterEquipmentController extends Controller
     public function edit(Shelter $shelter, ShelterEquipment $shelterEquipment)
     {
         $equipment_types = ShelterEquipmentType::all('id', 'name');
+        
         $selectedEquipmentType = $shelterEquipment->shelter_equipment_type_id;
+
         return view(
             'shelter.shelter_equipment.edit',
             ['shelterEquipmentItem' => $shelterEquipment, 'shelter' => $shelter, 'equipment_types' => $equipment_types, 'selectedEquipmentType' => $selectedEquipmentType]
@@ -142,6 +144,7 @@ class ShelterEquipmentController extends Controller
         $shelterEquipmentItem = ShelterEquipment::find($shelterEquipment->id);
         $shelterEquipmentItem->equipment_title = $request->edit_equipment_title ? $request->edit_equipment_title : $request->edit_equipment_valture_service;
         $shelterEquipmentItem->equipment_desc = $request->edit_equipment_desc;
+        $shelterEquipmentItem->shelter_equipment_type_id = $request->equipment_type;
         // $shelterEquipmentItem->shelter_id = $shelter->id;
 
         // $shelterEquipmentItem->equipmentType()->associate($shelter_equipment_type);
