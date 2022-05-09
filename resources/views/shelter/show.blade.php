@@ -130,7 +130,7 @@
   
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">Adresa lokacije:</label>
-                      <p class="text-muted">{{ $shelter->address ?? '' }}</p>
+                      <p class="text-muted">{{ $shelter->address_place ?? '' }}</p>
                     </div>
                     <div class="mt-2">
                       <label class="tx-11 font-weight-bold mb-0 text-uppercase">OIB:</label>
