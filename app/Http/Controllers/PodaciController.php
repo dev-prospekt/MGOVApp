@@ -8,7 +8,9 @@ use App\Models\Animal\AnimalDob;
 use App\Models\Animal\AnimalMarkType;
 use App\Models\Animal\AnimalSolitaryGroup;
 use App\Models\Animal\AnimalItemCareEndType;
+use App\Models\Shelter\ShelterEquipmentType;
 use App\Models\Animal\AnimalLocationTakeover;
+use App\Models\Shelter\ShelterAccomodationType;
 use App\Models\Animal\AnimalItemDocumentationStateType;
 
 class PodaciController extends Controller
@@ -23,6 +25,10 @@ class PodaciController extends Controller
         $animalLocationTakeover = AnimalLocationTakeover::all();
         $animalMarkType = AnimalMarkType::all();
 
+        // Shelter podaci
+        $shelterAccomodationType = ShelterAccomodationType::all();
+        $shelterEquipmentType = ShelterEquipmentType::all();
+
         $model = [
             'spol' => 'AnimalDob',
             'solitary_group' => 'Način držanja',
@@ -31,6 +37,8 @@ class PodaciController extends Controller
             'animal_care_end_type' => 'Razlog prestanka skrbi',
             'founder' => 'Nalaznici',
             'animalMarkType' => 'Vrsta oznake',
+            'shelterAccomodationType' => 'Tip smještajne jedinice',
+            'shelterEquipmentType' => 'Tip entiteta',
         ];
 
         return view('podaci.index', [
@@ -41,6 +49,8 @@ class PodaciController extends Controller
             'animalItemCareEndType' => $animalItemCareEndType,
             'animalLocationTakeover' => $animalLocationTakeover,
             'animalMarkType' => $animalMarkType,
+            'shelterAccomodationType' => $shelterAccomodationType,
+            'shelterEquipmentType' => $shelterEquipmentType,
             'model' => $model,
         ]);
     }
@@ -81,6 +91,10 @@ class PodaciController extends Controller
 
         if($request->model == 'Vrsta oznake'){
             $data->desc = $request->desc;
+        }
+        if($request->model == 'Tip smještajne jedinice'){
+            $data->type_mark = $request->type_mark;
+            $data->type_description = $request->type_description;
         }
 
         $data->save();
@@ -169,6 +183,28 @@ class PodaciController extends Controller
         return redirect()->back()->with('animal_mark_type_msg', 'Uspješno dodano.');
     }
 
+    public function accomodation_type(Request $request)
+    {
+        $data = new ShelterAccomodationType;
+        $data->name = $request->name;
+        $data->type_mark = $request->type_mark;
+        $data->type_description = $request->type_description;
+        $data->save();
+
+        return redirect()->back()->with('accomodation_type_msg', 'Uspješno dodano.');
+    }
+
+    public function equipment_type(Request $request)
+    {
+        $data = new ShelterEquipmentType;
+        $data->name = $request->name;
+        $data->type_mark = $request->type_mark;
+        $data->type_description = $request->type_description;
+        $data->save();
+
+        return redirect()->back()->with('equipment_type_msg', 'Uspješno dodano.');
+    }
+
     public function check_model($params)
     {
         switch ($params) {
@@ -212,6 +248,18 @@ class PodaciController extends Controller
                 $data = [
                     'model' => new AnimalMarkType,
                     'route' => route('podaci-animal-mark-type'),
+                ];
+                break;
+            case "Tip smještajne jedinice":
+                $data = [
+                    'model' => new ShelterAccomodationType,
+                    'route' => route('podaci-accomodation-type'),
+                ];
+                break;
+            case "Tip entiteta":
+                $data = [
+                    'model' => new ShelterEquipmentType,
+                    'route' => route('podaci-equipment-type'),
                 ];
                 break;
             default:

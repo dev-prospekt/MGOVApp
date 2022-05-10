@@ -21,6 +21,7 @@
                     </div>
                 </div>
 
+                {{-- Vrsta oznake --}}
                 @if($model == 'Vrsta oznake')
                 <div class="row">
                     <div class="col-md-12">
@@ -32,7 +33,25 @@
                 </div>
                 @endif
 
-                <button type="submit" class="btn btn-xs btn-primary">Uredi</button>
+                {{-- Tip smještajne jedinice --}}
+                @if($model == 'Tip smještajne jedinice' || $model == 'Tip entiteta')
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Numeracija:</label>
+                            <input type="text" name="type_mark" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Opis oznake:</label>
+                            <input type="text" name="type_description" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                <button type="submit" class="btn btn-xs btn-primary">Dodaj</button>
             </form>
         </div>
     </div>

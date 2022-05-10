@@ -24,12 +24,31 @@
                     </div>
                 </div>
 
+                {{-- Vrsta oznake --}}
                 @if($model == 'Vrsta oznake')
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label>Opis</label>
                             <input type="text" name="desc" class="form-control" value="{{ $data->desc }}" required />
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                {{-- Tip smještajne jedinice --}}
+                @if($model == 'Tip smještajne jedinice' || $model == 'Tip entiteta')
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Numeracija:</label>
+                            <input type="text" name="type_mark" class="form-control" value="{{ $data->type_mark }}" required />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Opis oznake:</label>
+                            <input type="text" name="type_description" class="form-control" value="{{ $data->type_description }}" required />
                         </div>
                     </div>
                 </div>
