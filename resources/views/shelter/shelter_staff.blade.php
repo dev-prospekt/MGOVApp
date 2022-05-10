@@ -422,6 +422,7 @@
                       <tr>
                           <th>Ime  i prezime</th>
                           <th>OIB</th>
+                          <th>Pozicija</th>
                           <th>Adresa Prebivališta</th>
                           <th>Adresa boravišta</th>
                           <th>Telefon</th>
@@ -437,6 +438,7 @@
                           <tr>
                             <td>{{ $staff->name }}</td>
                             <td>{{ $staff->oib }}</td>
+                            <td>{{ $staff->shelterStaffType->name }}</td>
                             <td>{{ $staff->address }}</td>
                             <td>{{ $staff->address_place }}</td>
                             <td>{{ $staff->phone }}</td>
