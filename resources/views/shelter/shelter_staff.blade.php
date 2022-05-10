@@ -372,11 +372,11 @@
                           
                             <td>
                               @role('Administrator')
-                              @can('edit')
+                              {{-- @can('edit')
                               <button type="button" class="btn btn-sm btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
                                 <i data-feather="check-square"></i>
                               </button>
-                              @endcan
+                              @endcan --}}
                               
                               @can('delete')
                                 <button type="button" id="deletePersonelStaff" type="button" class="btn btn-sm btn-danger btn-icon" 
@@ -448,11 +448,11 @@
                           
                             <td>
                               @role('Administrator')
-                              @can('edit')
+                              {{-- @can('edit')
                               <button type="button" class="btn btn-sm btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
                                 <i data-feather="check-square"></i>
                               </button>
-                              @endcan
+                              @endcan --}}
                               
                               @can('delete')
                                 <button type="button" id="deletePersonelStaff" type="button" class="btn btn-sm btn-danger btn-icon" 
