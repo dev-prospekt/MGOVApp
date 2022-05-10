@@ -395,6 +395,80 @@
           </div>
         </div> 
     </div>
+
+
+    <div class="row">
+      <div class="col-md-12 grid-margin stretch-card">  
+        <div class="card rounded">
+            <div class="card-body">
+              <div class="d-flex align-items-center justify-content-between">
+                <div>
+                  <h6 class="card-title">Popis svih osoba</h6>        
+                </div>
+                <div> 
+                  @role('Administrator')
+                    <a type="button" class="btn btn-info btn-sm btn-icon-text" data-toggle="modal" data-target="#createPersonelStaffModal">
+                      Dodaj<i class="btn-icon-append" data-feather="user-plus"></i>
+                    </a>
+                  @endrole      
+                </div>
+              </div> 
+              
+                <div class="table-responsive mt-4">
+                  <table class="table">
+                      <thead>
+                      <tr>
+                          <th>Ime  i prezime</th>
+                          <th>OIB</th>
+                          <th>Adresa Prebivališta</th>
+                          <th>Adresa boravišta</th>
+                          <th>Telefon</th>
+                          <th>Mobitel</th>
+                          <th>Email</th>
+                          <th>Stručna sprema</th>
+                          <th>Akcija</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        @if ($shelterPersonelStaffAll)
+                          @foreach($shelterPersonelStaffAll as $staff)   
+                          <tr>
+                            <td>{{ $staff->name }}</td>
+                            <td>{{ $staff->oib }}</td>
+                            <td>{{ $staff->address }}</td>
+                            <td>{{ $staff->address_place }}</td>
+                            <td>{{ $staff->phone }}</td>
+                            <td>{{ $staff->phone_cell }}</td>
+                            <td>{{ $staff->email }}</td>
+                            <td>{{ $staff->education }}</td>
+                          
+                            <td>
+                              @role('Administrator')
+                              @can('edit')
+                              <button type="button" class="btn btn-sm btn-primary btn-icon"  data-id="{{ $staff->id ?? ''  }}"  data-toggle="modal" data-target="#editStaffPersonelModal">
+                                <i data-feather="check-square"></i>
+                              </button>
+                              @endcan
+                              
+                              @can('delete')
+                                <button type="button" id="deletePersonelStaff" type="button" class="btn btn-sm btn-danger btn-icon" 
+                                  data-id="{{ $staff->id ?? ''  }}">
+                                  <i data-feather="box"></i>
+                                </button>
+                              @endcan
+                              @endrole
+                            </td>
+                          </tr>
+                          @endforeach
+                        @endif
+                      </tbody>
+                  </table>
+                </div>          
+                  
+            </div>
+          </div>
+        </div> 
+    </div>
   
   
 

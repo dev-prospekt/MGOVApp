@@ -333,9 +333,12 @@ class ShelterController extends Controller
 
         $shelterPersonelStaff = ShelterStaff::personelStaff($shelter->id)->all();
 
+        $shelterPersonelStaffAll = ShelterStaff::all();
+
         return view('shelter.shelter_staff', [
             'shelter' => $shelter,
             'shelterLegalStaff' => $shelterLegalStaff,
+            'shelterPersonelStaffAll' => $shelterPersonelStaffAll,
             'fileLegal' => $fileLegal,
             'shelterCareStaff' => $shelterCareStaff,
             'fileContract' => $fileContract,
