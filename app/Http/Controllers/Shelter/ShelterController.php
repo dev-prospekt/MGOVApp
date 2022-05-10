@@ -333,7 +333,7 @@ class ShelterController extends Controller
 
         $shelterPersonelStaff = ShelterStaff::personelStaff($shelter->id)->all();
 
-        $shelterPersonelStaffAll = ShelterStaff::all();
+        $shelterPersonelStaffAll = ShelterStaff::where('shelter_id', $shelter->id)->get();
 
         return view('shelter.shelter_staff', [
             'shelter' => $shelter,
