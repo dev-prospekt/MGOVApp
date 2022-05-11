@@ -469,7 +469,8 @@
             <div class="card-body">
                 <div class="d-flex align-items-center justify-content-between">
                     <div>
-                        <h6 class="card-title">Tip entiteta</h6>
+                        <h6 class="card-title">Oprema, prijevoz životinja</h6>
+                        <h6>Tip entiteta</h6>
                     </div>
                     <div>
                         <a href="javascript:void(0)" class="data-table-add btn btn-sm btn-primary" 
