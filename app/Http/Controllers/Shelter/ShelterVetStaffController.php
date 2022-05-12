@@ -35,6 +35,7 @@ class ShelterVetStaffController extends Controller
             'shelter_staff_type_id' => $shelterStaffType,
             'shelter_id' => $request->shelter_id,
             'name' => $request->staff_vet_name ? $request->staff_vet_name : $request->staff_vet_ambulance,
+            'staff_vet_ambulance' => $request->staff_vet_ambulance,
             'oib' => $request->staff_vet_oib,
             'address' => $request->staff_vet_address,
             'address_place' => $request->staff_vet_address_place,
@@ -89,6 +90,7 @@ class ShelterVetStaffController extends Controller
         ShelterStaff::find($id)->update([
             'shelter_id' => $request->shelter_id,
             'name' =>  $request->staff_vet_name ? $request->staff_vet_name : $request->staff_vet_ambulance,
+            'staff_vet_ambulance' => $request->staff_vet_ambulance,
             'oib' => $request->staff_vet_oib,
             'address' => $request->staff_vet_address,
             'address_place' => $request->staff_vet_address_place,

@@ -31,6 +31,11 @@
                   <input type="hidden" name="shelter_id" value="{{ $shelter->id }}">
                  </div>
 
+                 <div class="form-group">
+                  <label for="name">Naziv veterinarske ambulante</label>
+                  <input type="text" class="form-control"  name="staff_vet_ambulance" placeholder="Naziv veterinarske ambulante/organizacije" value="{{ $shelterVetStaff->staff_vet_ambulance ?? '' }}">
+                 </div>
+
                 <div class="form-group"> 
                   <label for="name">OIB</label>
                   <input type="text" class="form-control" name="staff_vet_oib" placeholder="OIB" value="{{ $shelterVetStaff->oib ?? '' }}">

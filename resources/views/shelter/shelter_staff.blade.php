@@ -284,6 +284,11 @@
             </div> 
             <div class="col-md-4 grid-margin">
               <div class="mt-2">
+                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Naziv veterinarske ambulante:</label>
+                <p class="text-muted">{{ $shelterVetStaff->staff_vet_ambulance ?? '' }}</p>
+              </div>
+
+              <div class="mt-2">
                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Email:</label>
                 <p class="text-muted">{{ $shelterVetStaff->email ?? '' }}</p>
               </div>
