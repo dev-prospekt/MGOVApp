@@ -46,6 +46,7 @@
                         <select class="form-control shelter_id" id="">
                             <option value="{{ $user->shelter->id ?? '' }}">{{ $user->shelter->name ?? '' }}</option>
                             <option value="">-------------</option>
+                            <option value="00">Sva oporavilišta</option>
                             @foreach ($shelters as $shelter)
                                 <option value="{{ $shelter->id }}">{{ $shelter->name }}</option>
                             @endforeach
