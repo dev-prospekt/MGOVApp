@@ -32,7 +32,7 @@ class UserController extends Controller
 
             return Datatables::of($users)
                 ->addColumn('shelter', function($user){
-                    return $user->shelter->name ?? 'Nije odabran za oporavilište';
+                    return $user->shelter->name ?? 'Sva oporavilišta';
                 })
                 ->addColumn('action', function ($user) {
                     return '

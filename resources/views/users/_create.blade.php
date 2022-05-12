@@ -48,6 +48,7 @@
                     <div class="form-group">
                         <label>Oporavilište</label>
                         <select class="form-control shelter_id" name="shelter_id" id="">
+                            <option value="00">Sva oporavilišta</option>
                             @foreach ($shelters as $shelter)
                                 <option value="{{ $shelter->id }}">{{ $shelter->name }}</option>
                             @endforeach
