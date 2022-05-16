@@ -72,12 +72,12 @@ class ShelterController extends Controller
     {
         
         $shelterType = ShelterType::all();
-        
-        dd('ok');
-        
+
         //Last shelter ID
         $shelterID = DB::table('shelters')->orderBy('id', 'DESC')->first();
         $shelter = Shelter::with('shelterTypes')->findOrFail($shelterID->id);
+
+        dd('ok');
 
         $type = array();
         foreach ($shelter->shelterTypes as $item) {
