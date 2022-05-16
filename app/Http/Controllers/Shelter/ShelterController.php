@@ -70,10 +70,11 @@ class ShelterController extends Controller
      */
     public function create()
     {
-        dd('ok');
-
+        
         $shelterType = ShelterType::all();
-
+        
+        dd('ok');
+        
         //Last shelter ID
         $shelterID = DB::table('shelters')->orderBy('id', 'DESC')->first();
         $shelter = Shelter::with('shelterTypes')->findOrFail($shelterID->id);
