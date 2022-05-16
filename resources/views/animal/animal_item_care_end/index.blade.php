@@ -62,7 +62,7 @@
             <div class="form-group mt-2">
               <label>Datum prestanka skrbi o životinji</label>
               <div class="input-group date datepicker" id="dateEndcarePicker">
-                  <input type="text" name="end_date" class="form-control end_date" 
+                  <input type="text" name="end_date" class="form-control end_date" required
                   value="{{ $animalItem->dateRange->end_date ? $animalItem->dateRange->end_date->format('d/m/Y') : null }}">
                   <span class="input-group-addon">
                       <i data-feather="calendar"></i>
