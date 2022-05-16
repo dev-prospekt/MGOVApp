@@ -116,6 +116,7 @@ class AnimalItemController extends Controller
             $query->where('id', '!=', $animalItem->shelter->id);
         })
         ->where('id', '<', $animalItem->id)
+        ->orderBy('id', 'DESC')
         ->first();
 
         return view('animal.animal_item.show', [

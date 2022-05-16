@@ -338,7 +338,9 @@ $(function() {
     });
 
     // Premještaj Item
-    $("#animal-table-inactive").on('click','#changeShelterItem', function(){
+    $("#animal-table-inactive").on('click','#changeShelterItem', function(e){
+        e.preventDefault();
+        
         $("#openModal").trigger('click');
         id = $(this).attr("data-id");
 
