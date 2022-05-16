@@ -66,11 +66,11 @@
               <tr>
                
                 <td>{{ $shelterItem->accommodationType->type_mark ?? '' }}</td>
-                <td style="width:25%;" class="td-nowrapp">{{ $shelterItem->accommodationType->type_description  }}</td> 
-                <td>{{ $shelterItem->accommodationType->name }}</td>
-                <td>{{ $shelterItem->name }}</td>
+                <td style="width:25%;" class="td-nowrapp">{{ $shelterItem->accommodationType->type_description ?? ''  }}</td> 
+                <td>{{ $shelterItem->accommodationType->name ?? '' }}</td>
+                <td>{{ $shelterItem->name ?? '' }}</td>
                  
-                <td>{{ $shelterItem->dimensions }}</td>
+                <td>{{ $shelterItem->dimensions ?? '' }}</td>
                 <td>
                   <div class="d-flex align-items-center">
                     <a href="{{ route('shelters.accomodations.show', [$shelter->id, $shelterItem->id]) }}" class="btn btn-xs btn-info mr-2">
