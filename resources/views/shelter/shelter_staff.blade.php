@@ -412,13 +412,6 @@
                 <div>
                   <h6 class="card-title">Popis svih osoba</h6>        
                 </div>
-                <div> 
-                  @role('Administrator')
-                    <a type="button" class="btn btn-info btn-sm btn-icon-text" data-toggle="modal" data-target="#createPersonelStaffModal">
-                      Dodaj<i class="btn-icon-append" data-feather="user-plus"></i>
-                    </a>
-                  @endrole      
-                </div>
               </div> 
               
                 <div class="table-responsive mt-4">
