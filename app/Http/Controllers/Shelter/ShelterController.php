@@ -77,8 +77,6 @@ class ShelterController extends Controller
         $shelterID = Shelter::orderBy('id', 'DESC')->first();
         $shelter = Shelter::with('shelterTypes')->findOrFail($shelterID->id);
 
-        dd('ok');
-
         $type = array();
         foreach ($shelter->shelterTypes as $item) {
             foreach ($item->animalSystemCategory as $key) {
