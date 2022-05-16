@@ -70,6 +70,8 @@ class ShelterController extends Controller
      */
     public function create()
     {
+        dd('ok');
+
         $shelterType = ShelterType::all();
 
         //Last shelter ID
