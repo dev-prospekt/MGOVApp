@@ -51,9 +51,9 @@
           <div class="col-lg-3 email-aside border-lg-right">
             <div class="aside-content">
               <div class="aside-header">
-               <span class="title">{{ $shelterAccomodationItem->accommodationType->name }}</span>
-               <p class="description mt-3"><span class="text-secondary">Numeracija: </span> {{ $shelterAccomodationItem->accommodationType->type_mark  }}</p>
-                <p class="description mt-3"><span class="text-secondary">Opis oznake: </span> {{ $shelterAccomodationItem->accommodationType->type_description  }}</p>
+               <span class="title">{{ $shelterAccomodationItem->accommodationType->name ?? '' }}</span>
+               <p class="description mt-3"><span class="text-secondary">Numeracija: </span> {{ $shelterAccomodationItem->accommodationType->type_mark ?? ''  }}</p>
+                <p class="description mt-3"><span class="text-secondary">Opis oznake: </span> {{ $shelterAccomodationItem->accommodationType->type_description ?? ''  }}</p>
               </div>
               
               <div class="aside-nav collapse">
