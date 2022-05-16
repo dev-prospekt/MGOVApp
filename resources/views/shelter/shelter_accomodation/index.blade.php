@@ -65,7 +65,7 @@
               @foreach ($shelterAccomodationItems as $shelterItem)
               <tr>
                
-                <td>{{ $shelterItem->accommodationType->type_mark }}</td>
+                <td>{{ $shelterItem->accommodationType->type_mark ?? '' }}</td>
                 <td style="width:25%;" class="td-nowrapp">{{ $shelterItem->accommodationType->type_description  }}</td> 
                 <td>{{ $shelterItem->accommodationType->name }}</td>
                 <td>{{ $shelterItem->name }}</td>
