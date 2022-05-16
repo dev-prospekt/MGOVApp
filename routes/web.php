@@ -44,6 +44,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('logout', [LoginController::class, 'logout']);
 
     Route::resource('shelter', Shelter\ShelterController::class); // Shelter
+
+    Route::get('shelter-create', 'Shelter\ShelterController@create')->name('shelter.create');
+
     Route::resource('shelter_legal_staff', Shelter\ShelterLegalStaffController::class);
     Route::resource('shelter_care_staff', Shelter\ShelterCareStaffController::class);
     Route::resource('shelter_vet_staff', Shelter\ShelterVetStaffController::class);
