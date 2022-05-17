@@ -473,6 +473,8 @@ class ReportController extends Controller
         
         $finishData = $careEndType;
 
+        dd($finishData);
+
         // Export
         $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('d.m.Y');
         $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('d.m.Y');
@@ -489,8 +491,16 @@ class ReportController extends Controller
 
         if(empty($species) && empty($animalCat) && empty($animalOrder) && empty($animalSysteCat))
         {
+            $animalItems = AnimalItem::where('in_shelter', 1)
+            ->when($request->animal_end_care_or_active == 'aktivna', function ($query) {
+                $query->where('animal_item_care_end_status', 1);
+            })
+            ->when($request->animal_end_care_or_active == 'zavrsena', function ($query) {
+                $query->where('animal_item_care_end_status', 0);
+            })
+            ->get();
+
             if($shelter == 'all'){
-                $animalItems = AnimalItem::where('in_shelter', 1)->get();
                 foreach ($animalItems as $animalItem) {
                     $data = $animalItems;
                 }

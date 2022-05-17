@@ -71,6 +71,14 @@
                                         </select>
                                     </div>
                                     <div class="form-group">
+                                        <label>Aktivna/Završena skrb</label>
+                                        <select name="animal_end_care_or_active" class="js-example-basic-single w-100">
+                                            <option value="">Svi</option>
+                                            <option value="aktivna">Aktivna</option>
+                                            <option value="zavrsena">Završena</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Razlog prestanka skrbi</label>
                                         <select name="care_end_type">
                                             <option value="">----</option>
