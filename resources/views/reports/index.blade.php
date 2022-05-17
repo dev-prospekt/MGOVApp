@@ -175,7 +175,7 @@
                                         <select name="kvartal" class="js-example-basic-single w-100" required>
                                             <option value="">------</option>
                                             @foreach ($kvartal as $item)
-                                                <option value="{{ $item }}">{{ $item->name }}</option>
+                                                <option value="{{ $item }}">{{ $item->name }} - {{ $item->from.'/'.$item->to }}</option>
                                             @endforeach
                                         </select>
                                     </div>
