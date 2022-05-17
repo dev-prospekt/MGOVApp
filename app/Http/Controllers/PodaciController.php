@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kvartal;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\FounderService;
 use App\Models\Animal\AnimalDob;
@@ -25,6 +27,8 @@ class PodaciController extends Controller
         $animalLocationTakeover = AnimalLocationTakeover::all();
         $animalMarkType = AnimalMarkType::all();
 
+        $kvartal = Kvartal::all();
+
         // Shelter podaci
         $shelterAccomodationType = ShelterAccomodationType::all();
         $shelterEquipmentType = ShelterEquipmentType::all();
@@ -39,6 +43,7 @@ class PodaciController extends Controller
             'animalMarkType' => 'Vrsta oznake',
             'shelterAccomodationType' => 'Tip smještajne jedinice',
             'shelterEquipmentType' => 'Tip entiteta',
+            'kvartal' => 'Kvartal',
         ];
 
         return view('podaci.index', [
@@ -51,6 +56,7 @@ class PodaciController extends Controller
             'animalMarkType' => $animalMarkType,
             'shelterAccomodationType' => $shelterAccomodationType,
             'shelterEquipmentType' => $shelterEquipmentType,
+            'kvartal' => $kvartal,
             'model' => $model,
         ]);
     }
@@ -91,6 +97,10 @@ class PodaciController extends Controller
 
         if($request->model == 'Vrsta oznake'){
             $data->desc = $request->desc;
+        }
+        if($request->model == 'Kvartal'){
+            $data->from = $request->date_from;
+            $data->to = $request->date_to;
         }
         if($request->model == 'Tip smještajne jedinice'){
             $data->type_mark = $request->type_mark;
@@ -205,6 +215,17 @@ class PodaciController extends Controller
         return redirect()->back()->with('equipment_type_msg', 'Uspješno dodano.');
     }
 
+    public function kvartal_type(Request $request)
+    {
+        $data = new Kvartal;
+        $data->name = $request->name;
+        $data->from = $request->date_from;
+        $data->to = $request->date_to;
+        $data->save();
+
+        return redirect()->back()->with('kvartal_type_msg', 'Uspješno dodano.');
+    }
+
     public function check_model($params)
     {
         switch ($params) {
@@ -260,6 +281,12 @@ class PodaciController extends Controller
                 $data = [
                     'model' => new ShelterEquipmentType,
                     'route' => route('podaci-equipment-type'),
+                ];
+                break;
+            case "Kvartal":
+                $data = [
+                    'model' => new Kvartal,
+                    'route' => route('podaci-kvartal-type'),
                 ];
                 break;
             default:

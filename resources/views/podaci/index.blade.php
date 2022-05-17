@@ -522,6 +522,72 @@
 
 </div>
 
+
+
+
+<div class="row">
+    <div class="col-lg-6 col-xl-6 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between">
+                    <div>
+                        <h6 class="card-title">ZNS-Zahtjev za nadoknadu sredstava</h6>
+                        <h6>Kvartali</h6>
+                    </div>
+                    <div>
+                        <a href="javascript:void(0)" class="data-table-add btn btn-sm btn-primary" 
+                        data-href="{{ route('podaci-create', [$model['kvartal']]) }}"
+                        >
+                            Dodaj
+                        </a>
+                    </div>
+                </div>
+
+                @if($msg = Session::get('kvartal_type_msg'))
+                <div id="successMessage" class="alert alert-success"> {{ $msg }}</div>
+                @endif
+
+                <div class="table-responsive-sm">
+                    <table class="table" id="datatable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>NAZIV</th>
+                                <th>DATUM OD</th>
+                                <th>DATUM DO</th>
+                                <th>Akcija</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($kvartal as $item)
+                            <tr>
+                                <th>{{ $item->id }}</th>
+                                <th>{{ $item->name }}</th>
+                                <th>{{ $item->from }}</th>
+                                <th>{{ $item->to }}</th>
+                                <th>
+                                    <a href="javascript:void(0)" class="edit btn btn-xs btn-info" 
+                                    data-href="{{ route('podaci-edit', [$item->id, $model['kvartal']]) }}"
+                                    >
+                                        Uredi
+                                    </a>
+                                    <a href="javascript:void(0)" class="delete btn btn-xs btn-danger" 
+                                    data-href="{{ route('podaci-delete', [$item->id, $model['kvartal']]) }}"
+                                    >
+                                    Obriši
+                                    </a>
+                                </th>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="modal"></div>
 
 @endsection

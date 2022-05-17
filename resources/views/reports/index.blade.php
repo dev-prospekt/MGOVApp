@@ -167,29 +167,17 @@
                                     </div>
                                 </div>
                             </div>
-        
+
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
-                                        <label>Od</label>
-                                        <div class="input-group date datepicker" id="datePickerExamplee">
-                                            <input type="text" name="start_date" class="form-control">
-                                            <span class="input-group-addon">
-                                            <i data-feather="calendar"></i>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col">
-                                    <div class="form-group">
-                                        <label>Do</label>
-                                        <div class="input-group date datepicker" id="datePickerExamplee">
-                                            <input type="text" name="end_date" class="form-control">
-                                            <span class="input-group-addon">
-                                            <i data-feather="calendar"></i>
-                                            </span>
-                                        </div>
+                                        <label>Kvartali</label>
+                                        <select name="kvartal" class="js-example-basic-single w-100" required>
+                                            <option value="">------</option>
+                                            @foreach ($kvartal as $item)
+                                                <option value="{{ $item }}">{{ $item->name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                             </div>

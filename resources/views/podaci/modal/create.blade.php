@@ -33,6 +33,24 @@
                 </div>
                 @endif
 
+                {{-- Kvartal --}}
+                @if($model == 'Kvartal')
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Datum od</label>
+                            <input type="text" name="date_from" class="form-control" required />
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Datum do</label>
+                            <input type="text" name="date_to" class="form-control" required />
+                        </div>
+                    </div>
+                </div>
+                @endif
+
                 {{-- Tip smještajne jedinice --}}
                 @if($model == 'Tip smještajne jedinice' || $model == 'Tip entiteta')
                 <div class="row">

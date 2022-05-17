@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use PDF;
 use Carbon\Carbon;
+use App\Models\Kvartal;
 use App\Models\Reports;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ class ReportController extends Controller
         $animalOrder = AnimalOrder::all();
         $animalSystemCat = AnimalSystemCategory::all();
         $endCareType = AnimalItemCareEndType::all();
+        $kvartal = Kvartal::all();
 
         if(auth()->user()->hasRole('Administrator')){
             $shelters = Shelter::all();
@@ -115,6 +117,7 @@ class ReportController extends Controller
             'animalCategory' => $animalCategory,
             'animalOrder' => $animalOrder,
             'animalSystemCat' => $animalSystemCat,
+            'kvartal' => $kvartal,
         ]);
     }
 
@@ -180,6 +183,14 @@ class ReportController extends Controller
         $shelter = Shelter::find($request->shelter);
         $animalItems = $shelter->excelAnimalItems->where('animal_item_care_end_status', 0);
         $username = auth()->user()->name;
+
+        $kvartal = json_decode($request->kvartal);
+
+        $requestStartDate = $kvartal->from.'.'.Carbon::now()->format('Y');
+        $requestEndDate = $kvartal->to.'.'.Carbon::now()->format('Y');
+
+        $request->request->add(['start_date' => Carbon::parse($requestStartDate)->format('d/m/Y') ]);
+        $request->request->add(['end_date' => Carbon::parse($requestEndDate)->format('d/m/Y') ]);
 
         if(empty($request->start_date) || empty($request->end_date)){
             return redirect()->back()->with('msg', 'Raspon datuma je obavezan');
