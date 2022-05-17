@@ -75,6 +75,13 @@ class Shelter extends Model
         ->where('animal_item_care_end_status', 1);
     }
 
+    public function animalForYear()
+    {
+        return $this->hasMany(AnimalItem::class)
+        ->whereYear('created_at', \Carbon\Carbon::now()->format('Y'))
+        ->where('shelter_id', auth()->user()->shelter_id);
+    }
+
     public function excelAnimalItems()
     {
         return $this->hasMany(AnimalItem::class);
