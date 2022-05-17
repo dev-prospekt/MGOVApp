@@ -473,8 +473,6 @@ class ReportController extends Controller
         
         $finishData = $careEndType;
 
-        dd($finishData);
-
         // Export
         $startDate = Carbon::createFromFormat('d/m/Y', $request->start_date)->format('d.m.Y');
         $endDate = Carbon::createFromFormat('d/m/Y', $request->end_date)->format('d.m.Y');

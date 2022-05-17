@@ -61,7 +61,7 @@ class ReportsExport implements FromQuery, WithMapping, WithHeadings, ShouldAutoS
             'Broj dana proveden u hibernaciji',
             'Umanjenje troška za broj dana proveden u hibernaciji',
             'Eutanazija izvršena',
-            'Eutanazija izvršena',
+            'Gdje je izvršena eutanazija',
             'Cijena eutanazije',
             'Ukupna cijena'
         ];
