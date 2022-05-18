@@ -296,6 +296,8 @@ class AnimalItemController extends Controller
         $animal_items = AnimalItem::with('dateRange', 'dateFullCare', 'shelterAnimalPrice', 'animalGroup')->find($animalItem->id);
         $newShelter = Shelter::find($request->selectedShelter);
 
+        $careEndDate = $animal_items->dateRange->end_date;
+
         // Zadnji ID u grupi
         $incrementId = AnimalGroup::orderBy('id', 'DESC')->first();
         $increment = $incrementId->id + 1;
@@ -337,7 +339,7 @@ class AnimalItemController extends Controller
             $animalItemsDateSolitaryGroup = $animal_items->dateSolitaryGroups;
             if ($animalItemsDateSolitaryGroup) {
                 $newAnimalItem->dateSolitaryGroups()->create([
-                    'start_date' => Carbon::now()->add(1, 'day'),
+                    'start_date' => Carbon::parse($careEndDate)->add(1, 'day'),
                     'end_date' => null,
                     'solitary_or_group' => $animal_items->dateSolitaryGroups()->latest()->take(1)->first()->solitary_or_group,
                 ]);
@@ -393,7 +395,7 @@ class AnimalItemController extends Controller
         $dateRange = $animal_items->dateRange;
         $newDateRange = $dateRange->replicate();
         $newDateRange->animal_item_id = $newAnimalItem->id;
-        $newDateRange->start_date = Carbon::now()->add(1, 'day');
+        $newDateRange->start_date = Carbon::parse($careEndDate)->add(1, 'day');
         $newDateRange->end_date = null;
         $newDateRange->hibern_start = null;
         $newDateRange->hibern_end = null;
