@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Shelter\Shelter;
+use App\Models\Animal\AnimalItem;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
@@ -16,6 +18,8 @@ class DashboardController extends Controller
             })
             ->get();
 
-        return view('dashboard', compact('shelters'));
+        $allAnimalForAdmin = AnimalItem::whereYear('created_at', Carbon::now()->format('Y'))->get();
+
+        return view('dashboard', compact('shelters', 'allAnimalForAdmin'));
     }
 }
