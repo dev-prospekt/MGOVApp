@@ -399,6 +399,12 @@ $(function() {
                         ).then((result) => {
                             location.href = '/shelter/'+data.back;
                         });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: data.message,
+                        });
                     }
                 }
             });
@@ -406,7 +412,9 @@ $(function() {
     });
 
     // Premještaj Group
-    $(".changeShelter").click(function(){
+    $(".changeShelter").click(function(e){
+        e.preventDefault();
+
         $("#openModal").trigger('click');
         id = $(this).attr("data-id");
 
@@ -431,6 +439,12 @@ $(function() {
                             'success'
                         ).then((result) => {
                             location.href = '/shelter/'+data.back;
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: data.message,
                         });
                     }
                 }

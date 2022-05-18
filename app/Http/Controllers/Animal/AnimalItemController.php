@@ -296,6 +296,13 @@ class AnimalItemController extends Controller
         $animal_items = AnimalItem::with('dateRange', 'dateFullCare', 'shelterAnimalPrice', 'animalGroup')->find($animalItem->id);
         $newShelter = Shelter::find($request->selectedShelter);
 
+        if( $animal_items->animal_item_care_end_status == 1 ){
+            return response()->json([
+                'msg' => 'error',
+                'message' => 'Jedinka nema završenu skrb.'
+            ]);
+        }
+
         $careEndDate = $animal_items->dateRange->end_date;
 
         // Zadnji ID u grupi

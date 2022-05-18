@@ -376,6 +376,18 @@ class AnimalGroupController extends Controller
         $animal_group = AnimalGroup::find($animalGroup->id);
         $newShelter = Shelter::find($request->selectedShelter);
 
+        $animalItems = AnimalItem::with('dateRange')
+        ->where('animal_group_id', $animal_group->id)
+        ->where('animal_item_care_end_status', 0)
+        ->get();
+
+        if( empty($animalItems->first()) ){
+            return response()->json([
+                'msg' => 'error',
+                'message' => 'Ni jedna jedinka nema završenu skrb.'
+            ]);
+        }
+
         // Promjena stanja na trenutnoj grupi
         $updatePivot = $animal_group->shelters()->updateExistingPivot($request->currentShelter, array('active_group' => false));
 
@@ -400,10 +412,11 @@ class AnimalGroupController extends Controller
         ]);
 
         // Animal Items - Dupliciranje i promjena Id Sheltera
-        $animalItems = AnimalItem::with('dateRange')->where('animal_group_id', $animal_group->id)->get();
         foreach ($animalItems as $item) {
             $item->in_shelter = 0;
             $item->save();
+
+            $careEndDate = $item->dateRange->end_date;
 
             $newAnimalItems = $item->replicate();
             $newAnimalItems->animal_group_id = $newAnimalGroup->id;
@@ -417,6 +430,10 @@ class AnimalGroupController extends Controller
             $dateRange = $item->dateRange;
             $newDateRange = $dateRange->replicate();
             $newDateRange->animal_item_id = $newAnimalItems->id;
+            $newDateRange->start_date = Carbon::parse($careEndDate)->add(1, 'day');
+            $newDateRange->end_date = null;
+            $newDateRange->hibern_start = null;
+            $newDateRange->hibern_end = null;
             $newDateRange->save();
             // Date Solitary or Group
             if (!empty($item->dateSolitaryGroups)) {
@@ -425,6 +442,8 @@ class AnimalGroupController extends Controller
                     foreach ($dateSolitaryOrGroupRange as $value) {
                         $newDateSolitaryOrGroupRange = $value->replicate();
                         $newDateSolitaryOrGroupRange->animal_item_id = $newAnimalItems->id;
+                        $newDateSolitaryOrGroupRange->start_date = Carbon::parse($careEndDate)->add(1, 'day');
+                        $newDateSolitaryOrGroupRange->end_date = null;
                         $newDateSolitaryOrGroupRange->save();
                     }
                 }
@@ -437,30 +456,30 @@ class AnimalGroupController extends Controller
                     $newAnimalMarks->save();
                 }
             }
-            // Date full care
-            if (!empty($item->dateFullCare)) {
-                $dateFullCare = $item->dateFullCare;
-                if (!empty($dateFullCare)) {
-                    foreach ($dateFullCare as $item) {
-                        $newDateRange = $item->replicate();
-                        $newDateRange->animal_item_id = $newAnimalItems->id;
-                        $newDateRange->save();
-                    }
-                }
-            }
-            // Euthanasia
-            if (!empty($item->euthanasia)) {
-                $euthanasia = $item->euthanasia;
-                $newEuthanasia = $euthanasia->animal_item_id = $newAnimalItems->id;
-                $newEuthanasia->save();
-            }
-            // Shelter Animal Price
-            if (!empty($item->shelterAnimalPrice)) {
-                $animalPrice = $item->shelterAnimalPrice;
-                $newAnimalPrice = $animalPrice->replicate();
-                $newAnimalPrice->animal_item_id = $newAnimalItems->id;
-                $newAnimalPrice->save();
-            }
+            // // Date full care
+            // if (!empty($item->dateFullCare)) {
+            //     $dateFullCare = $item->dateFullCare;
+            //     if (!empty($dateFullCare)) {
+            //         foreach ($dateFullCare as $item) {
+            //             $newDateRange = $item->replicate();
+            //             $newDateRange->animal_item_id = $newAnimalItems->id;
+            //             $newDateRange->save();
+            //         }
+            //     }
+            // }
+            // // Euthanasia
+            // if (!empty($item->euthanasia)) {
+            //     $euthanasia = $item->euthanasia;
+            //     $newEuthanasia = $euthanasia->animal_item_id = $newAnimalItems->id;
+            //     $newEuthanasia->save();
+            // }
+            // // Shelter Animal Price
+            // if (!empty($item->shelterAnimalPrice)) {
+            //     $animalPrice = $item->shelterAnimalPrice;
+            //     $newAnimalPrice = $animalPrice->replicate();
+            //     $newAnimalPrice->animal_item_id = $newAnimalItems->id;
+            //     $newAnimalPrice->save();
+            // }
             // Media AnimalItemLogs
             if(!empty($item->animalItemLogs->first())){
                 $animalItemLog = $item->animalItemLogs;
