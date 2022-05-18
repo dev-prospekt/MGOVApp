@@ -108,7 +108,7 @@ class AnimalItemController extends Controller
             $query->where('id', '!=', $animalItem->shelter->id);
         })
         ->where('id', '>', $animalItem->id)
-        ->orderBy('created_at', 'DESC')->first();
+        ->orderBy('created_at', 'ASC')->first();
 
         // Oporavilište iz kojeg je doslo
         $animalItemShelterdoslo = $animalItem->with('shelter')->where('unique_id', $animalItem->unique_id)
