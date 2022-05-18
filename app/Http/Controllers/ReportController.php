@@ -37,7 +37,10 @@ class ReportController extends Controller
             $shelters = Shelter::where('id', auth()->user()->shelter_id)->get();
         }
 
-        $myReport = Reports::where('shelter_id', auth()->user()->shelter->id)->get();
+        if(isset(auth()->user()->shelter)){
+            $myReport = Reports::where('shelter_id', auth()->user()->shelter->id)->get();
+        }
+        
         $reportAdmin = Reports::all();
         $reports = (auth()->user()->hasRole('Administrator')) ? $reportAdmin : $myReport;
 
