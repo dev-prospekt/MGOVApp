@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateEmailShelterStaffTable extends Migration
+class UpdateEmailInShelterStaffTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ class UpdateEmailShelterStaffTable extends Migration
     public function up()
     {
         Schema::table('shelter_staff', function (Blueprint $table) {
-            $table->string('email')->change();
+            $table->dropUnique(['email'])->change();
         });
     }
 

@@ -14,7 +14,7 @@ class UpdateShelterStaffEmailTable extends Migration
     public function up()
     {
         Schema::table('shelter_staff', function (Blueprint $table) {
-            $table->string('email')->change();
+            $table->dropUnique('email')->change();
         });
     }
 
