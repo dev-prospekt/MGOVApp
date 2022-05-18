@@ -5,8 +5,8 @@
             @csrf
             @method('POST')
 
-            <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id }}">
-            <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code }}">
+            <input type="hidden" name="shelter_id" value="{{ auth()->user()->shelter->id ?? $shelter->id }}">
+            <input type="hidden" name="shelter_code" value="{{ auth()->user()->shelter->shelter_code ?? $shelter->shelter_code }}">
 
             <div class="row">
                 <div class="col-md-4">
