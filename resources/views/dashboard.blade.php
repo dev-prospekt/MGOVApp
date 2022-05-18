@@ -49,7 +49,7 @@
             <div class="row">
               <div class="col-6 col-md-12 col-xl-5">
                 <h3 class="mb-2">
-                  @if( auth()->user()->hasRole('Administrator') )
+                  @if( auth()->user()->hasRole('Administrator') && empty(auth()->user()->shelter) )
                     {{ $allAnimalForAdmin->count() }}
                   @else
                     {{ !empty($shelters[0]) ? $shelters->first()->animalForYear->count() : 0 }}
