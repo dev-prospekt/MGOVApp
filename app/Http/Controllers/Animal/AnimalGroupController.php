@@ -246,7 +246,7 @@ class AnimalGroupController extends Controller
         ->addColumn('action', function ($animal_items){
             $url = route('shelters.animal_groups.animal_items.show', [$animal_items->shelter_id, $animal_items->animal_group_id, $animal_items->id]);
 
-            if(auth()->user()->hasRole('Oporavilište') && auth()->user()->hasRole('Administrator') ){
+            if(auth()->user()->hasRole('Oporavilište') || auth()->user()->hasRole('Administrator') ){
                 return '
                 <div class="d-flex align-items-center">
                     <a href="' . $url . '" class="btn btn-xs btn-info mr-2">
