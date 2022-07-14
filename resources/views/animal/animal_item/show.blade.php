@@ -359,7 +359,7 @@
                 <div class="col-md-6">
                   <ul class="list-group list-group-flush">
                     <li class="list-group-item"><span class="text-danger">ZAVRŠENA SKRB</span></li>
-                    <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">{{ $animalItem->careEnd->careEndType->name }}</span></li>
+                    <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">{{ $animalItem->careEnd->careEndType->name ?? '' }}</span></li>
                     <li class="list-group-item">Trajanje skrbi: <span class="text-warning">{{ $date->start_date->diffInDays($date->end_date) }} dan/a</span></li>
                      
                   </ul>
