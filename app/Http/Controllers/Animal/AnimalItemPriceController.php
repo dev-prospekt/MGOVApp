@@ -357,6 +357,11 @@ class AnimalItemPriceController extends Controller
                 }
 
                 $this->updateFinishPrice($animalItem->id, $finishPrice);
+            } else {
+
+                $finishPrice = $euthanasia_price;
+
+                $this->updateFinishPrice($animalItem->id, $finishPrice);
             }
 
             // END
