@@ -311,7 +311,7 @@
                     
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija:</label>
-                        @if ($hibern != null)
+                        @if (!empty($hibern))
                           <p class="text-info">DA</p>
                           
                         @else
@@ -528,7 +528,7 @@
               </div>
               @endif
               
-              @if ( $hibern != null ) 
+              @if ( !empty($hibern) ) 
                 <div class="col-md-4">
                   <div class="mt-2">
                     <label for="">Hibernacija</label>
