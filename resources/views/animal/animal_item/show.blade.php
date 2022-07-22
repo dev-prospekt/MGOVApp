@@ -492,14 +492,15 @@
                   <div class="d-flex">
                       <div class="input-group date datepicker" id="datePickerExample">
                         <input type="text" name="hib_est_from" class="form-control hib_est_from" 
-                        value="{{  $date->hibern_start->format('d/m/Y') ?? null }}">
+                        value="">
+                        {{-- {{  $date->hibern_start->format('d/m/Y') ?? null }} --}}
                         <span class="input-group-addon">
                             <i data-feather="calendar"></i>
                         </span>
                       </div>
                       <div class="input-group date datepicker" id="datePickerExample">
                         <input type="text" name="hib_est_to" class="form-control hib_est_to" 
-                        value="{{ $date->hibern_end ? $date->hibern_end->format('d/m/Y') : null }}">
+                        value="{{ $date->hibern_end->format('d/m/Y') ?? null }}">
                         <span class="input-group-addon">
                             <i data-feather="calendar"></i>
                         </span>
