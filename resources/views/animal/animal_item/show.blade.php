@@ -528,7 +528,7 @@
               </div>
               @endif
               
-              @if ( !empty($hibern) ) 
+              @if ( !empty($hibern->first()) ) 
                 <div class="col-md-4">
                   <div class="mt-2">
                     <label for="">Hibernacija</label>
