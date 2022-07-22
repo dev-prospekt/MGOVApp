@@ -73,11 +73,9 @@
               <label>Razlog prestanka skrbi</label>
               <select class="form-control end_care_type" name="end_care_type" id="endCareType" required>
                 <option value="">----</option>
-                @if ( !empty($careEndTypes) )
-                  @foreach ($careEndTypes as $careEndType)
-                      <option value="{{ $careEndType->id }}">{{ $careEndType->name }}</option>
-                  @endforeach  
-                @endif
+                @foreach ($careEndTypes as $careEndType)
+                    <option value="{{ $careEndType->id }}">{{ $careEndType->name }}</option>
+                @endforeach
               </select>  
             </div>  
             <div class="form-group" id="releaseLocation">
@@ -232,7 +230,7 @@
             <li class="list-group-item"><p class="text-light">Kraj skrbi: <span class="text-light">{{ $animalItem->dateRange->end_date->format('d.m.Y') }}</span></p></li>
             <li class="list-group-item">Razlog prestanka skrbi: <span class="text-warning">{{ $animalItem->careEnd->careEndType->name ?? '' }}</span></li>
             <li class="list-group-item"><span class="text-muted">Opis:</span>
-             {{ $animalItem->careEnd->care_end_description }}
+             {{ $animalItem->careEnd->care_end_description ?? '' }}
             </li>
           </ul>
         </div>
