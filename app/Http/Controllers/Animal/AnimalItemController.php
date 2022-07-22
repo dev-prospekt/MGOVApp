@@ -78,7 +78,7 @@ class AnimalItemController extends Controller
         $allSolitaryGroup = $allSolitaryGroup->where('end_date', '!=', null)->groupBy('solitary_or_group')->all();
 
         // Hibernacija : Da ili Ne
-        $hibern = [];
+        $hibern = null;
         if( !empty($animalItem->dateRange) ){
             $hibern = $animalItem->dateRange->where('animal_item_id', '=', $animalItem->id)
                 ->where('hibern_start', '!=', null)

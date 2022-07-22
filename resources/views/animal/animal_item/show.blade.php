@@ -528,14 +528,14 @@
               </div>
               @endif
               
-              @if (!empty($hibern)) 
-              <div class="col-md-4">
-              <div class="mt-2">
-                <label for="">Hibernacija</label>
-                <p class="text-muted">Početak: {{ isset($hibern->hibern_start) ? $hibern->hibern_start->format('d.m.Y') : '' }}</p>
-                <p class="text-muted">Kraj: {{ isset($hibern->hibern_end) ? $hibern->hibern_end->format('d.m.Y') : '' }}</p>
-              </div>
-              </div>
+              @if ( !empty($hibern) ) 
+                <div class="col-md-4">
+                  <div class="mt-2">
+                    <label for="">Hibernacija</label>
+                    <p class="text-muted">Početak: {{ isset($hibern->hibern_start) ? $hibern->hibern_start->format('d.m.Y') : '' }}</p>
+                    <p class="text-muted">Kraj: {{ isset($hibern->hibern_end) ? $hibern->hibern_end->format('d.m.Y') : '' }}</p>
+                  </div>
+                </div>
               @endif   
               @if (!empty($fullCare->first())) 
                 <div class="col-md-4">        
