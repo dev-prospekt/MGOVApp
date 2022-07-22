@@ -311,7 +311,7 @@
                     
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija:</label>
-                        @if ($hibern)
+                        @if ( $hibern )
                           <p class="text-info">DA</p>
                           
                         @else
@@ -492,7 +492,7 @@
                   <div class="d-flex">
                       <div class="input-group date datepicker" id="datePickerExample">
                         <input type="text" name="hib_est_from" class="form-control hib_est_from" 
-                        value="{{ $date->hibern_start ? $date->hibern_start->format('d/m/Y') : null }}">
+                        value="{{  $date->hibern_start->format('d/m/Y') ?? null }}">
                         <span class="input-group-addon">
                             <i data-feather="calendar"></i>
                         </span>
