@@ -311,7 +311,7 @@
                     
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija:</label>
-                        @if (!empty($hibern->first()))
+                        @if (!empty($hibern))
                           <p class="text-info">DA</p>
                           
                         @else
@@ -528,12 +528,12 @@
               </div>
               @endif
               
-              @if ( !empty($hibern->first()) ) 
+              @if ( !empty($hibern) ) 
                 <div class="col-md-4">
                   <div class="mt-2">
                     <label for="">Hibernacija</label>
-                    <p class="text-muted">Početak: {{ isset($hibern->hibern_start) ? $hibern->hibern_start->format('d.m.Y') : '' }}</p>
-                    <p class="text-muted">Kraj: {{ isset($hibern->hibern_end) ? $hibern->hibern_end->format('d.m.Y') : '' }}</p>
+                    <p class="text-muted">Početak: {{ !empty($hibern->hibern_start) ? $hibern->hibern_start->format('d.m.Y') : '' }}</p>
+                    <p class="text-muted">Kraj: {{ !empty($hibern->hibern_end) ? $hibern->hibern_end->format('d.m.Y') : '' }}</p>
                   </div>
                 </div>
               @endif   
