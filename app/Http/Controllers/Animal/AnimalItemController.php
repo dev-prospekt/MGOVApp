@@ -85,6 +85,8 @@ class AnimalItemController extends Controller
                 ->first();
         }
 
+        dd($hibern);
+
         // Full Care
         $fullCare = $animalItem->dateFullCare;
         $lastFullCare = $animalItem->dateFullCare()->where('end_date', '=', null)->latest()->take(1)->first();
