@@ -311,7 +311,7 @@
                     
                       <div class="mt-2">
                         <label class="tx-11 font-weight-bold mb-0 text-uppercase">Hibernacija:</label>
-                        @if (!empty($hibern))
+                        @if (!empty($hibern->first()))
                           <p class="text-info">DA</p>
                           
                         @else
